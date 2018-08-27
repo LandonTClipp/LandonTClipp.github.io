@@ -33,7 +33,7 @@ The AMIs we want to base ourselves off of are the official ECS-optimized AMIs. [
 
 After identifying your AMI, click the "Launch instance" link in the righthand column. You'll be taken to this page:
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/choose_instance_type.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/choose_instance_type.png)
 
 Choose the t2.micro instance type. *NOTE* that your AMI will not be married to the instance type you choose here, so don't agonize over this decision.
 
@@ -53,11 +53,11 @@ This page will allow you to review the options you have set. If everything looks
 
 After you have clicked launch, go to your EC2 dashboard to see your running instances:
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/running_instances1.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/running_instances1.png)
 
 Wait for your instance to start, then right click it. Click `Connect`, then copy-paste the Example ssh command into an ssh-capable terminal. The `-i "keyname.pem"` is actually a path to your .pem file, so make sure you either `cd` to your `~/.ssh` directory, or change the flag's value to be the path to where you stored your private SSH key. You also may need to change "root" to "ec2-user".
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/ecs-terminal1.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/ecs-terminal1.png)
 
 After you have logged in, you can configure your VM however you want by installing any packages, libraries, and configurations you need your VM to have.
 
@@ -69,7 +69,7 @@ After all of your software configuration and installation is done, go back to yo
 
 Right click on the instance you just made. Hover over `Image`, then select `Create Image`.
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/create-image1.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/create-image1.png)
 
 You'll see that this has the volume configuration you chose in Step 1. I did not change my volumes from their default settings, so you can see in the screenshot above that the default volumes for the ECS-optimized AMI are in fact 8GB for `/dev/xvda/` (root), and 22GB for `/dev/xvdc/` (docker images, etc). Ensure that the `Delete on Termination` options are selected so that your Batch compute environment removes the volumes after the instances are terminated, or else you'll risk creating an unbounded number of EBS volumes (very expensive, so I'm told). I will configure my AMI to have only 111GB of root storage, and nothing else. You do not necessarily need a separate volume for Docker.
 
@@ -79,7 +79,7 @@ Your instance will be rebooted. Once the instance is turned off, AWS will create
 
 In your EC2 console, go to `Images, AMIs` on the left hand side. After a few minutes, you should see your newly created AMI in the list.
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/ami_list1.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/ami_list1.png)
 
 If you launch a new instance with this AMI, it should be automatically configured with the data volumes you specified.
 
@@ -87,7 +87,7 @@ If you launch a new instance with this AMI, it should be automatically configure
 
 Go back to your AWS dashboard and navigate to the AWS Batch page. Select `Compute environments` on the left hand side. Select `Create environment`.
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/create_env1.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/create_env1.png)
 
 Configure your environment by selecting the appropriate IAM roles for both your container (Service Role) and EC2 instance (Instance role), provisioning model, networking, and tags. Here are the options I've specified for this tutorial:
 
@@ -153,11 +153,11 @@ If all goes well, you should now see that your job has entered either the `Pendi
 
 Luckily for me, it looks like my job ran successfully.
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/job_success1.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/job_success1.png)
 
 Looking at the CloudWatch output logs, we can see that the container has visibility to a ~111GB partition, and it is mounted on the container's root.
 
-![_config.yml]({{ site.baseurl }}/images/Amazon-AWS-Batch-Extended-AMI/container_output.png)
+![_config.yml]({{ site.images }}/Amazon-AWS-Batch-Extended-AMI/container_output.png)
 
 ## List of IAM roles used
 
