@@ -50,11 +50,12 @@ twitter_url:
 facebook_url:
 googleplus_url:
 instagram_url:
-linkedin_url:
-github_url:
+linkedin_url: https://www.linkedin.com/in/landonclipp/
+github_url: https://github.com/LandonTClipp
 pinterest_url:
-slack_url:
+slack_url: 
 dribbble_url:
+stackoverflow_url: https://stackoverflow.com/users/4244956/ltclipp
 
 # Google Analytics Tracking ID goes here:
 google_analytics:
