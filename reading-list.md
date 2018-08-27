@@ -6,17 +6,16 @@ icon: fa-book
 order: 3
 ---
 
-I love books! Here are some I'm reading now:
+I love books! Here are some books I've read or am reading:
 
-1. Robert Burton: *The Anatomy of Melancholy*
-2. Robert Musil: *The Man Without Qualities*
-3. Kazuo Ishiguro: *The Unconsoled*
-4. Malcolm Lowry: *Under the Volcano*
-5. Virginia Woolf: *The Waves*
-6. James Joyce: *Finnegans Wake*
-7. Thomas Wolfe: *Look Homeward, Angel*
-8. William Thackeray: *Pendennis*
-9. Karl Marx: *Capital*
-10. James Woodforde: *The Diary of A Country Parson*
-
-source: [The Guardian](https://www.theguardian.com/books/booksblog/2011/jan/04/best-boring-books)
+1. Eckhart Tolle: *A New Earth*
+2. Dale Carnegie: *How to Win Friends & Influence People*
+3. Mark Manson: *The Subtle Art of Not Giving A Fuck*
+4. Carl Sagan: *Cosmos*
+5. Bobby M. Shepard: *Go West at the Pig Sign*
+6. Lawrence M. Krauss: *A Universe From Nothing*
+7. Robert Hensen: *The Thinking Person's Guide to Climate Change*
+8. Richard Dawkins: *The Greatest Show on Earth*
+9. Richard Dawkins: *The God Delusion*
+10. J.R.R. Tolkien: *The Hobbit*
+11. Don Miguel Ruiz: *The Four Agreements*
