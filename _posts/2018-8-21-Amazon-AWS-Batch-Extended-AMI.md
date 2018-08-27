@@ -4,6 +4,8 @@ author: Landon
 title: AWS Batch Extended AMIs
 ---
 
+![_config.yml]({{ site.images }}/aws_logo_smile.png)
+
 AWS Batch provides an excellent way to process hundreds or thousands of batch jobs very easily, but the default configurations provided may not be enough for most users. This post will help address the limitations of the default Amazon Machine Image (AMI) used in the managed compute environment.
 
 According to the main page of Amazon's [AWS Batch](https://aws.amazon.com/batch/):
