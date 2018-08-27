@@ -1,5 +1,6 @@
 ---
 layout: post
+author: Landon
 title: Amazon AWS Batch Extended AMIs
 ---
 
