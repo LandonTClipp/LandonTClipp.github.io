@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Landon
-title: Amazon AWS Batch Extended AMIs
+title: AWS Batch Extended AMIs
 ---
 
 AWS Batch provides an excellent way to process hundreds or thousands of batch jobs very easily, but the default configurations provided may not be enough for most users. This post will help address the limitations of the default Amazon Machine Image (AMI) used in the managed compute environment.
@@ -12,7 +12,7 @@ According to the main page of Amazon's [AWS Batch](https://aws.amazon.com/batch/
 
 For instance, say that you have a program that takes some input parameter `n` and gives you some result based on that number, but you want the ability to feed hundreds, perhaps thousands of different inputs into your program to compute the corresponding outputs. AWS Batch allows you to define this simple operation (for some `n`, compute the output) and will then take care of provisioning the necessary EC2 instances, cloud watch logs, error handling, and any other task necessary for you to run your workload.
 
-# The Problem
+## The Problem
 
 There are 4 primary steps that one must complete in order to run your first job on AWS Batch:
 1. Define a compute environment. This includes selecting the IAM roles, your EC2 key pairs, the allowed EC2 instance types, networking configurations, autoscaling limits, etc. Essentially, you define the limits of your environment and what kind of hardware your VMs will be exposed to.
@@ -24,7 +24,7 @@ Depending on the kind of program you are running, the amount of control that AWS
 
 The recommended solution by Jamie is to use an unmanaged compute environment. Unfortunately this ended up being poor advice because not only is creating your own unmanaged compute environment difficult and esoteric, and not only does it kind-of defeat the entire purpose of AWS batch, but there is a much better (and much simpler) solution. Jamie had also promised in various other threads a blog post that would describe how to fix this problem, but she was never heard from again. So let me impart my knowledge to you!
 
-# The solution
+## The solution
 
 The solution to this problem is to create an Amazon Machine Image that is dervied from the default AMI that AWS Batch uses. An AMI allows you to configure an operating system exactly how you want it by installing libraries, modifying startup scripts, customizing configuration files, and most importantly for our purposes: define the logical partitioning and mount points of data volumes. Let's get started.
 
