@@ -6,6 +6,9 @@ title: AWS Batch Extended AMIs
 
 AWS Batch provides an excellent way to process hundreds or thousands of batch jobs very easily, but the default configurations provided may not be enough for most users. This post will help address the limitations of the default Amazon Machine Image (AMI) used in the managed compute environment.
 
+First, here is a nice picture of some clouds to get you in the right mindset:
+![_config.yml]({{ site.images }}/Cumulus_clouds_panorama.jpg)
+
 According to the main page of Amazon's [AWS Batch](https://aws.amazon.com/batch/):
 
 > AWS Batch enables developers, scientists, and engineers to easily and efficiently run hundreds of thousands of batch computing jobs on AWS. AWS Batch dynamically provisions the optimal quantity and type of compute resources (e.g., CPU or memory optimized instances) based on the volume and specific resource requirements of the batch jobs submitted. With AWS Batch, there is no need to install and manage batch computing software or server clusters that you use to run your jobs, allowing you to focus on analyzing results and solving problems. AWS Batch plans, schedules, and executes your batch computing workloads across the full range of AWS compute services and features, such as Amazon EC2 and Spot Instances.
