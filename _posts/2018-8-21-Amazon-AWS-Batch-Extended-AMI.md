@@ -64,7 +64,11 @@ Wait for your instance to start, then right click it. Click `Connect`, then copy
 
 ![_config.yml]({{ site.images }}/2018-8-21-Amazon-AWS-Batch-Extended-AMI/ecs-terminal1.png)
 
-After you have logged in, you can configure your VM however you want by installing any packages, libraries, and configurations you need your VM to have.
+After you have logged in, you can configure your VM however you want by installing any packages, libraries, and configurations you need your VM to have. If you used the AWS-provided ECS-optimized AMI, your AMI will already meet the base requirements for an ECS AMI. If you for some (strange) reason choose not to use the ECS-optimized AMI, you will have install and configure the following packages:
+
+1. The latest version of the Amazon ECS container agent
+2. The latest version of the ecs-init agent
+3. The recommended version of Docker for your version of the ECS container agent
 
 Also note that if you want to attach another volume separate from your root volume, you will want to modify the `/etc/fstab` file so that your new volume is mounted on instance startup. I refer you to Google on how to do this.
 
