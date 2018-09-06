@@ -8,7 +8,7 @@ order: 3
 
 I love books! Here are some books I've read or am reading:
 
-1. Eckhart Tolle: *A New Earth*
+1. Eckhart Tolle: *The Power of Now*
 2. Dale Carnegie: *How to Win Friends & Influence People*
 3. Mark Manson: *The Subtle Art of Not Giving A Fuck*
 4. Carl Sagan: *Cosmos*
@@ -19,3 +19,8 @@ I love books! Here are some books I've read or am reading:
 9. Richard Dawkins: *The God Delusion*
 10. J.R.R. Tolkien: *The Hobbit*
 11. Don Miguel Ruiz: *The Four Agreements*
+12. Sam Harris: *Waking Up*
+13. Sam Harris: *Free Will*
+14. Sam Harris: *Lying*
+15. Sam Harris: *The Moral Landscape*
+16. Sam Harris: *Letter to a Christian Nation*
