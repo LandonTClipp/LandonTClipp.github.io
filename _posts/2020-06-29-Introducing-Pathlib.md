@@ -10,6 +10,7 @@ Most programing languages include some kind of "OS" package that allows you to m
 
 [Go Playground](https://play.golang.org/p/xQuu60BntrM)
 ```go
+{% highlight go %}
 package main
 
 import (
@@ -24,6 +25,7 @@ func main() {
 		fmt.Println(f.Name())
 	}
 }
+{% endhilight %}
 ```
 
 
