@@ -1,3 +1,8 @@
+---
+layout: post
+title:  "Introducing Pathlib"
+---
+
 [`chigopher/pathlib`](https://github.com/chigopher/pathlib/)
 ===============================================================
 
