@@ -9,8 +9,8 @@ title:  "Introducing Pathlib"
 Most programing languages include some kind of "OS" package that allows you to manipulate files and filesystems. The issue with a lot of these packages, including Golang's own `os` and `io/ioutil`, is that they don't provide an easy way to represent objects within your filesystem in an object-oriented way. For instance, let's say that you want to read the root directory of your filesystem. Using vanilla Golang packages, you would do something like this:
 
 [Go Playground](https://play.golang.org/p/xQuu60BntrM)
-```go
-{% highlight go %}
+
+{% highlight go lineno %}
 package main
 
 import (
@@ -26,7 +26,7 @@ func main() {
 	}
 }
 {% endhilight %}
-```
+
 
 
 Simple enough! Now let's say you wanted to read the root dir and any directory below that. Here's what you might do:
