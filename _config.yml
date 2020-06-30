@@ -65,4 +65,6 @@ theme: jekyll-theme-prologue
 #remote_theme: chrisbobbe/jekyll-theme-prologue
 collections: [sections]
 
-highlighter: rogue
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
