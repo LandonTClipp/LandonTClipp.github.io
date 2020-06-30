@@ -61,8 +61,7 @@ stackoverflow_url: https://stackoverflow.com/users/4244956/ltclipp
 google_analytics: UA-166944001-1
 
 # The following settings are NECESSARY for the Prologue theme to run:
-theme: jekyll-theme-prologue
-#remote_theme: chrisbobbe/jekyll-theme-prologue
+theme: jekyll-theme-midnight
 collections: [sections]
 
 syntax_highlighter: rouge
