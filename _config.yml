@@ -64,3 +64,5 @@ google_analytics: UA-166944001-1
 theme: jekyll-theme-prologue
 #remote_theme: chrisbobbe/jekyll-theme-prologue
 collections: [sections]
+
+highlighter: rogue
