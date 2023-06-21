@@ -80,3 +80,10 @@ nav:
   - index.md
   - Blog:
     - blog/index.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/LandonTClipp
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/landonclipp/
