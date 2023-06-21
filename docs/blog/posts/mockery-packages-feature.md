@@ -109,7 +109,7 @@ This tells mockery we want all the interfaces to be included in mock generation.
 
 ### Using `#!yaml recursive: true`
 
-There may also be causes where you have a large number of packages, and you don't want to specify each individual package in config. If you use `#!yaml recursive: true`, you can specify the top-level package and let mockery auto-discover all of the subpackages beneath. Again, the mockery project has an example of this, using [these interfaces](https://github.com/vektra/mockery/tree/v2.30.1/pkg/fixtures/recursive_generation).
+There may also be cases where you have a large number of packages, and you don't want to specify each individual package in config. If you use `#!yaml recursive: true`, you can specify the top-level package and let mockery auto-discover all of the subpackages beneath. Again, the mockery project has an example of this, using [these interfaces](https://github.com/vektra/mockery/tree/v2.30.1/pkg/fixtures/recursive_generation).
 
 ```yaml
 packages:
