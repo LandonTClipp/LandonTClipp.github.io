@@ -16,4 +16,87 @@ In 2022, I bought myself an [Intech Sol Horizon Rover](https://intech.com/rv/mod
 The Rig
 --------
 
-![Intech Sol Horizon Rover](/images/intech_sol_horizon/20220810_154222.jpg) ![RV from the Inside](/images/intech_sol_horizon/20220811_075849.jpg)
+<div class="grid cards" markdown>
+
+- ![Intech Sol Horizon Rover](/images/intech_sol_horizon_cellular/20220810_154222.jpg){data-gallery="rig"}
+- ![RV from the Inside](/images/intech_sol_horizon_cellular/20220811_075849.jpg){data-gallery="rig"}
+- ![RV from the side](/images/intech_sol_horizon_cellular/IMG_1386.png){data-gallery="rig"}
+- ![RV from the side 2](/images/intech_sol_horizon_cellular/IMG_1769.png){data-gallery="rig"}
+
+</div>
+
+
+Categories of Cellular Installations
+-------------------------------------
+
+After a lot of researching online, I found that there are two main categories of cellular internet installations:
+
+### Mobile Hotspots
+
+Mobile hotspots work by receiving a cellular signal and exposing a WiFi access point inside your trailer. Most modern cellphones have a hotspot feature, but you can also buy dedicated hotspot modems like the Verizon Jetpack or the AT&T Nighthawk. 
+
+#### Pros
+
+- Easy to set up. You purchase a pre-packaged plan from the provider and they ship you a device that will work out of the box
+- Easy to use. There is minimal wiring that needs to be setup. Usually you'll only need to plug the device into an AC outlet and any external antennas that may be provided.
+- Portable. You don't have to confine the device to just your RV. You can take it anywhere you want.
+- Heavy duty cellular boosters like the [Weboost Destination RV](https://www.weboost.com/products/destination-rv) are very easy to setup and can greatly increase the range of the booster with minimal effort.
+
+#### Cons
+
+- They are not meant for long-term heavy use. There have been reports of the devices overheating due to excessive use if you are full-timing.
+- Poor cellular reception. In areas of low-quality cell service, the internal antennas will often be insufficient. Most of the window-mounted antennas are also inadequate. Usage of an external cellular booster like the Weboost Destination RV can help mitigate this.
+- You're often tied to one carrier. Some devices can only be used with one carrier (not all of them are like this, but most are in my experience).
+
+### Dedicated Cellular Routers
+
+A cellular router is a more robust and permanent platform. A router like the [Peplink MAX Transit Duo](https://mobilemusthave.com/collections/cellular-wifi-routers/products/pepwave-max-transit-pro-dual-modem-cat-12-cat-7-lte-a-router) are powerful devices that are capable of bonding multiple sources of internet into a single WiFi access point. The MAX Transit Duo, for example, is capable of bonding two separate cellular SIM cards and external WiFi signals (like what campgrounds offer) into a single access point. Some of the more advanced Peplink models even allow bonding to a Starlink signal, providing you with quadruple internet redundancy.
+
+#### Pros
+
+- Carrier-agnostic. You won't be tied to any particular carrier and can independently swap out SIM cards any time you want.
+- WAN Bonding. You can bond with any kind of internet signal, like from starlink, to provide multiple redundancy paths.
+- Redundancy. Because of the WAN bonding, the multi-SIM Peplink devices will automatically and transparently failover to other internet sources. You also get cellular coverage redundancy, meaning if one carrier doesn't have coverage in a particular area, another carrier might. You would not have to configure anything for the failover to happen, the Peplink device would do it automatically.
+- Energy efficient. The peplink devices can be wired directly to your 12V system which means you won't need an inverter to convert the battery DC to AC, and then another wall AC adapter to convert the AC back to DC. This DC->AC->DC conversion wastes lots of energy as heat.
+- Options for high quality external antenna mounts. The devices can be plugged directly into a permanently mounted external omnidirectional antenna on your roof that provides large dB gains to your signal. You could also theoretically connect the directional antenna from the Weboost Destination RV into a Peplink router for situations where the omnidirectional antenna doesn't provide enough dB gain.
+
+#### Cons
+
+- More expensive. Most of the multi-WAN bonding devices _start_ at around $1000 and quickly increase depending on the options you want. 
+- More complex. Careful consideration has to be taken on the physical installation with antenna placement, wire routing, and drilling. The devices themselves also tend to require manual configuration in order to work with the carriers and bands you need. For the Intech Sol Horizon specifically (as I'll elaborate on later), the antenna itself could not be drilled anywhere near the AC unit which means I had to figure out how to use a magnetic mount on a fiberglass roof.
+
+Weboost Destination RV
+-----------------------
+
+My goal for my internet setup was ultimate redundancy. I wanted a setup where I could use my phone's internal hotspot for internet, as well as access to a directional antenna that will be powerful enough to punch through areas with incredibly weak signal. The Weboost Destination RV was a great choice because it required minimal setup and works seamlessly with all cellular devices that have their own internal antennas. 
+
+Here is a general diagram of how it works:
+
+![Weboost Destination RV Diagram](/images/intech_sol_horizon_cellular/0001_weboost_diagram.png)
+
+An external antenna is mounted on a telescoping pole that you attach to the side of your RV using 3M tape. The antenna is connected to a signal repeater on the inside of the RV that boosts the signal to a higher dB. The repeater is then connected to a low-gain internal cellular antenna that your devices will interact with.
+
+The Destination RV works great with the Intech Sol Horizon because you can re-use the existing external coaxial port on the left side of the RV for running your cellular signal. This port runs behind the TV over the bed and is meant for routing a satellite antenna to the TV, but works perfectly well for a cellular signal as well.
+
+<!-- insert picture of coax port -->
+
+You can then use simple 3M velcro tape to adhere the internal repeater box behind the TV and connect it to the coax port labelled `Satellite`. I strongly recommend using velcro 3M tape instead of permanently mounting with nails because you might find you need to readjust the positioning of your equipment. Connect the repeater to the AC plug using the provided AC adapter.
+
+<!-- insert picture of repeater box -->
+
+Once the repeater has been  mounted and connected, you need to find a place to put the internal antenna. Initially, I decided to place the antenna above the bed as seen here:
+
+<!-- picture of original antenna location -->
+
+But I found this didn't work because the repeater box was flashing green and red which indicated that the internal and external antenna were getting to a runaway feedback loop condition, which caused the repeater to reduce the output power of the external antenna. This is a bit like putting a microphone up to its speaker. The feedback causes runaway noise and can only be fixed by reducing the volume (which is what happens when the repeater indicates a flashing red/green) or by moving the microphone away.
+
+I found that placing the antenna on the floor next to the bed was an easy option that didn't require any major cable routing. The feedback condition was removed and the signal as reported by my phone did indeed improve.
+
+The bundled [weBoost app](https://apps.apple.com/us/app/weboost/id1611974453) is great for guiding you through the setup of pointing the antenna in the right direction and measuring the signal dB as reported by your phone. You can access the internal cellular metrics of your phone by dialing `*3001#12345#*`. 
+
+<div class="grid cards" markdown>
+
+- ![internal phone metric menu](/images/intech_sol_horizon_cellular/IMG_1801.jpg){data-gallery="weboost setup"}
+- ![internal phone metric rach attempt](/images/intech_sol_horizon_cellular/IMG_1802.jpg){data-gallery="weboost setup"}
+
+</div>
