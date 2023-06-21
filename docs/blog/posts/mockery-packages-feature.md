@@ -4,7 +4,6 @@ categories:
   - golang
   - programming
 title: Introducing Mockery's New packages Feature
-draft: true
 ---
 
 Introducing Mockery's New `packages` Feature
