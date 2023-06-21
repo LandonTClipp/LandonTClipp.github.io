@@ -9,6 +9,7 @@ repo_url: https://github.com/LandonTClipp/LandonTClipp.github.io
 
 theme:
   name: material
+  custom_dir: overrides
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -27,6 +28,7 @@ theme:
   features:
     - content.code.annotate
     - content.code.copy
+    - content.code.select
     - content.action.edit
     - content.action.view
     - navigation.indexes
@@ -36,6 +38,7 @@ theme:
 markdown_extensions:
   - admonition
   - attr_list
+  - footnotes
   - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
@@ -72,6 +75,7 @@ plugins:
       - custom-skip-class-name
     auto_caption: false
     caption_position: bottom
+- meta
 - social
 - search
 - open-in-new-tab
