@@ -91,3 +91,6 @@ extra:
       link: https://github.com/LandonTClipp
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/landonclipp/
+  analytics:
+    provider: google
+    property: G-F9YVCCMVEX
