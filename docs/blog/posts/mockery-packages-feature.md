@@ -185,4 +185,11 @@ packages:
       Reader: 
 ```
 
+Feedback
+---------
+
+Please try this out and let me know your thoughts in the comments below. I worked hard on this feature and it turned out really well, so I hope you enjoy it.
+
+I also want to thank everyone who has contributed to this project over the years. Most of the features in mockery have been implemented by the open source community, and I've only served as an advisor and button pusher for most of it. So thanks for making this project what it is, open source works well when done correctly!
+
 [^1]: You may note the mockery logs are saying the packages feature in a beta state. At the time of this writing, this is true, however it will be fully released a short time after this is published.
