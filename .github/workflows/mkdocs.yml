@@ -19,5 +19,4 @@ jobs:
           path: .cache
       - run: sudo apt-get install -y libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev
       - run: pip install -r requirements.txt
-      - run: pip install git+https://LandonTClipp:${GH_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
       - run: mkdocs gh-deploy --force
