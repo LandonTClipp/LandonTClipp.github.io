@@ -86,7 +86,10 @@ Why do you want `packages`?
 
 The performance benefit comes from the fact that mockery now gathers all of the packages to load (that are either statically defined or dynamically discovered through `recursive`) and passes that list to a single `packages.Load` invocation. Most other mock generator packages, even the officially supported `gomock` project, do not do this, which means mockery should now be orders of magnitude faster than any other solution.
 
-View the [feature documentation](https://vektra.github.io/mockery/features/#packages-configuration) and the [configuration options available](https://vektra.github.io/mockery/configuration/#packages-config) for more details.
+Useful links:
+- [feature documentation](https://vektra.github.io/mockery/features/#packages-configuration)
+- [configuration options available](https://vektra.github.io/mockery/configuration/#packages-config) for more details.
+- [migrating to `packages`](https://vektra.github.io/mockery/migrating_to_packages/)
 
 Advanced Examples
 ------------------
