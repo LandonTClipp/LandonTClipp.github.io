@@ -29,8 +29,6 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.code.select
-    - content.action.edit
-    - content.action.view
     - navigation.indexes
     - navigation.sections
     - navigation.tracking
