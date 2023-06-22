@@ -9,6 +9,7 @@ draft: true
 Prefer Systemd Timers Over Cron
 ================================
 
+![systemctl list-timers command output terminal](/images/prefer_systemd_timers_over_cron/Screenshot 2023-06-22 at 1.22.59 PM.png)
 
 Systemd administrators often find themselves needing to run services on their bare-metal machines. Services can be broken down into roughly two broad categories:
 
@@ -111,3 +112,4 @@ $ ncdu -x -o - . |& jq .
   ]
 ]
 ```
+
