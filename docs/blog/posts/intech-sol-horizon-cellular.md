@@ -2,6 +2,7 @@
 date: 2023-06-21
 categories:
   - RV
+  - Intech Sol Horizon
 title: Intech Sol Horizon Cellular Setup
 draft: true
 ---
