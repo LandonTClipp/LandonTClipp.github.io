@@ -82,9 +82,9 @@ The Destination RV works great with the Intech Sol Horizon because you can re-us
 
 You can then use simple 3M velcro tape to adhere the internal repeater box behind the TV and connect it to the coax port labelled `Satellite`. I strongly recommend using velcro 3M tape instead of permanently mounting with nails because you might find you need to readjust the positioning of your equipment. Connect the repeater to the AC plug using the provided AC adapter.
 
-<!-- insert picture of repeater box -->
+![repeater box](/images/intech_sol_horizon_cellular/IMG_1627.jpg)
 
-Once the repeater has been  mounted and connected, you need to find a place to put the internal antenna. Initially, I decided to place the antenna above the bed as seen here:
+Obviously you'll want to clean up the wires like with a 3M cable hook or a coax staple. Once the repeater has been  mounted and connected, you need to find a place to put the internal antenna. Initially, I decided to place the antenna above the bed as seen here:
 
 <!-- picture of original antenna location -->
 
