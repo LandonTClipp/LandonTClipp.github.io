@@ -20,8 +20,8 @@ The Rig
 
 - ![Intech Sol Horizon Rover](/images/intech_sol_horizon_cellular/20220810_154222.jpg){data-gallery="rig"}
 - ![RV from the Inside](/images/intech_sol_horizon_cellular/20220811_075849.jpg){data-gallery="rig"}
-- ![RV from the side](/images/intech_sol_horizon_cellular/IMG_1386.png){data-gallery="rig"}
-- ![RV from the side 2](/images/intech_sol_horizon_cellular/IMG_1769.png){data-gallery="rig"}
+- ![RV from the side](/images/intech_sol_horizon_cellular/IMG_1386.jpeg){data-gallery="rig"}
+- ![RV from the side 2](/images/intech_sol_horizon_cellular/IMG_1769.jpeg){data-gallery="rig"}
 
 </div>
 
@@ -72,13 +72,13 @@ My goal for my internet setup was ultimate redundancy. I wanted a setup where I 
 
 Here is a general diagram of how it works:
 
-![Weboost Destination RV Diagram](/images/intech_sol_horizon_cellular/0001_weboost_diagram.png)
+![Weboost Destination RV Diagram](/images/intech_sol_horizon_cellular/0001_weboost_diagram.jpeg)
 
 An external antenna is mounted on a telescoping pole that you attach to the side of your RV using 3M tape. The antenna is connected to a signal repeater on the inside of the RV that boosts the signal to a higher dB. The repeater is then connected to a low-gain internal cellular antenna that your devices will interact with.
 
 The Destination RV works great with the Intech Sol Horizon because you can re-use the existing external coaxial port on the left side of the RV for running your cellular signal. This port runs behind the TV over the bed and is meant for routing a satellite antenna to the TV, but works perfectly well for a cellular signal as well.
 
-<!-- insert picture of coax port -->
+![external coaxial port on RV](/images/intech_sol_horizon_cellular/IMG_1809.jpeg)
 
 You can then use simple 3M velcro tape to adhere the internal repeater box behind the TV and connect it to the coax port labelled `Satellite`. I strongly recommend using velcro 3M tape instead of permanently mounting with nails because you might find you need to readjust the positioning of your equipment. Connect the repeater to the AC plug using the provided AC adapter.
 
@@ -100,3 +100,94 @@ The bundled [weBoost app](https://apps.apple.com/us/app/weboost/id1611974453) is
 - ![internal phone metric rach attempt](/images/intech_sol_horizon_cellular/IMG_1802.jpg){data-gallery="weboost setup"}
 
 </div>
+
+Peplink Cellular Router
+------------------------
+
+The next project I tackled was adding a dedicated cellular router. I chose to use a prepackaged bundle from MobileMustHave.com. MobileMustHave is a reseller of cellular components and offers videos, articles, and ticket support to help you install one of their pre-packaged solutions.
+
+### To 5G or not to 5G?
+
+5G is a new standard that operates in both sub-6GHz (called Frequency Range 1, or FR1) and 24.25 GHz to 71.0 GHz (FR2). FR2 is a microwave band that provides significantly faster download speeds, but in my experience the upload speed gains have been unimpressive. I've found through my own un-scientific tests that upload speeds for 5G in general are lackluster, which is an issue for video conferencing. 
+
+Because of the somewhat untested and experimental nature of 5G, I decided to go with a 4G solution as it provides plenty of bandwidth for my needs.
+
+### Cellular providers
+
+The feature I'm optimising for in my choice of cellular providers is the coverage. The FCC publishes a coverage map for each provider:
+
+https://fcc.maps.arcgis.com/apps/webappviewer/index.html?id=6c1b2e73d9d749cdb7bc88a0d1bdd25b
+
+Here's an image of each coverage map, overlayed with various combinations of providers:
+
+| T-Mobile | Verizon | AT&T | Image |
+|----------|---------|------|-------|
+| :octicons-check-16: | :octicons-x-12: | :octicons-x-12: | ![T-Mobile only](/images/intech_sol_horizon_cellular/Screenshot 2023-06-24 at 6.03.33 PM.jpeg){data-gallery="coverage-map"} |
+| :octicons-x-12: | :octicons-x-12: | :octicons-check-16: | ![AT&T only](/images/intech_sol_horizon_cellular/Screenshot 2023-06-24 at 6.09.56 PM.jpeg){data-gallery="coverage-map"} |
+| :octicons-x-12: | :octicons-check-16: | :octicons-x-12: | ![Verizon only](/images/intech_sol_horizon_cellular/Screenshot 2023-06-24 at 6.10.05 PM.jpeg){data-gallery="coverage-map"} |
+| :octicons-x-12: | :octicons-check-16: | :octicons-check-16: | ![Verizon and AT&T coverage map](/images/intech_sol_horizon_cellular/Screenshot 2023-06-24 at 6.10.13 PM.jpeg){data-gallery="coverage-map"} |
+
+You can see that T-Mobile by far offers the worst overall coverage: their towers are concentrated along interstates and highly populated regions, but beyond those areas it becomes pretty sparse. Verizon and AT&T offer fairly similar coverage out west, but there are many areas where only one of them provides coverage. 
+
+Using this knowledge, it suggests that the best solution is to acquire data plans for both AT&T and Verizon simultaneously. Using T-Mobile provides no advantage beyond a few select regions in the west.
+
+### MobileMustHave bundles
+
+I ended up choosing the [Ultimate Road Warrior VR2](https://mobilemusthave.com/collections/mobile-internet-bundles-v2/products/ultimate-road-warrior-vr2) bundle. It's a 4G-only solution that allows dual SIM card usage so you can multiplex two carriers at once. MMH also sells their own data plans that come in various flavors. I had to ask them which plan was carried by which provider, as their documentation didn't seem to say.
+
+### MobileMustHave Data Plans
+
+| Plan name | Data cap | Speed Cap | 2023 Cost | Carrier |
+|-----------|----------|-----------|-----------|---------|
+| P1000 | 1000GB | None | $175 | T-Mobile |
+| R300 | 300GB | 25Mbps | $129 | Verizon |
+| R300+ | 300GB | 50Mbps | $175 | Verizon |
+
+!!! tip "But I want AT&T :cry:"
+    MMH discontinued their AT&T offerings for reasons unknown, but you can still purchase AT&T sim cards from various online vendors. Surprisingly, many folks have had success buying SIM card plans from companies on eBay that have business agreements with AT&T that allow them to distribute SIM cards using their own business data plan. I've been able to find resellers on eBay that offer truly unlimited AT&T plans. 
+    
+    If you own an LLC, you can also start your own data-only SIM card plan. There may also be ways to get a personal data-only SIM card AT&T plan but I've found it difficult to navigate their website on how to do this.
+
+I ended up purchasing their R300 plan to have Verizon coverage, and got an unlimited AT&T plan from a reputable seller on eBay. I will be updating my experience here when I have more data to share.
+
+### Installation
+
+#### Cable routing plan
+
+The Intech Sol Horizon roof only provides one area where you can drill an electrical hole without wires being exposed on the inside ceiling: the microwave. I previously paid someone to install solar panels and you can see they had the same idea. The junction box that was installed drills into the corner of the microwave cavity and runs down behind the microwave and fridge.
+
+<div class="grid cards" markdown>
+
+- ![Microwave](/images/intech_sol_horizon_cellular/IMG_1810.jpeg){data-gallery="microwave-removal"}
+- ![Microwave removed](/images/intech_sol_horizon_cellular/IMG_1813.jpeg){data-gallery="microwave-removal"}
+- ![Microwave cavity with cables to roof](/images/intech_sol_horizon_cellular/IMG_1815.jpeg){data-gallery="microwave-removal"}
+- ![Roof junction box](/images/intech_sol_horizon_cellular/IMG_1817_with_box.jpeg){data-gallery="microwave-removal"}
+</div>
+
+On the outside of the RV, you can pull off the plastic grates that protect the fridge and furnace compartments. I noted the direction that the solar wires were run, which required very minimal drilling. We can use this as inspiration. It comes out the top compartment, runs along the backside of the fridge and runs down into the furnace compartment as shown below.
+
+<div class="grid cards" markdown>
+
+- ![Compartment 1 zoomed out](/images/intech_sol_horizon_cellular/IMG_1818.jpeg){data-gallery="cable-routing-1"}
+- ![Compartment 1 zoomed in](/images/intech_sol_horizon_cellular/IMG_1819 traced.jpeg){data-gallery="cable-routing-1"}
+- ![Compartment 2 zoomed in](/images/intech_sol_horizon_cellular/IMG_1820 traced.jpeg){data-gallery="cable-routing-1"}
+</div>
+
+The cables then run into the battery compartment through a hole drilled into the side of the wall. You can remove the shelf below the fridge by pressing on the green tabs. This reveals the cavity where the cables reside.
+
+<div class="grid cards" markdown>
+
+- ![Shelf upside down](/images/intech_sol_horizon_cellular/IMG_1824.jpeg){data-gallery="cable-routing-2"}
+- ![Shelf removed](/images/intech_sol_horizon_cellular/IMG_1821.jpeg){data-gallery="cable-routing-2"}
+- ![Cables behind shelf](/images/intech_sol_horizon_cellular/IMG_1823.jpeg){data-gallery="cable-routing-2"}
+- ![Battery compartment](/images/intech_sol_horizon_cellular/IMG_1811.jpeg){data-gallery="cable-routing-2"}
+</div>
+
+My plan is to then route the antenna cable across the battery compartment, through the front underneath the cushions, and into the righthand storage compartment. The reason for this is to keep the cellular router away from the noisy electronics in the battery compartment that could cause interference and a degredation in signal.
+
+The DC power cable for the router can also be routed in the same way. In fact, I've already crimped the cables onto the battery terminal hubs where all the DC circuits in the RV fan out from.
+
+!!! tip
+    Don't mind the toilet paper in the photo. I can promise you I was _not_ in fact taking a dump. :poop:
+
+![Cable routing across front of trailer](/images/intech_sol_horizon_cellular/IMG_1812 traced.jpeg)
