@@ -1,3 +1,4 @@
 env.sh
 ve/
 .cache/
+*/.DS_Store/

@@ -160,7 +160,7 @@ The Intech Sol Horizon roof only provides one area where you can drill an electr
 
 - ![Microwave](/images/intech_sol_horizon_cellular/IMG_1810.jpeg){data-gallery="microwave-removal"}
 - ![Microwave removed](/images/intech_sol_horizon_cellular/IMG_1813.jpeg){data-gallery="microwave-removal"}
-- ![Microwave cavity with cables to roof](/images/intech_sol_horizon_cellular/IMG_1815.jpeg){data-gallery="microwave-removal"}
+- ![Microwave cavity with cables to roof](/images/intech_sol_horizon_cellular/IMG_1815 boxed.jpeg){data-gallery="microwave-removal"}
 - ![Roof junction box](/images/intech_sol_horizon_cellular/IMG_1817_with_box.jpeg){data-gallery="microwave-removal"}
 </div>
 
