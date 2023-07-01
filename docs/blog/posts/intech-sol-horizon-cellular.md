@@ -107,13 +107,32 @@ Peplink Cellular Router
 
 The next project I tackled was adding a dedicated cellular router. I chose to use a prepackaged bundle from MobileMustHave.com. MobileMustHave is a reseller of cellular components and offers videos, articles, and ticket support to help you install one of their pre-packaged solutions.
 
-### To 5G or not to 5G?
+### Tools and supplies used
+
+| tool | notes |
+|------|-------|
+| electric drill ||
+| [1" hole saw bit](https://www.homedepot.com/p/Milwaukee-1-in-Hole-Dozer-Bi-Metal-Hole-Saw-with-3-8-in-Arbor-Pilot-Bit-49-56-9662/202327732) | The 3/4" cable glands need a 1" hole in the junction box. |
+| [3/4" hole saw bit](https://www.homedepot.com/p/Milwaukee-3-4-in-HOLE-DOZER-Bi-Metal-Hole-Saw-with-3-8-in-Arbor-and-Pilot-Bit-49-56-9658/313347418) | For all the internal holes you will route the cables through |
+| [3/4" cable glands](https://www.amazon.com/gp/product/B094ZFP22C/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1) |  |
+| [Dicor self leveling sealant](https://www.amazon.com/Dicor-Self-Leveling-Lap-Sealant-2/dp/B00H554R98) | |
+| [24"x36" galvanized steel sheet](https://www.homedepot.com/p/Master-Flow-24-in-x-36-in-Galvanized-Steel-Flat-Sheet-GFS24X361P/202191776) |  |
+| Electrical junction box | I did not buy directly, this was installed by the solar installers |
+| [MobileMustHave Ultimate Road Warrior VR2 w/ Parsec Husky Pro 15ft Magnetic Mount](https://mobilemusthave.com/pages/ultimate-road-warrior-vr2) | |
+| Crimping Tool | Any crimping tool for standard ~18 AWG power cables will do |
+| Ring connector crimps | This is to attach the Peplink router DC cable to your battery terminals |
+
+### Prior considerations
+
+Before installing this system, we have to consider a number of factors.
+
+#### To 5G or not to 5G?
 
 5G is a new standard that operates in both sub-6GHz (called Frequency Range 1, or FR1) and 24.25 GHz to 71.0 GHz (FR2). FR2 is a microwave band that provides significantly faster download speeds, but in my experience the upload speed gains have been unimpressive. I've found through my own un-scientific tests that upload speeds for 5G in general are lackluster, which is an issue for video conferencing. 
 
 Because of the somewhat untested and experimental nature of 5G, I decided to go with a 4G solution as it provides plenty of bandwidth for my needs.
 
-### Cellular providers
+#### Cellular providers
 
 The feature I'm optimising for in my choice of cellular providers is the coverage. The FCC publishes a coverage map for each provider:
 
@@ -132,11 +151,11 @@ You can see that T-Mobile by far offers the worst overall coverage: their towers
 
 Using this knowledge, it suggests that the best solution is to acquire data plans for both AT&T and Verizon simultaneously. Using T-Mobile provides no advantage beyond a few select regions in the west.
 
-### MobileMustHave bundles
+#### MobileMustHave bundles
 
 I ended up choosing the [Ultimate Road Warrior VR2](https://mobilemusthave.com/collections/mobile-internet-bundles-v2/products/ultimate-road-warrior-vr2) bundle. It's a 4G-only solution that allows dual SIM card usage so you can multiplex two carriers at once. MMH also sells their own data plans that come in various flavors. I had to ask them which plan was carried by which provider, as their documentation didn't seem to say.
 
-### MobileMustHave Data Plans
+#### MobileMustHave Data Plans
 
 | Plan name | Data cap | Speed Cap | 2023 Cost | Carrier |
 |-----------|----------|-----------|-----------|---------|
@@ -145,50 +164,123 @@ I ended up choosing the [Ultimate Road Warrior VR2](https://mobilemusthave.com/c
 | R300+ | 300GB | 50Mbps | $175 | Verizon |
 
 !!! tip "But I want AT&T :cry:"
-    MMH discontinued their AT&T offerings for reasons unknown, but you can still purchase AT&T sim cards from various online vendors. Surprisingly, many folks have had success buying SIM card plans from companies on eBay that have business agreements with AT&T that allow them to distribute SIM cards using their own business data plan. I've been able to find resellers on eBay that offer truly unlimited AT&T plans. 
-    
-    If you own an LLC, you can also start your own data-only SIM card plan. There may also be ways to get a personal data-only SIM card AT&T plan but I've found it difficult to navigate their website on how to do this.
+    MMH discontinued their AT&T offerings for reasons unknown, but you can still purchase AT&T sim cards from various online vendors. Many folks have had success on eBay where many companies sell AT&T plans under their own business plan. I bought mine from [cellphonex](https://www.ebay.com/str/cellphonex) and I have a legitimately unlimited AT&T plan (it does in fact work) for only $100 a month.
 
-I ended up purchasing their R300 plan to have Verizon coverage, and got an unlimited AT&T plan from a reputable seller on eBay. I will be updating my experience here when I have more data to share.
+I ended up purchasing their R300 plan to have Verizon coverage to use in tandem with my AT&T plan from eBay.
 
 ### Installation
 
-#### Cable routing plan
+#### Roof mount
 
-The Intech Sol Horizon roof only provides one area where you can drill an electrical hole without wires being exposed on the inside ceiling: the microwave. I previously paid someone to install solar panels and you can see they had the same idea. The junction box that was installed drills into the corner of the microwave cavity and runs down behind the microwave and fridge.
+The Parsec Husky 7-in-1 antenna has an adhesive mounting option and a magnetic mount option. I initially wanted the adhesive mount option but I realized that it comes with a large bolt on the bottom that you have to put directly over a hole. There is no way to have the cables run laterally along the roof, it has to go directly on top of a mounting hole.
 
-<div class="grid cards" markdown>
+Instead, I went with the magnetic mount option, as the magnetic base gives the cables room to run laterally along the roof. MMH support recommended I adhere a galvanized steel sheet to the roof, which would give the magnetic mount the ferrous base it needs. Galvanized steel is resistant to rust and should last a very long time.
 
-- ![Microwave](/images/intech_sol_horizon_cellular/IMG_1810.jpeg){data-gallery="microwave-removal"}
-- ![Microwave removed](/images/intech_sol_horizon_cellular/IMG_1813.jpeg){data-gallery="microwave-removal"}
-- ![Microwave cavity with cables to roof](/images/intech_sol_horizon_cellular/IMG_1815 boxed.jpeg){data-gallery="microwave-removal"}
-- ![Roof junction box](/images/intech_sol_horizon_cellular/IMG_1817_with_box.jpeg){data-gallery="microwave-removal"}
-</div>
+![steel plate](/images/intech_sol_horizon_cellular/IMG_1836.jpg)
 
-On the outside of the RV, you can pull off the plastic grates that protect the fridge and furnace compartments. I noted the direction that the solar wires were run, which required very minimal drilling. We can use this as inspiration. It comes out the top compartment, runs along the backside of the fridge and runs down into the furnace compartment as shown below.
+I applied a liberal amount of dicor self leveling sealant to the bottom of the sheet and stuck it to the roof. Dicor is not technically supposed to be used as an adhesive but I thought it should be fine since the sheet itself will not have to resist much upwards force. The better solution is to use 3M VHB but hindsight is 20/20 and all. I applied Dicor along the edges of sheet, ensuring that there were no gaps that water could intrude underneath the plate.
+
+A few months prior, I had solar experts install a solar panel system on the RV and they had pre-drilled a junction box to the roof. This enters into the microwave cavity and routes the power cables along a somewhat complicated path behind the fridge. All I need to do is route the antenna cables to this junction box and follow a similar path to the router.
 
 <div class="grid cards" markdown>
-
-- ![Compartment 1 zoomed out](/images/intech_sol_horizon_cellular/IMG_1818.jpeg){data-gallery="cable-routing-1"}
-- ![Compartment 1 zoomed in](/images/intech_sol_horizon_cellular/IMG_1819 traced.jpeg){data-gallery="cable-routing-1"}
-- ![Compartment 2 zoomed in](/images/intech_sol_horizon_cellular/IMG_1820 traced.jpeg){data-gallery="cable-routing-1"}
+- ![junction box on roof](/images/intech_sol_horizon_cellular/IMG_1817_with_box.jpeg){data-gallery="roof1"}
+- ![microwave cavity underneath junction box](/images/intech_sol_horizon_cellular/IMG_1815.jpeg){data-gallery="roof1"}
 </div>
 
-The cables then run into the battery compartment through a hole drilled into the side of the wall. You can remove the shelf below the fridge by pressing on the green tabs. This reveals the cavity where the cables reside.
+I used a 1" hole saw to drill a hole into the junction box. I installed a 3/4" cable glands that would serve as a water resistent entry point for the cables. 
+
+!!! warning
+    Cable glands are typically meant to only have a single cable passed through. Having multiple cables passing through weakens the water resistence of the hand-tightening seal. You might want to consider adding a small bit of expanding foam inside of the gland to make it truly watertight. I opted not to add the foam (yet), but I will be monitoring the box for any water intrusion during heavy rain. I will add expanding foam if I notice water intruding into the box.
 
 <div class="grid cards" markdown>
-
-- ![Shelf upside down](/images/intech_sol_horizon_cellular/IMG_1824.jpeg){data-gallery="cable-routing-2"}
-- ![Shelf removed](/images/intech_sol_horizon_cellular/IMG_1821.jpeg){data-gallery="cable-routing-2"}
-- ![Cables behind shelf](/images/intech_sol_horizon_cellular/IMG_1823.jpeg){data-gallery="cable-routing-2"}
-- ![Battery compartment](/images/intech_sol_horizon_cellular/IMG_1811.jpeg){data-gallery="cable-routing-2"}
+- ![cable gland](/images/intech_sol_horizon_cellular/IMG_1841.jpg){data-gallery="roof2"}
+- ![1" hole saw](/images/intech_sol_horizon_cellular/IMG_1842.jpg){data-gallery="roof2"}
+- ![antenna on roof](/images/intech_sol_horizon_cellular/IMG_1845.jpg){data-gallery="roof2"}
+- ![cables in junction box](/images/intech_sol_horizon_cellular/IMG_1846.jpg){data-gallery="roof2"}
+- ![cables inside of RV](/images/intech_sol_horizon_cellular/IMG_1848.jpg)
 </div>
 
-My plan is to then route the antenna cable across the battery compartment, through the front underneath the cushions, and into the righthand storage compartment. The reason for this is to keep the cellular router away from the noisy electronics in the battery compartment that could cause interference and a degredation in signal.
+#### Cable routing
 
-The DC power cable for the router can also be routed in the same way. In fact, I've already crimped the cables onto the battery terminal hubs where all the DC circuits in the RV fan out from.
-
-!!! tip
-    Don't mind the toilet paper in the photo. I can promise you I was _not_ in fact taking a dump. :poop:
+Originally, I wanted to route the antenna cables across the dinette and into the righthand storage compartment like this:
 
 ![Cable routing across front of trailer](/images/intech_sol_horizon_cellular/IMG_1812 traced.jpeg)
+
+However even with the longest cable option of the Parsec Husky antenna, there's not enough length to do this. So instead I decided I would mount the router next to the fuse box. 
+
+Now that the cables were inside, the question now became how to route the cables from the microwave compartment into the electronic compartment just below. I asked the Intech Sol Horizon Facebook group about how they've previously done this. The best suggestion was that you can drill into the exterior shell of the shower surrounds. there is a fairly large gap between the interior shower surrounds fiberglass and the exterior, which is mainly where a lot of plumbing and electrical systems are routed through. If you take off the radio, you can see this more clearly:
+
+<div class="grid cards" markdown>
+- ![radio removed](/images/intech_sol_horizon_cellular/IMG_1854.jpg){data-gallery="radio-removed"}
+- ![inside radio compartment](/images/intech_sol_horizon_cellular/IMG_1856.jpg){data-gallery="radio-removed"}
+- ![close up of shower cavity](/images/intech_sol_horizon_cellular/IMG_1853.jpg){data-gallery="radio-removed"}
+</div>
+
+The factory-cut hole in the radio comparment is large enough that you can fit your whole arm in it, which should make it easy to fish the antenna cables through. I cut a 3/4" hole and put the cables through that hole, then fished them into the radio compartment. 
+
+<div class="grid cards" markdown>
+- ![pilot hole](/images/intech_sol_horizon_cellular/IMG_1861.jpg)
+- ![cables inside of hole](/images/intech_sol_horizon_cellular/IMG_1862.jpg)
+- ![fuse box without cover](/images/intech_sol_horizon_cellular/IMG_1849.jpg)
+- ![cables through fuse box hole](/images/intech_sol_horizon_cellular/IMG_1863.jpg)
+</div>
+
+I toyed around with how to place the router on the wall. I wanted it to be as close to the fuse box as possible to save space and eventually found the best place to drill another 3/4" hole for the cables. After that, it's pretty easy to connect the cables to the router. Just make sure you follow MMH's directions on where to plug each cable.
+
+<div class="grid cards" markdown>
+- ![hole next to fuse box](/images/intech_sol_horizon_cellular/IMG_1864.jpg)
+- ![wires connected to router](/images/intech_sol_horizon_cellular/IMG_1866.jpg)
+</div>
+
+The Peplink router comes with a DC connection or you can plug it into the AC outlet. It's generally not recommended to use the AC outlet for electronics if it can be avoided because you incur a huge efficiency penalty when you invert the battery's DC into AC, just to convert it back to DC again at the wall outlet. Using a simple crimping tool and a ring connector, I attached the DC cable directly to the battery hubs.
+
+!!! note
+    The better solution for the DC connection is to attach it to the power cut off switch instead of directly to the battery. The Peplink router consumes energy even when not in use, so having the ability to quickly shut it off along with all the other electronics in your camper will save your battery.
+
+After drilling the router into the wall, plug in your SIM cards and the DC power connection. Now the phyiscal installation is finally done! Whew, that was a lot! :face_exhaling:
+
+![router fully installed](/images/intech_sol_horizon_cellular/IMG_1868.jpg)
+
+### Configuration
+
+Now that the router is connected to the external antenna and powered up, it's time to log in! The default credentials are posted on the back of the router. Connect your computer to the WiFi access point created by the Peplink router. Go to https://192.168.50.1 (or whatever IP address the router lists) to log into the management console. The default username and password is `admin`. You'll be taken to page that roughly looks like this:
+
+![main peplink page](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 9.55.01 PM.png)
+
+The `Cellular 1`/`Cellular 2` status may take a couple minutes to update. If you're using a Verizon SIM card, you need to configure it. Click on `Details` to bring up its configuration page. There are a few settings I like to set manually. First, change the `Network Mode` from `auto` to `Verizon Wireless` (or your respsective carrier). 
+
+![WAN settings](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.09.55 PM.png)
+
+!!! note "Verizon-specific steps"
+
+    The following steps should only be done for Verizon Wireless. Go to the `Cellular Settings` section:
+    
+    1. Set `SIM Card` to `Both SIMs`. NOTE: each individual SIM card slot appears as TWO SIM cards to the Peplink software. This section here is _not_ referring to both physical SIM cards. Even though this appears to be configuring both SIM cards, you're only configuring one at a time. 
+    2. Set `Preferred SIM card` to `No preference`.
+    3. Check `Data Roaming`.
+    4. In `Operator Settings` click `Custom`.
+    5. Set the `APN` field to `vzwinternet`.
+    6. Optional: set a bandwidth monitor on both columns.
+
+    !!! warning
+        This device has two SIM cards. When you go to the `Details` page of `Cellular 1`/`Cellular 2`, it gives you two columns for `SIM A`/`SIM B`. These are _not_ referring to the two physical SIM card slots. Confusingly, the configuration for each physical slot allows you to define settings for TWO SIM cards. One of these columns will refer to a SIM card that simply doesn't exist. To reduce the risk of misconfigurations, please ensure both columns are identical.
+
+    ![Verizon wireless settings](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.14.20 PM.png)
+
+#### SpeedFusion Cloud
+
+We're about to get into a bunch of networking jargon so feel free to skip this step if you are not super technical. [Here's their official video](https://collection.peplink.com/media/[Sfc]Tech-Full-Video-1.m4v) explaining the technology. It's worth a watch.
+
+SpeedFusion Cloud is a service that Peplink provides that allows you to multiplex your data connection between all of the ISPs your router is connected to. In my setup, I have Verizon and AT&T as my two ISPs. The idea of SpeedFusion is that it acts somewhat as a VPN where the connection from each ISP is tunnelled into one of SpeedFusion's cloud datacenters. Their cloud infrastructure will combine these two connections into a single connection that is ultimately used to communicate with the end services you're using. The idea is that their cloud system is able to detect if one of your WAN connections is suffering and will automatically reroute traffic through the other connection. This allows for automatic failover behavior.
+
+##### WAN Smoothing
+
+Their WAN smoothing technology works by duplicating your upload traffic through two or more WAN connections. Their cloud service will arbitrate these two connections and if a particular sequence number from the UDP connection is dropped from one stream, it will attempt to find the missing sequence from the other stream. This allows double redundancy over lossy and unreliable cellular connections that are often traversing microwave links (especially when you are at a remote location your local cell tower does not have access to a wired internet connection).
+
+The drawback of this scheme is that it increases both your latency (due to the fact that an intermediary service has to multiplex two WAN streams into one) and your overall data consumption (due to the UDP packets having to be sent twice). It may be worth the investment if video conferencing is critical to your job.
+
+## Conclusion
+
+Hopefully this post was useful to other Sol Horizon owners that are looking to add a more robust cellular installation to their rig. My current goal in life is to be able to travel the US in my rig while working in remote areas, and this project was the last piece I needed to make that dream a reality. 
+
+Let me know your thoughts below (you'll have to create a GitHub account to comment), thanks!
