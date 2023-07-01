@@ -4,7 +4,6 @@ categories:
   - RV
   - Intech Sol Horizon
 title: Intech Sol Horizon Cellular Setup
-draft: true
 ---
 
 Intech Sol Horizon Cellular Setup
@@ -285,7 +284,7 @@ The results were both phenomenal and underwhelming. The first speed test I ran w
 
 ![Verizon speed test](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.16.48 PM.png)
 
-The download speed is so bad that I was half convinced that I had installed something wrong. The AT&T results were mind blowing;
+The download speed is so bad that I was half convinced that I had installed something wrong. The AT&T results on the other hand were mind blowing;
 
 ![AT&T speed](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.19.54 PM.png)
 
