@@ -190,7 +190,7 @@ A few months prior, I had solar experts install a solar panel system on the RV a
 I used a 1" hole saw to drill a hole into the junction box. I installed a 3/4" cable glands that would serve as a water resistent entry point for the cables. 
 
 !!! warning
-    Cable glands are typically meant to only have a single cable passed through. Having multiple cables passing through weakens the water resistence of the hand-tightening seal. You might want to consider adding a small bit of expanding foam inside of the gland to make it truly watertight. I opted not to add the foam (yet), but I will be monitoring the box for any water intrusion during heavy rain. I will add expanding foam if I notice water intruding into the box.
+    Cable glands are typically meant to only have a single cable passed through. Having multiple cables passing through weakens the water resistence of the hand-tightened seal. You might want to consider adding a small bit of expanding foam inside of the gland to make it truly watertight. I opted not to add the foam (yet), but I will be monitoring the box for any water intrusion during heavy rain. I will add expanding foam if I notice water intruding into the box.
 
 <div class="grid cards" markdown>
 - ![cable gland](/images/intech_sol_horizon_cellular/IMG_1841.jpg){data-gallery="roof2"}
@@ -278,6 +278,23 @@ SpeedFusion Cloud is a service that Peplink provides that allows you to multiple
 Their WAN smoothing technology works by duplicating your upload traffic through two or more WAN connections. Their cloud service will arbitrate these two connections and if a particular sequence number from the UDP connection is dropped from one stream, it will attempt to find the missing sequence from the other stream. This allows double redundancy over lossy and unreliable cellular connections that are often traversing microwave links (especially when you are at a remote location your local cell tower does not have access to a wired internet connection).
 
 The drawback of this scheme is that it increases both your latency (due to the fact that an intermediary service has to multiplex two WAN streams into one) and your overall data consumption (due to the UDP packets having to be sent twice). It may be worth the investment if video conferencing is critical to your job.
+
+### Results
+
+The results were both phenomenal and underwhelming. The first speed test I ran was under my Verizon plan which I expected would do very well, but it simply :poop:'ed the bed:
+
+![Verizon speed test](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.16.48 PM.png)
+
+The download speed is so bad that I was half convinced that I had installed something wrong. The AT&T results were mind blowing;
+
+![AT&T speed](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.19.54 PM.png)
+
+!!! note
+    Although speedtest was showing that the connection was "Multi", I confirmed that only one carrier at a time was active, so we were not getting any bonded/multiplexed connections.
+
+I'm not really sure what to make of the Verizon result. Verizon is indeed the more popular carrier and tends to get congested during peak hours. The test was ran around 9PM on a Friday so it's possible that I was using it at the most congested time of day. On the other hand, the AT&T speeds were so mind numbingly fast, especially considering this was pure 4G LTE, not 5G.
+
+I will have to see how each carrier performs under various conditions while I'm traveling, so take these initial results with a grain of salt.
 
 ## Conclusion
 
