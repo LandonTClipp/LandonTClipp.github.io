@@ -4,6 +4,7 @@ categories:
   - RV
   - Intech Sol Horizon
 title: Intech Sol Horizon Cellular Setup
+description: Installing the Weboost Destination RV booster and the MobileMustHave cellular router
 ---
 
 Intech Sol Horizon Cellular Setup
@@ -86,11 +87,13 @@ You can then use simple 3M velcro tape to adhere the internal repeater box behin
 
 Obviously you'll want to clean up the wires like with a 3M cable hook or a coax staple. Once the repeater has been  mounted and connected, you need to find a place to put the internal antenna. Initially, I decided to place the antenna above the bed as seen here:
 
-<!-- picture of original antenna location -->
+![original antenna location](/images/intech_sol_horizon_cellular/IMG_1869.jpg)
 
 But I found this didn't work because the repeater box was flashing green and red which indicated that the internal and external antenna were getting to a runaway feedback loop condition, which caused the repeater to reduce the output power of the external antenna. This is a bit like putting a microphone up to its speaker. The feedback causes runaway noise and can only be fixed by reducing the volume (which is what happens when the repeater indicates a flashing red/green) or by moving the microphone away.
 
 I found that placing the antenna on the floor next to the bed was an easy option that didn't require any major cable routing. The feedback condition was removed and the signal as reported by my phone did indeed improve.
+
+![final antenna location](/images/intech_sol_horizon_cellular/IMG_1870.jpg)
 
 The bundled [weBoost app](https://apps.apple.com/us/app/weboost/id1611974453) is great for guiding you through the setup of pointing the antenna in the right direction and measuring the signal dB as reported by your phone. You can access the internal cellular metrics of your phone by dialing `*3001#12345#*`. 
 

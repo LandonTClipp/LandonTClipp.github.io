@@ -3,13 +3,14 @@ site_url: https://LandonTClipp.github.io/
 site_description: >-
   Landon's personal life and coding blog
 
-
 repo_name: LandonTClipp.github.io
 repo_url: https://github.com/LandonTClipp/LandonTClipp.github.io
 
 theme:
   name: material
   custom_dir: overrides
+  icon: 
+    logo: material/pine-tree
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
@@ -74,8 +75,12 @@ plugins:
     auto_caption: false
     caption_position: bottom
 - meta
-- social
+- social:
+    cards_layout_dir: layouts
+    cards_layout: custom
+    debug: false
 - search
+- typeset
 - open-in-new-tab
 
 nav:
