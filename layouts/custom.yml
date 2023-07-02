@@ -1,0 +1,48 @@
+size: { width: 1200, height: 630 }
+layers:
+- background:
+    image: layouts/background.jpg
+    color: "#4051b5DE"
+- size: { width: 70, height: 100 }
+  offset: { x: 62, y: 50 }
+  icon:
+    value: material/pine-tree
+    color: white
+- size: { width: 500, height: 100 }
+  offset: { x: 162, y: 80 }
+  typography:
+    content: "{{ config.site_name }}"
+    overflow: shrink
+    align: start
+    color: white
+    line:
+      amount: 3
+      height: 1.25
+    font:
+      family: Roboto
+      style: Bold
+- size: { width: 832, height: 310 }
+  offset: { x: 62, y: 160 }
+  typography:
+    content: "{{ page.title }}"
+    overflow: shrink
+    align: start
+    color: white
+    line:
+      amount: 3
+      height: 1.25
+    font:
+      family: Roboto
+      style: Bold
+- size: { width: 832, height: 100 }
+  offset: { x: 62, y: 500 }
+  typography:
+    content: "{{ page.meta.description }}"
+    overflow: shrink
+    align: start
+    color: white
+    line:
+      amount: 3
+      height: 1.25
+    font:
+      family: Roboto
