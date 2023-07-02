@@ -96,4 +96,4 @@ extra:
       link: https://www.linkedin.com/in/landonclipp/
   analytics:
     provider: google
-    property: G-F9YVCCMVEX
+    property: !ENV GOOGLE_ANALYTICS_KEY
