@@ -4,6 +4,7 @@ categories:
   - golang
   - programming
 title: Introducing Mockery's New packages Feature
+description: What the packages feature is, how it works, and why you should use it.
 ---
 
 Introducing Mockery's New `packages` Feature
