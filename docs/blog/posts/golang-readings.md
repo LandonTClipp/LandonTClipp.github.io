@@ -3,11 +3,14 @@ date: 2023-07-13
 categories:
   - programming
   - golang
-title: Preferred Goland Readings
+title: Preferred Golang Readings
 description: A list of articles exploring Golang
 ---
 
-This blog posts documents some exemplary blog posts and articles exploring interesting topics in Go performance, theory, and general news.
+Preferred Golang Readings
+========================
+
+This post documents some exemplary blog posts and articles exploring interesting topics in Go performance, theory, and general news.
 
 <!-- more -->
 
