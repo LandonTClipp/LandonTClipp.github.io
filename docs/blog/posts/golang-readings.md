@@ -7,6 +7,10 @@ title: Preferred Goland Readings
 description: A list of articles exploring Golang
 ---
 
+This blog posts documents some exemplary blog posts and articles exploring interesting topics in Go performance, theory, and general news.
+
+<!-- more -->
+
 Generics Degrade Performance
 ---------------------------
 
