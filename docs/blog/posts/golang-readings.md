@@ -14,6 +14,11 @@ This post documents some exemplary blog posts and articles exploring interesting
 
 <!-- more -->
 
+A Guide to the Go Garbage Collector
+------------------------------------
+
+https://tip.golang.org/doc/gc-guide
+
 Faster software through register based calling
 -----------------------------------------------
 
