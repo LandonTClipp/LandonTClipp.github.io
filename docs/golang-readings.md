@@ -14,6 +14,11 @@ This post documents some exemplary blog posts and articles exploring interesting
 
 <!-- more -->
 
+Go Interface Values Deep Dive
+-----------------------------
+
+https://github.com/akutz/go-interface-values/tree/main
+
 A Guide to the Go Garbage Collector
 ------------------------------------
 

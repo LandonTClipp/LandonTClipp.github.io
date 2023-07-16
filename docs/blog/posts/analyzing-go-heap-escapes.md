@@ -11,7 +11,7 @@ draft: true
 Analyzing Go Heap Escapes
 =========================
 
-In this blog post, we discover how you can analyze what variables the Go compiler decides should escape to the heap, a [common source of performance problems](https://tip.golang.org/doc/gc-guide#Eliminating_heap_allocations) in Golang. The gopls language server can be configured to provide insight into which variables are escaping to the heap, and what you can do to prevent that.
+In this blog post, we discover how you can analyze what variables the Go compiler decides should escape to the heap, a [common source of performance problems](https://tip.golang.org/doc/gc-guide#Eliminating_heap_allocations) in Golang. We'll also show how you can configure the gopls language server in VSCode to give you a Codelens view into your escaped variables.
 
 <!-- more -->
 
@@ -104,22 +104,6 @@ If we format the third entry, we see something very interesting:
           }
         }
       },
-      "message": "escflow:    flow: ~r0 = &foobar:"
-    },
-    {
-      "location": {
-        "uri": "file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go",
-        "range": {
-          "start": {
-            "line": 7,
-            "character": 9
-          },
-          "end": {
-            "line": 7,
-            "character": 9
-          }
-        }
-      },
       "message": "escflow:      from &foobar (address-of)"
     },
     {
@@ -188,7 +172,7 @@ We also see that there's another escape on line 12 in the `fmt.Print`.
 // ...
 ```
 
-What's going on here? `fmt.Print`'s argument is a [variadic string](https://pkg.go.dev/fmt#Print) which basically means we're passing `#!go []string{"foobar"}`, where the string `"foobar"` is the object that we've already shown was allocated to the heap (but this fact is irrelevant to the question of why the slice itself escaped to the heap). We're not returning the address of that object like in our first example, so why is it getting allocated? Do all slices escape to the heap? Let's try with our own simple `print` implementation:
+What's going on here? `fmt.Print`'s argument is a [variadic argument of type `any`](https://pkg.go.dev/fmt#Print) which basically means we're passing `#!go []any{"foobar"}`, where the string `"foobar"` is the object that we've already shown was allocated to the heap (but this fact is irrelevant to the question of why the slice itself escaped to the heap). `any` is just an alias for `inteface{}` so we're passing a slice of interfaces. Why is this a problem? Let's try with our own simple `print` implementation that instead uses `...string`:
 
 ```go linenums="1"
 package main
@@ -214,7 +198,7 @@ func main() {
 }
 ```
 
-The escape analysis says no!
+Does this escape? The analysis says no!
 
 ```bash
 $ go build -gcflags='-m=3 -json 0,file://out' . |& grep escape
@@ -223,123 +207,116 @@ $ go build -gcflags='-m=3 -json 0,file://out' . |& grep escape
 ./main.go:19:7: ... argument does not escape
 ```
 
-How interesting, so it must be something specific about Go's implementation of `Fprintf`. The source code for this function [is here](https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=260), so let's copy-paste this into our program and see if the compiler can tell what specifically about this implementation causes the escape. The underlying magic happens in the [`doPrint` function](https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=1203) so I ported over an implementation that is largely the same (minus the string format specifier logic, we make an assumption towards the end that the arguments are all strings):
+This brings us to the next point:
+
+### Interfaces can cause heap escapes
+
+This is not a new discovery. It has been known about [for a long time](http://npat-efault.github.io/programming/2016/10/10/escape-analysis-and-interfaces.html) by [multiple different bloggers](https://www.ardanlabs.com/blog/2023/02/interfaces-101-heap-escape.html). It turns out that the Go compiler is incapable of knowing at compile-time whether the underlying type in an interface is a value type or a pointer. As we already know, the compiler has to assume that a pointer's dereferenced value can outlive the life of its lexical scope, so it has to make the conservative assumption that the slice can contain pointers.
+
+
+We can see this is true even in the simple case where the argument is a bare interface:
 
 ```go linenums="1"
 package main
 
-import "reflect"
+import (
+	"bytes"
+	"io"
+)
 
-func doPrint(buf *[]byte, a ...any) {
-	prevString := false
-	for argNum, arg := range a {
-		isString := arg != nil && reflect.TypeOf(arg).Kind() == reflect.String // (1)!
-		// Add a space between two non-string arguments.
-		if argNum > 0 && !isString && !prevString {
-			*buf = append(*buf, byte(' '))
-		}
-		argAsString := arg.(string) // (2)!
-		*buf = append(*buf, []byte(argAsString)...) 
-		prevString = isString
-	}
+func print(w io.Writer, s string) {
+	asBytes := []byte(s)
+	w.Write(asBytes)
 }
 
 func main() {
-	foo := "foo"
-	buf := new([]byte)
-	doPrint(buf, foo)
+	buf := bytes.Buffer{}
+	print(&buf, "foobar")
 }
 ```
-
-1. This use of reflection is what the `fmt` package itself uses, so this remains in our port.
-2. The remaining code here is changed from the official implementation. The `fmt` implementation has a lot of complicated logic that parses the format specifiers (like `%d` or `%v`) and introduces special handling for each of these. Instead, I just make the assumption that the argument is always a string, so we can assert/cast its type into a string.
-
-What does the GC analysis say?
-
-```bash
-go build -gcflags='-m=3 -json 0,file://out' . |& grep escape
-# go-heap-escapes
-./main.go:14:30: ([]byte)(argAsString) does not escape
-./main.go:22:15: foo escapes to heap:
-./main.go:21:12: new([]byte) does not escape
-./main.go:22:9: ... argument does not escape
-./main.go:22:15: foo escapes to heap
+<div class="result">
+```title=""
+./main.go:9:20: ([]byte)(s) escapes to heap:
+./main.go:9:20:   flow: asBytes = &{storage for ([]byte)(s)}:
+./main.go:9:20:     from ([]byte)(s) (spill) at ./main.go:9:20
+./main.go:9:20:     from asBytes := ([]byte)(s) (assign) at ./main.go:9:10
+./main.go:9:20:   flow: {heap} = asBytes:
+./main.go:9:20:     from w.Write(asBytes) (call parameter) at ./main.go:10:9
+./main.go:8:12: parameter w leaks to {heap} with derefs=0:
+./main.go:8:12:   flow: {heap} = w:
+./main.go:8:12:     from w.Write(asBytes) (call parameter) at ./main.go:10:9
+./main.go:8:12: leaking param: w
+./main.go:8:25: s does not escape
+./main.go:9:20: ([]byte)(s) escapes to heap
 ```
+</div>
 
-It escapes, just like `fmt.FPrintf`. The explanation for the escape begins and ends at line 22, but it doesn't provide any useful information as to _why_ it decided that. However, there is an interesting comment it makes about line 5:
-
-```json
-{
-  "range": {
-    "start": {
-      "line": 5,
-      "character": 27
-    },
-    "end": {
-      "line": 5,
-      "character": 27
-    }
-  },
-  "severity": 3,
-  "code": "leak",
-  "source": "go compiler",
-  "message": "parameter a leaks to {heap} with derefs=1",
-```
-
-Okay, so something weird is happening inside of `doPrint` with our variadic argument `a`. Let's follow along the `relatedInformation` list to see where it leads us.
-
-```json
-      "message": "escflow:    flow: {temp} = a:" // (1)!
-      "message": "escflow:    flow: arg = *{temp}:" // (2)!
-      "message": "escflow:      from for loop (range-deref)" // (3)!
-      "message": "escflow:    flow: reflect.i = arg:" // (4)!
-      "message": "escflow:      from reflect.i := arg (assign-pair)" // (5)!
-      "message": "escflow:    flow: reflect.eface = reflect.i:" // (6)!
-```
-
-1. Line 5
-2. Line 7
-3. Line 7
-4. Line 8
-5. Line 8
-6. Line 8
-
-The `escflow` then dives into the `reflect` source code itself and meanders through a complicated web of logic, then comes back out into `main.go`, dives into `reflect` again, and back again into `main.go`. The very last comment it makes is:
-
-```json
-{
-      "location": {
-        "uri": "file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go",
-        "range": {
-          "start": {
-            "line": 8,
-            "character": 53
-          },
-          "end": {
-            "line": 8,
-            "character": 53
-          }
-        }
-      },
-      "message": "escflow:      from .autotmp_6.Kind() (call parameter)"
-    }
-```
-
-It appears that this long and complicated reason for having escaped ends with calling `.Kind()`. If I remove the use of `.Kind()` and just create some nonsensical code:
-
-```go
-		isString := arg != nil && reflect.TypeOf(arg) != nil
-```
-
-The GC analyzer then claims that nothing escapes! Fascinating! If we look at the signature of [`reflect.TypeOf`](https://pkg.go.dev/reflect#TypeOf), we see that it returns an interface [`reflect.Type`](https://pkg.go.dev/reflect#Type), where we then call `.Kind()`. This brings us to the next point:
-
-### Interfaces cause heap escapes
-
-This is not a new discovery. It has been known about [for a long time](http://npat-efault.github.io/programming/2016/10/10/escape-analysis-and-interfaces.html) by [multiple different bloggers](https://www.ardanlabs.com/blog/2023/02/interfaces-101-heap-escape.html). It turns out that the Go compiler is incapable of knowing at compile-time whether the method called from an interface somehow retains a copy of its receiver. This is a grammatical definition of the language itself: you have no way to know at compile-time what underlying type is implementing the interface. You can only obtain this information through runtime reflection. The underlying type's receiver may be a concrete value, which means the value is passed-by-value, or it could be a pointer type, which means the receiver can dereference, and potentially save that pointer, somewhere else in memory. It cannot know if it's dealing with a pointer receiver, so it therefore has to assume it's a possibility.
-
-Take for example a simple case:
+The compiler claims that `[]byte(s)` escapes because it's being passed to `w.Write`, which is a method on an interface. On the contrary, if we change `w` to `*bytes.Buffer`, the compiler no longer claims an escape:
 
 ```go linenums="1"
+package main
+
+import (
+	"bytes"
+)
+
+func print(w *bytes.Buffer, s string) {
+	asBytes := []byte(s)
+	w.Write(asBytes)
+}
+
+func main() {
+	buf := bytes.Buffer{}
+	print(&buf, "foobar")
+}
+```
+<div class="result">
+```title=""
+./main.go:7:12: w does not escape
+./main.go:7:29: s does not escape
+./main.go:8:20: ([]byte)(s) does not escape
+```
+</div>
+
+### Criteria for Escape
+
+[This repo](https://github.com/akutz/go-interface-values/blob/main/docs/03-escape-analysis/03-escape.md#criteria) provides a wonderful explanation of how escapes actually happen. 
+
+!!! quote "Criteria for Escapes"
+
+    There is one requirement to be eligible for escaping to the heap:
+
+    1. The variable must be a reference type, ex. channels, interfaces, maps, pointers, slices
+    2. A value type stored in an interface value can also escape to the heap
+    
+    If the above criteria is met, then a parameter will escape if it outlives its current stack frame. That usually happens when either:
+
+    1. The variable is sent to a function that assigns the variable to a sink outside the stack frame
+    2. Or the function where the variable is declared assigns it to a sink outside the stack frame
+
+Interfaces are a special case of the reference type, because as stated before, the compiler at compile-time has no idea what the implementation of the interface looks like so it has to shortcut its analysis and assume that an escape will happen. The methods defined on other reference types, like `*bytes.Buffer`, can be statically inspected by the analyzer to determine escapes.
+
+### Criteria for Leaks
+
+The linked repo above also explains to us what a leak is.
+
+!!! quote "Criteria for Leaks"
+
+    There are two requirements to be eligible for leaking:
+
+    1. The variable must be a function parameter
+    2. The variable must be a reference type, ex. channels, interfaces, maps, pointers, slices
+    
+    Value types such as built-in numeric types, structs, and arrays are not elgible to be leaked. That does not mean they are never placed on the heap, it just means a parameter of int32 is not going to send you running for a mop anytime soon.
+
+    If the above criteria is met, then a parameter will leak if:
+
+    1. The variable is returned from the same function and/or
+    2. is assigned to a sink outside of the stack frame to which the variable belongs.
+
+A leak can also happen without escaping. Consider the case where a value is allocated in frame 0, passed into frame 1 as a pointer, and frame 1 returns that pointer back to frame 0:
+
+```go
 package main
 
 import (
@@ -352,13 +329,25 @@ func print(w io.Writer, s string) {
 	w.Write(asBytes)
 }
 
+func foo(fooString *string) *string {
+	return fooString
+}
+
 func main() {
-	print(os.Stdout, "foobar")
+	hello := "hello"
+	f := foo(&hello)
+	print(os.Stdout, *f)
 }
 ```
+<div class="result">
+```title=""
+./main.go:14:2:[1] foo stmt: return fooString
+./main.go:13:10: parameter fooString leaks to ~r0 with derefs=0:
+./main.go:13:10:   flow: ~r0 = fooString:
+./main.go:13:10:     from return fooString (return) at ./main.go:14:2
+./main.go:13:10: leaking param: fooString to result ~r0 level=0
+```
+</div>
 
-As you know, `io.Writer` is an interface with a single method `.Write([]byte)`. The escape analyzer again tells us that `[]byte(s)` escapes _because_ it's passed as an argument to `io.Writer`.
+We can see it mentions `fooString` leaking, but nowhere does it say it escaped. This is because it knows that the string never escapes from `main` even though the pointer in `foo()` leaks its argument to the return value.
 
-![](/images/analyzing-go-heap-escapes/Screenshot 2023-07-15 at 10.10.10 PM.png)
-
-Because we don't know if the thing implementing `io.Writer` is saving a reference of `[]byte(s)` somewhere, it again assumes that it's a possibility.

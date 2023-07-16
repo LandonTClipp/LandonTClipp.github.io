@@ -87,6 +87,8 @@ nav:
   - index.md
   - Blog:
     - blog/index.md
+  - Golang Topics:
+    - Preferred Readings: golang-readings.md
 
 extra:
   social:

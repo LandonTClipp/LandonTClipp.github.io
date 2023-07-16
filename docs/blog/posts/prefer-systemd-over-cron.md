@@ -4,7 +4,6 @@ categories:
   - sysadmin
 title: Prefer Systemd Timers Over Cron
 description: You should never use crontabs again. Here's why systemd is better.
-draft: true
 ---
 
 Prefer Systemd Timers Over Cron
