@@ -351,3 +351,47 @@ func main() {
 
 We can see it mentions `fooString` leaking, but nowhere does it say it escaped. This is because it knows that the string never escapes from `main` even though the pointer in `foo()` leaks its argument to the return value.
 
+Configuring VSCode for GC Heap Escape Highlighting
+-------------------------------------------------
+
+You can configure VSCode to highlight cases of heap escapes:
+
+![](/images/analyzing-go-heap-escapes/Screenshot 2023-07-16 at 3.10.58 AM.png)
+
+The [VSCode plugin for Go](https://code.visualstudio.com/docs/languages/go) provides integrations with its `gopls` language server. The language server is simply a subprocess that VSCode calls and creates a UNIX pipe through which queries and responses to the server can be sent (you can also run gopls as a TCP server listening to a local port). `gopls` can be configured in your VSCode workspace settings to highlight instances of heap escape in your code.
+
+If VSCode has not yet created a workspace for your project, open `File`/`Save Workspace As`, and save a workspace file in the root of your project. The configuration I used for this blog is this:
+
+```yaml title="workspace.json"
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "go.enableCodeLens": {
+            "runtest": true # (1)!
+        },
+        "gopls": {
+            "ui.codelenses": { # (2)!
+                "generate": true,
+                "gc_details": true  # (3)!
+            },
+            "ui.diagnostic.annotations": {
+                "escape": true # (4)!
+            },
+            "ui.semanticTokens": true
+        },
+    }
+}
+```
+
+1. This is not relevant to GC highlighting, but is useful for Codelenses for unit tests
+2. These are the parameters you need to enable general GC annotations
+3. This enables a Codelens option for toggling the GC decisions on/off
+4. This actually enables the escape annotations
+
+After doing this, hovering your mouse over the highlights show the results of the escape analysis:
+
+![](/images/analyzing-go-heap-escapes/Screenshot 2023-07-16 at 3.12.03 AM.png)
