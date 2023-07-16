@@ -97,7 +97,7 @@ func main() {
 We call `go build` with the following garbage collector flags to tell it to generate debug info on various decisions it's made, and output the results into a directory called `out`:
 
 ```bash
-$ go build -gcflags='-m=3 -json 0,file://out' . |& grep escape
+$ go build -gcflags='-m=3' . |& grep escape
 # go-heap-escapes
 ./main.go:6:2: foobar escapes to heap:
 ./main.go:12:12: *r escapes to heap:
@@ -105,73 +105,19 @@ $ go build -gcflags='-m=3 -json 0,file://out' . |& grep escape
 ./main.go:12:12: *r escapes to heap
 ```
 
-It outputs `main.json` that tells us more detailed information:
+You can also specify `go build -gcflags='-m=3 -json=file://out' .` to have it print the results to a number of json files.
 
-```json title="out.json"
-{"version":0,"package":"main","goos":"darwin","goarch":"arm64","gc_version":"go1.20.6","file":"/Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go"}
-{"range":{"start":{"line":5,"character":6},"end":{"line":5,"character":6}},"severity":3,"code":"canInlineFunction","source":"go compiler","message":"cost: 8"}
-{"range":{"start":{"line":6,"character":2},"end":{"line":6,"character":2}},"severity":3,"code":"escape","source":"go compiler","message":"foobar escapes to heap","relatedInformation":[{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":7,"character":9},"end":{"line":7,"character":9}}},"message":"escflow:    flow: ~r0 = \u0026foobar:"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":7,"character":9},"end":{"line":7,"character":9}}},"message":"escflow:      from \u0026foobar (address-of)"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":7,"character":2},"end":{"line":7,"character":2}}},"message":"escflow:      from return \u0026foobar (return)"}]}
-{"range":{"start":{"line":10,"character":6},"end":{"line":10,"character":6}},"severity":3,"code":"cannotInlineFunction","source":"go compiler","message":"function too complex: cost 91 exceeds budget 80"}
-{"range":{"start":{"line":12,"character":12},"end":{"line":12,"character":12}},"severity":3,"code":"escape","source":"go compiler","message":"*r escapes to heap","relatedInformation":[{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":12},"end":{"line":12,"character":12}}},"message":"escflow:    flow: {storage for ... argument} = \u0026{storage for *r}:"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":12},"end":{"line":12,"character":12}}},"message":"escflow:      from *r (spill)"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":11},"end":{"line":12,"character":11}}},"message":"escflow:      from ... argument (slice-literal-element)"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":11},"end":{"line":12,"character":11}}},"message":"escflow:    flow: fmt.a = \u0026{storage for ... argument}:"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":11},"end":{"line":12,"character":11}}},"message":"escflow:      from ... argument (spill)"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":11},"end":{"line":12,"character":11}}},"message":"escflow:      from fmt.a := ... argument (assign-pair)"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":11},"end":{"line":12,"character":11}}},"message":"escflow:    flow: {heap} = *fmt.a:"},{"location":{"uri":"file:///opt/homebrew/Cellar/go/1.20.6/libexec/src/fmt/print.go","range":{"start":{"line":272,"character":15},"end":{"line":272,"character":15}}},"message":"inlineLoc"},{"location":{"uri":"file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go","range":{"start":{"line":12,"character":11},"end":{"line":12,"character":11}}},"message":"escflow:      from fmt.Fprint(os.Stdout, fmt.a...) (call parameter)"},{"location":{"uri":"file:///opt/homebrew/Cellar/go/1.20.6/libexec/src/fmt/print.go","range":{"start":{"line":272,"character":15},"end":{"line":272,"character":15}}},"message":"inlineLoc"}]}
-{"range":{"start":{"line":12,"character":12},"end":{"line":12,"character":12}},"severity":3,"code":"escape","source":"go compiler","message":""}
+Looking closer at the output, we see these messages:
+
+```
+./main.go:6:2: foobar escapes to heap:
+./main.go:6:2:   flow: ~r0 = &foobar:
+./main.go:6:2:     from &foobar (address-of) at ./main.go:7:9
+./main.go:6:2:     from return &foobar (return) at ./main.go:7:2
+./main.go:6:2: moved to heap: foobar
 ```
 
-If we format the third entry, we see something very interesting:
-
-```json title="main.json"
-{
-  "range": {
-    "start": {
-      "line": 6,
-      "character": 2
-    },
-    "end": {
-      "line": 6,
-      "character": 2
-    }
-  },
-  "severity": 3,
-  "code": "escape",
-  "source": "go compiler",
-  "message": "foobar escapes to heap",
-  "relatedInformation": [
-    {
-      "location": {
-        "uri": "file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go",
-        "range": {
-          "start": {
-            "line": 7,
-            "character": 9
-          },
-          "end": {
-            "line": 7,
-            "character": 9
-          }
-        }
-      },
-      "message": "escflow:      from &foobar (address-of)"
-    },
-    {
-      "location": {
-        "uri": "file:///Users/landonclipp/git/newLandonTClipp/LandonTClipp.github.io/code/go-heap-escapes-in-vscode/main.go",
-        "range": {
-          "start": {
-            "line": 7,
-            "character": 2
-          },
-          "end": {
-            "line": 7,
-            "character": 2
-          }
-        }
-      },
-      "message": "escflow:      from return &foobar (return)"
-    }
-  ]
-}
-```
-
-This is telling us very clearly that `#!json "message": "foobar escapes to heap",`. It's pretty obvious why, let's take a closer look.
+This is telling us very clearly that `foobar escapes to heap`. It's pretty obvious why, let's take a closer look.
 
 ```go linenums="1"
 func foobar() *string {
@@ -182,11 +128,11 @@ func foobar() *string {
 
 This function instantiates a string named `foobar` that has the value `"foobar"`. We return a pointer to `foobar` which then means that the string initially allocated on the stack of `func foobar() *string` can now be referenced by functions outside of this lexical scope. So the variable can't remain on the stack; it _has_ to escape to the heap.
 
-The JSON even tells us exactly why it escapes and what sequences of events had to happen for it to escape. By following the `escflow` messages, we can see the three necessary events were:
+The message even tells us exactly why it escapes and what sequences of events had to happen for it to escape. By following the escape flow messages, we can see the three necessary events were:
 
-```json
-"message": "escflow:      from &foobar (address-of)"
-"message": "escflow:      from return &foobar (return)"
+```
+./main.go:6:2:     from &foobar (address-of) at ./main.go:7:9
+./main.go:6:2:     from return &foobar (return) at ./main.go:7:2
 ```
 
 It escapes because we:
@@ -196,28 +142,27 @@ It escapes because we:
 
 ### Escapes of `fmt.Print`
 
+!!! todo
+
+    TODO: this needs to be fleshed out. The point is not driven home yet. Explain this: https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=1203
+
 We also see that there's another escape on line 12 in the `fmt.Print`. 
 
-```json
-{
-  "range": {
-    "start": {
-      "line": 12,
-      "character": 12
-    },
-    "end": {
-      "line": 12,
-      "character": 12
-    }
-  },
-  "severity": 3,
-  "code": "escape",
-  "source": "go compiler",
-  "message": "*r escapes to heap",
-// ...
+```
+./main.go:12:12: *r escapes to heap:
+./main.go:12:12:   flow: {storage for ... argument} = &{storage for *r}:
+./main.go:12:12:     from *r (spill) at ./main.go:12:12
+./main.go:12:12:     from ... argument (slice-literal-element) at ./main.go:12:11
+./main.go:12:12:   flow: fmt.a = &{storage for ... argument}:
+./main.go:12:12:     from ... argument (spill) at ./main.go:12:11
+./main.go:12:12:     from fmt.a := ... argument (assign-pair) at ./main.go:12:11
+./main.go:12:12:   flow: {heap} = *fmt.a:
+./main.go:12:12:     from fmt.Fprint(os.Stdout, fmt.a...) (call parameter) at ./main.go:12:11
+./main.go:12:11: ... argument does not escape
+./main.go:12:12: *r escapes to heap
 ```
 
-What's going on here? `fmt.Print`'s argument is a [variadic argument of type `any`](https://pkg.go.dev/fmt#Print) which basically means we're passing `#!go []any{"foobar"}`, where the string `"foobar"` is the object that we've already shown was allocated to the heap (but this fact is irrelevant to the question of why the slice itself escaped to the heap). `any` is just an alias for `inteface{}` so we're passing a slice of interfaces. Why is this a problem? Let's try with our own simple `print` implementation that instead uses `...string`:
+What's going on here? `fmt.Print`'s argument is a [variadic argument of type `any`](https://pkg.go.dev/fmt#Print) which basically means we're passing `#!go []any{"foobar"}`, where the string `"foobar"` is the object that we've already shown was allocated to the heap (but this fact is irrelevant to the question of why the slice itself escaped to the heap). `any` is just an alias for `interface{}` so we're passing a slice of interfaces. Why is this a problem? Let's try with our own simple `print` implementation that instead uses `...string`:
 
 ```go linenums="1"
 package main
@@ -242,26 +187,109 @@ func main() {
 	print(os.Stdout, foo)
 }
 ```
+<div class="result">
+```bash
+$ go build -gcflags='-m=3' .
+./main.go:8:12: parameter w leaks to {heap} with derefs=0:
+./main.go:8:12:   flow: {heap} = w:
+./main.go:8:12:     from w.Write(buf) (call parameter) at ./main.go:15:9
+./main.go:8:12: leaking param: w
+./main.go:8:25: s does not escape
+./main.go:19:6:[1] main stmt: foo := "foo"
+./main.go:19:2:[1] main stmt: var foo string
+./main.go:20:7:[1] main stmt: print(os.Stdout, foo)
+./main.go:20:7: ... argument does not escape
+```
+</div>
 
 Does this escape? The analysis says no!
 
-```bash
-$ go build -gcflags='-m=3 -json 0,file://out' . |& grep escape
-# go-heap-escapes
-./main.go:8:25: s does not escape
-./main.go:19:7: ... argument does not escape
+What you will see is that it claims `w` "leaks" to the heap, but that does not necessarily mean it's going to be allocated on the heap itself. It simply means that it has the _potential_ to leak onto the heap. Whether or not it does depends on the parent stack frames.
+
+Let's take a closer look at what `fmt.Print`is doing. Under the hood, it calls [this function](https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=1203). We can modify this to see what exactly causes the escape.
+
+```go linenums="1" hl_lines="22"
+package main
+
+import (
+	"bytes"
+	"reflect"
+)
+
+func doPrint(b *bytes.Buffer, a []any) {
+	prevString := false
+	for argNum, arg := range a {
+		isString := arg != nil && reflect.TypeOf(arg).Kind() == reflect.String
+		// Add a space between two non-string arguments.
+		if argNum > 0 && !isString && !prevString {
+			b.WriteByte(' ')
+		}
+		prevString = isString
+	}
+}
+
+func main() {
+	w := bytes.Buffer{}
+	doPrint(&w, []any{"foobar"})
+}
+```
+<div class="result">
+```title=""
+./main.go:8:14: b does not escape
+./main.go:22:20: "foobar" escapes to heap:
+./main.go:22:19: []any{...} does not escape
+./main.go:22:20: "foobar" escapes to heap
+```
+</div>
+
+After some investigation, I found that simply removing the `.Kind()` call results in no escapes happening:
+
+```go linenums="1"
+package main
+
+import (
+	"bytes"
+	"reflect"
+)
+
+func doPrint(b *bytes.Buffer, a []any) {
+	prevString := false
+	for argNum, arg := range a {
+		isString := arg != nil && reflect.TypeOf(arg) == reflect.TypeOf(arg) // (1)!
+		// Add a space between two non-string arguments.
+		if argNum > 0 && !isString && !prevString {
+			b.WriteByte(' ')
+		}
+		prevString = isString
+	}
+}
+
+func main() {
+	w := bytes.Buffer{}
+	doPrint(&w, []any{"foobar"})
+}
+```
+
+1. We do this `reflect.TypeOf` check to ensure that `reflect.TypeOf` is actually used. Our goal is to keep the `reflect.TypeOf` call but not the `.Kind()`
+
+```title=""
+./main.go:8:14: b does not escape
+./main.go:8:31: a does not escape
+./main.go:22:19: []any{...} does not escape
+./main.go:22:20: "foobar" does not escape
 ```
 
 This brings us to the next point:
 
-### Interfaces can cause heap escapes
+### Situations which cause escapes
+
+#### Use of interfaces
 
 This is not a new discovery. It has been known about [for a long time](http://npat-efault.github.io/programming/2016/10/10/escape-analysis-and-interfaces.html) by [multiple different bloggers](https://www.ardanlabs.com/blog/2023/02/interfaces-101-heap-escape.html). It turns out that the Go compiler is incapable of knowing at compile-time whether the underlying type in an interface is a value type or a pointer. As we already know, the compiler has to assume that a pointer's dereferenced value can outlive the life of its lexical scope, so it has to make the conservative assumption that the slice can contain pointers.
 
-
 We can see this is true even in the simple case where the argument is a bare interface:
 
-```go linenums="1"
+```go linenums="1" hl_lines="9"
 package main
 
 import (
@@ -323,6 +351,152 @@ func main() {
 ```
 </div>
 
+#### Use of reflection
+
+Going back to our [previous example](#escapes-of-fmtprint) where `fmt.Print` caused an escape, we showed that this happens because of the `reflect.TypeOf(arg).Kind()` call:
+
+```go linenums="1" hl_lines="15 14 11 20"
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"reflect"
+)
+
+func doPrint(b *bytes.Buffer, a ...any) {
+	randomBool := reflect.TypeOf(a) == reflect.TypeOf(a)
+	kind := reflect.TypeOf(a).Kind()
+
+	b.WriteByte(byte(0))
+	fmt.Print(randomBool)
+	fmt.Printf("%v", kind)
+}
+
+func main() {
+	w := bytes.Buffer{}
+	doPrint(&w, "foobar")
+}
+```
+<div class="result">
+```title=""
+./main.go:15:19: kind escapes to heap:
+./main.go:14:12: randomBool escapes to heap:
+./main.go:11:25: a escapes to heap:
+./main.go:9:14: b does not escape
+./main.go:10:31: a does not escape
+./main.go:10:52: a does not escape
+./main.go:11:25: a escapes to heap
+./main.go:14:11: ... argument does not escape
+./main.go:14:12: randomBool escapes to heap
+./main.go:15:12: ... argument does not escape
+./main.go:15:19: kind escapes to heap
+./main.go:20:9: ... argument escapes to heap:
+./main.go:20:14: "foobar" escapes to heap:
+./main.go:20:9: ... argument escapes to heap
+./main.go:20:14: "foobar" escapes to heap
+```
+</div>
+
+#### Use of reference types on interface methods
+
+What if we were to modify our example so that we're sending a value type to the method, instead of a reference type?
+
+```go linenums="1"
+package main
+
+type Writer interface {
+	Write(b string) (int, error)
+}
+
+type writer struct{}
+
+func (w writer) Write(b string) (int, error) {
+	return 0, nil
+}
+
+func print(w Writer) {
+	s := "foobar"
+	w.Write(s)
+}
+
+func main() {
+	var w Writer = writer{}
+	print(w)
+}
+```
+<div class="result">
+```title=""
+./main.go:9:23: b does not escape
+./main.go:19:23: writer{} does not escape
+```
+</div>
+
+And going back to a reference type, we can see yet again that simply changing the argument to a reference type causes it to escape.
+
+```go linenums="1" hl_lines="15"
+package main
+
+type Writer interface {
+	Write(b []byte) (int, error)
+}
+
+type writer struct{}
+
+func (w writer) Write(b []byte) (int, error) {
+	return 0, nil
+}
+
+func print(w Writer) {
+	s := "foobar"
+	b := []byte(s)
+	w.Write(b)
+}
+
+func main() {
+	var w Writer = writer{}
+	print(w)
+}
+```
+<div class="result">
+```title=""
+./main.go:9:23: b does not escape
+./main.go:15:14: ([]byte)(s) escapes to heap:
+./main.go:15:14: ([]byte)(s) escapes to heap
+./main.go:20:23: writer{} does not escape
+./main.go:21:7: ([]byte)(s) does not escape
+```
+</div>
+
+What if we use a reference type on a non-interface value? Instead of `print` taking a `Writer` interface, we modify it to take a `writer` struct directly:
+
+```go
+package main
+
+type writer struct{}
+
+func (w writer) Write(b []byte) (int, error) {
+	return 0, nil
+}
+
+func print(w writer) {
+	s := "foobar"
+	b := []byte(s)
+	w.Write(b)
+}
+
+func main() {
+	print(writer{})
+}
+```
+<div class="result">
+```title=""
+./main.go:5:23: b does not escape
+./main.go:11:14: ([]byte)(s) does not escape
+./main.go:16:7: ([]byte)(s) does not escape
+```
+</div>
+
 ### Criteria for Escape
 
 [This repo](https://github.com/akutz/go-interface-values/blob/main/docs/03-escape-analysis/03-escape.md#criteria) provides a wonderful explanation of how escapes actually happen. 
@@ -361,7 +535,7 @@ The linked repo above also explains to us what a leak is.
 
 A leak can also happen without escaping. Consider the case where a value is allocated in frame 0, passed into frame 1 as a pointer, and frame 1 returns that pointer back to frame 0:
 
-```go
+```go linenums="1"
 package main
 
 import (
@@ -395,3 +569,11 @@ func main() {
 </div>
 
 We can see it mentions `fooString` leaking, but nowhere does it say it escaped. This is because it knows that the string never escapes from `main` even though the pointer in `foo()` leaks its argument to the return value.
+
+Conclusions
+-----------
+
+These experiments lead us to conclude a few main points:
+
+1. Sending reference types as an argument to an interface method causes heap escapes
+2. Interface types themselves can escape, 
