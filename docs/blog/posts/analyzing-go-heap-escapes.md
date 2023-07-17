@@ -486,7 +486,7 @@ These experiments lead us to conclude a few main points:
 1. Usage of reflection involves unsafe pointers, which defeats the escape analysis and causes escapes.
 2. Some of the basic packages like `fmt` heavily use reflection (and consequently `unsafe.Pointer`) to determine the types being passed to print functions and how to resolve them into the print format specifiers.
 3. Reflection should not be used unless absolutely necessary. Leveraging type safety in go allows it to inspect your program to determine whether an object can truly remain on the stack, or if it must be on the heap. 
-4. Go makes conservative assumptions. If there is any doubt whatsoever about whether something can escape, it assumes it can. The alternative would be a language that segfaults due to unclear reasons.
+4. Go makes conservative assumptions. If there is any doubt whatsoever about whether something can escape, it assumes it can. The alternative would be a program that handles garbage data, and even segfaults, due to unclear reasons.
 5. Because it's difficult to know at compile time whether the underlying type of an interface could cause a value to escape, the escape analyzer has to assume it's possible. Thus, any time a reference type is passed to an interface, it will escape.
 6. Using VSCode Codelens can help us catch cases of heap escapes and make us think critically about whether or not our abstractions are truly necessary.
 
