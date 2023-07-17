@@ -34,7 +34,7 @@ layers:
     font:
       family: Roboto
       style: Bold
-- size: { width: 832, height: 100 }
+- size: { width: 1000, height: 100 }
   offset: { x: 62, y: 470 }
   typography:
     content: "{{ page.meta.description }}"
