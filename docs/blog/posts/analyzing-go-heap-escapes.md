@@ -142,10 +142,6 @@ It escapes because we:
 
 ### Use of reflection
 
-!!! todo
-
-    TODO: this needs to be fleshed out. The point is not driven home yet. Explain this: https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=1203
-
 We also see that there's another escape on line 12 in the `fmt.Print`. 
 
 ```
