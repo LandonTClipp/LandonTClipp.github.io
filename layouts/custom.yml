@@ -42,7 +42,7 @@ layers:
     align: start
     color: white
     line:
-      amount: 3
+      amount: 1.25
       height: 1.25
     font:
       family: Roboto
