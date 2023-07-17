@@ -35,7 +35,7 @@ layers:
       family: Roboto
       style: Bold
 - size: { width: 832, height: 100 }
-  offset: { x: 62, y: 500 }
+  offset: { x: 62, y: 470 }
   typography:
     content: "{{ page.meta.description }}"
     overflow: shrink
