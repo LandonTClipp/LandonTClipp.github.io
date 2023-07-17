@@ -70,14 +70,13 @@ After doing this, hovering your mouse over the highlights show the results of th
 
 ![](/images/analyzing-go-heap-escapes/Screenshot 2023-07-16 at 3.12.03 AM.png)
 
-Heap Escape Analysis
---------------------
+## Situations which cause escapes
 
 ### Returning pointers to local objects
 
-We can run standard go CLI tools to generate an analysis of our code here:
+We can run standard go CLI tools to generate an analysis of our code. The highlighted lines will represent lines where escapes were found.
 
-```go linenums="1"
+```go linenums="1" hl_lines="6 12"
 package main
 
 import "fmt"
@@ -140,7 +139,7 @@ It escapes because we:
 1. We took the address of `foobar`
 2. We returned that address
 
-### Escapes of `fmt.Print`
+### Use of reflection
 
 !!! todo
 
@@ -162,51 +161,7 @@ We also see that there's another escape on line 12 in the `fmt.Print`.
 ./main.go:12:12: *r escapes to heap
 ```
 
-What's going on here? `fmt.Print`'s argument is a [variadic argument of type `any`](https://pkg.go.dev/fmt#Print) which basically means we're passing `#!go []any{"foobar"}`, where the string `"foobar"` is the object that we've already shown was allocated to the heap (but this fact is irrelevant to the question of why the slice itself escaped to the heap). `any` is just an alias for `interface{}` so we're passing a slice of interfaces. Why is this a problem? Let's try with our own simple `print` implementation that instead uses `...string`:
-
-```go linenums="1"
-package main
-
-import (
-	"io"
-	"os"
-)
-
-func print(w io.Writer, s ...string) {
-	var buf []byte
-	for _, arg := range s {
-		for _, elem := range arg {
-			buf = append(buf, byte(elem))
-		}
-	}
-	w.Write(buf)
-}
-
-func main() {
-	foo := "foo"
-	print(os.Stdout, foo)
-}
-```
-<div class="result">
-```bash
-$ go build -gcflags='-m=3' .
-./main.go:8:12: parameter w leaks to {heap} with derefs=0:
-./main.go:8:12:   flow: {heap} = w:
-./main.go:8:12:     from w.Write(buf) (call parameter) at ./main.go:15:9
-./main.go:8:12: leaking param: w
-./main.go:8:25: s does not escape
-./main.go:19:6:[1] main stmt: foo := "foo"
-./main.go:19:2:[1] main stmt: var foo string
-./main.go:20:7:[1] main stmt: print(os.Stdout, foo)
-./main.go:20:7: ... argument does not escape
-```
-</div>
-
-Does this escape? The analysis says no!
-
-What you will see is that it claims `w` "leaks" to the heap, but that does not necessarily mean it's going to be allocated on the heap itself. It simply means that it has the _potential_ to leak onto the heap. Whether or not it does depends on the parent stack frames.
-
-Let's take a closer look at what `fmt.Print`is doing. Under the hood, it calls [this function](https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=1203). We can modify this to see what exactly causes the escape.
+What's going on here? Let's take a closer look at what `fmt.Print`is doing. Under the hood, it calls [this function](https://cs.opensource.google/go/go/+/refs/tags/go1.20.6:src/fmt/print.go;l=1203). We can port the relevant parts of this logic into our editor. We copy the lines that do all of the reflection but leave out the complicated format parameter logic that isn't needed in our toy example.
 
 ```go linenums="1" hl_lines="22"
 package main
@@ -244,6 +199,7 @@ func main() {
 
 After some investigation, I found that simply removing the `.Kind()` call results in no escapes happening:
 
+<div class="annotate">
 ```go linenums="1"
 package main
 
@@ -255,7 +211,9 @@ import (
 func doPrint(b *bytes.Buffer, a []any) {
 	prevString := false
 	for argNum, arg := range a {
-		isString := arg != nil && reflect.TypeOf(arg) == reflect.TypeOf(arg) // (1)!
+
+		isString := arg != nil &&
+			reflect.TypeOf(arg) == reflect.TypeOf(arg) // (1)!
 		// Add a space between two non-string arguments.
 		if argNum > 0 && !isString && !prevString {
 			b.WriteByte(' ')
@@ -268,24 +226,24 @@ func main() {
 	w := bytes.Buffer{}
 	doPrint(&w, []any{"foobar"})
 }
+
 ```
-
-1. We do this `reflect.TypeOf` check to ensure that `reflect.TypeOf` is actually used. Our goal is to keep the `reflect.TypeOf` call but not the `.Kind()`
-
+<div class="result">
 ```title=""
 ./main.go:8:14: b does not escape
 ./main.go:8:31: a does not escape
-./main.go:22:19: []any{...} does not escape
-./main.go:22:20: "foobar" does not escape
+./main.go:24:19: []any{...} does not escape
+./main.go:24:20: "foobar" does not escape
 ```
+</div>
+</div>
+1. We do this `reflect.TypeOf` check to ensure that `reflect.TypeOf` is actually used. Our goal is to keep the `reflect.TypeOf` call but not the `.Kind()`
 
-This brings us to the next point:
+As you can see, the `.Kind()` call itself seems to be the determining factor on whether or not it escapes to the heap. The exact reason is a bit unclear, but if you look at the [source code](https://cs.opensource.google/go/go/+/master:src/reflect/type.go;l=1154?q=Kind&ss=go%2Fgo:src%2Freflect%2F) of the `reflect` package, you see lots of examples of the usage of `unsafe.Pointer` which is probably defeating the escape analysis by obscuring the type that the pointer points to, which consequently limits its ability to inspect which lexical scopes have references to the type. Someone who is more familiar with the internals of `reflect` should chime in and let me know if this is an accurate assessment.
 
-### Situations which cause escapes
+### Use of interfaces
 
-#### Use of interfaces
-
-This is not a new discovery. It has been known about [for a long time](http://npat-efault.github.io/programming/2016/10/10/escape-analysis-and-interfaces.html) by [multiple different bloggers](https://www.ardanlabs.com/blog/2023/02/interfaces-101-heap-escape.html). It turns out that the Go compiler is incapable of knowing at compile-time whether the underlying type in an interface is a value type or a pointer. As we already know, the compiler has to assume that a pointer's dereferenced value can outlive the life of its lexical scope, so it has to make the conservative assumption that the slice can contain pointers.
+This is not a new discovery. It has been known about [for a long time](http://npat-efault.github.io/programming/2016/10/10/escape-analysis-and-interfaces.html) by [multiple different bloggers](https://www.ardanlabs.com/blog/2023/02/interfaces-101-heap-escape.html). It turns out that the Go compiler is incapable of knowing at compile-time whether the underlying type in an interface could cause the reference to escape the stack. From the perspective of the function taking an interface as an argument, this knowledge is difficult to know at compile time. [^1]
 
 We can see this is true even in the simple case where the argument is a bare interface:
 
@@ -351,54 +309,7 @@ func main() {
 ```
 </div>
 
-#### Use of reflection
-
-Going back to our [previous example](#escapes-of-fmtprint) where `fmt.Print` caused an escape, we showed that this happens because of the `reflect.TypeOf(arg).Kind()` call:
-
-```go linenums="1" hl_lines="15 14 11 20"
-package main
-
-import (
-	"bytes"
-	"fmt"
-	"reflect"
-)
-
-func doPrint(b *bytes.Buffer, a ...any) {
-	randomBool := reflect.TypeOf(a) == reflect.TypeOf(a)
-	kind := reflect.TypeOf(a).Kind()
-
-	b.WriteByte(byte(0))
-	fmt.Print(randomBool)
-	fmt.Printf("%v", kind)
-}
-
-func main() {
-	w := bytes.Buffer{}
-	doPrint(&w, "foobar")
-}
-```
-<div class="result">
-```title=""
-./main.go:15:19: kind escapes to heap:
-./main.go:14:12: randomBool escapes to heap:
-./main.go:11:25: a escapes to heap:
-./main.go:9:14: b does not escape
-./main.go:10:31: a does not escape
-./main.go:10:52: a does not escape
-./main.go:11:25: a escapes to heap
-./main.go:14:11: ... argument does not escape
-./main.go:14:12: randomBool escapes to heap
-./main.go:15:12: ... argument does not escape
-./main.go:15:19: kind escapes to heap
-./main.go:20:9: ... argument escapes to heap:
-./main.go:20:14: "foobar" escapes to heap:
-./main.go:20:9: ... argument escapes to heap
-./main.go:20:14: "foobar" escapes to heap
-```
-</div>
-
-#### Use of reference types on interface methods
+### Use of reference types on interface methods
 
 What if we were to modify our example so that we're sending a value type to the method, instead of a reference type?
 
@@ -497,7 +408,7 @@ func main() {
 ```
 </div>
 
-### Criteria for Escape
+## Criteria for Escape
 
 [This repo](https://github.com/akutz/go-interface-values/blob/main/docs/03-escape-analysis/03-escape.md#criteria) provides a wonderful explanation of how escapes actually happen. 
 
@@ -515,7 +426,7 @@ func main() {
 
 Interfaces are a special case of the reference type, because as stated before, the compiler at compile-time has no idea what the implementation of the interface looks like so it has to shortcut its analysis and assume that an escape will happen. The methods defined on other reference types, like `*bytes.Buffer`, can be statically inspected by the analyzer to determine escapes.
 
-### Criteria for Leaks
+## Criteria for Leaks
 
 The linked repo above also explains to us what a leak is.
 
@@ -575,5 +486,103 @@ Conclusions
 
 These experiments lead us to conclude a few main points:
 
-1. Sending reference types as an argument to an interface method causes heap escapes
-2. Interface types themselves can escape, 
+1. Usage of reflection involves unsafe pointers, which defeats the escape analysis and causes escapes.
+2. Some of the basic packages like `fmt` heavily use reflection (and consequently `unsafe.Pointer`) to determine the types being passed to print functions and how to resolve them into the print format specifiers.
+3. Reflection should not be used unless absolutely necessary. Leveraging type safety in go allows it to inspect your program to determine whether an object can truly remain on the stack, or if it must be on the heap. 
+4. Go makes conservative assumptions. If there is any doubt whatsoever about whether something can escape, it assumes it can. The alternative would be a language that segfaults due to unclear reasons.
+5. Because it's difficult to know at compile time whether the underlying type of an interface could cause a value to escape, the escape analyzer has to assume it's possible. Thus, any time a reference type is passed to an interface, it will escape.
+6. Using VSCode Codelens can help us catch cases of heap escapes and make us think critically about whether or not our abstractions are truly necessary.
+
+### Lifetime annotations
+
+The grammar of Go does not provide hints to the compiler that lets us tell it what the lexical scope of a reference will be. Other languages like Rust provide [lifetime annotations](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html) that allow us compile-time guarantees that a reference will be valid at runtime. These annotations allow you to tell the compiler which lifetime a reference is attached to. Take for example this theoreical Go code:
+
+```rust title="example.go"
+func yIfLongest<'a, 'b>(x &'a *string, y &'b *string) &'b *string {
+    if len(*y) > len(*x) {
+      return y
+    }
+    s := ""
+    return &s
+}
+```
+
+This is some complicated syntax, but those familiar with Rust might understand what's going on. Otherwise, bear with me. `func longest<'a, 'b>` is telling us that there are two separate lifetimes in our function, `'a` and `'b`. We assign `x` to the `'a` lifetime and `y` to the `'b` lifetime, and claim that the return value's lifetime should be the same as `y`. If the compiler has this information and already knows that `y` should never escape the stack, then it by extension knows that the return value also cannot escape the stack. Consider the alternative Go code without these annotations:
+
+<div class="annotate">
+```go hl_lines="11"
+package main
+
+import (
+	"os"
+)
+
+func yIfLongest(x, y *string) *string {
+	if len(*y) > len(*x) {
+		return y
+	}
+	s := ""
+	return &s
+}
+
+func main() {
+	x := "ab"
+	y := "abcde"
+
+	result := yIfLongest(&x, &y)
+	os.Setenv("Y", *result) //(1)!
+}
+```
+<div class="result">
+```title=""
+./main.go:11:2: s escapes to heap:
+./main.go:11:2:   flow: ~r0 = &s:
+./main.go:11:2:     from &s (address-of) at ./main.go:12:9
+./main.go:11:2:     from return &s (return) at ./main.go:12:2
+./main.go:7:20: parameter y leaks to ~r0 with derefs=0:
+./main.go:7:20:   flow: ~r0 = y:
+./main.go:7:20:     from return y (return) at ./main.go:9:3
+./main.go:7:17: x does not escape
+./main.go:7:20: leaking param: y to result ~r0 level=0
+./main.go:11:2: moved to heap: s
+```
+</div>
+</div>
+
+1. I'm not using `fmt.Print` here because we've already shown that it causes escapes. Setting an environment variable is an easy task that doesn't require the use of `reflect`.
+
+The escape analyzer is showing us that while the `y` argument does indeed leak out of the function because we're returning it in some logical flows, it never escapes because it inspects `main()` and sees there's no opportunity for it to escape. However, it does decide that `s` must escape because we're returning the address of a local variable.
+
+While go perfectly allows returning the address of local variables (due to the escape analysis and its garbage collector), a similar activity in Rust will greet you with an angry compiler[^2]:
+
+```rust
+fn longest<'a>(x: &str, y: &str) -> &'a str {
+    let result = String::from("");
+    result.as_str()
+}
+```
+<div class="result">
+```title=""
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0515]: cannot return reference to local variable `result`
+  --> src/main.rs:11:5
+   |
+11 |     result.as_str()
+   |     ^^^^^^^^^^^^^^^ returns a reference to data owned by the current function
+
+For more information about this error, try `rustc --explain E0515`.
+error: could not compile `chapter10` due to previous error
+```
+</div>
+
+This is because Rust does not automatically allocate memory, while Go does. This is a tradeoff that Go has made for the benefit of a simpler developer experience. If Go were to adopt a lifetime annotation syntax, theoretically it could allow the compiler to make decisions about whether or not a local variable needs to escape to the heap. If we're telling it that its lifetime is equal to `y`, then the compiler will decide based off of what `y`'s lifetime is doing. This could provide much more intelligence around the other more confusing behavior surrounding interfaces (and maybe even reflection).
+
+### Parting thoughts
+
+I have seen lots of people grow upset about how even simple instructions like `fmt.Print` cause heap allocations. If you dive into the theoretical basis of Go and what it's trying to achieve, you begin to realize just how complicated it is to get reference lifetime decisions right if you don't have the proper syntax. Go's entire mantra is to make the grammar as simple and approachable as possible, which is likely why this sytax hasn't manifested. This has _real benefits_ when it comes to developer productivity as instead of agonizing over the details of memory management, you simply write the code you want and the memory is handled for you.
+
+Go trades some amount of memory and CPU efficiency for the goal of developer friendliness. Its code is _easy to read_ because debates about where memory should reside are deferred to the compiler, thus the syntax becomes minimalistic and free of memory-managing instructions. It is no doubt that languages like C, C++, or Rust will always beat Go in terms of latency, memory efficiency, and CPU efficiency. But the workflows Go is geared towards (cloud and systems-of-systems based environments) are heavily bound by external IO anyway, which makes most of these complaints irrelevant. There are many tools at your disposal, and you must always pick the right one for the job.
+
+[^1]: It might theoretically be possible to ascertain this knowledge by inspecting the entirety of a program and seeing if any type that is boxed into an interface might cause the reference to escape. To my knowledge, the escape analyzer does not do this, and it's unknown whether doing such a whole-program analysis is even tractable.
+[^2]: These examples are copied directly from Rust's [documentation](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
