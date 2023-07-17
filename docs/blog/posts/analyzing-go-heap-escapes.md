@@ -4,8 +4,7 @@ categories:
   - programming
   - golang
 title: Analyzing Go Heap Escapes
-description: Analyzing how Go decides what escapes a heap, and how to visualize it in VSCode Codelens.
-draft: true
+description: Analyzing how Go decides what escapes a heap, and how to visualize it in VSCode.
 ---
 
 Analyzing Go Heap Escapes
