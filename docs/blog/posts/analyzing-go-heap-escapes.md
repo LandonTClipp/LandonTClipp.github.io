@@ -573,7 +573,7 @@ error: could not compile `chapter10` due to previous error
 ```
 </div>
 
-This is because Rust does not automatically allocate memory, while Go does. This is a tradeoff that Go has made for the benefit of a simpler developer experience. If Go were to adopt a lifetime annotation syntax, theoretically it could allow the compiler to make more informed decisions about whether or not a local variable needs to escape to the heap. If we're telling it that its lifetime is equal to `y`, then the compiler will decide based off of what `y`'s lifetime is doing. This could provide much more intelligence around the other more confusing behavior surrounding interfaces (and maybe even reflection).
+This is because Rust does not automatically allocate memory, while Go does. This is a tradeoff that Go has made for the benefit of a simpler developer experience. If Go were to adopt a lifetime annotation syntax, theoretically it could allow the compiler to make more informed decisions about whether or not a local variable needs to escape to the heap. If we're telling it that its lifetime is equal to `y`, then the compiler will decide based off of what `y`'s lifetime is doing. This could provide much more intelligence around the other more confusing behavior surrounding interfaces (and maybe even reflection). It could also enable the compiler to disallow any operations that would violate the lifetime we specified. This would reduce the flexibility granted by the garbage collector, but we could avoid its cost.
 
 ### Parting thoughts
 
