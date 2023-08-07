@@ -128,7 +128,7 @@ func foobar() *string {
 
 This function instantiates a string named `foobar` that has the value `"foobar"`. We return a pointer to `foobar` which then means that the string initially allocated on the stack of `func foobar() *string` can now be referenced by functions outside of this lexical scope. So the variable can't remain on the stack; it _has_ to escape to the heap.
 
-The message even tells us exactly why it escapes and what sequences of events had to happen for it to escape. By following the escape flow messages, we can see the three necessary events were:
+The message even tells us exactly why it escapes and what sequences of events had to happen for it to escape. By following the escape flow messages, we can see the two necessary events were:
 
 ```
 ./main.go:6:2:     from &foobar (address-of) at ./main.go:7:9
@@ -308,7 +308,7 @@ func main() {
 
 ### Use of reference types on interface methods
 
-What if we were to modify our example so that we're sending a value type to the method, instead of a reference type?
+It's not enough to say that interfaces cause escapes, as we'll find below. Interfaces cause escapes _only if we send reference types_ to one of its methods. The astute reader may have noticed that in our previous examples, the types we were sending to our interfaces were all reference types. What if we send value types?
 
 ```go linenums="1"
 package main
