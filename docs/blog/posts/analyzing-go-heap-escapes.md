@@ -504,7 +504,7 @@ func yIfLongest<'a, 'b>(x &'a *string, y &'b *string) &'b *string {
 }
 ```
 
-This is some complicated syntax, but those familiar with Rust might understand what's going on. Otherwise, bear with me. `func longest<'a, 'b>` is telling us that there are two separate lifetimes in our function, `'a` and `'b`. We assign `x` to the `'a` lifetime and `y` to the `'b` lifetime, and claim that the return value's lifetime should be the same as `y`. If the compiler has this information and already knows that `y` should never escape the stack, then it by extension knows that the return value also cannot escape the stack. Consider the alternative Go code without these annotations:
+This is some complicated syntax, but those familiar with Rust might understand what's going on. Otherwise, bear with me. `func yIfLongest<'a, 'b>` is telling us that there are two separate lifetimes in our function, `'a` and `'b`. We assign `x` to the `'a` lifetime and `y` to the `'b` lifetime, and claim that the return value's lifetime should be the same as `y`. If the compiler has this information and already knows that `y` should never escape the stack, then it by extension knows that the return value also cannot escape the stack. Consider the alternative Go code without these annotations:
 
 <div class="annotate">
 ```go hl_lines="11"
