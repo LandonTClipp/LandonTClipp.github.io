@@ -277,9 +277,9 @@ SpeedFusion Cloud is a service that Peplink provides that allows you to multiple
 
 ##### WAN Smoothing
 
-Their WAN smoothing technology works by duplicating your upload traffic through two or more WAN connections. Their cloud service will arbitrate these two connections and if a particular sequence number from the UDP connection is dropped from one stream, it will attempt to find the missing sequence from the other stream. This allows double redundancy over lossy and unreliable cellular connections that are often traversing microwave links (especially when you are at a remote location your local cell tower does not have access to a wired internet connection).
+Their WAN smoothing technology works by duplicating your upload traffic through two or more WAN connections. Their cloud service will arbitrate these two connections and if a particular sequence number from the UDP connection is dropped from one stream, it will attempt to find the missing sequence from the other stream. This allows double redundancy over lossy and unreliable cellular connections that are often traversing microwave links (especially when you are at a remote location where your local cell tower does not have access to a wired internet connection).
 
-The drawback of this scheme is that it increases both your latency (due to the fact that an intermediary service has to multiplex two WAN streams into one) and your overall data consumption (due to the UDP packets having to be sent twice). It may be worth the investment if video conferencing is critical to your job.
+The drawback of this scheme is that it increases both your latency (due to the fact that an intermediary service has to multiplex two WAN streams into one) and your overall data consumption (due to the packets having to be sent twice). It may be worth the investment if video conferencing is critical to your job.
 
 ### Results
 
