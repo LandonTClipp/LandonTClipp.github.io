@@ -283,20 +283,16 @@ The drawback of this scheme is that it increases both your latency (due to the f
 
 ### Results
 
-The results were both phenomenal and underwhelming. The first speed test I ran was under my Verizon plan which I expected would do very well, but it simply :poop:'ed the bed:
+The results were simultaneously phenomenal and underwhelming. The first speed test I ran was under my Verizon plan which I expected would do very well, but it simply :poop:'ed the bed:
 
 ![Verizon speed test](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.16.48 PM.png)
 
-The download speed is so bad that I was half convinced that I had installed something wrong. The AT&T results on the other hand were mind blowing;
+The download speed is so bad that I was half convinced that I had installed something wrong. The AT&T results on the other hand faired much better:
 
 ![AT&T speed](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.19.54 PM.png)
 
-!!! note
-    Although speedtest was showing that the connection was "Multi", I confirmed that only one carrier at a time was active, so we were not getting any bonded/multiplexed connections.
+Throughout my tests on the road, the same story tends to play out where Verizon performs "okay-ish" and AT&T performs well. This isn't entirely unexpected as my Verizon plan is rate limited to 25Mbps and the AT&T plan is truly unlimited. The Peplink router provides WAN signal quality graphs and I've found that in general, AT&T is capable of better Signal-to-Noise Ratios (SNR) in remote areas out west. Even so, a good SNR number is not indicative of a more reliable connection as it also depends on the provider's access to wired internet (meaning the quality of their microwave relays matters a lot), how congested the local tower is, what path the microwave relays take, the weather, and what bands your local tower supports.
 
-I'm not really sure what to make of the Verizon result. Verizon is indeed the more popular carrier and tends to get congested during peak hours. The test was ran around 9PM on a Friday so it's possible that I was using it at the most congested time of day. On the other hand, the AT&T speeds were so mind numbingly fast, especially considering this was pure 4G LTE, not 5G.
-
-I will have to see how each carrier performs under various conditions while I'm traveling, so take these initial results with a grain of salt.
 
 ## Conclusion
 
