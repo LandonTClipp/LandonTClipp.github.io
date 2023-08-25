@@ -246,14 +246,60 @@ hot-budget check allows inlining for call main.isSquare (cost 370) at ./main.go:
 ./main.go:33:29: inlining call to isSquare
 ```
 
-Great! Even with the default parameters it still shows `main.isSquare` is allowed to be inlined. The assembly says the same thing:
+Great! Even with the default parameters it still shows `main.isSquare` is allowed to be inlined. What does the assembly say?
 
 ```
   main.go:33            0x4af96e                e82df9ffff              CALL main.isSquare(SB)     
 ```
 
-Oh no! :scream: What happened? 
+Oh no! :scream: What happened? Let's take a closer look at what the inliner actually did:
 
+```
+./main.go:11:6: can inline isSquare with cost 370 as: func(uint64) (bool, uint64) { sqrt := math.Sqrt(float64(i)); expensive := NewExpensive(); os.Setenv("EXPENSIVE_VALUE", strconv.Itoa(int(expensive))); return sqrt == float64(uint64(sqrt)), uint64(sqrt) }
+```
+
+Okay so the `isSquare` call itself doesn't actually get inlined, despite what the inline optimization tells us. However, we can compare all of the CALL instructions to see what got axed:
+
+```
+$ go build -pgo=off .
+$ go tool objdump ./fermats-factorization |& grep CALL | sort -u |& grep main.go
+  main.go:11            0x4ae220                e83b01fbff              CALL runtime.morestack_noctxt.abi0(SB)
+  main.go:17            0x4ae164                e897ffffff              CALL main.NewExpensive(SB)
+  main.go:18            0x4ae185                e896a1fdff              CALL os.Setenv(SB)
+  main.go:23            0x4ae34b                e81000fbff              CALL runtime.morestack_noctxt.abi0(SB)
+  main.go:33            0x4ae2f6                e825feffff              CALL main.isSquare(SB)
+  main.go:40            0x4ae340                e89b37f8ff              CALL runtime.gopanic(SB)
+  main.go:43            0x4ae581                e8dafdfaff              CALL runtime.morestack_noctxt.abi0(SB)
+  main.go:49            0x4ae451                e84a010000              CALL main.profile(SB)
+  main.go:52            0x4ae46b                e8d0fdffff              CALL main.findFactors(SB)
+  main.go:53            0x4ae4a0                e89bc2f5ff              CALL runtime.convT64(SB)
+  main.go:53            0x4ae4c0                e87bc2f5ff              CALL runtime.convT64(SB)
+  main.go:53            0x4ae4e0                e85bc2f5ff              CALL runtime.convT64(SB)
+  main.go:53            0x4ae501                e83ac2f5ff              CALL runtime.convT64(SB)
+  main.go:55            0x4ae55a                ffd6                    CALL SI
+$ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgodebug=1" . &>/dev/null
+$ go tool objdump ./fermats-factorization |& grep CALL | sort -u |& grep main.go
+  main.go:11            0x4af3a7                e87403fbff              CALL runtime.morestack_noctxt.abi0(SB)
+  main.go:33            0x4af96e                e82df9ffff              CALL main.isSquare(SB)
+  main.go:40            0x4afae8                e8332ef8ff              CALL runtime.gopanic(SB)
+  main.go:43            0x4afb08                e813fcfaff              CALL runtime.morestack_noctxt.abi0(SB)
+  main.go:49            0x4af4b4                e867060000              CALL main.profile(SB)
+  main.go:53            0x4af9f4                e887adf5ff              CALL runtime.convT64(SB)
+  main.go:53            0x4afa20                e85badf5ff              CALL runtime.convT64(SB)
+  main.go:53            0x4afa4a                e831adf5ff              CALL runtime.convT64(SB)
+  main.go:53            0x4afa73                e808adf5ff              CALL runtime.convT64(SB)
+  main.go:55            0x4afacf                ffd1                    CALL CX
+
+```
+
+As we can see, the things that did get inlined were:
+
+1. `main.go:17`
+2. `main.go:18`
+3. `main.go:23`
+4. `main.go:52`
+
+The astute observer may notice that both the visualization graph and the PGO itself claiemd that `main.isSquare` got inlined, but the message tells us it just got inlined as another function. I won't go as far as to claim that it's a bug in the compiler but it's certainly not expected.
 
 
 The 
