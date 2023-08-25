@@ -195,7 +195,7 @@ The output of the go build provides a DOT notation graph, seen here:
 
 You can copy-paste this into https://dreampuf.github.io/GraphvizOnline/ to visualize it:
 
-![](/images/golang-profile-guided-optimizations/graphviz-1.png)
+![](docs/images/golang-profile-guided-optimizations/graphviz-threshold-90.svg)
 
 You can see here that the PGO determined all of the paths in red are considered hot because their weights exceed the calculated hot callsite threshold:
 
@@ -246,7 +246,11 @@ hot-budget check allows inlining for call main.isSquare (cost 370) at ./main.go:
 ./main.go:33:29: inlining call to isSquare
 ```
 
-Great! Even with the default parameters it still shows `main.isSquare` is allowed to be inlined. What does the assembly say?
+Great! Even with the default parameters it still shows `main.isSquare` is allowed to be inlined. The graph visualization agrees:
+
+![](/images/golang-profile-guided-optimizations/graphviz-threshold-defaults.svg)
+
+What does the assembly say?
 
 ```
   main.go:33            0x4af96e                e82df9ffff              CALL main.isSquare(SB)     
