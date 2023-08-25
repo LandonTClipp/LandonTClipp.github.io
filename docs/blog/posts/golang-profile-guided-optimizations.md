@@ -303,7 +303,7 @@ As we can see, the things that did get inlined were:
 3. `main.go:23`
 4. `main.go:52`
 
-The astute observer may notice that both the visualization graph and the PGO itself claiemd that `main.isSquare` got inlined, but the message tells us it just got inlined as another function. I won't go as far as to claim that it's a bug in the compiler but it's certainly not expected.
+The astute observer may notice that both the visualization graph and the PGO itself claimed that `main.isSquare` got inlined, but the message tells us it just got inlined as another function. I won't go as far as to claim that it's a bug in the compiler but it's certainly not expected.
 
 
 The 
