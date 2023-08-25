@@ -88,7 +88,7 @@ This is a total of 3.32447 seconds on average, which translates to a 2.39% speed
 
 ### Using in-lined pprof
 
-The method used in `main.go` is to use `runtime/pprof`. The code for that is relativelßy simple:
+The method used in `main.go` is to use `runtime/pprof`. The code for that is relatively simple:
 
 ```go title="profile.go" linenums="1"
 --8<-- "code/profile-guided-optimizations/fermats-factorization/profile.go"
