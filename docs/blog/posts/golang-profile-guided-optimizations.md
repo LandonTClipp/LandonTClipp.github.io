@@ -34,7 +34,7 @@ We will explore all of these options and discuss the merits and downfalls of eac
 
 The type of workload we're aiming to optimize is a compute-heavy one. Therefore we want to create a program that performs some computationally heavy algorithm. One of the hardest computational problems is the factorization of the product of two large prime numbers, a problem that RSA cryptography relies on being exceedingly expensive for its security guarantees. There are [a large number of algorithms](https://en.wikipedia.org/wiki/Integer_factorization#Factoring_algorithms) we could choose from, but I'll choose [Fermat's Factorization](https://en.wikipedia.org/wiki/Fermat%27s_factorization_method) due to its simplicity.
 
-```go title="main.go"
+```go title="main.go" linenums="1"
 --8<-- "code/profile-guided-optimizations/fermats-factorization/main.go"
 ```
 
@@ -90,7 +90,7 @@ This is a total of 3.32447 seconds on average, which translates to a 2.39% speed
 
 The method used in `main.go` is to use `runtime/pprof`. The code for that is relativelßy simple:
 
-```go title="profile.go"
+```go title="profile.go" linenums="1"
 --8<-- "code/profile-guided-optimizations/fermats-factorization/profile.go"
 ```
 
