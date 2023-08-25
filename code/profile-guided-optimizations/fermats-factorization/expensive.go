@@ -43,7 +43,6 @@ func NewExpensive() Expensive {
 	a += 1
 	a += 1
 	a += 1
-	a += 1
 	expensive := Expensive(a)
 	return expensive
 }
