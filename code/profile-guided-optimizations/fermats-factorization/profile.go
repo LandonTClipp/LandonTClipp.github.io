@@ -3,11 +3,16 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
+	httpPprof "net/http/pprof"
 	"os"
 	"runtime/pprof"
 )
 
-func profile(cpuprofile string) (close func()) {
+func runtimeProf(cpuprofile string) (close func()) {
+	if cpuprofile == "" {
+		return func() {}
+	}
 	fmt.Println("starting CPU profile")
 	f, err := os.Create(cpuprofile)
 	if err != nil {
@@ -23,4 +28,10 @@ func profile(cpuprofile string) (close func()) {
 		f.Close()
 	}
 	return close
+}
+
+func httpProf() {
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", httpPprof.Handler("")))
+	}()
 }

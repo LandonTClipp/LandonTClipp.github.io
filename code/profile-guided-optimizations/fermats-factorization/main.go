@@ -30,7 +30,7 @@ func findFactors(n uint64) (uint64, uint64, uint64) {
 		// We call isSquare redundantly many times in order to artificially inflate its
 		// runtime weight to induce it to be inlined later on.
 		for j := 0; j < 20; j++ {
-			issquare, sqrt = isSquare(uint64(potentialSquare))
+			issquare, sqrt = isSquare(potentialSquare)
 		}
 
 		if issquare {
@@ -43,13 +43,26 @@ func findFactors(n uint64) (uint64, uint64, uint64) {
 func main() {
 	var nFlag = flag.Uint64("n", 8051, "integer to find prime for")
 	var cpuprofile = flag.String("cpuprofile", "default.pgo", "write cpu profile to `file`")
+	var httpProfile = flag.Bool("httpprof", false, "")
+	var infinite = flag.Int("infinite", 0, "")
+
 	flag.Parse()
 
 	// Start the CPU profiling routines using runtime/pprof
-	close := profile(*cpuprofile)
+	close := runtimeProf(*cpuprofile)
 	defer close()
 
-	factor1, factor2, numIterations := findFactors(*nFlag)
-	fmt.Printf("Found factors with i=%d: %d = %d x %d\n", numIterations, *nFlag, factor1, factor2)
+	if *httpProfile {
+		httpProf()
+	}
+
+	if *infinite != 0 {
+		for {
+			findFactors(*nFlag)
+		}
+	} else {
+		factor1, factor2, numIterations := findFactors(*nFlag)
+		fmt.Printf("Found factors with i=%d: %d = %d x %d\n", numIterations, *nFlag, factor1, factor2)
+	}
 
 }

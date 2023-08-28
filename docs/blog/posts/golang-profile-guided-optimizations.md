@@ -41,19 +41,37 @@ The type of workload we're aiming to optimize is a compute-heavy one. Therefore 
 <div class="result">
 ```title=""
 $ go build .
-$ ./fermants-factorization -n 10976191241513578168
+$ ./fermats-factorization -n 10976191241513578168
 starting CPU profile
 Found factors with i=1377437: 10976191241513578168 = 3314411264 x 3311656390
 ```
 </div>
 
+## The Benchmark
 
+The benchmark we'll be using is going to be captured by timing the program's runtime over 100 iterations without any optimizations applied. We'll allow the program to generate a profile during each iteration, but we won't use it when building. 
+
+```
+$ go build -pgo=off .
+$ time for i in {1..100} ; do ./fermats-factorization -n 10976191241513578168 -cpuprofile="" ; done
+real    5m53.244s
+user    5m13.847s
+sys     0m1.101s
+```
+
+Dividing the real time by 100 gives us 3.53244 seconds. This will be the value we use to compare the effectivess of our PGO builds.
 
 ## Gathering Profiles
 
 ### Using test-based pprof
 
 We can generate a CPU profile by simply enabling it during tests. This will give us a rather artificial example of the CPU profile as compared to its real-world behavior, but it might be interesting nonetheless. Let's see what happens.
+
+We can write a simple benchmarking test for `findFactors`:
+
+```go title="main_test.go"
+--8<-- "code/profile-guided-optimizations/fermats-factorization/main_test.go"
+```
 
 
 We run the test benchmarking and tell `go test` to output the cpuprofile to a file named `default.pgo`, which is the default name that `go build` looks for when reading profiles.
@@ -102,7 +120,7 @@ foobar
 
 ## What gets optimized and why?
 
-The Go compiler has this concept called an "inlining budget". The budget controls the maximum number of nodes that a function can have before its considered not inlinable. A node is roughly analagous to the number of nodes in the program's Abstract Syntax Tree (AST), or rather each individual element of a piece of code, like a name declaration, an assignment, a constant declaration, function calls etc. By default, the [`inlineMaxBudget`](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L46) has a value of 80, which means that any functions with more than 80 nodes are not inlinable. If you have profiled your program and the profiler has determined your particular function is "hot", then the [budget increases to 2000](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L76).
+The Go compiler has this concept called an "inlining budget". The budget controls the maximum number of syntatical nodes that a function can have before its considered not inlinable. A node is roughly analagous to the number of nodes in the program's Abstract Syntax Tree (AST), or rather each individual element of a piece of code, like a name declaration, an assignment, a constant declaration, function calls etc. By default, the [`inlineMaxBudget`](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L46) has a value of 80, which means that any functions with more than 80 nodes are not inlinable. If you have profiled your program and the profiler has determined your particular function is "hot", then the [budget increases to 2000](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L76).
 
 ### `pgoinlinebudget`
 
@@ -120,7 +138,7 @@ The way to read this variable is "Profile Guided Optimization Inline Cumulative 
 
 ```
 $ go build .
-$ ./fermants-factorization -n 10976191241513578168
+$ ./fermats-factorization -n 10976191241513578168
 starting CPU profile
 Found factors with i=1377437: 10976191241513578168 = 3314411264 x 3311656390
 $ go build -pgo=auto -gcflags="-m=2 -pgoprofile=default.pgo -d=pgoinlinecdfthreshold=90,pgodebug=3" .
@@ -195,7 +213,7 @@ The output of the go build provides a DOT notation graph, seen here:
 
 You can copy-paste this into https://dreampuf.github.io/GraphvizOnline/ to visualize it:
 
-![](docs/images/golang-profile-guided-optimizations/graphviz-threshold-90.svg)
+![](/images/golang-profile-guided-optimizations/graphviz-threshold-90.svg)
 
 You can see here that the PGO determined all of the paths in red are considered hot because their weights exceed the calculated hot callsite threshold:
 
@@ -215,7 +233,7 @@ And the visualization shows us that now only two of the call paths are considere
 
 ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.png)
 
-Remember that the PGO will select the edge weights whose cumulative distribution in "weight", or total program runtime, adds up to the percentage set by `pgoinlinecdfthreshold`. This is why setting a higher percentage includes more weights because their total runtime distribution will be at or above this value.
+Mathematically, the cumulative distribution function maps `x`, or the `hot-callsite-thres-from-CDF` value, to the `y` value of `pgoinlinecdfthreshold`. It chooses the weight that corresponds to the runtime percentage you specify such that only the methods which eat `pgoinlinecdfthreshold` percentage of the runtime are considered hot.
 
 
 ## Viewing the assembly
@@ -224,7 +242,7 @@ Let's have some fun an convince ourselves on what's really going on here. Sure t
 
 ```
 $ go build -pgo=off 
-$ go tool objdump ./fermants-factorization |& less
+$ go tool objdump ./fermats-factorization |& less
 ```
 
 By grepping for `main.go:33` we indeed find the location where `main.isSquare` is called on the function stack:
@@ -298,145 +316,105 @@ $ go tool objdump ./fermats-factorization |& grep CALL | sort -u |& grep main.go
 
 As we can see, the things that did get inlined were:
 
-1. `main.go:17`
-2. `main.go:18`
-3. `main.go:23`
-4. `main.go:52`
+1. `main.go:17`: `CALL main.NewExpensive(SB)`
+2. `main.go:18`: `CALL os.Setenv(SB)`
+3. `main.go:23`: `CALL runtime.morestack_noctxt.abi0(SB)`
+4. `main.go:52`: `CALL main.findFactors(SB)`
 
-The astute observer may notice that both the visualization graph and the PGO itself claimed that `main.isSquare` got inlined, but the message tells us it just got inlined as another function. I won't go as far as to claim that it's a bug in the compiler but it's certainly not expected.
+<div class="annotate" markdown>
 
+Both the visualization graph and the PGO itself claimed that `main.isSquare` got inlined, but the message tells us it just got inlined as another function. It's clear that the calls within `isSquare` themselves are getting inlined, but `isSquare` itself when called from `findFactors` does not. To add to the confusion, the inline analysis node chart shows the function call being inlined too:
 
-The 
+??? note "inline analysis"
 
-The default threshold for hot inlining is 99%: https://github.com/golang/go/blob/e92c0f846c54d88f479b1c48f0dbc001d2ff53e9/src/cmd/compile/internal/inline/inl.go#L74
-
-This can be modified using something like:
-
-```
-go build -pgo=auto -gcflags="-m -m -m -pgoprofile=default.pgo -d=pgoinlinebudget=2000,pgoinlinecdfthreshold=0"
-```
-
-You can print PGO debug statements like:
-
-```
-(ve) [lclipp@fpif-vcsl1 fermats-factorization][0] $ go build -pgo=auto -gcflags="-m -pgoprofile=default.pgo -d=pgoinlinebudget=2000,pgoinlinecdfthreshold=1,pgodebug=3" . 
-```
-
-You can visualize the dot graph by copying the DOT format here: https://dreampuf.github.io/GraphvizOnline/
-
-!!! tip
-    This allowed me to make isSquare inlined:
-
+    ```yaml title=""
+    hot-budget check allows inlining for call main.isSquare (cost 370) at ./main.go:33:29 in function main.findFactors
+    ./main.go:33:29: inlining call to isSquare
+    ./main.go:33:29: Before inlining: 
+    .   CALLFUNC STRUCT-(bool, uint64) tc(1) # main.go:33:29
+    .   .   NAME-main.isSquare Class:PFUNC Offset:0 Used FUNC-func(uint64) (bool, uint64) tc(1) # main.go:11:6
+    .   CALLFUNC-Args
+    .   .   NAME-main.potentialSquare Class:PAUTO Offset:0 OnStack Used uint64 tc(1) # main.go:26:3
+    ./main.go:33:29: After inlining 
+    .   INLCALL-init
+    .   .   AS2-init
+    .   .   .   DCL # main.go:33:29
+    .   .   .   .   NAME-main.i Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:15
+    .   .   AS2 Def tc(1) # main.go:33:29
+    .   .   AS2-Lhs
+    .   .   .   NAME-main.i Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:15
+    .   .   AS2-Rhs
+    .   .   .   NAME-main.potentialSquare Class:PAUTO Offset:0 OnStack Used uint64 tc(1) # main.go:26:3
+    .   .   INLMARK Index:6 # +main.go:33:29
+    .   INLCALL STRUCT-(bool, uint64) tc(1) # main.go:33:29
+    .   INLCALL-Body
+    .   .   AS-init
+    .   .   .   DCL # main.go:33:29 main.go:12:2
+    .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
+    .   .   AS Def tc(1) # main.go:33:29 main.go:12:7
+    .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
+    .   .   .   CALLFUNC float64 tc(1) # main.go:33:29 main.go:12:19
+    .   .   .   .   NAME-math.Sqrt Class:PFUNC Offset:0 Used FUNC-func(float64) float64 tc(1) # sqrt.go:93:6
+    .   .   .   CALLFUNC-Args
+    .   .   .   .   CONV float64 tc(1) # main.go:33:29 main.go:12:28
+    .   .   .   .   .   NAME-main.i Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:15
+    .   .   AS-init
+    .   .   .   DCL # main.go:33:29 main.go:17:2
+    .   .   .   .   NAME-main.expensive Class:PAUTO Offset:0 InlLocal OnStack Used main.Expensive tc(1) # main.go:33:29 main.go:17:2
+    .   .   AS Def tc(1) # main.go:33:29 main.go:17:12
+    .   .   .   NAME-main.expensive Class:PAUTO Offset:0 InlLocal OnStack Used main.Expensive tc(1) # main.go:33:29 main.go:17:2
+    .   .   .   CALLFUNC main.Expensive tc(1) # main.go:33:29 main.go:17:27
+    .   .   .   .   NAME-main.NewExpensive Class:PFUNC Offset:0 Used FUNC-func() Expensive tc(1) # expensive.go:5:6
+    .   .   CALLFUNC error tc(1) # main.go:33:29 main.go:18:11
+    .   .   .   NAME-os.Setenv Class:PFUNC Offset:0 Used FUNC-func(string, string) error tc(1) # env.go:119:6
+    .   .   CALLFUNC-Args
+    .   .   .   LITERAL-"EXPENSIVE_VALUE" string tc(1) # main.go:33:29 main.go:18:12
+    .   .   .   CALLFUNC string tc(1) # main.go:33:29 main.go:18:43
+    .   .   .   .   NAME-strconv.Itoa Class:PFUNC Offset:0 Used FUNC-func(int) string tc(1) # itoa.go:34:6
+    .   .   .   CALLFUNC-Args
+    .   .   .   .   CONV int tc(1) # main.go:33:29 main.go:18:48
+    .   .   .   .   .   NAME-main.expensive Class:PAUTO Offset:0 InlLocal OnStack Used main.Expensive tc(1) # main.go:33:29 main.go:17:2
+    .   .   BLOCK tc(1) # main.go:33:29
+    .   .   BLOCK-List
+    .   .   .   DCL tc(1) # main.go:33:29
+    .   .   .   .   NAME-main.~R0 Class:PAUTO Offset:0 InlFormal OnStack Used bool tc(1) # main.go:33:29 main.go:11:26
+    .   .   .   DCL tc(1) # main.go:33:29
+    .   .   .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
+    .   .   .   AS2 tc(1) # main.go:33:29
+    .   .   .   AS2-Lhs
+    .   .   .   .   NAME-main.~R0 Class:PAUTO Offset:0 InlFormal OnStack Used bool tc(1) # main.go:33:29 main.go:11:26
+    .   .   .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
+    .   .   .   AS2-Rhs
+    .   .   .   .   EQ bool tc(1) # main.go:33:29 main.go:20:14
+    .   .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
+    .   .   .   .   .   CONV float64 tc(1) # main.go:33:29 main.go:20:31
+    .   .   .   .   .   .   CONV uint64 tc(1) # main.go:33:29 main.go:20:32
+    .   .   .   .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
+    .   .   .   .   CONV uint64 tc(1) # main.go:33:29 main.go:20:47
+    .   .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
+    .   .   .   GOTO main..i1 tc(1) # main.go:33:29
+    .   .   LABEL main..i1 # main.go:33:29
+    .   INLCALL-ReturnVars
+    .   .   NAME-main.~R0 Class:PAUTO Offset:0 InlFormal OnStack Used bool tc(1) # main.go:33:29 main.go:11:26
+    .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
     ```
-    $ ./fermats-factorization -n 10976191241513578168
-    $ go build -pgo=auto -gcflags="-m=2 -pgoprofile=default.pgo -d=pgoinlinebudget=2000,pgoinlinecdfthreshold=90,pgodebug=3" .  |& grep isSquare
-    ```
 
-    The trick was setting pgoinlinecdfthreshold to a high enough percentage value so that the function is considered "hot", and setting pgoinlinebudget to a high enough value so that our budget for hot functions is high enough. 
+I won't go as far to say as this is a bug in the Go compiler as it might be ignorant of some underlying fact of how the inlined functions are eventually rendered in machine code, but the truth of the matter is I remain confused because of the messages claiming `isSquare` being inlined despite the fact that the compiled code clearly refutes the claim.
 
-    The value from the debug output here:
+## Optimization results
 
-    ```
-    hot-callsite-thres-from-CDF=0.36993769470404986
-    ```
+Let's go ahead and use the profile we gathered during our initial run [from the original benchmark](#the-benchmark). 
 
-    is inversely correllated to the pgoinlinecdfthreshold value. 
-
-### Dissecting the original binary
-
-By disassembling the original binary, we can see that the call to `isSquare` is not inlined. This is by design actually, as we added an "expensive" call to `NewExpensive()` that caused `isSquare`'s total node count to exceed Go's budget of 80. You can see the compiler tell us this by using verbose GC flags:
-
-```bash
-$ go build -pgo=off -gcflags="-m -m -m" . |& grep isSquare
-./main.go:11:6: cannot inline isSquare: function too complex: cost 84 exceeds budget 80
 ```
-
-By doing an objdump, we can also see this fact in the assembly code:
-
-```bash
-$ go tool objdump ./fermats-factorization |& grep 'main.go:30'
-  main.go:30            0x4887f1                e82afeffff              CALL main.isSquare(SB)       
-```
-
-Keep this fact in mind for the following section.
-
-### Dissecting the profile-guided binary
-
-Using the results from the test-driven profile, we can disassemble the executable and look at what optimization decisions the go compiler made. Let's take a look at the line where we call out to `isSquare`:
-
-```go
-issquare, sqrt := isSquare(uint64(potentialSquare))
-```
-
-```bash
-$ go tool objdump ./fermats-factorization
-```
-<div class="result">
-```title=""
-  main.go:22            0x4878d9                90                      NOPL                                    
-  main.go:10            0x4878da                4885d2                  TESTQ DX, DX                            
-  main.go:10            0x4878dd                7c0a                    JL 0x4878e9                             
-  main.go:10            0x4878df                0f57db                  XORPS X3, X3                            
-  main.go:10            0x4878e2                f2480f2ada              CVTSI2SDQ DX, X3                        
-  main.go:10            0x4878e7                eb18                    JMP 0x487901                            
-  main.go:10            0x4878e9                4889d7                  MOVQ DX, DI                             
-  main.go:10            0x4878ec                83e201                  ANDL $0x1, DX                           
-  main.go:10            0x4878ef                48d1ef                  SHRQ $0x1, DI                           
-  main.go:10            0x4878f2                4809d7                  ORQ DX, DI                              
-  main.go:10            0x4878f5                0f57db                  XORPS X3, X3                            
-  main.go:10            0x4878f8                f2480f2adf              CVTSI2SDQ DI, X3                        
-  main.go:10            0x4878fd                f20f58db                ADDSD X3, X3                            
-  sqrt.go:94            0x487901                f20f51db                SQRTSD X3, X3                           
-  main.go:11            0x487905                660f2ed3                UCOMISD X3, X2            
-```
-</div>
-
-We can see that the entire flow of function calls have been completely inlined. There are no `CALL` instructions to `isSquare`, and even the call to `math.Sqrt` has been inlined.
-
-
-
-## Junkyard
-
-### test-based pprof
-
-
-We can write a simple benchmarking test for `findFactors`
-
-```go title="main_test.go"
---8<-- "code/profile-guided-optimizations/fermats-factorization/main_test.go"
-```
-
-And then run the benchmark for 20 seconds and get an average result
-
-```bash
-$ go test -bench=. -benchtime 20s
-
-numIterations=1377437 fact1=3314411264 fact2=3311656390
-
-goos: linux
-goarch: amd64
-pkg: fermats-factorization
-cpu: Intel(R) Xeon(R) CPU E5-2699A v4 @ 2.40GHz
-BenchmarkFindFactors 
-
-numIterations=1377437 fact1=3314411264 fact2=3311656390
-numIterations=1377437 fact1=3314411264 fact2=3311656390
-
-     681          32507910 ns/op
-PASS
-ok      fermats-factorization  25.699s
-```
-
-This is useful, but we want to find the average execution time of the executable, not the test. So instead we can run it 100 times and average the result:
-
-```bash
-$ time for i in {1..100} ; do ./fermats-factorization -n 10976191241513578168 ; done
-Found factors with i=1377437: 10976191241513578168 = 3314411264 x 3311656390
+$ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgodebug=1" . &>/dev/null
+$ time for i in {1..100} ; do ./fermats-factorization -n 10976191241513578168  ; done
 [...]
-
-real    5m40.590s
-user    5m17.049s
-sys     0m0.564s
+real    5m37.930s
+user    5m4.000s
+sys     0m1.198s
 ```
 
-This gives us an average runtime of 3.4059 seconds.
+This totals 3.37930 seconds per run, which is a (1 - (3.37930 / 3.53244)) * 100 = 4.34% improvement. This lies within the 2%-7% range that the Go devs expect can be reasonably achieved, so our optimizations are clearly having an effect!
+
+## Parting thoughts
+
