@@ -41,7 +41,7 @@ func findFactors(n uint64) (uint64, uint64, uint64) {
 }
 
 func main() {
-	var nFlag = flag.Uint64("n", 8051, "integer to find prime for")
+	var nFlag = flag.Uint64("n", 8051, "integer to factor")
 	var cpuprofile = flag.String("cpuprofile", "default.pgo", "write cpu profile to `file`")
 	var httpProfile = flag.Bool("httpprof", false, "")
 	var infinite = flag.Int("infinite", 0, "")
@@ -62,6 +62,9 @@ func main() {
 		}
 	} else {
 		factor1, factor2, numIterations := findFactors(*nFlag)
+		if factor1*factor2 != *nFlag {
+			panic(fmt.Sprintf("%d x %d != %d", factor1, factor2, *nFlag))
+		}
 		fmt.Printf("Found factors with i=%d: %d = %d x %d\n", numIterations, *nFlag, factor1, factor2)
 	}
 
