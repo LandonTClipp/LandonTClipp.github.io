@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	httpPprof "net/http/pprof"
+	_ "net/http/pprof"
 	"os"
 	"runtime/pprof"
 )
@@ -32,6 +32,6 @@ func runtimeProf(cpuprofile string) (close func()) {
 
 func httpProf() {
 	go func() {
-		log.Println(http.ListenAndServe("localhost:6060", httpPprof.Handler("")))
+		log.Println(http.ListenAndServe("localhost:6060", nil))
 	}()
 }
