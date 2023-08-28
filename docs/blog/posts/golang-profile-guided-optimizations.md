@@ -472,7 +472,7 @@ This is set to 2000 by default but you can specify any value you want. This name
 
 ### `pgoinlinecdfthreshold`
 
-The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the _cumulative weights_ of a function node and all its sub-nodes must have in order to be considered hot. Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=90` and run the PGO build and graph the DOT notation conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied.
+The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=90` and run the PGO build and graph the DOT notation conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied.
 
 ```
 $ go build .
@@ -571,8 +571,18 @@ And the visualization shows us that now only two of the call paths are considere
 
 ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.png)
 
-Mathematically, the cumulative distribution function maps `x`, or the `hot-callsite-thres-from-CDF` value, to the `y` value of `pgoinlinecdfthreshold`. It chooses the weight that corresponds to the runtime percentage you specify such that only the methods which eat `pgoinlinecdfthreshold` percentage of the runtime are considered hot.
 
+### What is a CDF?
+
+[Cumulative Distribution Functions](https://en.wikipedia.org/wiki/Cumulative_distribution_function) are mathematical models that tell you the probability `y` that some random variable `X` will take on a value less than or equal to the value on the `x` axis. In statistics, this can be used, for example, to find the probability that you will draw from a deck of cards the value between 2-8 (aces high). The CDF for such a scenaio is quite simple, since the probability of drawing any particular valued card is uniformly distributed at 1/13. Thus the CDF is:
+
+$$
+F_X(x) = \begin{cases}
+(x-1)/13 &:\ 2 <= x <= 14
+\end{cases}
+$$
+
+For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage `y` (that being percentage of runtime), what is the edge weight threshold `x` such that the sum of all edge weights at or above `x` equals `y` percentage of the total program runtime?" The answer `x` is the `hot-callsite-thres-from-CDF` value we saw Go print out, and `y` is the `pgoinlinecdfthreshold` value we specified to the build process.
 
 ## Viewing the assembly
 
