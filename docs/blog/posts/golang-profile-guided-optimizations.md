@@ -431,7 +431,7 @@ It shows the links we can get to inspect many things about the program state. He
 
 The method to actually get a profile can be done using the `profile` endpoint. By default, hitting the endpoint will collect an endpoint over a period of 30 seconds, but this can be modified through the `seconds` query parameter. For example:
 
-```
+``` title=""
 $ curl -o /dev/null -v http://localhost:6060/debug/pprof/profile?seconds=1
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -747,7 +747,7 @@ Both the visualization graph and the PGO itself claimed that `main.isSquare` got
     .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
     ```
 
-I won't go as far to say as this is a bug in the Go compiler as it might be ignorant of some underlying fact of how the inlined functions are eventually rendered in machine code, but the truth of the matter is I remain confused because of the messages claiming `isSquare` being inlined despite the fact that the compiled code clearly refutes the claim.
+I won't go as far to say as this is a bug in the Go compiler as I might be ignorant of some underlying fact of how the inlined functions are eventually rendered in machine code, but the truth of the matter is I remain confused because of the messages claiming `isSquare` being inlined despite compiled code clearly refuting this.
 
 ## Optimization results
 
