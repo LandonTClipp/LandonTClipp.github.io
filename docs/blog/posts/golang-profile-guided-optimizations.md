@@ -571,6 +571,13 @@ And the visualization shows us that now only two of the call paths are considere
 
 ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.png)
 
+Indeed if we sum the weights of the two red edges and divide by the total weight, we get:
+
+$$
+\frac{3.92 + 1.86}{3.92 + 1.86 + 1.03 + 0.62 + 0.41 + 0.41 + 0.21} * 100 = 68.3%
+$$
+
+If we were to include the next highest weight of 1.03, the CDF would give us 80.5%, so it appears Go's algoritm is exclusive in its calculations. Or in other words, it keeps the cumulative distribution at or below the threshold you define.
 
 ### What is a CDF?
 
@@ -578,11 +585,28 @@ And the visualization shows us that now only two of the call paths are considere
 
 $$
 F_X(x) = \begin{cases}
-(x-1)/13 &:\ 2 <= x <= 14
+\frac{x-1}{13} &:\ 2 <= x <= 14
 \end{cases}
 $$
 
-For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage `y` (that being percentage of runtime), what is the edge weight threshold `x` such that the sum of all edge weights at or above `x` equals `y` percentage of the total program runtime?" The answer `x` is the `hot-callsite-thres-from-CDF` value we saw Go print out, and `y` is the `pgoinlinecdfthreshold` value we specified to the build process.
+For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F(p)$ such that the sum of all edge weights at or above $F(p)$ equals $p$ percentage of the total program runtime?" The answer $F(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
+
+
+$$
+W = \{w_0, w_1, ... w_n\}
+$$
+
+$$
+w_i > w_{i+1}
+$$
+
+Where $W$ is the set of all edge weights in a program.
+
+$$
+F(p) = \frac{(\sum_{j=0}^{m} W_i) \le x}{\sum W}
+$$
+
+Where $p$ is the `pgoinlinecdfthreshold` passed to the build. Basically, we sum the weights $W$ up to index $m$ such that the sum is less than or equal to our `pgoinlinecdfthreshold` value. $F(p)$ is the resultant `hot-callsite-thres-from-CDF` value that determines the lowest weight an edge must have in order for it to be considered hot. Go's implementation of this equation is [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155).
 
 ## Viewing the assembly
 
