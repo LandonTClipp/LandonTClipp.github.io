@@ -603,7 +603,7 @@ $$
 Where $W$ is the set of all edge weights in a program.
 
 $$
-F(p) = \frac{\sum_{i=0}^{m} W_i}{\sum W} [F(p,m) \le p]
+F(p) = \frac{\sum_{i=0}^{m} W_i}{\sum W} s.t. \le p
 $$
 
 Where $p$ is the `pgoinlinecdfthreshold` passed to the build and $m$ is the greatest possible integer possible that satisfies the inequality $F(p) \le p$. Basically, we sum the weights $W$ up to index $m$ such that the sum is less than or equal to our `pgoinlinecdfthreshold` value. $F(p)$ is the resultant `hot-callsite-thres-from-CDF` value that determines the lowest weight an edge must have in order for it to be considered hot. Go's implementation of this equation is [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155).
