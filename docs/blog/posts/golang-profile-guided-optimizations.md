@@ -608,6 +608,10 @@ $$
 
 Where $p$ is the `pgoinlinecdfthreshold` passed to the build and $m$ is the greatest possible integer possible that satisfies the inequality $F(p) \le p$. Basically, we sum the weights $W$ up to index $m$ such that the sum is less than or equal to our `pgoinlinecdfthreshold` value. $F(p)$ is the resultant `hot-callsite-thres-from-CDF` value that determines the lowest weight an edge must have in order for it to be considered hot. Go's implementation of this equation is [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155).
 
+!!! danger "note to self"
+
+    I need to ensure that equation above is actually valid. I'm convinced something about it is wrong because the percentage returned in `hot-callsite-thres-from-CDF` is the percentage of [a single edge weight](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L151) divided by the total sum, not the sum of the weights up to $m$. We probably need two equations, one to find $m$ and the other to get the percentage in that linked line.
+
 ## Viewing the assembly
 
 Let's have some fun an convince ourselves on what's really going on here. Sure these nice pretty graphs tell us that the PGO has inlined certain function calls, but why don't we take a look at the raw assembly code? First, let's look at the unoptimzed executable by building it with PGO turned off:
