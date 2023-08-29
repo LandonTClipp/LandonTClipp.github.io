@@ -474,6 +474,8 @@ This is set to 2000 by default but you can specify any value you want. This name
 
 The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=90` and run the PGO build and graph the DOT notation conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied.
 
+#### =90
+
 ```
 $ go build .
 $ ./fermats-factorization -n 10976191241513578168
@@ -560,6 +562,8 @@ $ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgoinlinecdfthres
 hot-callsite-thres-from-CDF=0.4123711340206186
 ```
 
+#### =80
+
 If we decrease the pgoinlinecdfthreshold value to something like 80, we see a dramatically different result:
 
 ```
@@ -588,6 +592,8 @@ F_X(x) = \begin{cases}
 \frac{x-1}{13} &:\ 2 <= x <= 14
 \end{cases}
 $$
+
+### CDF For Function Hotness :fire:
 
 For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F(p)$ such that the sum of all edge weights at or above $F(p)$ equals $p$ percentage of the total program runtime?" The answer $F(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
 
@@ -621,6 +627,10 @@ F_h(W, p) = W_{F_m(W, p)}
 $$
 
 Or in other words, it's the weight of the element at $W_m$ that causes $\frac{\sum_{i=0}^{min(m)} W_i}{\sum W}$ to be greater than $p$.
+
+### Proving the CDF experimentally
+
+
 
 ## Viewing the assembly
 
