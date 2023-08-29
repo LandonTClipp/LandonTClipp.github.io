@@ -600,17 +600,27 @@ $$
 w_i > w_{i+1}
 $$
 
-Where $W$ is the set of all edge weights in a program.
+Where $W$ is the set of all edge weights in a program. We first need to find the value of positive integer $m$ such that the sum of the weights up to $m$ is approximately $p$. Why? Well because that's what the user is asking for when they specify `pgoinlinecdfthreshold`, they are asking the question "what nodes do I need to select (ordered by weight) such that their cumulative weight is approximately equal to `pgoinlinecdfthreshold`?"
+
+This can be represented as 
 
 $$
-F(p) = \frac{\sum_{i=0}^{m} W_i}{\sum W} s.t. \le p
+m \in \mathbb{W} 
 $$
 
-Where $p$ is the `pgoinlinecdfthreshold` passed to the build and $m$ is the greatest possible integer possible that satisfies the inequality $F(p) \le p$. Basically, we sum the weights $W$ up to index $m$ such that the sum is less than or equal to our `pgoinlinecdfthreshold` value. $F(p)$ is the resultant `hot-callsite-thres-from-CDF` value that determines the lowest weight an edge must have in order for it to be considered hot. Go's implementation of this equation is [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155).
+$$
+F_m(W, p) = m \quad \textrm{s.t.} \quad \frac{\sum_{i=0}^{min(m)} W_i}{\sum W} \gt p
+$$
 
-!!! danger "note to self"
+We select the smallest possible value $m$ that satisfies the equation. I'm not sure if this is the most succinct way of describing this model but I'm not a mathemetician so you'll have to bear with me :smile:
 
-    I need to ensure that equation above is actually valid. I'm convinced something about it is wrong because the percentage returned in `hot-callsite-thres-from-CDF` is the percentage of [a single edge weight](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L151) divided by the total sum, not the sum of the weights up to $m$. We probably need two equations, one to find $m$ and the other to get the percentage in that linked line.
+Now that we know the value $m$, the `hot-callsite-thres-from-CDF` value can be calculated. We'll call this function $F_h(W, p)$. It is simply:
+
+$$
+F_h(W, p) = W_{F_m(W, p)}
+$$
+
+Or in other words, it's the weight of the element at $W_m$ that causes $\frac{\sum_{i=0}^{min(m)} W_i}{\sum W}$ to be greater than $p$.
 
 ## Viewing the assembly
 
