@@ -49,17 +49,27 @@ Found factors with i=1377437: 10976191241513578168 = 3314411264 x 3311656390
 
 ## The Benchmark
 
-The benchmark we'll be using is going to be captured by timing the program's runtime over 100 iterations without any optimizations applied. We'll allow the program to generate a profile during each iteration, but we won't use it when building. 
+The benchmark we'll be using is going to be captured by timing the program's runtime over 60 seconds without any optimizations applied. This will give us a baseline performance value which we can compare to optimized builds later on. This will be done by using the benchmarking test as shown here:
 
-```
-$ go build -pgo=off .
-$ time for i in {1..100} ; do ./fermats-factorization -n 10976191241513578168 -cpuprofile="" ; done
-real    5m53.244s
-user    5m13.847s
-sys     0m1.101s
+```go title="main_test.go"
+--8<-- "code/profile-guided-optimizations/fermats-factorization/main_test.go"
 ```
 
-Dividing the real time by 100 gives us 3.53244 seconds. This will be the value we use to compare the effectivess of our PGO builds.
+We then run the benchmark with `-cpuprofile default.pgo` to tell it to create a CPU profile during the benchmark, and `-pgo=off` to disable PGO (we want an unoptimized run to compare against).
+
+```
+$ go test -bench . -benchtime 60s -cpuprofile default.pgo -pgo=off
+numIterations=42698929 fact1=1627093 fact2=110600383
+goos: linux
+goarch: arm64
+pkg: fermats-factorization
+BenchmarkFindFactors 	numIterations=42698929 fact1=1627093 fact2=110600383
+       9	7173565614 ns/op
+PASS
+ok  	fermats-factorization	71.860s
+```
+
+Our baseline in this benchmark is thus 7173565614 ns/op.
 
 ## Gathering Profiles
 
@@ -73,21 +83,7 @@ We can write a simple benchmarking test for `findFactors`:
 --8<-- "code/profile-guided-optimizations/fermats-factorization/main_test.go"
 ```
 
-
-We run the test benchmarking and tell `go test` to output the cpuprofile to a file named `default.pgo`, which is the default name that `go build` looks for when reading profiles.
-
-```bash
-$ go test -cpuprofile default.pgo -bench . -benchtime 20s
-numIterations=1377437 fact1=3314411264 fact2=3311656390
-goos: linux
-goarch: amd64
-pkg: fermats-factorization
-cpu: Intel(R) Xeon(R) CPU E5-2699A v4 @ 2.40GHz
-BenchmarkFindFactors    numIterations=1377437 fact1=3314411264 fact2=3311656390
-       7        3404269889 ns/op
-PASS
-ok      fermats-factorization  27.268s
-```
+Recall the last section that we can the benchmark with the parameter `-cpuprofile default.pgo`. As mentioned before, this causes the benchmark to profile the code as its running, and outputs the `default.pgo` profile. 
 
 ### Using in-lined pprof
 
@@ -455,6 +451,23 @@ $ curl -o /dev/null -v http://localhost:6060/debug/pprof/profile?seconds=1
 * Connection #0 to host localhost left intact
 ```
 
+## PGO Result
+
+We can re-run our benchmark, but tell it to use the `default.pgo` CPU profile we generated during the initial benchmark run:
+
+```
+$ go test -bench . -benchtime 60s -pgo=auto
+numIterations=42698929 fact1=1627093 fact2=110600383
+goos: linux
+goarch: arm64
+pkg: fermats-factorization
+BenchmarkFindFactors 	numIterations=42698929 fact1=1627093 fact2=110600383
+       9	6702628537 ns/op
+PASS
+ok  	fermats-factorization	67.028s
+```
+
+Our runtime per iteration is 6702628537 ns, which is a full $(1 - \frac{6702628537}{7173565614}) * 100\% = 6.564895371\%$ faster than our original run! That's quite a significant improvement.
 
 ## What gets optimized and why?
 
@@ -476,82 +489,119 @@ The way to read this variable is "Profile Guided Optimization Inline Cumulative 
 
 #### =90
 
+First, let's run a build without any optimizations applied.
+
 ```
-$ go build .
-$ ./fermats-factorization -n 10976191241513578168
-starting CPU profile
-Found factors with i=1377437: 10976191241513578168 = 3314411264 x 3311656390
-$ go build -pgo=auto -gcflags="-m=2 -pgoprofile=default.pgo -d=pgoinlinecdfthreshold=90,pgodebug=3" .
+$ go build -pgo=auto -gcflags="-m=2 -d=pgoinlinecdfthreshold=90,pgodebug=3" .
 ```
 
-The output of the go build provides a DOT notation graph, seen here:
+The output of this command gives us a graph of the call tree in dot notation, seen here:
 
 ??? note "DOT graph"
     ```
     digraph G {
         forcelabels=true;
-        "os.Create" [color=black, style=solid, label="os.Create,inl_cost=72"];
+        "main.isSquare" [color=black, style=solid, label="main.isSquare"];
+        "math.Sqrt" [color=black, style=solid, label="math.Sqrt,inl_cost=4"];
+        "main.findFactors" [color=black, style=solid, label="main.findFactors"];
+        "runtime/pprof.StopCPUProfile" [color=black, style=solid, label="runtime/pprof.StopCPUProfile"];
+        "flag.Int" [color=black, style=solid, label="flag.Int,inl_cost=63"];
+        "main.NewExpensive" [color=black, style=solid, label="main.NewExpensive"];
+        "math.Ceil" [color=black, style=solid, label="math.Ceil,inl_cost=61"];
+        "main.runtimeProf.func2" [color=black, style=solid, label="main.runtimeProf.func2"];
+        "main.runtimeProf" [color=black, style=solid, label="main.runtimeProf"];
         "main.main" [color=black, style=solid, label="main.main"];
         "flag.String" [color=black, style=solid, label="flag.String,inl_cost=63"];
-        "main.findFactors" [color=black, style=solid, label="main.findFactors"];
-        "os.Setenv" [color=black, style=solid, label="os.Setenv,inl_cost=90"];
-        "fmt.Println" [color=black, style=solid, label="fmt.Println,inl_cost=72"];
+        "fmt.Printf" [color=black, style=solid, label="fmt.Printf,inl_cost=73"];
+        "log.Println" [color=black, style=solid, label="log.Println,inl_cost=77"];
+        "net/http.ListenAndServe" [color=black, style=solid, label="net/http.ListenAndServe,inl_cost=70"];
+        "flag.Bool" [color=black, style=solid, label="flag.Bool,inl_cost=63"];
         "flag.Parse" [color=black, style=solid, label="flag.Parse,inl_cost=62"];
         "flag.Uint64" [color=black, style=solid, label="flag.Uint64,inl_cost=63"];
-        "main.isSquare" [color=black, style=solid, label="main.isSquare"];
-        "fmt.Printf" [color=black, style=solid, label="fmt.Printf,inl_cost=73"];
-        "math.Sqrt" [color=black, style=solid, label="math.Sqrt,inl_cost=4"];
-        "math.Pow" [color=black, style=solid, label="math.Pow,inl_cost=62"];
-        "log.Fatal" [color=black, style=solid, label="log.Fatal"];
         "runtime/pprof.StartCPUProfile" [color=black, style=solid, label="runtime/pprof.StartCPUProfile"];
-        "main.profile.func1" [color=black, style=solid, label="main.profile.func1"];
-        "os.(*File).Close" [color=black, style=solid, label="os.(*File).Close,inl_cost=67"];
-        "main.profile" [color=black, style=solid, label="main.profile"];
-        "runtime/pprof.StopCPUProfile" [color=black, style=solid, label="runtime/pprof.StopCPUProfile"];
-        "main.NewExpensive" [color=black, style=solid, label="main.NewExpensive"];
+        "main.httpProf.func1" [color=black, style=solid, label="main.httpProf.func1"];
         "strconv.Itoa" [color=black, style=solid, label="strconv.Itoa,inl_cost=117"];
-        edge [color=red, style=solid];
-        "main.isSquare" -> "math.Sqrt" [label="1.86"];
+        "log.Fatal" [color=black, style=solid, label="log.Fatal"];
+        "main.httpProf" [color=black, style=solid, label="main.httpProf"];
+        "main.runtimeProf.func1" [color=black, style=solid, label="main.runtimeProf.func1"];
+        "os.Setenv" [color=black, style=solid, label="os.Setenv,inl_cost=90"];
+        "os.(*File).Close" [color=black, style=solid, label="os.(*File).Close,inl_cost=67"];
+        "fmt.Println" [color=black, style=solid, label="fmt.Println,inl_cost=72"];
+        "os.Create" [color=black, style=solid, label="os.Create,inl_cost=72"];
+        "fmt.Sprintf" [color=black, style=solid, label="fmt.Sprintf"];
         edge [color=black, style=solid];
-        "main.isSquare" -> "main.NewExpensive" [label="0.41"];
-        edge [color=red, style=solid];
-        "main.isSquare" -> "os.Setenv" [label="1.03"];
+        "main.isSquare" -> "os.Setenv" [label="0.00"];
         edge [color=black, style=solid];
-        "main.isSquare" -> "strconv.Itoa" [label="0.41"];
+        "main.isSquare" -> "strconv.Itoa" [label="0.00"];
         edge [color=black, style=solid];
-        "main.findFactors" -> "math.Pow" [label="0.21"];
-        edge [color=red, style=solid];
-        "main.findFactors" -> "main.isSquare" [label="3.92"];
+        "main.isSquare" -> "math.Sqrt" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile" -> "fmt.Println" [label="0.00"];
+        "main.isSquare" -> "main.NewExpensive" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile" -> "os.Create" [label="0.00"];
+        "main.findFactors" -> "math.Ceil" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile" -> "log.Fatal" [label="0.00"];
+        "main.findFactors" -> "math.Sqrt" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile" -> "runtime/pprof.StartCPUProfile" [label="0.00"];
+        "main.findFactors" -> "main.isSquare" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile" -> "log.Fatal" [label="0.00"];
+        "main.findFactors" -> "math.Sqrt" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile.func1" -> "os.(*File).Close" [label="0.00"];
+        "main.runtimeProf" -> "fmt.Println" [label="0.00"];
         edge [color=black, style=solid];
-        "main.profile.func1" -> "runtime/pprof.StopCPUProfile" [label="0.00"];
+        "main.runtimeProf" -> "os.Create" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "flag.String" [label="0.00"];
+        "main.runtimeProf" -> "log.Fatal" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.runtimeProf" -> "runtime/pprof.StartCPUProfile" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.runtimeProf" -> "log.Fatal" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.runtimeProf.func2" -> "runtime/pprof.StopCPUProfile" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.runtimeProf.func2" -> "os.(*File).Close" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.httpProf" -> "main.httpProf.func1" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.httpProf.func1" -> "log.Println" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.httpProf.func1" -> "net/http.ListenAndServe" [label="0.00"];
         edge [color=black, style=solid];
         "main.main" -> "flag.Parse" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "main.profile" [label="0.00"];
-        edge [color=red, style=solid];
-        "main.main" -> "main.findFactors" [label="0.62"];
+        "main.main" -> "main.findFactors" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "flag.Uint64" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "flag.String" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "flag.Int" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "main.findFactors" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "fmt.Sprintf" [label="0.00"];
         edge [color=black, style=solid];
         "main.main" -> "fmt.Printf" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "flag.Uint64" [label="0.00"];
+        "main.main" -> "flag.Bool" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "main.runtimeProf" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "main.httpProf" [label="0.00"];
     }
     ```
-
+    
 You can copy-paste this into https://dreampuf.github.io/GraphvizOnline/ to visualize it:
+
+![](/images/golang-profile-guided-optimizations/graphviz-pgo-disabled.svg)
+
+Now let's build the program with PGO enabled, and set `pgoinlinecdfthreshold=90`. Before we do that, we need to generate a new CPU profile by running the program itself because the one generated in the testing benchmark is not valid when building the program to run through `main()`.
+
+```
+$ ./fermats-factorization -n 179957108976619
+starting CPU profile
+Found factors with i=42698929: 179957108976619 = 1627093 x 110600383
+$ go build -pgo=auto -gcflags="-m=2 -pgoprofile=default.pgo -d=pgoinlinecdfthreshold=90,pgodebug=3" .
+```
 
 ![](/images/golang-profile-guided-optimizations/graphviz-threshold-90.svg)
 
@@ -559,7 +609,7 @@ You can see here that the PGO determined all of the paths in red are considered 
 
 ```
 $ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgoinlinecdfthreshold=90,pgodebug=3" . |& grep hot-callsite-thres-from-CDF
-hot-callsite-thres-from-CDF=0.4123711340206186
+hot-callsite-thres-from-CDF=0.5552202776101388
 ```
 
 #### =80
@@ -568,10 +618,10 @@ If we decrease the pgoinlinecdfthreshold value to something like 80, we see a dr
 
 ```
 $ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgoinlinecdfthreshold=80,pgodebug=3" . |& grep hot-callsite-thres-from-CDF
-hot-callsite-thres-from-CDF=1.443298969072165
+hot-callsite-thres-from-CDF=0.9293904646952323
 ```
 
-And the visualization shows us that now only two of the call paths are considered hot because only two of the weights are above 1.443298969072165:
+And the visualization shows us that now only two of the call paths are considered hot because only two of the weights are above 0.9293904646952323:
 
 ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.png)
 
