@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func isSquare(i uint64) (bool, uint64) {
+func isSquare(i uint64) bool {
 	sqrt := math.Sqrt(float64(i))
 
 	// We do something tricky here to exceed the Go inlining algorithm's
@@ -17,27 +17,24 @@ func isSquare(i uint64) (bool, uint64) {
 	expensive := NewExpensive()
 	os.Setenv("EXPENSIVE_VALUE", strconv.Itoa(int(expensive)))
 
-	return sqrt == float64(uint64(sqrt)), uint64(sqrt)
+	return sqrt == float64(uint64(sqrt))
 }
 
 func findFactors(n uint64) (uint64, uint64, uint64) {
-	// Fermat’s Factorization
-	for i := uint64(2); i < n; i++ {
-		potentialSquare := n + (uint64(math.Pow(float64(i), 2.0)))
+	var a uint64
+	var b2 uint64
 
-		var issquare bool
-		var sqrt uint64
-		// We call isSquare redundantly many times in order to artificially inflate its
-		// runtime weight to induce it to be inlined later on.
-		for j := 0; j < 20; j++ {
-			issquare, sqrt = isSquare(potentialSquare)
+	numIters := uint64(0)
+	for a = uint64(math.Ceil(math.Sqrt(float64(n)))); ; a++ {
+		numIters++
+		b2 = a*a - n
+		if isSquare(b2) {
+			break
 		}
 
-		if issquare {
-			return sqrt + i, sqrt - i, i
-		}
 	}
-	panic("no factors found")
+	sqrtB := uint64(math.Sqrt(float64(b2)))
+	return a - sqrtB, a + sqrtB, numIters
 }
 
 func main() {
