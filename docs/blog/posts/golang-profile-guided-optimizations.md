@@ -589,13 +589,13 @@ If we were to include the next highest weight of 1.03, the CDF would give us 80.
 
 $$
 F_X(x) = \begin{cases}
-\frac{x-1}{13} &:\ 2 <= x <= 14
+\frac{x-1}{13} &:\ 2 \le x \le 14
 \end{cases}
 $$
 
 ### CDF For Function Hotness :fire:
 
-For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F(p)$ such that the sum of all edge weights at or above $F(p)$ equals $p$ percentage of the total program runtime?" The answer $F(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
+For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F_h(p)$ such that the sum of all edge weights at or above $F_m(p)$ equals $p$ percentage of the total program runtime?" The answer $F_h(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
 
 
 $$
@@ -603,7 +603,7 @@ W = \{w_0, w_1, ... w_n\}
 $$
 
 $$
-w_i > w_{i+1}
+w_i \gt w_{i+1}
 $$
 
 Where $W$ is the set of all edge weights in a program. We first need to find the value of positive integer $m$ such that the sum of the weights up to $m$ is approximately $p$. Why? Well because that's what the user is asking for when they specify `pgoinlinecdfthreshold`, they are asking the question "what nodes do I need to select (ordered by weight) such that their cumulative weight is approximately equal to `pgoinlinecdfthreshold`?"
@@ -615,18 +615,10 @@ m \in \mathbb{W}
 $$
 
 $$
-F_m(W, p) = m \quad \textrm{s.t.} \quad \frac{\sum_{i=0}^{min(m)} W_i}{\sum W} \gt p
+F_h(W, p) = W_m \quad \textrm{s.t.} \quad \frac{\sum_{i=0}^{min(m)} W_i}{\sum W} \gt p
 $$
 
-We select the smallest possible value $m$ that satisfies the equation. I'm not sure if this is the most succinct way of describing this model but I'm not a mathemetician so you'll have to bear with me :smile:
-
-Now that we know the value $m$, the `hot-callsite-thres-from-CDF` value can be calculated. We'll call this function $F_h(W, p)$. It is simply:
-
-$$
-F_h(W, p) = W_{F_m(W, p)}
-$$
-
-Or in other words, it's the weight of the element at $W_m$ that causes $\frac{\sum_{i=0}^{min(m)} W_i}{\sum W}$ to be greater than $p$.
+We select the smallest possible value $m$ that satisfies the inequality. I'm not sure if this is the most succinct way of describing this model but I'm not a mathemetician so you'll have to bear with me :smile: In English, $F_h(W, p)$ is the weight of the node at $W_m$ such that the sum of the nodes from $0$ to $m$, divided by the sum of all the weights, is greater than $p$.
 
 ### Proving the CDF experimentally
 
