@@ -1,4 +1,5 @@
 env.sh
 ve/
 .cache/
-*/.DS_Store/
+.DS_Store
+code/profile-guided-optimizations/fermats-factorization/fermats-factorization
