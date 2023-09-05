@@ -28,7 +28,9 @@ func findFactors(n uint64) (uint64, uint64, uint64) {
 	for a = uint64(math.Ceil(math.Sqrt(float64(n)))); ; a++ {
 		numIters++
 		b2 = a*a - n
-		for i := 0; i < 10; i++ {
+
+		// We run isSquare many times in order to make it appear very hot
+		for i := 0; i < 5; i++ {
 			isSquare(b2)
 		}
 		if isSquare(b2) {

@@ -490,12 +490,7 @@ The way to read this variable is "Profile Guided Optimization Inline Cumulative 
 #### =90
 
 
-
-    
-
-TODO: add viz of this graph
-
-Now let's build the program with PGO enabled, and set `pgoinlinecdfthreshold=90`. Before we do that, we need to generate a new CPU profile by running the program itself because the one generated in the testing benchmark is not valid when building the program to run through `main()`.
+Let's build the program with PGO enabled, and set `pgoinlinecdfthreshold=90`. Before we do that, we should generate a new `default.pgo` profile using the inlined profiler to give us a more accurate representation of whow the code runs under `main()` (it might not actually be all that different but it's good to be thorough).
 
 ```
 $ ./fermats-factorization -n 179957108976619
@@ -504,46 +499,48 @@ Found factors with i=42698929: 179957108976619 = 1627093 x 110600383
 $ go build -pgo=auto -gcflags="-d=pgoinlinecdfthreshold=90,pgodebug=3" .
 ```
 
+The build command outputs a graph in DOT notation. You can copy-paste the code in https://dreampuf.github.io/GraphvizOnline to create a diagram.
+
 ??? note "DOT graph"
     ```
     digraph G {
         forcelabels=true;
-        "main.findFactors" [color=black, style=solid, label="main.findFactors"];
-        "fmt.Println" [color=black, style=solid, label="fmt.Println,inl_cost=72"];
-        "flag.String" [color=black, style=solid, label="flag.String,inl_cost=63"];
-        "main.httpProf" [color=black, style=solid, label="main.httpProf"];
-        "os.Create" [color=black, style=solid, label="os.Create,inl_cost=72"];
-        "fmt.Sprintf" [color=black, style=solid, label="fmt.Sprintf"];
-        "math.Ceil" [color=black, style=solid, label="math.Ceil,inl_cost=61"];
-        "os.(*File).Close" [color=black, style=solid, label="os.(*File).Close,inl_cost=67"];
-        "net/http.ListenAndServe" [color=black, style=solid, label="net/http.ListenAndServe,inl_cost=70"];
-        "flag.Int" [color=black, style=solid, label="flag.Int,inl_cost=63"];
-        "math.Sqrt" [color=black, style=solid, label="math.Sqrt,inl_cost=4"];
-        "runtime/pprof.StartCPUProfile" [color=black, style=solid, label="runtime/pprof.StartCPUProfile"];
-        "flag.Uint64" [color=black, style=solid, label="flag.Uint64,inl_cost=63"];
-        "flag.Bool" [color=black, style=solid, label="flag.Bool,inl_cost=63"];
-        "main.NewExpensive" [color=black, style=solid, label="main.NewExpensive"];
-        "os.Setenv" [color=black, style=solid, label="os.Setenv,inl_cost=90"];
-        "strconv.Itoa" [color=black, style=solid, label="strconv.Itoa,inl_cost=117"];
-        "main.isSquare" [color=black, style=solid, label="main.isSquare"];
-        "main.runtimeProf" [color=black, style=solid, label="main.runtimeProf"];
-        "main.httpProf.func1" [color=black, style=solid, label="main.httpProf.func1"];
-        "main.main" [color=black, style=solid, label="main.main"];
-        "main.runtimeProf.func1" [color=black, style=solid, label="main.runtimeProf.func1"];
         "log.Fatal" [color=black, style=solid, label="log.Fatal"];
+        "main.httpProf.func1" [color=black, style=solid, label="main.httpProf.func1"];
+        "main.runtimeProf.func1" [color=black, style=solid, label="main.runtimeProf.func1"];
         "main.runtimeProf.func2" [color=black, style=solid, label="main.runtimeProf.func2"];
+        "os.(*File).Close" [color=black, style=solid, label="os.(*File).Close,inl_cost=67"];
+        "main.findFactors" [color=black, style=solid, label="main.findFactors"];
         "runtime/pprof.StopCPUProfile" [color=black, style=solid, label="runtime/pprof.StopCPUProfile"];
-        "log.Println" [color=black, style=solid, label="log.Println,inl_cost=77"];
-        "flag.Parse" [color=black, style=solid, label="flag.Parse,inl_cost=62"];
+        "main.httpProf" [color=black, style=solid, label="main.httpProf"];
+        "math.Ceil" [color=black, style=solid, label="math.Ceil,inl_cost=61"];
+        "net/http.ListenAndServe" [color=black, style=solid, label="net/http.ListenAndServe,inl_cost=70"];
+        "os.Create" [color=black, style=solid, label="os.Create,inl_cost=72"];
+        "flag.Bool" [color=black, style=solid, label="flag.Bool,inl_cost=63"];
         "fmt.Printf" [color=black, style=solid, label="fmt.Printf,inl_cost=73"];
+        "main.isSquare" [color=black, style=solid, label="main.isSquare"];
+        "math.Sqrt" [color=black, style=solid, label="math.Sqrt,inl_cost=4"];
+        "fmt.Println" [color=black, style=solid, label="fmt.Println,inl_cost=72"];
+        "runtime/pprof.StartCPUProfile" [color=black, style=solid, label="runtime/pprof.StartCPUProfile"];
+        "strconv.Itoa" [color=black, style=solid, label="strconv.Itoa,inl_cost=117"];
+        "main.main" [color=black, style=solid, label="main.main"];
+        "os.Setenv" [color=black, style=solid, label="os.Setenv,inl_cost=90"];
+        "fmt.Sprintf" [color=black, style=solid, label="fmt.Sprintf"];
+        "flag.String" [color=black, style=solid, label="flag.String,inl_cost=63"];
+        "flag.Int" [color=black, style=solid, label="flag.Int,inl_cost=63"];
+        "log.Println" [color=black, style=solid, label="log.Println,inl_cost=77"];
+        "main.NewExpensive" [color=black, style=solid, label="main.NewExpensive"];
+        "main.runtimeProf" [color=black, style=solid, label="main.runtimeProf"];
+        "flag.Parse" [color=black, style=solid, label="flag.Parse,inl_cost=62"];
+        "flag.Uint64" [color=black, style=solid, label="flag.Uint64,inl_cost=63"];
         edge [color=black, style=solid];
-        "main.isSquare" -> "strconv.Itoa" [label="0.21"];
+        "main.isSquare" -> "math.Sqrt" [label="0.19"];
         edge [color=black, style=solid];
-        "main.isSquare" -> "math.Sqrt" [label="0.09"];
+        "main.isSquare" -> "main.NewExpensive" [label="0.07"];
         edge [color=black, style=solid];
-        "main.isSquare" -> "main.NewExpensive" [label="0.01"];
+        "main.isSquare" -> "os.Setenv" [label="0.15"];
         edge [color=black, style=solid];
-        "main.isSquare" -> "os.Setenv" [label="0.10"];
+        "main.isSquare" -> "strconv.Itoa" [label="0.26"];
         edge [color=black, style=solid];
         "main.findFactors" -> "math.Ceil" [label="0.00"];
         edge [color=black, style=solid];
@@ -551,17 +548,19 @@ $ go build -pgo=auto -gcflags="-d=pgoinlinecdfthreshold=90,pgodebug=3" .
         edge [color=red, style=solid];
         "main.findFactors" -> "main.isSquare" [label="0.89"];
         edge [color=black, style=solid];
-        "main.findFactors" -> "main.isSquare" [label="0.12"];
+        "main.findFactors" -> "main.isSquare" [label="0.27"];
+        edge [color=black, style=solid];
+        "main.findFactors" -> "main.isSquare" [label="0.25"];
         edge [color=black, style=solid];
         "main.findFactors" -> "math.Sqrt" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.runtimeProf" -> "runtime/pprof.StartCPUProfile" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.runtimeProf" -> "log.Fatal" [label="0.00"];
         edge [color=black, style=solid];
         "main.runtimeProf" -> "fmt.Println" [label="0.00"];
         edge [color=black, style=solid];
         "main.runtimeProf" -> "os.Create" [label="0.00"];
-        edge [color=black, style=solid];
-        "main.runtimeProf" -> "log.Fatal" [label="0.00"];
-        edge [color=black, style=solid];
-        "main.runtimeProf" -> "runtime/pprof.StartCPUProfile" [label="0.00"];
         edge [color=black, style=solid];
         "main.runtimeProf" -> "log.Fatal" [label="0.00"];
         edge [color=black, style=solid];
@@ -573,35 +572,31 @@ $ go build -pgo=auto -gcflags="-d=pgoinlinecdfthreshold=90,pgodebug=3" .
         edge [color=black, style=solid];
         "main.httpProf.func1" -> "net/http.ListenAndServe" [label="0.00"];
         edge [color=black, style=solid];
-        "main.httpProf.func1" -> "log.Println" [label="0.00"];
-        edge [color=black, style=solid];
-        "main.main" -> "flag.Parse" [label="0.00"];
-        edge [color=black, style=solid];
-        "main.main" -> "fmt.Printf" [label="0.01"];
-        edge [color=black, style=solid];
         "main.main" -> "flag.Uint64" [label="0.00"];
         edge [color=black, style=solid];
         "main.main" -> "flag.Bool" [label="0.00"];
         edge [color=black, style=solid];
         "main.main" -> "flag.Int" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "main.runtimeProf" [label="0.00"];
+        "main.main" -> "flag.Parse" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "main.httpProf" [label="0.00"];
+        "main.main" -> "main.runtimeProf" [label="0.00"];
         edge [color=black, style=solid];
         "main.main" -> "main.findFactors" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "main.findFactors" [label="0.31"];
+        "main.main" -> "main.findFactors" [label="0.16"];
         edge [color=black, style=solid];
         "main.main" -> "fmt.Sprintf" [label="0.00"];
         edge [color=black, style=solid];
-        "main.main" -> "flag.String" [label="0.00"];
+        "main.main" -> "flag.Bool" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "main.httpProf" [label="0.00"];
+        edge [color=black, style=solid];
+        "main.main" -> "fmt.Printf" [label="0.00"];
     }
     ```
 
-You can copy-paste this into https://dreampuf.github.io/GraphvizOnline/ to visualize it:
-
-TODO: add viz here
+TODO: put graph here
 
 You can see here that the PGO determined all of the paths in red are considered hot because their weights exceed the calculated hot callsite threshold:
 
