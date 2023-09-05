@@ -751,7 +751,7 @@ $$
 
 We select the smallest possible value $m$ that satisfies the inequality. I'm not sure if this is the most succinct way of describing this model but I'm not a mathemetician so you'll have to bear with me :smile: In English, $F_h(W, p)$ is the weight of the node at $W_m$ divided by the sum of all weights, such that the sum of the nodes from $0$ to $m$, divided by the sum of all the weights, is greater than $p$.
 
-You can see the Go PGO logic implements this function [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155). More specifically, you can see that the returned `pgoinlinecdfthreshold` is indeed the percentage of the weight of node $W_m$.
+You can see the Go PGO logic implements this function [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155). More specifically, you can see that the returned `pgoinlinecdfthreshold` is indeed the percentage of the edge weight that $W_m$ takes up.
 
 ### Proving the CDF experimentally
 
@@ -800,7 +800,7 @@ hot-callsite-thres-from-CDF=0.18328445747800587
 total-edge-weight=13640
 ```
 
-We can see that the node which caused the cumulative distribution to exceed the threshold was `runtime.scanblock`, which because it's part of the runtime, was probably not included in our graph visualization. We can see that $\frac{25}{13640}*100%=0.18328445747800587$ so it matches exactly the numbers that we're getting from `hot-callsite-thres-from-CDF`, which is no surprise. 
+We can see that the node which caused the cumulative distribution to exceed the threshold was `runtime.scanblock`, which because it's part of the runtime, was probably not included in our graph visualization. We can see that $\frac{25}{13640}*100\%=0.18328445747800587\%$ so it matches exactly the numbers that we're getting from `hot-callsite-thres-from-CDF`, which is no surprise. 
 
 
 ## Viewing the assembly
@@ -812,23 +812,22 @@ $ go build -pgo=off
 $ go tool objdump ./fermats-factorization |& less
 ```
 
-By grepping for `main.go:33` we indeed find the location where `main.isSquare` is called on the function stack:
+By grepping for `main.go:34` we indeed find the location where `main.isSquare` is called on the function stack:
 
 ```
-  main.go:33            0x4ae2f6                e825feffff              CALL main.isSquare(SB)
+  main.go:34            0x6741a7                e814feffff              CALL main.isSquare(SB)                  
 ```
 
 Let's build this again with PGO turned on, and for fun let's just rely on the default PGO values:
 
 ```
-$ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgodebug=1" .  |& grep isSquare
+$ go build -pgo=auto -gcflags="-d=pgodebug=1" .  |& grep isSquare
 hot-node enabled increased budget=2000 for func=main.isSquare
-./main.go:11:6: can inline isSquare with cost 370 as: func(uint64) (bool, uint64) { sqrt := math.Sqrt(float64(i)); expensive := NewExpensive(); os.Setenv("EXPENSIVE_VALUE", strconv.Itoa(int(expensive))); return sqrt == float64(uint64(sqrt)), uint64(sqrt) }
 hot-budget check allows inlining for call main.NewExpensive (cost 130) at ./main.go:17:27 in function main.isSquare
 hot-budget check allows inlining for call strconv.Itoa (cost 117) at ./main.go:18:43 in function main.isSquare
 hot-budget check allows inlining for call os.Setenv (cost 90) at ./main.go:18:11 in function main.isSquare
-hot-budget check allows inlining for call main.isSquare (cost 370) at ./main.go:33:29 in function main.findFactors
-./main.go:33:29: inlining call to isSquare
+hot-budget check allows inlining for call main.isSquare (cost 368) at ./main.go:34:12 in function main.findFactors
+hot-budget check allows inlining for call main.isSquare (cost 368) at ./main.go:36:14 in function main.findFactors
 ```
 
 Great! Even with the default parameters it still shows `main.isSquare` is allowed to be inlined. The graph visualization agrees:
@@ -838,133 +837,16 @@ Great! Even with the default parameters it still shows `main.isSquare` is allowe
 What does the assembly say?
 
 ```
-  main.go:33            0x4af96e                e82df9ffff              CALL main.isSquare(SB)     
+$ go tool objdump -s 'main.findFactors' ./fermats-factorization |& grep CALL
+  main.go:28            0x676280                e81b3ee0ff              CALL math.Ceil(SB)
+  main.go:17            0x676320                e8dbfdffff              CALL main.NewExpensive(SB)
+  main.go:18            0x676325                e8d6c8e0ff              CALL strconv.Itoa(SB)
+  main.go:18            0x676340                e85b3ce4ff              CALL os.Setenv(SB)
+  main.go:17            0x6763c1                e83afdffff              CALL main.NewExpensive(SB)
+  main.go:18            0x6763c6                e835c8e0ff              CALL strconv.Itoa(SB)
+  main.go:18            0x6763e0                e8bb3be4ff              CALL os.Setenv(SB)
+  main.go:23            0x676479                e80277dfff              CALL runtime.morestack_noctxt.abi0(SB)
 ```
 
-Oh no! :scream: What happened? Let's take a closer look at what the inliner actually did:
-
-```
-./main.go:11:6: can inline isSquare with cost 370 as: func(uint64) (bool, uint64) { sqrt := math.Sqrt(float64(i)); expensive := NewExpensive(); os.Setenv("EXPENSIVE_VALUE", strconv.Itoa(int(expensive))); return sqrt == float64(uint64(sqrt)), uint64(sqrt) }
-```
-
-Okay so the `isSquare` call itself doesn't actually get inlined, despite what the inline optimization tells us. However, we can compare all of the CALL instructions to see what got axed:
-
-```
-$ go build -pgo=off .
-$ go tool objdump ./fermats-factorization |& grep CALL | sort -u |& grep main.go
-  main.go:11            0x4ae220                e83b01fbff              CALL runtime.morestack_noctxt.abi0(SB)
-  main.go:17            0x4ae164                e897ffffff              CALL main.NewExpensive(SB)
-  main.go:18            0x4ae185                e896a1fdff              CALL os.Setenv(SB)
-  main.go:23            0x4ae34b                e81000fbff              CALL runtime.morestack_noctxt.abi0(SB)
-  main.go:33            0x4ae2f6                e825feffff              CALL main.isSquare(SB)
-  main.go:40            0x4ae340                e89b37f8ff              CALL runtime.gopanic(SB)
-  main.go:43            0x4ae581                e8dafdfaff              CALL runtime.morestack_noctxt.abi0(SB)
-  main.go:49            0x4ae451                e84a010000              CALL main.profile(SB)
-  main.go:52            0x4ae46b                e8d0fdffff              CALL main.findFactors(SB)
-  main.go:53            0x4ae4a0                e89bc2f5ff              CALL runtime.convT64(SB)
-  main.go:53            0x4ae4c0                e87bc2f5ff              CALL runtime.convT64(SB)
-  main.go:53            0x4ae4e0                e85bc2f5ff              CALL runtime.convT64(SB)
-  main.go:53            0x4ae501                e83ac2f5ff              CALL runtime.convT64(SB)
-  main.go:55            0x4ae55a                ffd6                    CALL SI
-$ go build -pgo=auto -gcflags="-m=3 -pgoprofile=default.pgo -d=pgodebug=1" . &>/dev/null
-$ go tool objdump ./fermats-factorization |& grep CALL | sort -u |& grep main.go
-  main.go:11            0x4af3a7                e87403fbff              CALL runtime.morestack_noctxt.abi0(SB)
-  main.go:33            0x4af96e                e82df9ffff              CALL main.isSquare(SB)
-  main.go:40            0x4afae8                e8332ef8ff              CALL runtime.gopanic(SB)
-  main.go:43            0x4afb08                e813fcfaff              CALL runtime.morestack_noctxt.abi0(SB)
-  main.go:49            0x4af4b4                e867060000              CALL main.profile(SB)
-  main.go:53            0x4af9f4                e887adf5ff              CALL runtime.convT64(SB)
-  main.go:53            0x4afa20                e85badf5ff              CALL runtime.convT64(SB)
-  main.go:53            0x4afa4a                e831adf5ff              CALL runtime.convT64(SB)
-  main.go:53            0x4afa73                e808adf5ff              CALL runtime.convT64(SB)
-  main.go:55            0x4afacf                ffd1                    CALL CX
-
-```
-
-As we can see, the things that did get inlined were:
-
-1. `main.go:17`: `CALL main.NewExpensive(SB)`
-2. `main.go:18`: `CALL os.Setenv(SB)`
-3. `main.go:23`: `CALL runtime.morestack_noctxt.abi0(SB)`
-4. `main.go:52`: `CALL main.findFactors(SB)`
-
-<div class="annotate" markdown>
-
-Both the visualization graph and the PGO itself claimed that `main.isSquare` got inlined, but the message tells us it just got inlined as another function. It's clear that the calls within `isSquare` themselves are getting inlined, but `isSquare` itself when called from `findFactors` does not. To add to the confusion, the inline analysis node chart shows the function call being inlined too:
-
-??? note "inline analysis"
-
-    ```yaml title=""
-    hot-budget check allows inlining for call main.isSquare (cost 370) at ./main.go:33:29 in function main.findFactors
-    ./main.go:33:29: inlining call to isSquare
-    ./main.go:33:29: Before inlining: 
-    .   CALLFUNC STRUCT-(bool, uint64) tc(1) # main.go:33:29
-    .   .   NAME-main.isSquare Class:PFUNC Offset:0 Used FUNC-func(uint64) (bool, uint64) tc(1) # main.go:11:6
-    .   CALLFUNC-Args
-    .   .   NAME-main.potentialSquare Class:PAUTO Offset:0 OnStack Used uint64 tc(1) # main.go:26:3
-    ./main.go:33:29: After inlining 
-    .   INLCALL-init
-    .   .   AS2-init
-    .   .   .   DCL # main.go:33:29
-    .   .   .   .   NAME-main.i Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:15
-    .   .   AS2 Def tc(1) # main.go:33:29
-    .   .   AS2-Lhs
-    .   .   .   NAME-main.i Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:15
-    .   .   AS2-Rhs
-    .   .   .   NAME-main.potentialSquare Class:PAUTO Offset:0 OnStack Used uint64 tc(1) # main.go:26:3
-    .   .   INLMARK Index:6 # +main.go:33:29
-    .   INLCALL STRUCT-(bool, uint64) tc(1) # main.go:33:29
-    .   INLCALL-Body
-    .   .   AS-init
-    .   .   .   DCL # main.go:33:29 main.go:12:2
-    .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
-    .   .   AS Def tc(1) # main.go:33:29 main.go:12:7
-    .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
-    .   .   .   CALLFUNC float64 tc(1) # main.go:33:29 main.go:12:19
-    .   .   .   .   NAME-math.Sqrt Class:PFUNC Offset:0 Used FUNC-func(float64) float64 tc(1) # sqrt.go:93:6
-    .   .   .   CALLFUNC-Args
-    .   .   .   .   CONV float64 tc(1) # main.go:33:29 main.go:12:28
-    .   .   .   .   .   NAME-main.i Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:15
-    .   .   AS-init
-    .   .   .   DCL # main.go:33:29 main.go:17:2
-    .   .   .   .   NAME-main.expensive Class:PAUTO Offset:0 InlLocal OnStack Used main.Expensive tc(1) # main.go:33:29 main.go:17:2
-    .   .   AS Def tc(1) # main.go:33:29 main.go:17:12
-    .   .   .   NAME-main.expensive Class:PAUTO Offset:0 InlLocal OnStack Used main.Expensive tc(1) # main.go:33:29 main.go:17:2
-    .   .   .   CALLFUNC main.Expensive tc(1) # main.go:33:29 main.go:17:27
-    .   .   .   .   NAME-main.NewExpensive Class:PFUNC Offset:0 Used FUNC-func() Expensive tc(1) # expensive.go:5:6
-    .   .   CALLFUNC error tc(1) # main.go:33:29 main.go:18:11
-    .   .   .   NAME-os.Setenv Class:PFUNC Offset:0 Used FUNC-func(string, string) error tc(1) # env.go:119:6
-    .   .   CALLFUNC-Args
-    .   .   .   LITERAL-"EXPENSIVE_VALUE" string tc(1) # main.go:33:29 main.go:18:12
-    .   .   .   CALLFUNC string tc(1) # main.go:33:29 main.go:18:43
-    .   .   .   .   NAME-strconv.Itoa Class:PFUNC Offset:0 Used FUNC-func(int) string tc(1) # itoa.go:34:6
-    .   .   .   CALLFUNC-Args
-    .   .   .   .   CONV int tc(1) # main.go:33:29 main.go:18:48
-    .   .   .   .   .   NAME-main.expensive Class:PAUTO Offset:0 InlLocal OnStack Used main.Expensive tc(1) # main.go:33:29 main.go:17:2
-    .   .   BLOCK tc(1) # main.go:33:29
-    .   .   BLOCK-List
-    .   .   .   DCL tc(1) # main.go:33:29
-    .   .   .   .   NAME-main.~R0 Class:PAUTO Offset:0 InlFormal OnStack Used bool tc(1) # main.go:33:29 main.go:11:26
-    .   .   .   DCL tc(1) # main.go:33:29
-    .   .   .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
-    .   .   .   AS2 tc(1) # main.go:33:29
-    .   .   .   AS2-Lhs
-    .   .   .   .   NAME-main.~R0 Class:PAUTO Offset:0 InlFormal OnStack Used bool tc(1) # main.go:33:29 main.go:11:26
-    .   .   .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
-    .   .   .   AS2-Rhs
-    .   .   .   .   EQ bool tc(1) # main.go:33:29 main.go:20:14
-    .   .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
-    .   .   .   .   .   CONV float64 tc(1) # main.go:33:29 main.go:20:31
-    .   .   .   .   .   .   CONV uint64 tc(1) # main.go:33:29 main.go:20:32
-    .   .   .   .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
-    .   .   .   .   CONV uint64 tc(1) # main.go:33:29 main.go:20:47
-    .   .   .   .   .   NAME-main.sqrt Class:PAUTO Offset:0 InlLocal OnStack Used float64 tc(1) # main.go:33:29 main.go:12:2
-    .   .   .   GOTO main..i1 tc(1) # main.go:33:29
-    .   .   LABEL main..i1 # main.go:33:29
-    .   INLCALL-ReturnVars
-    .   .   NAME-main.~R0 Class:PAUTO Offset:0 InlFormal OnStack Used bool tc(1) # main.go:33:29 main.go:11:26
-    .   .   NAME-main.~R1 Class:PAUTO Offset:0 InlFormal OnStack Used uint64 tc(1) # main.go:33:29 main.go:11:32
-    ```
-
-I won't go as far to say as this is a bug in the Go compiler as I might be ignorant of some underlying fact of how the inlined functions are eventually rendered in machine code, but the truth of the matter is I remain confused because of the messages claiming `isSquare` being inlined despite compiled code clearly refuting this.
+We indeed see that the code in `isSquare` is being inlined directly in the assembly for `main.findFactors`.
 
