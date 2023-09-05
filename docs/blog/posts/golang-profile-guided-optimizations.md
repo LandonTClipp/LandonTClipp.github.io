@@ -5,7 +5,6 @@ categories:
   - golang
 title: Profile Guided Optimizations in Go
 description: How to use PGO to improve the performance of your production applications
-draft: true
 ---
 
 Profile Guided Optimizations in Go
@@ -800,7 +799,7 @@ hot-callsite-thres-from-CDF=0.18328445747800587
 total-edge-weight=13640
 ```
 
-We can see that the node which caused the cumulative distribution to exceed the threshold was `runtime.scanblock`, which because it's part of the runtime, was probably not included in our graph visualization. We can see that $\frac{25}{13640}*100\%=0.18328445747800587\%$ so it matches exactly the numbers that we're getting from `hot-callsite-thres-from-CDF`, which is no surprise. 
+We can see that the node which caused the cumulative distribution to exceed the threshold was `runtime.scanblock`. Because it's part of the runtime, it was probably not included in our graph visualization. We can see that $\frac{25}{13640}*100\%=0.18328445747800587\%$ so it matches exactly the numbers that we're getting from `hot-callsite-thres-from-CDF`, which is no surprise. 
 
 
 ## Viewing the assembly
