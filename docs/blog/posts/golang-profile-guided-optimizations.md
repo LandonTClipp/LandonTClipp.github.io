@@ -40,9 +40,9 @@ The type of workload we're aiming to optimize is a compute-heavy one. We will be
 <div class="result">
 ```title=""
 $ go build .
-$ ./fermats-factorization -n 10976191241513578168
+$ ./fermats-factorization -n 179957108976619
 starting CPU profile
-Found factors with i=1377437: 10976191241513578168 = 3314411264 x 3311656390
+Found factors with i=42698929: 179957108976619 = 1627093 x 110600383
 ```
 </div>
 
