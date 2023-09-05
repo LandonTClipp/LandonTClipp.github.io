@@ -70,7 +70,26 @@ ok  	fermats-factorization	71.860s
 
 Our baseline in this benchmark is thus 7173565614 ns/op.
 
-## Gathering Profiles
+
+## PGO Result
+
+We can re-run our benchmark, but tell it to use the `default.pgo` CPU profile we generated during the initial benchmark run:
+
+```
+$ go test -bench . -benchtime 60s -pgo=auto
+numIterations=42698929 fact1=1627093 fact2=110600383
+goos: linux
+goarch: arm64
+pkg: fermats-factorization
+BenchmarkFindFactors 	numIterations=42698929 fact1=1627093 fact2=110600383
+       9	6702628537 ns/op
+PASS
+ok  	fermats-factorization	67.028s
+```
+
+Our runtime per iteration is 6702628537 ns, which is a full $(1 - \frac{6702628537}{7173565614}) * 100\% = 6.564895371\%$ faster than our original run! That's quite a significant improvement.
+
+## Methods of Profiling
 
 ### Using test-based pprof
 
@@ -449,24 +468,6 @@ $ curl -o /dev/null -v http://localhost:6060/debug/pprof/profile?seconds=1
 100  3054    0  3054    0     0   2613      0 --:--:--  0:00:01 --:--:--  2625
 * Connection #0 to host localhost left intact
 ```
-
-## PGO Result
-
-We can re-run our benchmark, but tell it to use the `default.pgo` CPU profile we generated during the initial benchmark run:
-
-```
-$ go test -bench . -benchtime 60s -pgo=auto
-numIterations=42698929 fact1=1627093 fact2=110600383
-goos: linux
-goarch: arm64
-pkg: fermats-factorization
-BenchmarkFindFactors 	numIterations=42698929 fact1=1627093 fact2=110600383
-       9	6702628537 ns/op
-PASS
-ok  	fermats-factorization	67.028s
-```
-
-Our runtime per iteration is 6702628537 ns, which is a full $(1 - \frac{6702628537}{7173565614}) * 100\% = 6.564895371\%$ faster than our original run! That's quite a significant improvement.
 
 ## What gets optimized and why?
 
