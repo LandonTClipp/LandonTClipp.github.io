@@ -850,3 +850,6 @@ $ go tool objdump -s 'main.findFactors' ./fermats-factorization |& grep CALL
 
 We indeed see that the code in `isSquare` is being inlined directly in the assembly for `main.findFactors`.
 
+## Conclusion
+
+PGO is a really effective tool you can use to provide the compiler real-world examples of your code's CPU profile in a production system. The optimizations it provides are significant and are definitely worth the effort if reducing the latency in your applications is something you value. Let me know in the comments below what you think, and please do let me know if you see any errors that need correcting! 
