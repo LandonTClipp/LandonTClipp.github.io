@@ -750,9 +750,9 @@ $$
 
 We select the smallest possible value $m$ that satisfies the inequality. I'm not sure if this is the most succinct way of describing this model but I'm not a mathemetician so you'll have to bear with me :smile: In English, $F_h(W, p)$ is the weight of the node at $W_m$ divided by the sum of all weights, such that the sum of the nodes from $0$ to $m$, divided by the sum of all the weights, is greater than $p$.
 
-You can see the Go PGO logic implements this function [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155). More specifically, you can see that the returned `pgoinlinecdfthreshold` is indeed the percentage of the edge weight that $W_m$ takes up.
+You can see the Go PGO logic implements this function [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155). More specifically, you can see that the returned `pgoinlinecdfthreshold` is indeed the percentage of the total edge weight that $W_m$ represents.
 
-### Proving the CDF experimentally
+## Proving the CDF experimentally
 
 Let's go back to our examples where we modified [`pgoinlinedthreshold`](#95). The calculated threshold value was `0.18328445747800587`, which according to the Go PGO code is the percentage of $W_m$ over the sum of all edge weights. The PGO logic does not have any debug statements that tells us what the total cumulative weight, so let's modify the Go source code with some additional print statements so we can confirm our calculations.
 
