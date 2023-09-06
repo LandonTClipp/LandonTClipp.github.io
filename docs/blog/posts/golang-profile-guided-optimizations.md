@@ -10,6 +10,8 @@ description: How to use PGO to improve the performance of your production applic
 Profile Guided Optimizations in Go
 ==================================
 
+![A view of a mountain valley on top of Pikes Peak in Colorado](https://lh3.googleusercontent.com/pw/AIL4fc-hFBJpGopaExfYZEHJiCa4w8ivEpUdb91ohM9maOtHsXgl6EOBAB0OWGd3GfQGj_NAoeLgu1xOzACQNwvhFyfpappYTFc8n4pvcdT6SBJ0xvTXnxBSoglS2ljYOe2BK23noYZuMavi_Pn5sfTVUGb2wPzmEc_CxzJFUQmP5Fzb2S4lp1rEi8G8rYSowh4cDF7XIKxJVy_hWB7XaG3SIMMqBXT4nJcy5nFIU5fF-2vWT0779VZAWiLrH9nsY2jZNNsbmQzAj8mOSW-pTXQHMpx6qTON0YmBnwUn3HJS7il3UAqW74IGFwJKH4d4UDHFhlf__EvPc9GcVoRI0X6NfAG7udwtFxZbeMB-h-NjyB6QY2PvHF1B_DNrfp_MtG2A89CQKvcqedb_uGWk_szQwZcZt_eetkXUOAPefry4_NRLWlBNMtoCTAltDnI6JPJLQ8PZxSce40gL_5wqeV6p-6pDFSgDewUbXfsyCkArsi21INA69w9VtGSWtifU4GFJKhdDlvE7slzii3yaIHQbzoO3INvaQvQEfCgPj99_A1Hg-tm8vl84vzAQzp-sXoFuO0YE_m9rkzTBZyo0h6emQMDxR1iGHLUeELz7M-gdKfOqejZ5nPFd7UKJ8mc2tKoOM20QWVkpvlfgOPZR3Uq_l-Awi7uxRZqgAbqfXwQ1jAfdrHOuuIRaO2RP4ideec2hO2xAn_ke7wIBYDGdqhVXgGc-Y2yCIgZLkfYpazUMWMPnWmNySCb8mhF-SHeViCqr7kzE6aejyqN-65mIsP_kBbzs-wQi1y80AF0MdNQwEKY5oYXycO2s9qkD7KT7E9tRwBzSklrupH2IA4ZNTl0T6G_-00YSSRrpTjrE8A_sZRYhMRkzYorBVj1aypu3MYr-S8IABjfRn1pEKtKOiKDBKYpkwRc=w1267-h950-s-no?authuser=0){ style="width: 100%; height: 337px; object-fit: cover; object-position: 0 40%" }
+
 In this post, we'll explore Profile Guided Optimizations (PGO) introduced in Go 1.20 and how they can be effectively used to improve the performance of your production applications. PGO is a compiler optimization technique that allows you to tune the performance of your Go applications in an environment- and workload-specific way. The profiles themselves are simple metadata files that contain information on what functions are called, how often they're called, what system calls are used, and generally what the computational _profile_ is of your application. This information can be used by the compiler to better inform what sorts of optimizations are useful in your specific environment and workfload. 
 
 <!-- more -->
@@ -473,7 +475,22 @@ $ curl -o /dev/null -v http://localhost:6060/debug/pprof/profile?seconds=1
 
 The Go compiler has this concept called an "inlining budget". The budget controls the maximum number of syntatical nodes that a function can have before it's considered not inlinable. A node is roughly analagous to the number of nodes in the program's Abstract Syntax Tree (AST), or rather each individual element of a piece of code, like a name declaration, an assignment, a constant declaration, function calls etc. By default, the [`inlineMaxBudget`](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L46) has a value of 80, which means that any functions with more than 80 nodes are not inlinable. If you have profiled your program and the profiler has determined your particular function is "hot", then the [budget increases to 2000](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L76).
 
-### `pgoinlinebudget`
+### Inlining
+
+[Inlining](https://en.wikipedia.org/wiki/Inline_expansion) is a technique whereby a function call is replaced with, more or less, a copy-paste of the function's code into the calling function's frame. Assembled code has to perform quite a lot of work in order to make a proper function call:
+
+1. Save the values of its working registers on the stack
+2. Prepare space on the stack for the called function, which could include space for the function to store its return values
+3. Push any functions arguments into registers (or on the stack if your arguments don't fit on registers)
+4. `CALL` the function
+5. Restore the register values
+6. Retrieve the return values from the stack (or registers)
+7. Perform any ancillary cleanup work like cleaning up stack pointers
+
+Function calls are surprisingly complex, so if we can replace all of that work by pretending that the called function's code was inside of the caller's code, we can get some pretty significant speedups.
+
+
+#### `pgoinlinebudget`
 
 You can modify the inline budget set for hot functions using the `pgoinlinebudget` flag, for example:
 
@@ -483,11 +500,11 @@ $ go build -gcflags="-d=pgoinlinebudget=2000" .
 
 This is set to 2000 by default but you can specify any value you want. This name is a bit confusing because this does not control the "non-hot" budget, which appears it can't be changed. It _only_ controls the budget for hot functions.
 
-### `pgoinlinecdfthreshold`
+#### `pgoinlinecdfthreshold`
 
 The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=90` and run the PGO build and graph the DOT notation conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied.
 
-#### =95
+##### =95
 
 Let's build the program with PGO enabled, and set `pgoinlinecdfthreshold=95`. Before we do that, we should generate a new `default.pgo` profile using the inlined profiler to give us a more accurate representation of whow the code runs under `main()` (it might not actually be all that different but it's good to be thorough).
 
@@ -606,7 +623,7 @@ hot-callsite-thres-from-CDF=0.18328445747800587
 
 One of the things you might notice is that the profiler is smart enough to distinguish between different calls to the same function. You'll see there are two lines going from `main.findFactors` to `main.isSquare`, because there are two separate `CALL` instructions (one within the for loop, and another bare call).
 
-#### =80
+##### =80
 
 If we decrease the pgoinlinecdfthreshold value to something like 80, we see a dramatically different result:
 
@@ -714,7 +731,7 @@ And the visualization shows us that none of the paths are considered hot because
 
 ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.svg)
 
-### What is a CDF?
+#### What is a CDF?
 
 [Cumulative Distribution Functions](https://en.wikipedia.org/wiki/Cumulative_distribution_function) are mathematical models that tell you the probability `y` that some random variable `X` will take on a value less than or equal to the value on the `x` axis. In statistics, this can be used, for example, to find the probability that you will draw from a deck of cards the value between 2-8 (aces high). The CDF for such a scenaio is quite simple, since the probability of drawing any particular valued card is uniformly distributed at 1/13. Thus the CDF is:
 
@@ -724,7 +741,7 @@ F_X(x) = \begin{cases}
 \end{cases}
 $$
 
-### CDF For Function Hotness :fire:
+#### CDF For Function Hotness :fire:
 
 For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F_h(p)$ such that the sum of all edge weights at or above $F_m(p)$ equals $p$ percentage of the total program runtime?" The answer $F_h(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
 
@@ -752,6 +769,14 @@ $$
 We select the smallest possible value $m$ that satisfies the inequality. I'm not sure if this is the most succinct way of describing this model but I'm not a mathemetician so you'll have to bear with me :smile: In English, $F_h(W, p)$ is the weight of the node at $W_m$ divided by the sum of all weights, such that the sum of the nodes from $0$ to $m$, divided by the sum of all the weights, is greater than $p$.
 
 You can see the Go PGO logic implements this function [here](https://github.com/golang/go/blob/go1.21.0/src/cmd/compile/internal/inline/inl.go#L122-L155). More specifically, you can see that the returned `pgoinlinecdfthreshold` is indeed the percentage of the total edge weight that $W_m$ represents.
+
+### Devirtualization
+
+Another optimization technique that takes advantage of PGO is what's called devirutalization. In Go, interfaces provide a virtualized way of accessing an implementation that might not be known at compile time. These virutalized calls are inefficient because they involve jump tables that must be travesed in order to call the implementation's method during runtime. Interfaces are also problematic because [it defeats a lot of other analysis techniques like heap escapes](analyzing-go-heap-escapes.md#use-of-reference-types-on-interface-methods). 
+
+We can still run profiles to see what concrete implementation in practice gets used the most. The compiler will then creare a small bit of if/else logic in the assembled code to do type assertions on the interface for the set of "hot" implementations found during profiling. If one of the type assertions succeeds, it will call that implementation's method directly.
+
+We will not dive deeply into this specific optimization technique, but it's something to keep in mind and highlights various ways in which PGO can be leveraged. 
 
 ## Proving the CDF experimentally
 
