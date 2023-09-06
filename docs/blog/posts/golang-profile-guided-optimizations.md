@@ -862,15 +862,16 @@ Great! Even with the default parameters it still shows `main.isSquare` is allowe
 What does the assembly say?
 
 ```
-$ go tool objdump -s 'main.findFactors' ./fermats-factorization |& grep CALL
-  main.go:28            0x676280                e81b3ee0ff              CALL math.Ceil(SB)
-  main.go:17            0x676320                e8dbfdffff              CALL main.NewExpensive(SB)
-  main.go:18            0x676325                e8d6c8e0ff              CALL strconv.Itoa(SB)
-  main.go:18            0x676340                e85b3ce4ff              CALL os.Setenv(SB)
-  main.go:17            0x6763c1                e83afdffff              CALL main.NewExpensive(SB)
-  main.go:18            0x6763c6                e835c8e0ff              CALL strconv.Itoa(SB)
-  main.go:18            0x6763e0                e8bb3be4ff              CALL os.Setenv(SB)
-  main.go:23            0x676479                e80277dfff              CALL runtime.morestack_noctxt.abi0(SB)
+$ go tool objdump -s 'main.findFactors' ./fermats-factorization 
+  main.go:30            0x6762e5                31f6                    XORL SI, SI                             
+  main.go:33            0x6762e7                e91a010000              JMP 0x676406                            
+  main.go:12            0x6762ec                4885c9                  TESTQ CX, CX                            
+  main.go:12            0x6762ef                7c0a                    JL 0x6762fb                             
+  main.go:12            0x6762f1                0f57c0                  XORPS X0, X0                            
+  main.go:12            0x6762f4                f2480f2ac1              CVTSI2SDQ CX, X0                        
+  main.go:12            0x6762f9                eb18                    JMP 0x676313                            
+  main.go:12            0x6762fb                4889ce                  MOVQ CX, SI                             
+  main.go:12            0x6762fe                83e101                  ANDL $0x1, CX  
 ```
 
 We indeed see that the code in `isSquare` is being inlined directly in the assembly for `main.findFactors`.
