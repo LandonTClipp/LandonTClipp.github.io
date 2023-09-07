@@ -10,7 +10,7 @@ description: How to use PGO to improve the performance of your production applic
 Profile Guided Optimizations in Go
 ==================================
 
-![A view of the mountains from the top of Pikes Peak](/images/golang-profile-guided-optimizations/pikes-peak-1.jpg)
+![A view of the mountains from the top of Pikes Peak](/images/golang-profile-guided-optimizations/pikes-peak-1.jpg){ style="width: 100%; height: 200px; object-fit: cover; object-position: 0 40%" }
 
 In this post, we'll explore Profile Guided Optimizations (PGO) introduced in Go 1.20 and how they can be effectively used to improve the performance of your production applications. PGO is a compiler optimization technique that allows you to tune the performance of your Go applications in an environment- and workload-specific way. The profiles themselves are simple metadata files that contain information on what functions are called, how often they're called, what system calls are used, and generally what the computational _profile_ is of your application. This information can be used by the compiler to better inform what sorts of optimizations are useful in your specific environment and workfload. 
 
