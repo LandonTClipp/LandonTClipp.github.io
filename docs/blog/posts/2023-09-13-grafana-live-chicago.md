@@ -53,4 +53,60 @@ In this example, we select all the values we have recorded within the last 5 min
 http_requests_total{job="prometheus"}[5m]
 ```
 
+## Agenda
 
+- Grafana Labs Stack
+- loki
+- demo
+- setup
+- breakout 1 - effective troubleshooting and debugging
+- Use case: ad-hoc metrics
+- Breakout 2 - loki v2 real time and high cardinality metrics
+- news/updates
+- wrap up
+
+!!! question "What is loki?"
+    
+    It's a log aggregation and querying platform, similar in some ways to splunk.
+
+## Loki Workshop Breakout
+
+https://github.com/grafana/loki_workshop_breakout
+
+## 4 Types of Observability Data:
+
+1. logs
+2. metrics
+3. traces
+4. profiles
+
+## Understanding SLAs, SLOs, SLIs
+
+- SLA: Service Level Agreement. The agreement you make with your customers that is often contractually guaranteed.
+    - Example: 99.5% guaranteed system availability per month
+- SLI: Service Level Indicator. A frequently run probe of a user-centric KPIs to measure service or application health.
+    - Example: % of successful and performant requests
+    - These are the customer-centric metric being measured
+- SLO: Service Level Objective. 
+    - Example: 99.9% of requests to a web service return without errors.
+
+The SLO is simply the SLI threshold you are striving for.
+
+### SLI Methodology
+
+You can have multiple measurements that comprise your SLI. For example
+
+- Rate: requests per second
+- Errors: The number of those requests that are failing
+- Duration: The amount of time requests take, distribution of latency measurements
+
+There is a concept of Error Budget, which means how many errors you're willing to tolerate. For example, we may tolerate .1% of errored requests over a 1 month period. We can measure this by splitting between fast burn rates and slow burn rates. 
+
+- Fast burn: 10% of requests fail over a window of the last 2 days
+- Slow burn: 2% of requests fail over a window of the last 15 days.
+
+### Grafana SLO - The Easy Button
+
+- Grafana gives you UIs to create an SLO
+- Create dashboard showing details of SLO
+- A set of multi-window, multi-burn rate alerts
