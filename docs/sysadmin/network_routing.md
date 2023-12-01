@@ -53,3 +53,20 @@ Multicast
 ---------
 
 Multicast is a routing mechanism that acts similar to a pub-sub topic. The typical IPv4 range is 224.0.0.0/4, which encompasses 224.0.0.0 to 239.255.255.255. Multicast is implemented using the Internet Group Management Protocol (IGMP). Clients must issue an IGMP JOIN command to the nearest switch or router to indicate it wants to be a member of the particular multicast group, identified as one of the aforementioned IP addresses. The router/switch maintains a list of hosts subscribed to each group and forwards the traffic to each IP in the list.
+
+Kernel Routing Tables
+---------------------
+
+```
+$ netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         7.151.164.131   0.0.0.0         UG        0 0          0 eno1
+7.0.0.0         7.151.164.131   255.0.0.0       UG        0 0          0 eno1
+7.151.164.128   0.0.0.0         255.255.255.128 U         0 0          0 eno1
+$ ip r s
+default via 7.151.164.131 dev eno1 proto static metric 100 
+7.0.0.0/8 via 7.151.164.131 dev eno1 proto static metric 65024000 
+7.151.164.128/25 dev eno1 proto kernel scope link src 7.151.164.166 metric 100 
+7.151.176.0/21 dev ib0 proto kernel scope link src 7.151.181.31 metric 150 
+```
