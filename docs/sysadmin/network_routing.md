@@ -37,13 +37,14 @@ flowchart TD
     routerNY[router]
     serverNY[server]
 
+    subgraph New York
+    clientNY -->|service-anycast.landon.com| routerNY --> serverNY
+    end
+
     subgraph Chicago
     client -->|service-anycast.landon.com| router --> serverNY
     end
 
-    subgraph New York
-    clientNY -->|service-anycast.landon.com| routerNY --> serverNY
-    end
 ```
 
 Anycast is a popular way to route to DNS servers, as it removes the need for clients to understand where they are geographically, or to maintain a list of appropriate DNS servers. This is maintained by the network administrators via the routing tables.
