@@ -101,7 +101,7 @@ nav:
   - Programming:
     - Preferred Golang Readings: golang-readings.md
   - System Administration:
-    - Network Routing: sysadmin/network_routing.md
+    - Networking: sysadmin/networking.md
 
 extra:
   social:
