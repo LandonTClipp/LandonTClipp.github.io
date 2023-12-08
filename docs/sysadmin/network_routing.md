@@ -70,3 +70,34 @@ default via 7.151.164.131 dev eno1 proto static metric 100
 7.151.164.128/25 dev eno1 proto kernel scope link src 7.151.164.166 metric 100 
 7.151.176.0/21 dev ib0 proto kernel scope link src 7.151.181.31 metric 150 
 ```
+
+DHCP
+----
+
+DHCP, or Dynamic Host Configration Protocol, is a protocol used to dynamically assign IP address to hosts within its network. DHCP can also be used to send live kernel images, which is how many netbooting is performed.
+
+```mermaid
+sequenceDiagram
+    Client->>DHCP Server: DISCOVER: Discover all DHCP servers on subnet
+    DHCP Server-->>Client: OFFER: Server receives ethernet broadcast and offers IP address
+    Client->>DHCP Server: REQUEST: Client sends REQUEST broadcast on subnet using offered IP.
+    DHCP Server-->>Client: ACK: Server responds with unicast and ACKs request.
+```
+
+### DISCOVER
+
+Discover messages are sent out on the subnet the host is configured with using the broadcast address specific to the client's subnet. For example, in the case the subnet is located at 192.168.0.0/16, the broadcast address would be 192.168.255.255.
+
+Clients can also request a specific IP address if desired. If not requested, the DHCP server will offer a random address from within its pool.
+
+### DECLINE
+
+There can be situations in which two clients are errnoneously allocated the same IP address. When a client receives an ACK from its DHCP server, indicating that particular server granted the IP lease, the client should use ARP to discover if any other computer on the subnet is using the same address. In the case the client determines this to be true, it should send a DECLINE broadcast to reneg the lease.
+
+### RELEASE
+
+When a client is done with an IP address, it can send a RELEASE broadcast to reneg the lease.
+
+### Netbooting/PXE
+
+DHCP servers can be configured to provide a `next-server` address, which is provided to the DHCP client when an IP address is given. Netbooting is not strictly part of the DHCP spec, but is rather executed as part of the PXE (Preboot Execution Environment) specification. A PXE boot utilizes the `next-server` address and `filename` parameters provided from DHCP that indicates an TFTP server that serves a loadable bootstrap program. When a client receives these parameters, it then initiates a download from the listed TFTP server and loads the bootstrap program. This interaction is usually done entirely in firmware on the NIC.
