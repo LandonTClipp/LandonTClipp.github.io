@@ -103,7 +103,9 @@ nav:
     - Preferred Golang Readings: programming/golang-readings.md
     - Golang: programming/golang.md
   - System Administration:
+    - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
+    - Systemd: sysadmin/systemd.md
 
 extra:
   social:
