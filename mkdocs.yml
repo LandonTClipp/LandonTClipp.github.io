@@ -99,7 +99,8 @@ nav:
   - Blog:
     - blog/index.md
   - Programming:
-    - Preferred Golang Readings: golang-readings.md
+    - Preferred Golang Readings: programming/golang-readings.md
+    - Golang: programming/golang.md
   - System Administration:
     - Networking: sysadmin/networking.md
 
