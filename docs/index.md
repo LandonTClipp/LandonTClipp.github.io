@@ -13,4 +13,4 @@ If you want to get in contact with me, please message me in Linkedin using the l
 Resume
 =======
 
-![resume](/images/resume (scrubbed).png)
+![resume](/images/resume (scrubbed).svg)
