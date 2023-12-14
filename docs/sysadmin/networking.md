@@ -110,3 +110,15 @@ https://www.arista.com/en/products/7130-meta-watch
 Arista is a company that provides various networking solutions. They have developed a switch application called MetaWatch that you can install into your Arista 7130L Series devices. This application allows you to dynamically tap incoming ports in hardware instead of needing to use physical optical taps. The application can be configured to aggregate incoming ports into outgoing ports, which is a form of port multiplexing, AKA link aggregation, AKA port aggregation.
 
 The power of in-hardware tapping is that you can dynamically re-assign where incoming ports are sent to without needing any physical work. The downside is that because the port aggregation/tapping is done in physical computing hardware, you can get into buffer overflow issues and drop packets. In practice this is usually not an issue, but it is a consideration that must be made.
+
+Ethernet
+--------
+
+![Ethernet Frame Diagram](/images/networking/frame_overview.png)
+
+![Ethernet Frame Detail](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ethernet_frame.svg/2880px-Ethernet_frame.svg.png)
+
+### Frame Check Sequence (FCS)
+
+This is an error-detecting code added to the end of an ethernet frame to detect corruption in the packet. A common implementation for FCS is that the receiver will compute a running sum of the frame, including the trailing FCS. The summation is expected to result in a fixed number, often zero. Another common algorithm is the [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check).
+
