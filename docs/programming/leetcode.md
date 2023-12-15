@@ -2,7 +2,7 @@
 title: Leetcode
 ---
 
-## Array/String
+## Array/String (easy)
 
 ### [Merged Sorted Array](https://leetcode.com/problems/merge-sorted-array/)
 
@@ -105,4 +105,83 @@ func merge(nums1 []int, m int, nums2 []int, n int)  {
 
 ```
 
+## Two Pointers
 
+### [Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) (easy)
+
+#### Problem Statement
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+ 
+
+Example 1:
+
+    Input: s = "A man, a plan, a canal: Panama"
+    Output: true
+    Explanation: "amanaplanacanalpanama" is a palindrome.
+
+Example 2:
+
+    Input: s = "race a car"
+    Output: false
+    Explanation: "raceacar" is not a palindrome.
+
+Example 3:
+
+    Input: s = " "
+    Output: true
+    Explanation: s is an empty string "" after removing non-alphanumeric characters.
+    Since an empty string reads the same forward and backward, it is a palindrome.
+ 
+
+Constraints:
+
+1. 1 <= s.length <= 2 * 105
+2. s consists only of printable ASCII characters.
+
+#### [Solution](https://leetcode.com/problems/valid-palindrome/submissions/1120632597)
+##### Intuition
+
+This is a fairly simple problem. We need to normalize the input string to disregard non-alphanumeric characters. There are a few ways you can do this, but I intend to use an approach that utilizes the least amount of data copying.
+
+##### Approach
+
+A naive approach would be to normalize the input string by copying each alphanumeric element into a new string and setting it to its lowercase representation. Then you could iterate over the normalized string and compare it to the opposing end of the string. However, this approach is costly as it requires lots of data copying and computation.
+
+Instead, I used a cursor approach where we iterate over each element of the string. We will `continue` the loop if we found a non-alphanumeric character. Additionally, we keep track of the "opposing index" of the string, what we'll call `oppositeCursor`. In the `for` loop, the `oppositeCursor` is decremented until we find an alphanumeric character. Once that is found, we compare the lower-case representation at `s[i]` and `s[oppositeCursor]` and if they don't match, then it is not a valid palindrome.
+
+#####Complexity
+- Time complexity: $O(n)$
+
+- Space complexity: $O(1)$
+
+##### Code
+
+```go
+func isPalindrome(s string) bool {
+    oppositeCursor := len(s)-1
+    for i := 0; i < len(s); i++ {
+        if i > oppositeCursor {
+            break
+        }
+        if !isAlphaNumeric(s[i]) {
+            continue
+        }
+        for;!isAlphaNumeric(s[oppositeCursor]) && i<oppositeCursor ; oppositeCursor-- {}
+        if i > oppositeCursor || strings.ToLower(string(s[i])) != strings.ToLower(string(s[oppositeCursor])) {
+            return false
+        }
+        oppositeCursor--
+    }
+    return true
+}
+
+func isAlphaNumeric(c byte) bool {
+    r := rune(c)
+    return unicode.IsLetter(r) || unicode.IsNumber(r)
+}
+
+```
