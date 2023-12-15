@@ -4,7 +4,7 @@ title: Leetcode
 
 ## Array/String
 
-### Merged Sorted Array
+### [Merged Sorted Array](https://leetcode.com/problems/merge-sorted-array/)
 
 #### Problem Statement
 
@@ -51,7 +51,7 @@ Constraints:
 
 Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 
-#### Solution
+#### [Solution](https://leetcode.com/problems/merge-sorted-array/submissions/1120616479)
 
 ##### Intuition
 Because we know that both arrays come pre-sorted, we can take advantage of the fact that `i+1` will always be >= `i` for each array.
@@ -60,11 +60,9 @@ Because we know that both arrays come pre-sorted, we can take advantage of the f
 I decide to use a cursor-based approach. We will allocate a new slice of size `m+n` and use two individual cursors that point into each array respectively. Whenever we "consume" an element from either array, we'll increment the corresponding cursor. We'll need to account for edge cases where we have consumed all available values in a particular array.
 
 ##### Complexity
-- Time complexity:
-$$O(m+n)$$
+- Time complexity: $O(m+n)$
 
-- Space complexity:
-$$O(m+n)$$
+- Space complexity: $O(m+n)$
 
 ##### Code
 ```go
@@ -107,4 +105,4 @@ func merge(nums1 []int, m int, nums2 []int, n int)  {
 
 ```
 
-https://leetcode.com/problems/merge-sorted-array/submissions/1120616479?envType=study-plan-v2&envId=top-interview-150
+
