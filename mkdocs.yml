@@ -100,8 +100,9 @@ nav:
     - blog/index.md
   - Programming:
     - Bash: programming/bash.md
-    - Preferred Golang Readings: programming/golang-readings.md
     - Golang: programming/golang.md
+    - Leetcode: programming/leetcode.md
+    - Preferred Golang Readings: programming/golang-readings.md
   - System Administration:
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
