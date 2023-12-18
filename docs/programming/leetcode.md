@@ -2,9 +2,9 @@
 title: Leetcode
 ---
 
-## Array/String (easy)
+## Array/String
 
-### [Merged Sorted Array](https://leetcode.com/problems/merge-sorted-array/)
+### [Merged Sorted Array](https://leetcode.com/problems/merge-sorted-array/) (easy)
 
 #### Problem Statement
 
@@ -185,3 +185,39 @@ func isAlphaNumeric(c byte) bool {
 }
 
 ```
+
+## Sliding Window
+
+### Minimum Size Subarray Sum
+
+#### Solution
+
+Naive (brute force):
+
+```go
+func minSubArrayLen(target int, nums []int) int {
+    minLength := 0
+
+outerloop:
+    for left := 0; left < len(nums); left++ {
+        cumulativeSum += left
+        sum := 0
+
+        for right := left; right < len(nums); right++ {
+            sum += nums[right]
+            if sum >= target {
+                length := right - left + 1
+                if minLength == 0 || minLength > length {
+                    minLength = length
+                }
+                continue outerloop
+            }
+        }
+    }
+    return minLength
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 2884ms | 8.4MB |
