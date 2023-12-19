@@ -221,3 +221,27 @@ outerloop:
 | status | language | runtime | memory |
 |--------|----------|---------|--------|
 | Accepted | Go | 2884ms | 8.4MB |
+
+Sliding Window:
+
+```go
+func minSubArrayLen(target int, nums []int) int {
+    minLength := len(nums) + 1
+    sum := 0
+    left := 0
+    for right := 0; right < len(nums); right++ {
+        sum += nums[right]
+        for sum >= target {
+            minLength = min(minLength, right - left + 1)
+            sum -= nums[left]
+            left++
+        }
+    }
+
+    if minLength == len(nums) + 1 {
+        return 0
+    }
+    return minLength
+}
+
+```
