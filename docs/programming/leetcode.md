@@ -584,4 +584,4 @@ func isValidSudoku(board [][]byte) bool {
 |--------|----------|---------|--------|
 | Accepted | Go | 0ms (100.00%) | 2.64MB (73.09%) |
 
-While this solution is slightly more efficient with memory, it was barely noticable. For a `9x9` grid, we were able to shave off $(9+9+9)*(1*9) - (9+9+9)*1 = 216$ bytes (in the prior solution, each cell required a single byte for each value 1-9, or 9 bytes total, but in this solution, each row and column needs only 2 bytes).
+While this solution is slightly more efficient with memory, it was barely noticable. For a `9x9` grid, we were able to shave off $(9+9+9)*(1*9) - (9+9+9)*1 = 216$ bytes (in the prior solution, each row/col/box required a single byte for each value 1-9, or 9 bytes total, but in this solution, each row/col/box needs only 2 bytes).
