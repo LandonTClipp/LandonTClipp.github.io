@@ -188,11 +188,45 @@ func isAlphaNumeric(c byte) bool {
 
 ## Sliding Window
 
-### Minimum Size Subarray Sum
+### Minimum Size Subarray Sum (Medium)
+
+#### Problem Statement
+
+Given an array of positive integers nums and a positive integer target, return the minimal length of a 
+subarray
+ whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+
+ 
+
+Example 1:
+
+    Input: target = 7, nums = [2,3,1,2,4,3]
+    Output: 2
+    Explanation: The subarray [4,3] has the minimal length under the problem constraint.
+
+Example 2:
+
+    Input: target = 4, nums = [1,4,4]
+    Output: 1
+
+Example 3:
+
+    Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+    Output: 0
+    
+
+Constraints:
+
+1 <= target <= 109
+1 <= nums.length <= 105
+1 <= nums[i] <= 104
+ 
+
+Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
 
 #### Solution
 
-Naive (brute force):
+[Naive (brute force):](https://leetcode.com/problems/minimum-size-subarray-sum/submissions/1122951997?envType=study-plan-v2&envId=top-interview-150)
 
 ```go
 func minSubArrayLen(target int, nums []int) int {
@@ -218,11 +252,19 @@ outerloop:
 }
 ```
 
+**Complexity Analysis**
+
+- Time: $O(n^2)
+  - The lefthand pointer of our subarray iterates over the entire `nums` array, which is $O(n)$.
+  - For every position of `left`, we find every subarray starting from that point, which is $O(n)$.
+  - Together, these operations are multiplied to become $O(n^2)$
+- Space: $O(1)$
+
 | status | language | runtime | memory |
 |--------|----------|---------|--------|
 | Accepted | Go | 2884ms | 8.4MB |
 
-Sliding Window:
+[Sliding Window:](https://leetcode.com/problems/minimum-size-subarray-sum/submissions/1122988496?envType=study-plan-v2&envId=top-interview-150)
 
 ```go
 func minSubArrayLen(target int, nums []int) int {
@@ -245,3 +287,299 @@ func minSubArrayLen(target int, nums []int) int {
 }
 
 ```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 28ms | 7.8MB |
+
+This solution uses a dynamically-sized array. We start with the smallest non-zero subarray at the lefthand side and increase the array until its total sum is greater than or equal to the target. Then, we increment the lefthand pointer until the sum is below the target again. During each iteration where we are incrementing the lefthand pointer, we set `minLength` equal to the current subarray length if it's smaller than the last recorded `minLength`.
+
+The effect of this algorithm is that we only iterate over the entire subarray at most twice, which gives us $O(n)$.
+
+## Matrix
+
+### [Valid Sudoku](https://leetcode.com/problems/valid-sudoku/)
+
+#### Problem Statement
+
+Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+1. Each row must contain the digits 1-9 without repetition.
+2. Each column must contain the digits 1-9 without repetition.
+3. Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+
+Note:
+
+A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+Only the filled cells need to be validated according to the mentioned rules.
+
+#### Solution
+
+There are a few ways this could be solved. A naive solution would be to first iterate over every `(x,y)` coordinate in the puzzle, and for each coordinate, traverse the entire column at `x` and the entire row at `y` to see if an integer repeats. This algoirthm would require $O(n^2)$ to iterate over every element, then $O(2n)=O(n)$ to iterate over the respective column/row, for a total time complexity of $O(n^3)$. The space complexity would be $O(n)$ as we would want to allocate a set that contains the values seen in the entire column/row for `(x,y)`.
+
+Another solution would be as follows: 
+
+1. Allocate two sets: one for every column, and one for every row. This gives a space complexity of $O(n^2)$.
+2. Iterate over every `(x,y)` coordinate. This gives time complexity of $O(n^2)$
+   a. If a value is present in the coordinate, add the value to the `cols[x]` set, and to the `cols[y]` set. Time complexity is $O(1)$ as hashing is constant time.
+   b. If the value previously exists in either set, return `false`.
+3. If we made it through the entire puzzle and a value was not repeated for each `(col,row)` tuple, then return `true`.
+
+https://leetcode.com/problems/valid-sudoku/submissions/1124533660?envType=study-plan-v2&envId=top-interview-150
+
+```go
+func isValidSudoku(board [][]byte) bool {
+    type set map[byte]struct{}
+    type index int
+    cols := make([]set, 9)
+    rows := make([]set, 9)
+
+    // The subBox that a particular coordinate belongs to is calculated using
+    // the formula: subBox = floor(x/3) + (floor(y/3) * 3). The constraint says
+    // that `board.length == 9` so we know there will always be 9 sub-boxes.
+    subBox := make([]set, 9)
+
+    boardLen := index(len(board))
+
+    for y := index(0); y < boardLen; y++ {
+        if rows[y] == nil {
+            rows[y] = set{}
+        }
+        for x := index(0); x < boardLen;  x++ {
+            // Initialize the cols[x] set if it is nil
+            if cols[x] == nil {
+                cols[x] = set{}
+            }
+            // Calculate the 3x3 sub-box that we're in. If it doesn't exist,
+            // allocate it.
+            subBoxIdx := (x/index(3)) + ((y/index(3)) * 3)
+            subBoxElement := subBox[subBoxIdx]
+            if subBoxElement == nil {
+                subBoxElement = set{}
+                subBox[subBoxIdx] = subBoxElement
+            }
+
+            val := board[x][y]
+            if val == byte('.') {
+                continue
+            }
+            // Has this number been seen in this row before?
+            if _, existsInRow := rows[y][val]; existsInRow {
+                return false
+            }
+            rows[y][val] = struct{}{}
+            // Has this number been seen in this column before?
+            if _, existsCol := cols[x][val]; existsCol {
+                return false
+            }
+            cols[x][val] = struct{}{}
+            // Has this number been seen in our subBox before?
+            if _, existsInSubBox := subBox[subBoxIdx][val]; existsInSubBox {
+                return false
+            }
+            subBox[subBoxIdx][val] = struct{}{}
+        }
+    }
+    return true
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 5ms (28.94%) | 3.4MB (35.58%) |
+
+In this solution, our row/col/subBox hashmaps are stored inside an array of fixed length `9`. We could have used a structure like `map[index]set` but because we know beforehand the values that would go into the map, it's more efficient to instead use an array of length `9`: `[9]set`.
+
+As you can see, this solution lies within the lower half percentile of all submissions in terms of runtime and memory performance. Perhaps there is a better way? I noticed one silly thing that was being done in my original solution: the initialization of the rows/copls/subBox sets were being done inside the main `for` loop. This means that there will be a lot of unnecessary branching done in the `if` statements that check if the set at a particular index had been initialized yet. Let's see how it performs with this change:
+
+https://leetcode.com/problems/valid-sudoku/submissions/1124540277?envType=study-plan-v2&envId=top-interview-150
+
+```go
+type set map[byte]struct{}
+type index int
+
+func isValidSudoku(board [][]byte) bool {
+
+    cols := make([]set, 9)
+    rows := make([]set, 9)
+
+    // The subBox that a particular coordinate belongs to is calculated using
+    // the formula: subBox = floor(x/3) + (floor(y/3) * 3). The constraint says
+    // that `board.length == 9` so we know there will always be 9 sub-boxes.
+    subBox := make([]set, 9)
+
+    boardLen := index(len(board))
+
+    for i := index(0); i < boardLen; i++ {
+        rows[i] = set{}
+        cols[i] = set{}
+        subBox[i] = set{}
+    }
+
+    for y := index(0); y < boardLen; y++ {
+        for x := index(0); x < boardLen;  x++ {
+            // Calculate the 3x3 sub-box that we're in. If it doesn't exist,
+            // allocate it.
+            subBoxIdx := (x/index(3)) + ((y/index(3)) * 3)
+
+            val := board[x][y]
+            if val == byte('.') {
+                continue
+            }
+            // Has this number been seen in this row before?
+            if _, existsInRow := rows[y][val]; existsInRow {
+                return false
+            }
+            rows[y][val] = struct{}{}
+            // Has this number been seen in this column before?
+            if _, existsCol := cols[x][val]; existsCol {
+                return false
+            }
+            cols[x][val] = struct{}{}
+            // Has this number been seen in our subBox before?
+            if _, existsInSubBox := subBox[subBoxIdx][val]; existsInSubBox {
+                return false
+            }
+            subBox[subBoxIdx][val] = struct{}{}
+        }
+    }
+    return true
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 0ms (100.00%) | 3.56MB (31.71%) |
+
+As we can see, the runtime is now _much_ better. However, being somewhat of a perfectionist, our memory consumption is still not where I'd like it to be. If you look at the `Memory` distribution for submissions, a large number of Leetcoders were able to get the usage down to ~2.6MB. Let's see what we can do to resolve this.
+
+The two prior solutions are relying on a `#!go type set map[byte]struct{}` to represent a set of bytes that we've seen. However, one property in this particular problem is that we already know the maximum size that this set could ever be, which is 9 (due to the fact that Sudoku cells can only be from 1-9). When we know the size of the hashmap beforehand, we can instead use a fixed-length array. We'll set the value of the array to be a `bool`, which in Go is a single byte.
+
+https://leetcode.com/problems/valid-sudoku/submissions/1124547528?envType=study-plan-v2&envId=top-interview-150
+
+```go 
+type index int
+
+func isValidSudoku(board [][]byte) bool {
+    cols := make([][9]bool, 9)
+    rows := make([][9]bool, 9)
+
+    // The subBox that a particular coordinate belongs to is calculated using
+    // the formula: subBox = floor(x/3) + (floor(y/3) * 3). The constraint says
+    // that `board.length == 9` so we know there will always be 9 sub-boxes.
+    subBox := make([][9]bool, 9)
+
+    boardLen := index(len(board))
+
+    for i := index(0); i < boardLen; i++ {
+        rows[i] = [9]bool{}
+        cols[i] = [9]bool{}
+        subBox[i] = [9]bool{}
+    }
+
+    for y := index(0); y < boardLen; y++ {
+        for x := index(0); x < boardLen;  x++ {
+            // Calculate the 3x3 sub-box that we're in. If it doesn't exist,
+            // allocate it.
+            subBoxIdx := (x/index(3)) + ((y/index(3)) * 3)
+
+            val := board[x][y]
+            if val == byte('.') {
+                continue
+            }
+            valInt, _ := strconv.Atoi(string(val))
+            valInt--
+            // Has this number been seen in this row before?
+            if rows[y][valInt] {
+                return false
+            }
+            rows[y][valInt] = true
+            // Has this number been seen in this column before?
+            if cols[x][valInt] {
+                return false
+            }
+            cols[x][valInt] = true
+            // Has this number been seen in our subBox before?
+            if subBox[subBoxIdx][valInt] {
+                return false
+            }
+            subBox[subBoxIdx][valInt] = true
+        }
+    }
+    return true
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 0ms (100.00%) | 2.66MB (73.09%) |
+
+There's a way to make this even more memory efficient. For each row/col/box, we're storing a single `bool` for each integer `1-9`. This totals to 9 bytes for each row/column/box. Ideally, we'd like to distill down our bool to a single bit, but there is no data type that is a single bit large. Instead, we could rely on bitmasking over a sufficiently sized data type (perhaps a uint16) to store our bool. Our data structures would look something like:
+
+```go
+cols := [9]uint16{}
+rows := [9]uint16{}
+subBox := [9]uint16{}
+```
+
+Notice that in this solution, I'll elect to use an array instead of a slice, as arrays take up even less memory in Go.
+
+The bit mask is going to need to be equal to its location in the `uint16`, or more specifically, `#!go 1 << valInt`
+
+```go
+type index int
+
+func isValidSudoku(board [][]byte) bool {
+    cols := [9]uint16{}
+    rows := [9]uint16{}
+    subBox := [9]uint16{}
+    valMap := map[byte]int{}
+
+    boardLen := index(len(board))
+
+    for y := index(0); y < boardLen; y++ {
+        for x := index(0); x < boardLen;  x++ {
+            // Calculate the 3x3 sub-box that we're in. If it doesn't exist,
+            // allocate it.
+            subBoxIdx := (x/index(3)) + ((y/index(3)) * 3)
+
+            val := board[x][y]
+            if val == byte('.') {
+                continue
+            }
+            var valInt int
+            var exists bool
+            if valInt, exists = valMap[val]; !exists {
+                v, _ := strconv.Atoi(string(val))
+                v--
+                valMap[val] = v
+            }
+            valInt = valMap[val]
+           
+            mask := (uint16(1)<<valInt)
+            // Has this number been seen in this row before?
+            if rows[y] & mask != 0 {
+                return false
+            }
+            rows[y] |= mask
+            // Has this number been seen in this column before?
+            if cols[x] & mask != 0 {
+                return false
+            }
+            cols[x] |= mask
+            // Has this number been seen in our subBox before?
+            if subBox[subBoxIdx] & mask != 0 {
+                return false
+            }
+            subBox[subBoxIdx] |= mask
+        }
+    }
+    return true
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 0ms (100.00%) | 2.64MB (73.09%) |
+
+While this solution is slightly more efficient with memory, it was barely noticable. For a `9x9` grid, we were able to shave off $(9+9+9)*(1*9) - (9+9+9)*1 = 216$ bytes (in the prior solution, each cell required a single byte for each value 1-9, or 9 bytes total, but in this solution, each row and column needs only 2 bytes).
