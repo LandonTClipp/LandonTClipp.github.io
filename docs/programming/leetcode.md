@@ -526,6 +526,8 @@ Notice that in this solution, I'll elect to use an array instead of a slice, as 
 
 The bit mask is going to need to be equal to its location in the `uint16`, or more specifically, `#!go 1 << valInt`
 
+https://leetcode.com/problems/valid-sudoku/submissions/1124554856?envType=study-plan-v2&envId=top-interview-150
+
 ```go
 type index int
 
