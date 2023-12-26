@@ -1,5 +1,6 @@
 ---
 title: Leetcode
+toc_depth: 3
 ---
 
 ## Array/String
@@ -298,7 +299,7 @@ The effect of this algorithm is that we only iterate over the entire subarray at
 
 ## Matrix
 
-### [Valid Sudoku](https://leetcode.com/problems/valid-sudoku/)
+### [Valid Sudoku (Medium)](https://leetcode.com/problems/valid-sudoku/)
 
 #### Problem Statement
 
@@ -812,3 +813,178 @@ class Solution:
 |--------|----------|---------|--------|
 | Accepted | Python | 34ms (89.48%) | 17.55MB (5.52%) |
 
+### [Strong Password Checker (hard)](https://leetcode.com/problems/strong-password-checker/description/)
+
+#### Problem Statement
+
+A password is considered strong if the below conditions are all met:
+
+- It has at least 6 characters and at most 20 characters.
+- It contains at least one lowercase letter, at least one uppercase letter, and at least one digit.
+- It does not contain three repeating characters in a row (i.e., "Baaabb0" is weak, but "Baaba0" is strong).
+
+Given a string password, return the minimum number of steps required to make password strong. if password is already strong, return 0.
+
+In one step, you can:
+
+- Insert one character to password,
+- Delete one character from password, or
+- Replace one character of password with another character.
+ 
+
+Example 1:
+
+    Input: password = "a"
+    Output: 5
+
+Example 2:
+
+    Input: password = "aA1"
+    Output: 3
+
+Example 3:
+
+    Input: password = "1337C0d3"
+    Output: 0
+ 
+
+Constraints:
+
+- 1 <= password.length <= 50
+- password consists of letters, digits, dot '.' or exclamation mark '!'.
+
+#### [Solution](https://leetcode.com/problems/strong-password-checker/submissions/1129209867)
+
+This problem is pretty fucked, and I admittedly struggled to get it. The check to determine if the password is strong is easy, but figuring out the minimum number of steps to make it strong is very difficult. My solution passed 44/53 test cases, which is still a B- mind you :smile:
+
+```python
+from typing import List
+
+
+class Solution:
+    def strongPasswordChecker(self, password: str) -> int:
+        too_short = len(password) < 6
+        too_long = len(password) > 20
+        has_lowercase_letter = False
+        has_uppercase_letter = False
+        has_digit = False
+        has_excessive_repeating_character = False
+
+        num_excessive_repeating_sequences = 0
+        num_excessive_contiguous_characters = 0
+
+        # Contains the character we've seen contiguously, and the number of times
+        # it has been contiguous
+        contiguous_character: List[string, int] | None = None
+
+        for char in password:
+            if char.isalpha():
+                if char.islower():
+                    has_lowercase_letter = True
+                else:
+                    has_uppercase_letter = True
+            if char.isnumeric():
+                has_digit = True
+            if not contiguous_character:
+                contiguous_character = [char, 1]
+            else:
+                if char == contiguous_character[0]:
+                    contiguous_character[1] += 1
+                    if contiguous_character[1] >= 3:
+                        has_excessive_repeating_character = True
+                        num_excessive_repeating_sequences += 1
+                        contiguous_character = None
+                else:
+                    contiguous_character = [char, 1]
+
+        is_strong = (
+            not too_short
+            and not too_long
+            and has_lowercase_letter
+            and has_uppercase_letter
+            and has_digit
+            and not has_excessive_repeating_character
+        )
+        if is_strong:
+            return 0
+
+        steps = 0
+        if too_long:
+            num_deleted = 0
+            while (
+                num_excessive_repeating_sequences > 0
+                and num_deleted < len(password) - 20
+            ):
+                
+                steps += 1
+                num_excessive_repeating_sequences -= 1
+                num_deleted += 1
+                print("deleted character from repeating sequence")
+            steps += len(password) - 20 - num_deleted
+            print("deleted character")
+
+        if too_short:
+            num_added = 0
+            while num_added < 6 - len(password):
+                if num_excessive_repeating_sequences > 0:
+                    
+                    if not has_lowercase_letter:
+                        has_lowercase_letter = True
+                        print("added character in repeating sequence: lowercase")
+                    elif not has_uppercase_letter:
+                        has_uppercase_letter = True
+                        print("added character in repeating sequence: uppercase")
+                    elif not has_digit:
+                        has_digit = True
+                        print("added character in repeating sequence: digit")
+                    else:
+                        print("added character in repeating sequence: arbitrary")
+                    num_excessive_repeating_sequences -= 1
+                elif not has_lowercase_letter:
+                    has_lowercase_letter = True
+                    print("added lowercase")
+                elif not has_uppercase_letter:
+                    has_uppercase_letter = True
+                    print("added uppercase")
+                elif not has_digit:
+                    has_digit = True
+                    print("added digit")
+                else:
+                    print("added arbitrary")
+                num_added += 1
+                steps += 1
+    
+        # We need to replace one character for each repeating
+        # sequence.
+        # By doing a replacement, we could also add missing upper/lower/digits
+        # if possible.
+        while num_excessive_repeating_sequences > 0:
+            if not has_lowercase_letter:
+                has_lowercase_letter = True
+                print("replaced repeating sequence with lowercase")
+            elif not has_uppercase_letter:
+                has_uppercase_letter = True
+                print("replaced repeating sequence with uppercase")
+            elif not has_digit:
+                has_digit = True
+                print("replaced repeating sequence with digit")
+            else:
+                print("replaced repeating sequence with arbitrary")
+            num_excessive_repeating_sequences -= 1
+            steps += 1
+
+        if not has_lowercase_letter:
+            has_lowercase_letter = True
+            steps += 1
+            print("replaced character with lowercase")
+        if not has_uppercase_letter:
+            has_uppercase_letter = True
+            steps += 1
+            print("replaced character with upper")
+        if not has_digit:
+            has_digit = True
+            steps += 1
+            print("replaced character with digit")
+
+        return steps
+```
