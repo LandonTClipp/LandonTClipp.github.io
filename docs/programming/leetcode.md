@@ -585,3 +585,162 @@ func isValidSudoku(board [][]byte) bool {
 | Accepted | Go | 0ms (100.00%) | 2.64MB (73.09%) |
 
 While this solution is slightly more efficient with memory, it was barely noticable. For a `9x9` grid, we were able to shave off $(9+9+9)*(1*9) - (9+9+9)*1 = 216$ bytes (in the prior solution, each row/col/box required a single byte for each value 1-9, or 9 bytes total, but in this solution, each row/col/box needs only 2 bytes).
+
+## Hashmap
+
+### [Group Anagram (Medium)](https://leetcode.com/problems/group-anagrams/description/)
+
+#### Problem Statement
+
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+Example 1:
+
+    Input: strs = ["eat","tea","tan","ate","nat","bat"]
+    Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+Example 2:
+
+    Input: strs = [""]
+    Output: [[""]]
+
+Example 3:
+
+    Input: strs = ["a"]
+    Output: [["a"]]
+ 
+
+**Constraints**:
+
+- 1 <= strs.length <= 104
+- 0 <= strs[i].length <= 100
+- strs[i] consists of lowercase English letters.
+
+#### Solution
+
+In this problem, we are wanting to _map_ words that contain the same letters into the same group. The intuition for this is that somehow the letters within the word are going to be used as a hash key into some sort of group. The first problem we run into is the fact that the hash is going to vary based on the order of the words, so we want our hashing function to be invariate to the letter ordering. An easy way to fix this is to simply sort the word alphabetically, then use that sequence of letters as the hash key.
+
+You can see in the solution below that we do just that. We first allocate a `groups` dictionary that maps a string to a list. We iterate over every word in the `strs` variable, sort the word, then append that word to the list that it mapped to.
+
+The problem requires us to return a list of a list of strings, so the last step is to modify the `groups` dictionary into the format the problem requires.
+
+https://leetcode.com/problems/group-anagrams/submissions/1129043806?envType=study-plan-v2&envId=top-interview-150
+
+```python
+from typing import Dict
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        groups: Dict[str, list] = {} 
+        for word in strs:
+            sorted_word = ''.join(sorted(word))
+            if sorted_word not in groups:
+                groups[sorted_word] = []
+            groups[sorted_word].append(word)
+        groups_list = []
+        for key, value in groups.items():
+            groups_list.append(value)
+        return groups_list
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Python | 90ms (88.31%) | 20.43MB (45.15%) |
+
+We can simplify the logic of allocating the list in `groups` by using `collections.defaultdict`. Let's try that:
+
+```python
+from typing import Dict
+from collections import defaultdict
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        groups: Dict[str, list] = defaultdict(list)
+        for word in strs:
+            sorted_word = ''.join(sorted(word))
+            groups[sorted_word].append(word)
+        groups_list = []
+        for key, value in groups.items():
+            groups_list.append(value)
+        return groups_list
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Python | 77ms (99.63%) | 20.52MB (42.00%) |
+
+The runtime here is a bit of a red herring because I can run the same code multiple times and get wildly different results. For example, when I run a second time I get 88ms. So, it's hard to judge just how good a solution _really_ is without running it multiple times.
+
+## Intervals
+
+### [Merge Intervals (Medium)](https://leetcode.com/problems/merge-intervals/description/)
+
+#### Problem Statement
+
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+**Example 1**:
+
+    Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+    Output: [[1,6],[8,10],[15,18]]
+    Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+
+**Example 2**:
+
+    Input: intervals = [[1,4],[4,5]]
+    Output: [[1,5]]
+    Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+ 
+
+**Constraints**:
+
+- 1 <= intervals.length <= 104
+- intervals[i].length == 2
+- 0 <= starti <= endi <= 104
+
+#### [Solution](https://leetcode.com/problems/merge-intervals/submissions/1129074184?envType=study-plan-v2&envId=top-interview-150)
+
+This solution has a wide range of possibilities. A naive solution might be to create a hashmap whereby each integer value is mapped to the current "largest" interval. You iterate through every integer in the range to see if you are overlapping with another range. If you are, extend the range if appropriate and continue to the next interval. However, this solution is a bit of a non-starter because the time complexity would be $O(n*m)$ where $n$ is the number of intervals, and $m$ is the size of the largest interval. The space complexity is also $O(n*m)$ because the hashmap needs to store a mapping for every integer in every range.
+
+Another solution we could try is to first sort the intervals by starting integer. Once sorted, we iterate through the intervals and check each successive interval to see if it overlaps with a prior interval. This would be $O(n)$ because you have to iterate through the intervals once (to sort), then again to compare to the previous interval.
+
+Let's try the second solution:
+
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        sorted_intervals = sorted(intervals, key=lambda entry: entry[0])
+
+        # We initialize `ranges` with the first element in sorted_intevals.
+        # we can assume that `sorted_intervals` contains at least one element
+        # because of the constraints listed in the problem statement.
+        ranges: List[List[int]] = [sorted_intervals[0]]
+
+        current_interval = 0
+        # We start from index 1 because we already added the first element
+        # to ranges.
+        for interval in sorted_intervals[1:]:
+            prev_range_start = ranges[current_interval][0]
+            prev_range_end = ranges[current_interval][1]
+            cur_range_start = interval[0]
+            cur_range_end = interval[1]
+            if cur_range_start <= prev_range_end:
+                # We know we have an overlapping range.
+                if cur_range_end - prev_range_start >= prev_range_end - prev_range_start:
+                    # If we were to extend the interval, we get a larger range.
+                    ranges[current_interval][1] = cur_range_end
+                continue
+            ranges.append(interval)
+            current_interval += 1
+        
+        return ranges
+```
+
+This performs quite well:
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Python | 116ms (99.21%) | 21.50MB (10.16%) |
+
