@@ -813,6 +813,8 @@ class Solution:
 |--------|----------|---------|--------|
 | Accepted | Python | 34ms (89.48%) | 17.55MB (5.52%) |
 
+## Strings
+
 ### [Strong Password Checker (hard)](https://leetcode.com/problems/strong-password-checker/description/)
 
 #### Problem Statement
