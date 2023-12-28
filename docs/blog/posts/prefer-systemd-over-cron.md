@@ -1,7 +1,7 @@
 ---
 date: 2023-06-22
 categories:
-  - sysadmin
+  - System Administration
 title: Prefer Systemd Timers Over Cron
 description: You should never use crontabs again. Here's why systemd is better.
 ---
