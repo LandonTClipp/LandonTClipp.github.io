@@ -3,6 +3,9 @@ title: Leetcode
 toc_depth: 3
 ---
 
+!!! warning
+    The code in this page represents, essentially, a ["code golf"](https://en.wikipedia.org/wiki/Code_golf) solution to the problem statements. These solutions are not necessarily how I would code something in a production setting, as I tend to emphasize readability and maintainability over speed.
+
 ## Array/String
 
 ### [Merged Sorted Array](https://leetcode.com/problems/merge-sorted-array/) (easy)
@@ -15,7 +18,6 @@ Merge nums1 and nums2 into a single array sorted in non-decreasing order.
 
 The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
 
- 
 
 Example 1:
 
