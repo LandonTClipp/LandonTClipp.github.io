@@ -1,8 +1,8 @@
 ---
 date: 2023-07-15
 categories:
-  - programming
-  - golang
+  - Programming
+  - Golang
 title: Analyzing Go Heap Escapes
 description: Analyzing how Go decides what escapes to the heap, and how to visualize it in VSCode.
 ---

@@ -1,8 +1,8 @@
 ---
 date: 2023-06-21
 categories:
-  - golang
-  - programming
+  - Golang
+  - Programming
 title: Introducing Mockery's New packages Feature
 description: What the packages feature is, how it works, and why you should use it.
 ---

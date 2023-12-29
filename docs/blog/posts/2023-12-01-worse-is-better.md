@@ -1,7 +1,7 @@
 ---
 date: 2023-12-01
 categories:
-  - programming
+  - Programming
 title: Worse is Better
 ---
 

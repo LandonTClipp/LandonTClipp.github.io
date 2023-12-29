@@ -1,8 +1,8 @@
 ---
 date: 2023-08-25
 categories:
-  - programming
-  - golang
+  - Programming
+  - Golang
 title: Profile Guided Optimizations in Go
 description: How to use PGO to improve the performance of your production applications
 ---

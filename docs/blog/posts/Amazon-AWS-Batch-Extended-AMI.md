@@ -2,7 +2,7 @@
 date: 2018-08-21
 categories:
   - AWS
-  - cloud
+  - Cloud
 title: AWS Batch Extended AMIs
 ---
 

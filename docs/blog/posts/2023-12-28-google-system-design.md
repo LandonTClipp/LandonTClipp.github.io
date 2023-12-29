@@ -89,6 +89,91 @@ flowchart
     SourceCode -->|Download v0.1.0| Backend -->|Execute build.sh in source code.\nUpload artifact.| ArtifactRepository
 ```
 
+This diagram shows a general flow of how our system will actually _build_ a piece of code. A human will make a request to some UI that specifies that we want to initiate a build for `v0.1.0` of our repo. This request goes to some "backend" (which we have not yet defined) that downloads the code, executes some build command (like some `build.sh` script that is defined in the repo itself), and uploads the artifact to some sort of repository. This repository can be an S3 bucket, a POSIX filesystem, or whatever we want. Let's just say it'll be an S3 blob store.
+
+Our build backend needs to satisfy various properties:
+
+1. It needs to be horizontally scalable.
+2. It needs to prioritize builds in the queue based off of queue insertion time.
+3. It needs to keep track of the state of the build.
+
+##### Event-Driven
+
+The first question becomes, what should our queue be? Well, we could have an event driven system where new builds go into some pubsub topic, which also acts as a queue. The message will be grabbed by a backend "worker", which itself could send a message saying the message was received, it will perform the build, upload it to a backend, then send another message indicating success.
+
+```mermaid
+flowchart
+    pubsub[(pubsub)]
+    pubsub <--> worker1(Worker 1)
+    pubsub <--> worker2(Worker 2)
+    pubsub <--> worker3(Worker 3)
+```
+
+**Pros**
+
+1. The horizontal scaling of the worker pool is essentially limitless. We'd only be limited by the size of the pubsub cluster, which is fairly easy to do if we partition the topic correctly.
+2. We also get prioritization for free as our workers would grab messages off the topic in roughly the order in which they were sent
+3. The latency between from when the job is enqueued and when it gets claimed by a worker is 100% determined by the size of the queue and the number of workers. This is a good property to have as it means we can keep our workers maximally occupied and there is nothing inbetween the queue and the workers to slow the process down.
+
+**Cons**
+
+1. It becomes more difficult to determine what the current state of a build is. We'd need some sort of sidecar process that listens to the messages in the pubsub topic and keeps track of each build's state in a SQL database.
+2. It's difficult to create some sort of fairshare algorithm between the code repositories. In my experience with build systems, sometimes a large repository can hold a build system hostage (due to a large number of builds being sent, or each build taking an enormous amount of time) and cause builds from other repos to become backlogged.
+
+##### Event-Driven (With State Tracking)
+
+Another solution is that our queue could live in a Postgres (or MySQL, or MariaDB, whatever). In this case, the database access should be protected behind some sort of arbiter process so that we don't have an unbounded number of workers trying to all perform complex tasks on the database, which would slow performance. It would also be unwise for the workers to directly access the database because then we're creating an implicit coupling between the database schema, and the schema the workers expect. If we isolate the schema access to a single process, it becomes more manageable to do backwards-incompatible migrations, should we ever need to.
+
+The worker itself will look like this:
+
+```mermaid
+flowchart
+    SQL[(SQL queue)]
+    dispatcher[[dispatcher]]
+    pubsub[(Pubsub)]
+    ArtifactRepository[(Artifact Repository)]
+
+    SQL <-->|determine next jobs| dispatcher
+    dispatcher -->|message: job ready| pubsub
+    pubsub <--> worker1
+    pubsub <--> worker2
+    pubsub <--> worker3
+
+    worker1 --> ArtifactRepository
+    worker2 --> ArtifactRepository
+    worker3 --> ArtifactRepository
+```
+
+The general flow looks like this:
+
+1. The dispatcher listens for `message: job submitted` from the pubsub queue, indicating we want a new build to be inserted into queue.
+2. Dispatcher adds job to SQL queue.
+3. Dispatcher selects next batch of jobs from SQL queue. This is determined based off of some priority tuple like `(creation_time,repo)` so that each repo can have individually-applied priorities. It sets the `STATUS` of these jobs to `PUBSUB SUBMITTED`.
+4. Dispatcher sends a message to pubsub indicating that the jobs should be processed.
+5. An arbitrary worker will receive the message and send a `message: job received` to the pubsub.
+6. The dispatcher will receive the `message: job received` and set the status of the job in SQL to `RUNNING`, and optionally note which worker took the job (useful for debugging purposes).
+7. The worker will perform the build. At the end, it uploads it to the artifact repository and sends a `message: job completed` to the pubsub.
+8. The dispatcher receives this message and sets the status of the job to `COMPLETED`.
+
+There is an important scenario to consider: what happens if the worker claims a job, but then dies halfway through the build process? We need some way to detect this failure scenario. One solution is that we could have the dispatcher periodically poll some HTTP endpoint exposed by the workers and check that it's healthy. Since we know which worker claimed a job, we can poll it to ensure it's healthy.
+
+If the poll times out, the dispatcher can set the status of the job to `FAILED` and prevent any other work in the job until it's explicitly retried. In the case that the poll comes back and the worker says it's working on some other job, AND the dispatcher has not seen either a `message: job failed` or `message: job completed` message, we can assume that the job got lost somewhere and set its status to `FAILED`.
+
+**Pros**
+
+1. The dispatcher provides us with explicit state tracking. It knows the status of every job and keeps track of its state.
+2. We still get the benefit of using event-driven message passing, which gives us a lot of room to scale.
+3. The dispatcher performs health checks on the workers so we can detect hard failure conditions.
+4. We have a lot of room to implement more sophisticated priority mechanisms, which can allow us to protect against a repo taking too much of the computing resources. For example, we could pop a maximum of 100 repos at a time, which allows us to do a sort of round-robin scheduling.
+
+**Cons**
+
+1. We're introducing a latency penalty, because there will be a period of time between when a job is enqueued in SQL, and when it gets submitted to the pubsub topic. 
+2. The dispatcher might eventually become a bottleneck. Since it's a single process (which may be multithreaded), we're limited to the computing resources of a single node. We're also limited to how many operations we can do on the SQL database. However, since we're doing 1000s of deploys per day, it doesn't seem unreasonable for us to perform some single-digit multiple of SQL operations to keep track of that state. Plus, we can batch updates to the database, and make use of indicies, to improve performance.
+3. We have a single point of failure. If the dispatcher fails, then the entire process grinds to a halt. This could be mitigated if we introduce multiple dispatchers that have simultaneous access to the database. However this introduces another source of complexity in the system as we need to ensure there are no race conditions. Additionally, multiple dispatchers will introduce even more load on the SQL server, which possibly means more contention, so we'd need to be mindful of the load and SQL contention of our database.
+
+Overall, using an even-driven system with state tracking feels like the right compromise between latency and distributed state tracking. It allows us explicit prioritization logic between repos and can scale quite well to 1000s of operations per day.
+
 #### Artifact Deployment
 
 The deployment mechanism needs to communicate to all production nodes what version of the application should be runnning. We also need a way to distribute the artifact. We will first tackle the distribution question:
@@ -184,4 +269,18 @@ This diagram might look a bit involved, but it's actually quite simple. Here's t
 6. This request falls back to a number of caching proxies all the way back to the deployment backend in the source colo.
 7. The JSON containing the deployment information is returned to the deployment controller.
 8. Based on the information provided, the deployment controller determines if its a target for this deployment, and if so, deploys the new version in the way specified in the JSON.
+
+### Clement's Solution
+
+#### Build
+I won't go into detail his exact solution as you can find it in the video. In Clement's solution, his build system consists of a pool of workers that are all working off a build queue, where the queue is populated by certain triggers in our company's various repositories (such as a merge to master). He decides that the workers should dequeue by directly accessing the database, which is an anti-pattern as we are spreading the coupling between the SQL schema and the workers over some arbitrary number of works, instead of limiting it to just one or two dispatchers (as in my solution).
+
+
+#### Distribution
+
+His distribution mechanism relies on replicating the GCS buckets to multiple regions, which means that we now need to keep track of the status of the replication. Only after the replication succeeds can we deploy the artifact. This is a fairly complex solution because it relies on some blackbox replication system (which has unknown reliability/latency guarantees), and some external replication monitoring service. In my solution, my distribution mechanism relies on a single source of truth bucket and a series of tiered caching proxies. When we notify the servers that a new artifact is ready, they can _immediately_ send a request to download these new artifacts. The caching proxies will initially miss back to the source of truth. After the initial miss, subsequent requests in a remote colo for the artifact will hit the proxy's internal cache, which will dramatically speed up the download.
+
+He also notes that it's unreasonable for all machines in a region to download directly from the GCS bucket, as that would introduce a ton of network overhead (and cost on the cloud side). He proposes that the machines in a region can participate in a P2P protocol so that they can share the artifacts amongst themselves. While this might work, it's an even greater source of complexity that can be operationally more difficult to manage. My solution of using a pool of caching proxies in each region is fairly simple and can be scaled horizontally quite well.
+
+It's possible, however, that we could use _both_ the reverse caching proxy solution and a P2P solution down the line. For example, a server could first check if the file is available in the P2P network. If it's not, ask the caching proxy for the file (or, the caching proxy could be part of the P2P network! Interesting thought). This would give us some amount of redundancy because if the caching proxy pool goes down for whatever reason, the file is likely still available in the P2P network, which would allow the deployment to continue. This would help with the reliability aspect of our system.
 

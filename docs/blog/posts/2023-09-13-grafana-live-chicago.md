@@ -1,7 +1,7 @@
 ---
 date: 2023-09-13
 categories:
-  - grafana
+  - Grafana
 title: Grafana Live | Chicago 2023
 ---
 
