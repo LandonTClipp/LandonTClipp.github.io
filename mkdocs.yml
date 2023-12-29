@@ -102,7 +102,6 @@ nav:
     - Bash: programming/bash.md
     - Golang: programming/golang.md
     - Leetcode: programming/leetcode.md
-    - Preferred Golang Readings: programming/golang-readings.md
     - Python: programming/python.md
     - YAML: programming/yaml.md
   - System Administration:
