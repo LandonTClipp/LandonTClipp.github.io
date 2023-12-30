@@ -518,7 +518,7 @@ The Go compiler has this concept called an "inlining budget". The budget control
 Function calls are surprisingly complex, so if we can replace all of that work by pretending that the called function's code was inside of the caller's code, we can get some pretty significant speedups by skipping all of these bookkeeping tasks.
 
 
-#### `pgoinlinebudget`
+#### [`pgoinlinebudget`](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L100)
 
 You can modify the inline budget set for hot functions using the `pgoinlinebudget` flag, for example:
 
@@ -526,27 +526,35 @@ You can modify the inline budget set for hot functions using the `pgoinlinebudge
 $ go build -gcflags="-d=pgoinlinebudget=2000" .
 ```
 
-This is set to 2000 by default but you can specify any value you want. This name is a bit confusing because this does not control the "non-hot" budget, which appears it can't be changed. It _only_ controls the budget for hot functions.
+This is set to 2000 by default but you can specify any value you want. This name is a bit confusing because this does not control the "non-hot" budget, which appears can't be changed. It _only_ controls the budget for functions that are considered hot.
 
-#### `pgoinlinecdfthreshold`
+#### [`pgoinlinecdfthreshold`](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L87)
 
-The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=90` and run the PGO build and graph the DOT notation conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied.
+The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Or in other words, you can think of it as a percentage of the total runtime, whereby the functions whose edge weights represent the top 95% of total edge weights will be considered hot.
+
+Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=95` and run the PGO build and graph the [DOT notation](https://graphviz.org/doc/info/lang.html)(1) conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied. 
+{ .annotate }
+
+1. A DOT graph is simply a way you can specify directed graphs in a text format. This text can be rendered into a graph.
 
 ##### =95
 
-Let's build the program with PGO enabled, and set `pgoinlinecdfthreshold=95`. Before we do that, we should generate a new `default.pgo` profile using the inlined profiler to give us a more accurate representation of whow the code runs under `main()` (it might not actually be all that different but it's good to be thorough).
+Let's build the program with PGO enabled, and set `pgoinlinecdfthreshold=95`. Before we do that, we should generate a new `default.pgo` profile using the inlined profiler to give us a more accurate representation of how the code runs under `main()` (it might not actually be all that different but it's good to be thorough). Remember, we generate `default.go` by simply running our program:
 
 ```
 $ ./fermats-factorization -n 179957108976619
 starting CPU profile
 Found factors with i=42698929: 179957108976619 = 1627093 x 110600383
-$ go build -pgo=auto -gcflags="-d=pgoinlinecdfthreshold=90,pgodebug=3" .
+$ go build -pgo=auto -gcflags="-d=pgoinlinecdfthreshold=95,pgodebug=3" .
 ```
 
 The build command outputs a graph in DOT notation. You can copy-paste the code in https://dreampuf.github.io/GraphvizOnline to create a diagram.
 
-??? note "DOT graph"
-    ```
+=== "DOT graph visualization"
+    ![](/images/golang-profile-guided-optimizations/graphviz-threshold-95.svg)
+
+=== "DOT graph code"
+    ```title=""
     digraph G {
         forcelabels=true;
         "flag.Uint64" [color=black, style=solid, label="flag.Uint64,inl_cost=63"];
@@ -640,8 +648,6 @@ The build command outputs a graph in DOT notation. You can copy-paste the code i
     }
     ```
 
-![](/images/golang-profile-guided-optimizations/graphviz-threshold-95.svg)
-
 You can see here that the PGO determined the path in red is considered hot because its weight exceeds the calculated hot callsite threshold:
 
 ```
@@ -660,7 +666,12 @@ $ go build -pgo=auto -gcflags="-d=pgoinlinecdfthreshold=80,pgodebug=3" . |& grep
 hot-callsite-thres-from-CDF=1.935483870967742
 ```
 
-??? note "DOT graph"
+=== "DOT graph visualization"
+    And the visualization shows us that none of the paths are considered hot because none of them are above a weight of 1.935483870967742:
+
+    ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.svg)
+
+=== "DOT graph code"
     ```
         digraph G {
                 forcelabels=true;
@@ -755,9 +766,12 @@ hot-callsite-thres-from-CDF=1.935483870967742
         }
     ```
 
-And the visualization shows us that none of the paths are considered hot because none of them are above a weight of 1.3818722139673105:
+!!! question
+    You might be wondering why a lower CDF threshold results in less functions being marked as hot. You have to remember that the CDF itself is derived from a [sorted list of edge weights in descending order](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L135-L148). The compiler [iterates over this sorted list](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L150-L159) and keeps track of the [cumulative sum](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L152). It generates a [cumulative percentage](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L153) (which is quite literally what the CDF is) and compares that to the target threshold that we specified. If the CDF is greater than the threshold specified, it returns the edge weight of the node that caused us to go over the CDF threshold (which becomes the `hot-callsite-thres-from-CDF` value) and the list of nodes up to that point.
 
-![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.svg)
+    If we specify a CDF threshold of 50%, but the largest node in our sorted list is, say, 90% of the CDF, then the only node that will be considered hot would be that single large node. You'll notice that our `80%` case above shows no node being considered hot, but this is probably not true. I'm guessing that there is some node (possibly inside of the Go runtime) that is being marked hot, while none of our user code is.
+
+    It would be really interesting to modify the compiler [in this block](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L104-L114C3) to print the callsite names that were considered hot. I am willing to bet that there is indeed a callsite being marked hot that is not represented in the graph.
 
 #### What is a CDF?
 
