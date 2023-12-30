@@ -518,7 +518,7 @@ The Go compiler has this concept called an "inlining budget". The budget control
 Function calls are surprisingly complex, so if we can replace all of that work by pretending that the called function's code was inside of the caller's code, we can get some pretty significant speedups by skipping all of these bookkeeping tasks.
 
 
-#### [`pgoinlinebudget`](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L100)
+#### [`pgoinlinebudget`](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L100)
 
 You can modify the inline budget set for hot functions using the `pgoinlinebudget` flag, for example:
 
@@ -528,7 +528,7 @@ $ go build -gcflags="-d=pgoinlinebudget=2000" .
 
 This is set to 2000 by default but you can specify any value you want. This name is a bit confusing because this does not control the "non-hot" budget, which appears can't be changed. It _only_ controls the budget for functions that are considered hot.
 
-#### [`pgoinlinecdfthreshold`](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L87)
+#### [`pgoinlinecdfthreshold`](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L87)
 
 The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Or in other words, you can think of it as a percentage of the total runtime, whereby the functions whose edge weights represent the top 95% of total edge weights will be considered hot.
 
@@ -767,11 +767,11 @@ hot-callsite-thres-from-CDF=1.935483870967742
     ```
 
 !!! question
-    You might be wondering why a lower CDF threshold results in less functions being marked as hot. You have to remember that the CDF itself is derived from a [sorted list of edge weights in descending order](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L135-L148). The compiler [iterates over this sorted list](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L150-L159) and keeps track of the [cumulative sum](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L152). It generates a [cumulative percentage](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L153) (which is quite literally what the CDF is) and compares that to the target threshold that we specified. If the CDF is greater than the threshold specified, it returns the edge weight of the node that caused us to go over the CDF threshold (which becomes the `hot-callsite-thres-from-CDF` value) and the list of nodes up to that point.
+    You might be wondering why a lower CDF threshold results in less functions being marked as hot. You have to remember that the CDF itself is derived from a [sorted list of edge weights in descending order](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L135-L148). The compiler [iterates over this sorted list](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L150-L159) and keeps track of the [cumulative sum](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L152). It generates a [cumulative percentage](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L153) (which is quite literally what the CDF is) and compares that to the target threshold that we specified. If the CDF is greater than the threshold specified, it returns the edge weight of the node that caused us to go over the CDF threshold (which becomes the `hot-callsite-thres-from-CDF` value) and the list of nodes up to that point.
 
     If we specify a CDF threshold of 50%, but the largest node in our sorted list is, say, 90% of the CDF, then the only node that will be considered hot would be that single large node. You'll notice that our `80%` case above shows no node being considered hot, but this is probably not true. I'm guessing that there is some node (possibly inside of the Go runtime) that is being marked hot, while none of our user code is.
 
-    It would be really interesting to modify the compiler [in this block](https://github.com/golang/go/blob/go1.20/src/cmd/compile/internal/inline/inl.go#L104-L114C3) to print the callsite names that were considered hot. I am willing to bet that there is indeed a callsite being marked hot that is not represented in the graph.
+    It would be really interesting to modify the compiler [in this block](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L104-L114C3) to print the callsite names that were considered hot. I am willing to bet that there is indeed a callsite being marked hot that is not represented in the graph.
 
 #### What is a CDF?
 
