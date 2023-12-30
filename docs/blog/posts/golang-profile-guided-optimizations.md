@@ -785,7 +785,7 @@ $$
 
 #### CDF For Function Hotness :fire:
 
-For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F_h(p)$ such that the sum of all edge weights at or above $F_m(p)$ equals $p$ percentage of the total program runtime?" The answer $F_h(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
+For the purposes of determining function hotness, we're looking at a CDF from a slightly different perspective. We're asking the question: "given a certain percentage $p$ (that being percentage of runtime), what is the edge weight threshold $F_h(p)$ such that the sum of all edge weights at or above $F_h(p)$ equals $p$ percentage of the total program runtime?" The answer $F_h(p)$ is the `hot-callsite-thres-from-CDF` value we saw Go print out, and $p$ is the `pgoinlinecdfthreshold` value we specified to the build process. We can mathematically describe our situation:
 
 
 $$
