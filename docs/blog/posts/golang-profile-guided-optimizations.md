@@ -505,7 +505,7 @@ The Go compiler has this concept called an "inlining budget". The budget control
 
 ### Inlining
 
-[Inlining](https://en.wikipedia.org/wiki/Inline_expansion) is a technique whereby a function call is replaced with, more or less, a copy-paste of the function's code into the calling function's frame. Assembled code has to perform quite a lot of work in order to make a proper function call:
+[Inlining](https://en.wikipedia.org/wiki/Inline_expansion) is a technique whereby a function call is replaced with, more or less, a copy-paste of the function's code into the calling function's frame. The alternative to inlining, which is just a normal function call, actually performs an enormous amount of work:
 
 1. Save the values of its working registers on the stack
 2. Prepare space on the stack for the called function, which could include space for the function to store its return values
@@ -515,7 +515,7 @@ The Go compiler has this concept called an "inlining budget". The budget control
 6. Retrieve the return values from the stack (or registers)
 7. Perform any ancillary cleanup work like cleaning up stack pointers
 
-Function calls are surprisingly complex, so if we can replace all of that work by pretending that the called function's code was inside of the caller's code, we can get some pretty significant speedups.
+Function calls are surprisingly complex, so if we can replace all of that work by pretending that the called function's code was inside of the caller's code, we can get some pretty significant speedups by skipping all of these bookkeeping tasks.
 
 
 #### `pgoinlinebudget`
