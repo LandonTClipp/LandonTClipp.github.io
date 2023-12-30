@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 	_ "net/http/pprof"
 	"os"
 	"runtime/pprof"
@@ -28,10 +27,4 @@ func runtimeProf(cpuprofile string) (close func()) {
 		f.Close()
 	}
 	return close
-}
-
-func httpProf() {
-	go func() {
-		log.Println(http.ListenAndServe("localhost:6060", nil))
-	}()
 }

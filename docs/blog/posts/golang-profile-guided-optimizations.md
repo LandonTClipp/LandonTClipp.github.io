@@ -99,25 +99,53 @@ We can generate a CPU profile by simply enabling it during tests. This will give
 
 We can write a simple benchmarking test for `findFactors`:
 
-```go title="main_test.go"
---8<-- "code/profile-guided-optimizations/fermats-factorization/main_test.go"
-```
+=== "`main_test.go`"
+
+    ```go title="main_test.go"
+    --8<-- "code/profile-guided-optimizations/fermats-factorization/main_test.go"
+    ```
+
+=== "`main.go`"
+
+    ```go title="main.go" linenums="1"
+    --8<-- "code/profile-guided-optimizations/fermats-factorization/main.go"
+    ```
 
 Recall the last section that we can the benchmark with the parameter `-cpuprofile default.pgo`. As mentioned before, this causes the benchmark to profile the code as its running, and outputs the `default.pgo` profile. 
 
 ### Using in-lined pprof
 
-The method used in `main.go` is to use `runtime/pprof`. The code for that is relatively simple:
+=== "`runtime_profile.go`"
 
-```go title="profile.go" linenums="1"
---8<-- "code/profile-guided-optimizations/fermats-factorization/profile.go"
-```
+    The method used in `main.go` is to use `runtime/pprof`. The code for that is relatively simple:
+
+    ```go title="runtime_profile.go" linenums="1"
+    --8<-- "code/profile-guided-optimizations/fermats-factorization/runtime_profile.go"
+    ```
+
+=== "`main.go`"
+
+    ```go title="main.go" linenums="1"
+    --8<-- "code/profile-guided-optimizations/fermats-factorization/main.go"
+    ```
 
 It starts the CPU profile and returns a `close` function that the caller must `defer close()` in order to stop the profile and close the file.
 
 ### Using HTTP pprof
 
-The blog linked above shows us another way to gather profiles. We can instantiate an HTTP server and submit `GET` requests to our program. We do this by starting a server at port 6060 and by importing `net/http/pprof` (which automatically adds handlers to the server on import). The relevant function is `func httpProf()` in our `profile.go` file.
+The [blog post previously linked]((https://go.dev/doc/pgo)) shows us another way to gather profiles. We can instantiate an HTTP server and submit `GET` requests to our program. We do this by starting a server at port 6060 and by importing `net/http/pprof` (which automatically adds handlers to the server on import). The relevant function is `func httpProf()` in our `http_profile.go` file.
+
+=== "`http_profile.go`"
+
+    ```go title="http_profile.go" linenums="1"
+    --8<-- "code/profile-guided-optimizations/fermats-factorization/http_profile.go"
+    ```
+
+=== "`main.go`"
+
+    ```go title="main.go" linenums="1"
+    --8<-- "code/profile-guided-optimizations/fermats-factorization/main.go"
+    ```
 
 Let's start the program and tell it to infinitely find the factorization:
 
