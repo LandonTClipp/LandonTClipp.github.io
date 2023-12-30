@@ -771,7 +771,7 @@ hot-callsite-thres-from-CDF=1.935483870967742
 
     If we specify a CDF threshold of 50%, but the largest node in our sorted list is, say, 90% of the CDF, then the only node that will be considered hot would be that single large node. You'll notice that our `80%` case above shows no node being considered hot, but this is probably not true. I'm guessing that there is some node (possibly inside of the Go runtime) that is being marked hot, while none of our user code is.
 
-    It would be really interesting to modify the compiler [in this block](https://github.com/golang/go/blob/go1.21/src/cmd/compile/internal/inline/inl.go#L104-L114C3) to print the callsite names that were considered hot. I am willing to bet that there is indeed a callsite being marked hot that is not represented in the graph.
+    As you'll see farther down in [Proving the CDF experimentally](#proving-the-cdf-experimentally), we'll modify the Go compiler so it tells us what node exceeded the threshold!
 
 #### What is a CDF?
 
