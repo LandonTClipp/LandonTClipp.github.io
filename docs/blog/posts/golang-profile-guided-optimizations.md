@@ -667,9 +667,14 @@ hot-callsite-thres-from-CDF=1.935483870967742
 ```
 
 === "DOT graph visualization"
-    And the visualization shows us that none of the paths are considered hot because none of them are above a weight of 1.935483870967742:
+    And the visualization shows us that none of the paths are considered hot(1) because none of them are above a weight of 1.935483870967742: 
+    { .annotate}
+
+    1. To be clear, and to prevent confusion, there _are indeed_ some nodes that are still being marked as hot, but these nodes all live within the Go runtime, and thus are not being included in this visualization. Setting lower threshold values will still _guarantee_ at least one node is marked as hot.
 
     ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.svg)
+
+    
 
 === "DOT graph code"
     ```
