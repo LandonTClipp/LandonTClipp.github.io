@@ -234,7 +234,7 @@ A basic data structure in Redis is to have a single counter value that we increm
 
 We want a centralized datastore like redis so that all rate limiter instances hit the same backing store. 
 
-??? question
+!!! question
 
     A question to myself is whether you should have one big-ass redis cluster for the whole world (probably not) or if you should have a single redis cluster for every datacenter (or region). With anycast DNS (or geocast), it might be sufficient for the rate limiters local to a specific datacenter to only use a redis backend specific to that datacenter. I can't immediately think of any reason why this wouldn't work.
 
@@ -242,3 +242,25 @@ The author does note that you want to synchronize the data across datacenters wi
 
 ## Chapter 5: Design Consistent Hashing
 
+Notes on using different hashing methods to route your requests to a specific server.
+
+### The rehashing problem
+
+Using the hash method `serverIdx = hash(key) % N` works when server size is fixed, but if you add more servers, then the mappings will get reshuffled quasi-randomly. This causes tons of cache misses and will tank performance.
+
+### [Consistent Hashing](https://en.wikipedia.org/wiki/Consistent_hashing)
+
+Consistent hashing is the answer to the rehashing problem. I'm going to be borrowing a lot of diagrams from https://www.toptal.com/big-data/consistent-hashing, which is a great blog that describes in detail how consistent hashing works.
+
+<div class="grid cards" markdown>
+
+- ![Hash ring 1](https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_01.png)
+- ![Hash ring 2](https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_02.png)
+
+</div>
+
+The general idea is that both servers and users live within the same hash space. The servers, more often than not, will have a hash key that depends on the name. The users will have a hash that depends on their name, but also possibly their location.
+
+When a user is hashed, we find the closest adjacent server in a counter-clockwise manner (it could also be clockwise, it doesn't matter). When a new server gets added, there is only a small probability that any particular user needs to get re-mapped to a new server. Or in other words, the chance of a new server being blaced _between_ a user and that user's prior server is quite low.
+
+In the case that does happen, a re-mapping will indeed have to occur, but the overall probability is low enough that the cache misses should be minimal.
