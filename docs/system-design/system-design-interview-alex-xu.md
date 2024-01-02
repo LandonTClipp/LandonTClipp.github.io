@@ -129,4 +129,116 @@ Step 4: Wrap up (3-5 minutes)
 
 ## Chapter 4: Design a Rate Limiter
 
-Foo
+(these are just my notes of what the author would ask in such an interview)
+
+### Step 1
+
+1. What kind of rate limiter? Client or server side? Answer: server side.
+2. Does the rate limiter throttle API requests based on IP, user ID, or other property? Answer: It should be flexible enough to support different kinds of throttle rules.
+3. Scale of the system? Startup-scale or big company with large user base? Answer: Large number of users
+4. Will the system work in a distributed environment? Answer: yes.
+5. Is the rate limiter a separate service or is it implemented in application code? Answer: it's a design decision up to you.
+6. Do we need to inform users when they're throttled? Answer: yes.
+
+**Requirements**
+
+1. Accurately limit excessive requests
+2. Low latency
+3. Use as little memory as possible
+4. Distributed rate limiting. Rate limiter should be shared across multiple processes/servers.
+5. Exception handling: show clear message to the user
+6. High fault tolerance: any problems with rate limiter will not affect the entire system.
+
+### Step 2
+
+Where to put rate limiter? You could put it as a separate microservice next to the API servers, but this introduces an issue of the API servers needing to potentially query the rate limiter. It's not a scalable solution.
+
+Cloud microservices usually implement rate limiting within an API gateway, in front of the API servers. 
+
+These two implementations are both valid, but have various pros/cons. Things to consider:
+
+1. Company's current tech stack
+2. Identify rate limiting algorithm that meets business needs. You have much control if you implement your own solution. Using a third-party API gateway might limit you in your choices.
+3. Building your own limiter takes time.
+
+#### Choice of algorithms
+
+1. Token bucket
+    - Very common, well-understood.
+    - Used by large companies like Amazon and stripe.
+    - A bucket can contain a certain number of tokens. A refiller will periodically add a token to the bucket.
+    - Consumers of the API grab a token. If no token exists, the request is rate limited.
+    - Pros:
+        - easy to implement
+        - memory efficient
+        - Allows bursts in traffic for short periods
+    - Cons:
+        - Two parameters to the algorithm might be challenging to tune properly.
+2. Leaking bucket
+    - Requests go into a queue. If the queue is full, the request is dropped.
+    - The queue is processed at a fixed rate.
+    - Pros:
+        - Memory efficient given limited queue size
+        - Requests are processed at a fixed rate, so it's suitable in cases where a stable outflow is needed.
+    - Cons:
+        - Bursts of traffic will fill up the queue with old requests. New requests will get dropped.
+        - Two parameters to the algorithm (queue size, outflow rate) might be difficult to tune.
+3. Fixed window counter algorithm
+    - Each time window is allowed only a certain number of requests. If a request comes in when that limit is reached, it's dropped.
+    - Pros:
+        - Memory efficient
+        - Easy to understand
+        - Resetting available quota at the end of time unit might fit some use cases.
+    - Cons:
+        - Spike in traffic can cause more requests to come through than what is intended/allowed.
+4. Sliding log window
+    - Keeps track of request timestamps, cached in something like redis.
+    - When new request arrives, remove timestamps from redis bucket that are older than `now - window_size`.
+    - Add new request timestamp to bucket
+    - If bucket size is less than or equal to max allowed size, allow the request. Otherwise, deny it.
+    - Note: the main difference between the sliding log window and the fixed window is that the boundary of the fixed window is set on some regular interval (something like every second, or every minute, or every hour).
+    - Pros: 
+        - Rate limiting is very accurate. In any rolling window, requests will not exceed the limit.
+    - Cons:
+        - Memory intensive. Timestamps still need to be stored in memory even if the request is rejected.
+5. Sliding window counter
+    - We use a set of predefined time windows, as in the Fixed Window algorithm, that have boundaries on some regular interval.
+    - We use another sliding window that overlaps these fixed windows.
+    - To calculate the number of requests in our rolling window, we:
+        - Calculate the number of requests in the previous minute. Multiply it by the percentage of which our sliding window overlaps with the previous window.
+        - Calculate the number of requests in the current minute
+        - Formula: `requests_current_window + (requests_previous_window * percent_overlap_previous_window)`.
+    - Pros:
+        - Smooths out spikes in traffic
+        - Memory efficient (only have to store the requests counts of a few fixed windows)
+    - Cons:
+        - Assumes that the distribution of the previous window is uniform. Consequently, it might incorrectly block a request. For example, consider if all requests for the previous window came towards the beginning of the window. When we run our calculation, the average number of requests in the previous window might put us over our limit, even if our sliding window does not overlap when the previous requests happened.
+        - Author notes that according to experiments at Cloudflare, only 0.003% of requests are incorrectly rate-limited or allowed over 400 million requests.
+
+The author's high-level overview is as such:
+
+```mermaid
+flowchart
+    client --> rateLimiter
+    rateLimiter --> redis
+    rateLimiter --> APIServers[API Servers]
+```
+
+### Step 3
+
+A basic data structure in Redis is to have a single counter value that we increment/decrement. Race conditions arise when you have multiple API gateway instances trying to read this counter value. This can be solved by:
+
+- Using locks (not preferrable as they slow down the system)
+- [Sorted set data structure](https://redis.io/docs/data-types/sorted-sets/)
+- Lua scripts (I don't know what the author means by this).
+
+We want a centralized datastore like redis so that all rate limiter instances hit the same backing store. 
+
+??? question
+
+    A question to myself is whether you should have one big-ass redis cluster for the whole world (probably not) or if you should have a single redis cluster for every datacenter (or region). With anycast DNS (or geocast), it might be sufficient for the rate limiters local to a specific datacenter to only use a redis backend specific to that datacenter. I can't immediately think of any reason why this wouldn't work.
+
+The author does note that you want to synchronize the data across datacenters with an eventual consistency model. This will come up in Chapter 6.
+
+## Chapter 5: Design Consistent Hashing
+
