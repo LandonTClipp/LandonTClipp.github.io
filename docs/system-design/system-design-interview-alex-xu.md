@@ -96,6 +96,7 @@ Usually measured in "nines", or number of 9's digits. Example: 3 nines is 99.9% 
 ##### Do's and Don'ts
 
 **Dos**:
+
 1. Ask for clarification. Do not assume assumption is correct.
 2. Understand the requirements
 3. There is no right answer nor the best answer. 
@@ -106,6 +107,7 @@ Usually measured in "nines", or number of 9's digits. Example: 3 nines is 99.9% 
 8. Never give up
 
 **Don'ts**:
+
 1. Don't be unprepared for typical interview questions
 2. Don't jump into a solution without clarifying requirements
 3. Don't go into too much detail on a single component. Start at high-level, then drill down where appropriate.
