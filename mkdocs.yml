@@ -105,6 +105,8 @@ nav:
     - Python: programming/python.md
     - YAML: programming/yaml.md
   - System Administration:
+    - CVMFS: sysadmin/cvmfs.md
+    - Databases: sysadmin/databases.md
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
     - Systemd: sysadmin/systemd.md

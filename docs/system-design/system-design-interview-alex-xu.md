@@ -264,3 +264,155 @@ The general idea is that both servers and users live within the same hash space.
 When a user is hashed, we find the closest adjacent server in a counter-clockwise manner (it could also be clockwise, it doesn't matter). When a new server gets added, there is only a small probability that any particular user needs to get re-mapped to a new server. Or in other words, the chance of a new server being blaced _between_ a user and that user's prior server is quite low.
 
 In the case that does happen, a re-mapping will indeed have to occur, but the overall probability is low enough that the cache misses should be minimal.
+
+!!! note
+
+    The author notes that it's very likely for nodes in a hash ring to become too clumped together, which would cause uneven distribution (this is called the Hotspot Key Problem). He notes that for every "real" node, we can inject a finite number of virtual nodes and hash those as well. This effectively causes the hash ring to become more uniformly distributed as it causes the standard deviation (in terms of empty space in the ring) to be smaller.
+
+## Chapter 6: Design a Key-Value Store
+
+We want to design a distributed key-value store. These are the requirements:
+
+1. Key-value pair is small: less than 10KB
+2. Store big data
+3. High availability
+4. High scalability
+5. Automatic scaling
+6. Tunable consistency
+7. Low latency
+
+### CAP Theorem
+
+CAP stands for Consistency, Availability, and Partition Tolerance. The theorem states that a distributed system cannot meet more than 2 of those attributes at once. Partition Tolerance refers to the ability of the system to tolerate its network being unintentionally partitioned/separated (think: split brain scenarios).
+
+Key-value stores are categorized based on which of these attributes they meet:
+
+- CP systems: supports consistency and partition tolerance while sacrificing availability.
+- AP systems: supports availability and partition tolerance while sacrificing consistency.
+- CA systems: supports consistency and availability while sacrificing partition tolerance. The author notes that because networks can fail, partition intolerance is generally not acceptable.
+
+### Data partitions
+
+We can use the consistent hashing method to partition data! This will minimize data movement when nodes are added/removed. We need to consider how to handle the case when data _does_ need to be moved when we add/remove nodes. We also need to consider how our data will be replicated to multiple nodes for high availability purposes. 
+
+When creating a key, we can simply place it to the first N nodes seen (when rotating clockwise along the hash ring). We ensure that we only look at real nodes, not virtual nodes, to ensure we're not incorrectly writing a key multiple times to the same server.
+
+### Consistency
+
+Quorum consensus can be used to ensure read/write consistency. First some definitions:
+
+- **N** = the number of replicas
+- **W** = write quorum size. Write operations must be ack'ed by W replicas to be considered successful.
+- **R** = read quorum size. Read must wait for responses from R replicas.
+
+N/W/R can be tuned for various use cases:
+
+- R=1, W=N, system optimized for fast read.
+- W=1, R=N, systemm optimized for fast write.
+- W+R>N, strong consistency is guaranteed.
+- W+R<=N, strong consistency is not guaranteed.
+
+Types of consistency models:
+
+1. Strong consistency: read operations are guaranteed to have the most updated view of the data. Think: GPFS, LustreFS, most on-disk POSIX filesystems.
+2. Weak consistency: subsequent read operations not guaranteed to see the most updated view.
+3. Eventual consistency: read operations eventually receive the most updated view.
+
+### Inconsistency resolution: versioning
+
+When concurrent writes are made, how do we handle the conflicts. In CVMFS, all concurrent writes go through a serialization step on the publisher. Because it's all transaction based, transactions updates are processed serially, so there is no chance for conflicting writes to happen. CVMFS also explicitly versions each update in the root catalog.
+
+#### [Vector Clock](https://en.wikipedia.org/wiki/Vector_clock#:~:text=A%20vector%20clock%20of%20a,vector%20clock%20maintained%20by%20process)
+
+The author recommend a vector clock as one possible solution. It's a `<server,version>` pair associated with a data item.
+
+### Failure detection
+
+We need to detect failures in our system. There are a few methods of doing this.
+
+#### Gossip Protocol
+
+- Each nodes maintains node membership list, which contains member IDs and heartbeat counters
+- Each node periodically increments its heartbeat counter
+- Each node periodically sends heartbeats to a set of random nodes, which in turn propagate to other set of nodes
+- Once nodes receive heartbeats, membership list is updated to the latest info.
+- If heartbeat has not increased for more than predefined period, the member his considered as offline. (question: should a peer eagerly declare to other peers that it considers something offline?)
+
+
+#### Temporary
+
+In strict quorum approach, reads/writes will be blocked until there is quorum consensus. In a "sloppy quorum" approach, the system chooses the first W healthy servers for writes, and first R healthy servers for reads on the hash ring.
+
+For sloppy quorum, unavailable servers which come back up will go through what's called a "hinted handoff," or in other words, its peers will push changes back to it to achieve consistency.
+
+#### Permanent
+
+What happens if replica is permanently unavailable? We use what's called an Anti-Entropy Protocol. A Merkle Tree is suggested, which surprise surprise, is exactly what CVMFS uses! Merkle trees verify integrity first by comparing the root hash. If the hash is the same, the trees are identical. If they're not, we need to recurse into the tree to find which nodes are different. This can be done in a $O(log(n))$ manner as each node contains hash pointers to its children, so we can easily find what part of the tree is different. Once the differences has been found, we can reconcile the differences.
+
+#### Datacenter outages
+
+Your data must be replicated across multiple datacenters. You can do this by having the client interact with a coordinator that acts as a proxy to the key-value store. Using a consistent hash ring helps resolve this, along with the gossip protocol.
+
+### Write Path
+
+The author proposes a write path that's similar to how Cassandra works.
+
+```mermaid
+flowchart TD
+    
+    client
+
+    subgraph Server
+        subgraph memory
+            memoryCache(Memory Cache)
+            processor(Write Processor)
+
+            processor -->|"(2)"| memoryCache
+        end
+
+        subgraph disk
+            SSTables(SS Tables)
+            CommitLog(Commit Log)
+
+            memoryCache -->|"(3) Flush"| SSTables
+            processor -->|"(1)"| CommitLog
+        end
+
+    end
+
+    client --> processor
+```
+
+<div class="annotate" markdown>
+1. The write request goes to a commit log in a file
+2. Data is saved to in-memory cache
+3. When cache is full, data is flushed to an SStable (1) on disk.
+</div>
+
+1. An SSTable is a sorted-string table. It's a sorted list of key/value pairs.
+
+### Read Path
+
+<div class="annotate" markdown>
+A client will reference the in-memory cache initially. If it's not in the cache, it will be retrieved from disk. We have to find what SSTable contains the key (because they can be dispersed through many). A bloom filter (1) is a common method of solving this.
+</div>
+
+1. What is a bloom filter? I had heard of this before but wasn't sure what exactly it is. It's a data structure that is used to test if an element is a member of a set. False positives are possible, but not false negatives, so it tells you either "possibly in set" or "definitely not in set." [Geeks for Geeks](https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/) has a great article on how this works. It's actually quite a simple data structure, but it's very powerful!
+
+### Summary
+
+| Goal/Problems | Technique |
+|---------------|-----------|
+| Ability to store big data | Use consistent hashing to spread the load |
+| High availability reads | Data replication. Multi-datacenter setup |
+| High availability writes | Version and conflict resolution with vector clocks |
+| Dataset partition | Consistent hashing |
+| Incremental scalability | Consistent hashing |
+| Heterogeneity | Consistent hashing |
+| Tunable consistency | Quorum consensus |
+| Handling temporary failures | sloppy quorum and hinted handoff |
+| Handling permanent failures | Merkle tree |
+| Handling data center outages | Cross-datacenter replication |
+
+## Chapter 7: Design a Unique ID Generator in Distributed Systems
+
