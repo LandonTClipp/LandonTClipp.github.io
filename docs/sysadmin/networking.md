@@ -122,3 +122,21 @@ Ethernet
 
 This is an error-detecting code added to the end of an ethernet frame to detect corruption in the packet. A common implementation for FCS is that the receiver will compute a running sum of the frame, including the trailing FCS. The summation is expected to result in a fixed number, often zero. Another common algorithm is the [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check).
 
+
+## DNS
+
+Types of DNS record types
+
+| Name | Description |
+|------|-------------|
+| A record | The most common. It maps a name to an IP address |
+| AAAA record | Same as A record, but points to an IPv6 address. |
+| CNAME | Short for "canonical name," it creates an alias for an A record. Remember, these point to other A records, not to IP addresses. |
+| NS | A nameserver record specifies DNS servers for a particular domain. |
+| MX record | Mail Exchange records shows where emails for a domain should be routed to. |
+| SOA | Start of Authority records stores admin info about a domain. Includes email of admin and other things as well. |
+| TXT | A Text record stores arbitrary data |
+| SRV | This record stores the IP and port of particular services. |
+| CERT | Stores public key certificates. |
+| DCHID | Stores information related to DHCP. |
+| DNAME | A Delegation Name record allows you to redirect entire subdomains to a new domain. For example, `www.example.com` is often redirected to `example.com` in many companies, as the `www` prefix is often not actually used. |
