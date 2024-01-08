@@ -416,3 +416,48 @@ A client will reference the in-memory cache initially. If it's not in the cache,
 
 ## Chapter 7: Design a Unique ID Generator in Distributed Systems
 
+The interviewer asks us to design a unique ID generator that works globally. 
+
+**Step 1**
+
+We need to understand the problem scope. The constraints are:
+
+1. IDs must be unique and sortable
+2. It increments by time but not necessarily by 1.
+3. It only contains numerical values
+4. It should fit into 64 bits
+5. The system should be able to generate 10,000 IDs per second
+
+**Step 2**
+
+We need to propose a high-level design. There are a few options:
+
+1. UUID: this is a solution that already exists, however this doesn't work because it doesn't fit in 64 bits.
+2. Auto-incrementing ID in a database: also doesn't work because it's not scalable.
+3. Ticket server: a single server generates numeric IDs, but it's not scalable because it's a single point of failure.
+4. "Twitter snowflake": this is the approach we'll try. Twitter has a system called snowflake that uses a 64 bit ID. These 64 bits are partitioned accordingly:
+
+| bit range | description |
+|-----------|-------------|
+| 0:1 | reserved for future use |
+| 1:42| timestamp |
+| 42:47 | datacenter ID |
+| 47:52 | machine ID |
+| 52:64 | sequence number |
+
+The timestamp is a millisecond-since-epoch timestamp, with the epoch being Nov 04, 2010, 01:42:54 UTC. The sequence number is incremented by every ID generated on the machine, and is reset back to 0 once per millisecond.
+
+**Step 3**
+
+Now let's go into a deep-dive on our design.
+
+The timestamp uses 41 bits so it can only represent 2199023255551 milliseconds, or about 69 years. So this will work only up until sometime in 2079.
+
+The sequence number lets us generate 4096 seqnums per millisecond, so this is the maximum threshold that each server can generate.
+
+**Step 4**
+
+Now we need to wrap up our design. We designed a system that requires no synchronization between ID generators and is capable of scaling out to a huge number of servers. It is not possible to generate duplicate IDs for 69 years, assuming all datacenter IDs and machine IDs (within their datacenter) are unique.
+
+## Chapter 8: Design a URL Shortener
+
