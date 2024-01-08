@@ -112,6 +112,7 @@ nav:
     - Systemd: sysadmin/systemd.md
   - System Design:
     - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
+    - Tools: system-design/tools.md
 
 extra:
   social:
