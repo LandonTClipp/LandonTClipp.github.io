@@ -459,5 +459,3 @@ The sequence number lets us generate 4096 seqnums per millisecond, so this is th
 
 Now we need to wrap up our design. We designed a system that requires no synchronization between ID generators and is capable of scaling out to a huge number of servers. It is not possible to generate duplicate IDs for 69 years, assuming all datacenter IDs and machine IDs (within their datacenter) are unique.
 
-## Chapter 8: Design a URL Shortener
-
