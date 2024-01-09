@@ -27,6 +27,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       - run: mkdocs gh-deploy --force
-        env:
-          GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
 
