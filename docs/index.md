@@ -30,4 +30,4 @@ If you want to get in contact with me, please message me in Linkedin using the l
 Resume
 ------
 
-![resume](/images/resume (scrubbed).svg)
+![resume](https://f005.backblazeb2.com/file/landons-blog/LandonClippResumeScrubbed.svg)
