@@ -459,3 +459,114 @@ The sequence number lets us generate 4096 seqnums per millisecond, so this is th
 
 Now we need to wrap up our design. We designed a system that requires no synchronization between ID generators and is capable of scaling out to a huge number of servers. It is not possible to generate duplicate IDs for 69 years, assuming all datacenter IDs and machine IDs (within their datacenter) are unique.
 
+## Chapter 11: Design a News Feed System
+
+I've skipped writing down notes for the previous few chapters as I'm intending to follow solutions for problems that are trivial to me personally (mind you, I still read the chapters obviously, but some of the design questions are fairly simple to me).
+
+In this chapter, we're asked to design a news feed. 
+
+**Step 1**
+
+We need to ask follow-up questions. These are the author's questions:
+
+1. **Question**: What kinds of devices does this run on? **Answer**: Web and mobile app.
+2. **Question**: What are the important features? **Answer**: a user can publish a post and see friends' posts on the news feed page.
+3. **Question**: Is the news feed sorted by reverse chronological order or any particular order such as topic scores? **Answer**: assume it's sorted by reverse chronological order.
+4. **Question**: how many friends can a user have? **Answer**: 5000
+5. **Question**: What is the traffic volume? **Answer**: 10 million DAU.
+6. **Question**: Can it contain images, videos, or just text? **Answer**: it can contain media files, including images and videos.
+
+These are the kinds of questions I would ask:
+
+1. Can the news feed be populated via ads?
+2. Can it be populated with relevant news articles that you may find interesting?
+3. What are the latency requirements fom when a friend creates a post, to when it can potentially show up on a user's feed?
+4. Can a user decide to hide a particular friend's posts?
+
+**Step 2**
+
+There are two main components to this: feed publishing, and feed building.
+
+### Feed publishing API
+
+To create a post, we send an HTTP POST request to an API:
+
+| method | URL | params |
+|--------|-----|--------|
+| POST   | /v1/me/feed | <ul><li>content: the text of the post</li><li>auth_token: used to authenticate requests</li></ul> |
+
+### Newsfeed retrieval API
+
+To get the news feed, we do:
+
+| method | URL | params |
+|--------|-----|--------|
+| GET  | /v1/me/feed | <ul><li>auth_token: used to authenticate requests</li></ul> |
+
+!!! note
+
+    This is not the way I would design such an API. My preference would be for the `POST` request to send to an endpoint like `/v1/me/posts`, which would then return a post ID that you could use to retrieve just that particular post, like `GET /v1/me/posts/51`. Additionally, it might make even more sense for the API to be structured around users. For example, if you wanted to get all posts for a particular user, you could do `GET /v1/users/8192/posts`. Under such a scheme, you would create a post under that user's ID like `POST /v1/users/8192/posts` and get a particular post like `GET /v1/users/8192/posts/51`. The feed for a particular user would be under `GET /v1/users/8192/feed`.
+
+    This is a bit cleaner in my opinion and it makes it clear that every post and feed is specific to a particular user.
+
+**Step 3**
+
+### Fanout service
+
+There are two primary ways to architect this: fanout on write, or fanout on read.
+
+#### Fanout on Write
+
+The feed is pre-computed for every user during write time. It's delivered to a friend's cache immediately after publish.
+
+Pros:
+
+1. Feed generated realtime and can be pushed immediately
+2. Fetching feed is fast because it's already been pre-computed.
+
+Cons:
+1. If a user has many friends, fetching the friend list and generating feed is slow and time consuming. It's called the hotkey problem.
+2. For inactive users, pre-computing the feed is a waste of resources.
+
+#### Fanout on Read
+
+Pros:
+
+1. For inactive users, resources are not wasted on generating a feed.
+2. Data is not published to friends so there is no hotkey problem
+
+Cons:
+
+1. Fetching news feed is slow as it's not pre-computed.
+
+You can adopt a hybrid approach where we adtop a fanout-on-write model for most users, but for users like celebreties or well-connected accounts, we can grab the feed on read to prevent system overload. We can use consistent hashing here (yay consistent hashing! :partying_face:)
+
+
+The fanout service works as follows:
+
+1. Fetch friend IDs from the graph database.
+2. Get friends info from the user cache. The system filters based on user settings, for example if the user mutes someone.
+3. Send friends list and new post ID to the message queue.
+4. Fanout workers fetch data from message queue and store news feed data in news feed cache. The news feed cache is a `<post_id,user_id>` mapping table. Whehter new post is made, it will be appended to news feed table.
+5. Store `<post_id,user_id>` in news feed cache. 
+
+### Newsfeed retrieval deep dive
+
+1. A user sends a request to retrieve feed. The request looks like `GET /v1/me/feed`
+2. Load balancer redistributes requests to web servers
+3. Web server call the news feed service to fetch feed.
+4. News feed service gets a list of post IDs from the feed cache.
+5. A user's feed is more than just a list of feed IDs. Contains username, profile picture, post content, image etc. Thus, news feed service fetches the complete user and post objects to construct the full news feed.
+6. News feed is returned in JSON format back to the client for rendering.
+
+### Cache architecture
+
+- News feed: stores IDs of new feeds
+- Content: stores every post data.
+- Social Graph: stores user relationships
+- Action: stores info on whether a user liked, replied, or took another action on a post.
+- Counters: stores counters for likes, replies, followers, following etc
+
+**Step 4**
+
+You can talk about scalability issues with this system. Maybe go into the ways in which other companies have solved this problem, like Twitter, Facebook etc. How might you scale the databases? SQL vs NoSQL? Read Replicas? How to keep web tier stateless? How to cache data? Supporting multiple datacenters? How to handle dead letter queues? Monitoring key metrics?

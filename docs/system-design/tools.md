@@ -47,3 +47,8 @@ In the case that does happen, a re-mapping will indeed have to occur, but the ov
     ![Consistent hash ring with virtual nodes](https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_virtual_nodes.png){ align=left width="500" } It's very likely for nodes in a hash ring to become too clumped together, which would cause uneven distribution (this is called the Hotspot Key Problem). You can smooth this out by using virtual nodes: for every real node, we also add some number of virtual nodes that maps back to the real node. This effectively causes the hash ring to become more uniformly distributed as it causes the standard deviation (in terms of empty space in the ring) to be smaller.
 
 You can see in a consistent hashing scheme, adding a node to the ring will cause only _some_ of the clients to be re-mapped.
+
+CAP Theorem
+-----------
+
+CAP stands for Consistency, Availability, and Partition Tolerance. The theorem states that distributed systems can exhibit at most two of these traits, which implies that a tradeoff must be made. In most systems, partition intolerance is not acceptable as networks and systems often fail. It's a bit of an oxymoron as well to state that a system is consistent and available, but not partition tolerant. So in reality, the tradeoff is usually between consistency and availability.
