@@ -115,3 +115,71 @@ Cores which are not currently configured (by the kernel's runtime logic) to rece
 
     An idle CPU that is not receiving scheduling-clock interrupts is said to be "dyntick-idle", "in dyntick-idle mode", "in nohz mode", or "running tickless".  The remainder of this document will use "dyntick-idle mode".
 
+Security
+--------
+
+### [SELinux](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/using_selinux/getting-started-with-selinux_using-selinux)
+
+Security-Enhanced Linux is a linux security module that provides the ability to implement access control policies. In Linux, the default access control mechanisms are done through what's called Discretionary Access Controls (DAC). The granularity of a DAC is only based off of user, group, and "other" permissions, and are applied to specific files.
+
+SELinux implements [Mandatory Access Control (MAC)](https://en.wikipedia.org/wiki/Mandatory_access_control). System resources have what's called an SELinux context. The context, otherwise known as an SELinux Label, abstracts away the underlying resources and instead focuses on only the security properties of the underlying object.
+
+
+### sudoers
+
+The `/etc/sudoers` file is a file on Linux systems that describes various actions that users are allowed to take as the root user. The man page describes in depth the details of this file:
+
+```
+SUDOERS(5)                                                                                                      File Formats Manual                                                                                                     SUDOERS(5)
+
+NAME
+       sudoers - default sudo security policy plugin
+
+DESCRIPTION
+       The sudoers policy plugin determines a user's sudo privileges.  It is the default sudo policy plugin.  The policy is driven by the /private/etc/sudoers file or, optionally, in LDAP.  The policy format is described in detail in the
+       SUDOERS FILE FORMAT section.  For information on storing sudoers policy information in LDAP, see sudoers.ldap(5).
+```
+
+### ACL
+
+An ACL, or Access Control List, commonly refers to extra access policies that are applied to specific files or directories. You can view ACLs in most POSIX-compatible filesystems using the `getfacl` command:
+
+```
+ubuntu@primary:/tmp$ echo hello > test.txt
+ubuntu@primary:/tmp$ getfacl test.txt
+# file: test.txt
+# owner: ubuntu
+# group: ubuntu
+user::rw-
+group::rw-
+other::r--
+```
+
+You can apply ACLs using the `setfacl` command (some additional examples can be found [here](https://www.ibm.com/docs/en/zos/3.1.0?topic=scd-setfacl-set-remove-change-access-control-lists-acls#sfacl__title__5)):
+
+```
+ubuntu@primary:/tmp$ setfacl -m user:ubuntu:rw test.txt
+ubuntu@primary:/tmp$ getfacl test.txt
+# file: test.txt
+# owner: ubuntu
+# group: ubuntu
+user::rw-
+user:ubuntu:rw-
+group::rw-
+mask::rw-
+other::r--
+```
+
+As you can see, this allows you finer grained control over access to your filesystem objects.
+
+## strace
+
+strace, or System Trace, is an excellent utility to see what system calls an application is making. Let's try tracing `lsof` as an example:
+
+```
+ubuntu@primary:/tmp$ strace -f echo hello
+execve("/usr/bin/echo", ["echo", "hello"], 0xffffc7800510 /* 24 vars */) = 0
+[...]
+write(1, "hello\n", 6)                  = 6
+```
+

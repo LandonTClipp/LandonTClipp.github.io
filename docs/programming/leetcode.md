@@ -992,3 +992,376 @@ class Solution:
 
         return steps
 ```
+
+## Binary Tree General
+
+### [Construct Binary Tree from Preorder and Inorder Traversal (Medium)](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/)
+
+#### Problem Statement
+
+Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+**Example 1**
+
+![Binary tree](https://assets.leetcode.com/uploads/2021/02/19/tree.jpg)
+
+> Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+>
+> Output: [3,9,20,null,null,15,7]
+
+**Example 2**
+
+> Input: preorder = [-1], inorder = [-1]
+>
+> Output: [-1]
+
+#### Solution
+
+This question is asking us to create a data structure that represents the true _shape_ of the tree, given the preorder and inorder traversals. For example, the Python3 code shows us this:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        
+```
+
+What we need to determine is what nodes are children of what other nodes. To do this, we should look for some kind of pattern in how preorder/inorder traversals work. Let's remind ourselves of what preorder/inorder is:
+
+**Preorder**: This first visits the current node, then it recurses into the left child, then into the right child.
+
+**Inorder**: First it recurses into the left child, then it visits the current node, then recurses into the right child.
+
+What we can guarantee is that a preorder traversal will always start with the root node. An in-order traversal will always give us the left-most node first. So we can do the simple part of first defining the root node:
+
+```python
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        root = TreeNode(val=preorder[0])
+```
+
+The _next_ node in the preorder traversal is going to be the immediate left child (if it exists), then the right node (if it exists). How do we know if, in example 1, that 9 is a direct child of 3? 
+
+1. 9 would have to be situated _left_ of 3 in the in-order traversal, and
+2. 9 would have to be directly to the right of 3 in the pre-order traversal.
+
+To test these two conditions, consider if we deleted node `9` and replaced `15` with the value `9`. Then the traversals would look like this:
+
+```
+preorder: [3, 20, 15, 7]
+inorder: [3, 15, 20, 7]
+```
+
+How do we know that `20` is a direct child of `3`? It would have to satisfy the conditions:
+
+1. `20` would need to occur right of `3` in the in-order traversal
+2. `20` needs to occur at a location that is exactly $i+n$ away from `3` in the preorder traversal, where $i$ is the index of `3` in the preorder list, and $n$ is the number of elements in the left subtree. We can find $n$ by subtracting the index of `3` in the in-order list from the index of `9` in the in-order list. We can hand-check this math in example 1: $i=0$ and $n=3-1=2$. We find that at index $2$ in the pre-order list, we indeed find the value `20`.
+
+Let's first create a naive implementation of this, just to check that our logic is sound. I fully expect that the runtime will be horrid, but that's okay for a proof of concept. Let's start with the simple case of populating the left subtree:
+
+```python
+class Solution:
+    def buildTree(
+        self, preorder: List[int], inorder: List[int]
+    ) -> Optional[TreeNode]:
+        if len(preorder) == 0:
+            return None
+
+        root = TreeNode(val=preorder[0])
+        if len(preorder) == 1:
+            return root
+
+        # Need to check if the next element in preorder is in the left subtree or the right
+        rootInorderIdx = inorder.index(preorder[0])
+        nextInorderIdx = inorder.index(preorder[1])
+
+        if nextInorderIdx < rootInorderIdx:
+            # We need to find the ending preorder index to pass to the bottom function. We can
+            # find this by including all the elements from preorder that appear to the left of 3
+            # in the inorder list.
+            maxPreorderIdx = 1
+            for elem in inorder[:rootInorderIdx]:
+                preorderIdx = preorder.index(elem)
+                if preorderIdx > maxPreorderIdx:
+                    maxPreorderidx = preorderIdx
+
+            root.left = self.buildTree(
+                preorder=preorder[1:maxPreorderIdx],
+                inorder=inorder[:rootInorderIdx],
+            )
+
+        return root
+```
+
+What we're doing here is first creating the root node, which we know will always be the first element of `preorder`. Then, we know that the next element of `preorder` is going to be a direct left descendent _if and only if_ that next element appears to the left in the inorder array. So, we do some simple checks to ensure this is true.
+
+We run the code to see what happens and ensure that we receive the nodes `[3, 9]` in the output. Note, that this is obviously not the correct answer, but it will prove to us that the left subtree logic is working. The code above is confirmed to return `[3, 9]`, so we can be reasonably confident the left subtree logic is working.
+
+Now, let's move onto the right subtree logic.
+
+```python linenums="1"
+class Solution:
+    def buildTree(
+        self, preorder: List[int], inorder: List[int], depth=0
+    ) -> Optional[TreeNode]:
+        if len(preorder) == 0:
+            return None
+
+        root = TreeNode(val=preorder[0])
+        if len(preorder) == 1:
+            return root
+
+        # Need to check if the next element in preorder is in the left subtree or the right
+        rootInorderIdx = inorder.index(preorder[0])
+        nextInorderIdx = inorder.index(preorder[1])
+
+        if nextInorderIdx < rootInorderIdx:
+            # We need to find the ending preorder index to pass to the bottom function. We can
+            # find this by including all the elements from preorder that appear to the left of 3
+            # in the inorder list.
+            maxPreorderIdx = 1
+            for elem in inorder[:rootInorderIdx]:
+                preorderIdx = preorder.index(elem)
+                if preorderIdx > maxPreorderIdx:
+                    maxPreorderIdx = preorderIdx
+
+            root.left = self.buildTree(
+                preorder=preorder[1 : maxPreorderIdx + 1],
+                inorder=inorder[:rootInorderIdx],
+                depth=depth + 1,
+            )
+
+
+        if len(inorder) < 2:
+            return root
+
+        # Now we need to check if the right subtree exists. To figure out our "candidate" direct
+        # right child of root, we need to consider two truths:
+        # 1. In the inorder traversal, everything that comes right of the root node in the list
+        #    is in the right subtree. So, we can narrow down the nodes we're looking for that way.
+        # 2. The right child is going to be the _first_ element we encounter in preorder, starting
+        #    from the root node and iterating right, that appears in the set we found in step 1.
+
+        rightSubtree = inorder[inorder.index(root.val) + 1 :] # (1)
+        rightChild = None
+        rightChildIdx = None
+
+        for idx, elem in enumerate(preorder[1:]): # (2)
+            if elem in rightSubtree:
+                rightChild = elem
+                rightChildIdx = (
+                    idx + 1
+                )  # it's +1 because we've excluded the first element (which is the root)
+                break
+        if rightChild: # (3)
+            root.right = self.buildTree(
+                preorder=preorder[rightChildIdx:], # (4)
+                inorder=rightSubtree,
+                depth=depth + 1,
+            )
+
+        return root
+
+```
+{ .annotate }
+
+1. In order to get the right subtree from the inorder traversal, we need to find the index of the current _root_. The root is always `inorder[0]` (or `root.val`, equivalently). So, we find the index that contains that value, and add one to it so we get the right subtree.
+2. The next step is to find what node is the right child of the root. To do this, we need have to _skip_ over all of the nodes from the left subtree. The information on what nodes are in the left subtree is contained in the inorder list: everything to the left of `3` is the left subtree is the left, and everything to the right is the right subtree. We also know that the _first_ element of the right subtree in the preorder traversal will be the root's direct descendent. So, loop over the values of preorder until we find the first right subtree element.
+3. It's possible we didn't find any right children.
+4. We now know the index of the new subtree's root, and the right subtree. Pass these values into the recursive function call.
+
+This solution passes the two test cases provided, so let's see if we get an accepted solution!
+
+!!! failure "Wrong Answer"
+    201 / 203 testcases passed
+
+This is not a bad result because we got the vast majority of the cases. Let's inspect one of the failing test cases.
+
+```
+Input
+preorder =
+[3,2,1,0,-1,-2]
+inorder =
+[3,2,1,0,-1,-2]
+
+Output
+[3,null,2,null,1]
+Expected
+[3,null,2,null,1,null,0,null,-1,null,-2]
+```
+
+By constructing this tree by hand, we can tell that it's a tree with only right children. So why does the algorithm break after node `1`?
+
+![foo](https://f005.backblazeb2.com/file/landons-blog/assets/images/leetcode/binary_tree_right_children_01.png)
+
+It turns out, I made a really stupid mistake. In [line 54 above](#__codelineno-38-54), I'm checking the truthiness of `rightChild` instead of checking that it's `#!python not None`. This means that the integer `#!python 0` would evaluate to `#!python False`, which isn't what I intended. After fixing this, this test case now passed. However, we run into another problem: the last test case times out.
+
+Our solution is doing some unoptimal things: we iterate over `preorder` and `inorder` multiple times linearly in various places. We can instead make use of sets to cut down on the $O(n^2)$ operations we're doing (like for example in the cases where we're trying to determine the existence of a value in a particular subtree).
+
+Another unoptimal thing we're doing is making judicious use of `inorder.index` to find the index of an element. We can instead create a hashmap (aka dict) to quickly find the location of the elements. We fix both of those issues here:
+
+```python linenums="1"
+class Solution:
+    def buildTree(
+        self, preorder: List[int], inorder: List[int], depth=0
+    ) -> Optional[TreeNode]:
+        if len(preorder) == 0:
+            return None
+
+        inorderIndexMap = dict()
+        preOrderIndexMap = dict()
+        for idx in range(len(preorder)):
+            inorderIndexMap[inorder[idx]] = idx
+            preOrderIndexMap[preorder[idx]] = idx
+
+        root = TreeNode(val=preorder[0])
+        if len(preorder) == 1:
+            return root
+
+        # Need to check if the next element in preorder is in the left subtree or the right
+        rootInorderIdx = inorderIndexMap[preorder[0]]
+        nextInorderIdx = inorderIndexMap[preorder[1]]
+
+        if nextInorderIdx < rootInorderIdx:
+            # We need to find the ending preorder index to pass to the bottom function. We can
+            # find this by including all the elements from preorder that appear to the left of 3
+            # in the inorder list.
+            maxPreorderIdx = 1
+            for elem in inorder[:rootInorderIdx]:
+                preorderIdx = preOrderIndexMap[elem]
+                if preorderIdx > maxPreorderIdx:
+                    maxPreorderIdx = preorderIdx
+
+            root.left = self.buildTree(
+                preorder=preorder[1 : maxPreorderIdx + 1],
+                inorder=inorder[:rootInorderIdx],
+                depth=depth + 1,
+            )
+
+        if len(inorder) < 2:
+            return root
+
+        rightSubtree = inorder[inorderIndexMap[root.val] + 1 :]
+        rightSubtreeSet = set(rightSubtree)
+        rightChild = None
+        rightChildIdx = None
+
+        for idx, elem in enumerate(preorder[1:]):
+            if elem in rightSubtreeSet:
+                rightChild = elem
+                rightChildIdx = (
+                    idx + 1
+                )  # it's +1 because we've excluded the first element (which is the root)
+                break
+        if rightChild is not None:
+            root.right = self.buildTree(
+                preorder=preorder[rightChildIdx:],
+                inorder=rightSubtree,
+                depth=depth + 1,
+            )
+
+        return root
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Python | 663ms (5.03%) | 548.04 MB (5.25%) |
+
+Our solution has now been accepted, but it's quite inefficient. Let's think critically about some of its shortcomings:
+
+1. We regenerate the `inorderIndexMap` and `preorderIndexMap` during every step of recursion. Is there a way we can generate this once?
+2. We iterate over the entire left subtree in [this block](#__codelineno-40-46:52) to find the beginning of the right subtree. Do we have the information to _not_ do that?
+
+When fixing (1) above, we get a better memory result:
+
+??? note
+
+    ```python
+    class Solution:
+    def _buildTree(
+        self,
+        preorder: List[int],
+        inorder: List[int],
+        preorderOffset: int = 0,
+        inorderOffset: int = 0,
+        depth=0,
+    ) -> Optional[TreeNode]:
+        if len(preorder) == 0:
+            return None
+
+        root = TreeNode(val=preorder[0])
+        if len(preorder) == 1:
+            return root
+
+        # Need to check if the next element in preorder is in the left subtree or the right
+        rootInorderIdx = self.inorderIndexMap[preorder[0]] - inorderOffset
+        nextInorderIdx = self.inorderIndexMap[preorder[1]] - inorderOffset
+
+        if nextInorderIdx < rootInorderIdx:
+            maxPreorderIdx = 1
+            for elem in inorder[:rootInorderIdx]:
+                preorderIdx = self.preOrderIndexMap[elem] - preorderOffset
+                if preorderIdx > maxPreorderIdx:
+                    maxPreorderIdx = preorderIdx
+
+            root.left = self._buildTree(
+                preorder=preorder[1 : maxPreorderIdx + 1],
+                inorder=inorder[:rootInorderIdx],
+                preorderOffset=preorderOffset + 1,
+                inorderOffset=inorderOffset,
+                depth=depth + 1,
+            )
+
+        if len(inorder) < 2:
+            return root
+
+        rightSubtree = inorder[
+            self.inorderIndexMap[root.val] - inorderOffset + 1 :
+        ]
+        rightSubtreeSet = set(rightSubtree)
+        rightChild = None
+        rightChildIdx = None
+
+        for idx, elem in enumerate(preorder[1:]):
+            if elem in rightSubtreeSet:
+                rightChild = elem
+                rightChildIdx = (
+                    idx + 1
+                )  # it's +1 because we've excluded the first element (which is the root)
+                break
+        if rightChild is not None:
+            root.right = self._buildTree(
+                preorder=preorder[rightChildIdx:],
+                inorder=rightSubtree,
+                preorderOffset=preorderOffset + rightChildIdx,
+                inorderOffset=inorderOffset
+                + (len(inorder) - len(rightSubtree)),
+                depth=depth + 1,
+            )
+
+        return root
+
+    def buildTree(
+        self, preorder: List[int], inorder: List[int]
+    ) -> Optional[TreeNode]:
+        self.inorderIndexMap = dict()
+        self.preOrderIndexMap = dict()
+        for idx in range(len(preorder)):
+            self.inorderIndexMap[inorder[idx]] = idx
+            self.preOrderIndexMap[preorder[idx]] = idx
+
+        return self._buildTree(preorder, inorder)
+    ```
+
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/submissions/1143697388?envType=study-plan-v2&envId=top-interview-150
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Python | 436ms (5.03%) | 90.29 MB (36.34%) |
+
+I'm going to leave the second optimization for another day, because this problem has already taken a huge number of hours of my day :sob:. I don't seem to be alone, as many other people in the discussion tab are crying just like me.
