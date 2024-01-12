@@ -107,6 +107,7 @@ nav:
   - System Administration:
     - CVMFS: sysadmin/cvmfs.md
     - Databases: sysadmin/databases.md
+    - Hardware: sysadmin/hardware.md
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
     - Systemd: sysadmin/systemd.md
