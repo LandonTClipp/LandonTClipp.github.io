@@ -570,3 +570,90 @@ The fanout service works as follows:
 **Step 4**
 
 You can talk about scalability issues with this system. Maybe go into the ways in which other companies have solved this problem, like Twitter, Facebook etc. How might you scale the databases? SQL vs NoSQL? Read Replicas? How to keep web tier stateless? How to cache data? Supporting multiple datacenters? How to handle dead letter queues? Monitoring key metrics?
+
+## Chapter 12: Design a Chat System
+
+The interviewer asks us to design a chat system. 
+
+### Step 1
+
+Understand the requirements:
+
+1. This should support both 1 on 1 and group chat
+2. It's both a mobile and web app
+3. It should support 50 million DAU
+4. The important features are 1 on 1 chat, group chat, online indicator. The system only supports text messages.
+5. Text length is less than 100,000 characters long.
+6. e2e encryption is not an initial requirement.
+7. Chat history should be stored forever.
+
+### Step 2
+
+There are 3 main ways we could implement sending messages from client to client:
+
+1. Short polling: a client would periodically poll the server for new messages. This would work but it's inefficient because it requires opening and closing many connections.
+2. Long polling: same as short polling, but we can keep the connection open until we receive new messages. The disadvantages are:
+    - The sender and receiver might not be on the same server.
+    - The server has no good way to tell if a client is disconnected.
+    - It's inefficient because long polling will still make periodic connection requests even if there are no messages being sent.
+3. Websocket: Websocket is a protocol that allows you to asynchronously send and receive messages over the same connection. 
+
+```mermaid
+flowchart TD
+    Sender <-->|Websocket| chatService[Chat Service]
+    Receiver <-->|Websocket| chatService
+```
+
+#### High-level design
+
+Our system is partitioned into two types of services: stateful, and stateless. The stateful service includes the websocket connections for sending/receiving data. The stateless service includes things like user settings, group memberships, service discovery etc. Stateless services can remain as HTTP endpoints.
+
+```mermaid
+flowchart TD
+    
+    subgraph Stateless
+        user -->|HTTP| loadBalancer[Load Balancer]
+        loadBalancer --> serviceDiscovery[Service Discovery]
+        loadBalancer --> auth[Authentication Service]
+        loadBalancer --> GroupManagement[Group Management]
+        loadBalancer --> userProfile[User Profile]
+    end
+
+    subgraph Stateful
+        User1 <-->|Websocket| chatService[Chat Service]
+        User2 <-->|Websocket| chatService
+    end
+```
+
+Many of the stateless services listed above can be implemented using third-party solutions. The service discovery unit is a service that provides the client with a list of possible DNS names that it could connect to for the chat service. 
+
+Where should we store chat history? A common solution might be a relational database, but at the scale needed by this system, SQL will begin to slow down tremendously as the indexes grow. A previous study showed that Facebook messenger and Whatsapp process 60 billion messages per day. That's probably not going to fit in most modern relational databases. Further, only the most recent chat messages are retrieved. A key-value store is a good fit for this pattern:
+
+- It allows easy horizontal scaling
+- It provides low latency access
+- Relational databases do not handle long tails well
+- Key-value stores are adopted by other proven chat systems. Facebook uses HBase and Discord uses Cassandra.
+
+### Step 3
+
+#### Service Discovery
+
+The service discovery will recommend the best chat server for the client to connect to. Based off of things like geographical region, node health, node load etc. Zookeeper is a popular choice for this.
+
+#### Chat flow
+
+```
+flowchart TD
+    UserA --> ChatServer
+    ChatServer --> UserBQueue[(User B Queue)]
+    ChatServer --> UserCQueue[(User B Queue)]
+    UserBQueue --> UserB
+    UserCQueue --> UserC
+```
+
+One way to route messages is for each user to have their own queue. This works fine for small-membership groups, but once membership becomes large, it becomes unacceptable to store the same message multiple times. This is why many chat services limit the number of members in a group.
+
+#### Online Presence Indicator
+
+We can have the user client send a heartbeat to the presence service. If the presence service doesn't receive a heartbeat within some amount of time, it can mark the user as offline. To fanout, we can have the presence service send to each user's individual queue. Again, this is okay for small groups, but is unsustainable for larger groups.
+

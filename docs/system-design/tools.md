@@ -52,3 +52,68 @@ CAP Theorem
 -----------
 
 CAP stands for Consistency, Availability, and Partition Tolerance. The theorem states that distributed systems can exhibit at most two of these traits, which implies that a tradeoff must be made. In most systems, partition intolerance is not acceptable as networks and systems often fail. It's a bit of an oxymoron as well to state that a system is consistent and available, but not partition tolerant. So in reality, the tradeoff is usually between consistency and availability.
+
+Communication Protocols
+-----------------------
+
+### [gRPC](https://grpc.io/)
+
+![gRPC Diagram](https://grpc.io/img/landing-2.svg)
+
+Used as a remote procedure call. Uses Protobuf to send and receive serialized structured data. Messages in protobuf are defined in a [language-agnostic DSL](https://protobuf.dev/programming-guides/proto3/).
+
+### [Websocket](https://en.wikipedia.org/wiki/WebSocket)
+
+![Websocket diagram](https://assets-global.website-files.com/5ff66329429d880392f6cba2/63fe488452cc63cf1cb0ae45_148.2.png)
+
+Websocket is a web communication protocol that allows you to asynchronously send and receive messages over the same connection. It starts its life as an HTTP connection, and then is upgraded to a websocket session. This protocol is the answer to common HTTP polling techniques that are used to periodically check for updates from the server. Some examples of where this protocol is used:
+
+1. Real-time web applications where updates need to be continuously streamed.
+2. Chat applications where messages arrive asynchronously.
+3. Gaming applications where updates are fairly continual.
+
+Many of these kinds of data streaming problems were commonly solved through HTTP polling, however this solution is inefficient due to the constant HTTP/TCP handshakes that would need to occur even if no data was available.
+
+Websocket is generally served through ports 80 or 443 (HTTP/HTTPS), which allows it to pass through many types of firewalls. 
+
+Service Discovery
+-----------------
+
+When you have a pool of services, for example a pool of websocket servers that provide clients with messages in a chat system, you often need to provide the client with a list of DNS hostnames they could connect to. This process is called "Server-side Service Discovery" and there are many off-the-shelf solutions:
+
+### [etcd](https://etcd.io/)
+
+This is a distributed key-value store that can be used for service discovery (among many other things). It uses an eventually-consistent model through the gossip-based protocol. It does not have many built-in features for service discovery as it focuses more on the key-value store.
+
+### [consul](https://www.consul.io/)
+
+consul is a Service Mesh that provides a rich suite of metrics and monitoring capabilities. It allows you to define health checks on your services. It also comes with native support for cross-datacenter replication, while etcd does not.
+
+consul also gives you distributed key-value stores
+
+### [Apache Zookeeper](https://en.wikipedia.org/wiki/Apache_ZooKeeper)
+
+This is another distributed key/value store that also provides service discovery.
+
+Key-Value Stores
+---------------
+
+- etcd
+- redis
+- zookeeper
+- cassandra
+
+Redis is often chosen over etcd for key-value stores because etcd requires consensus amongst its nodes before committing changes, which slows performance. The benefit of etcd is that it provides a lot of consistency guarantees. The [docs](https://etcd.io/docs/v3.3/learning/api_guarantees/#:~:text=etcd%20is%20a%20consistent%20and,API%20guarantees%20made%20by%20etcd.) claim it follows [Sequential Consistency](https://en.wikipedia.org/wiki/Consistency_model#Sequential_consistency), which means that while a write does not have to be seen instantaneously, the _sequence_ in which writes to a piece of data are seen is identical across all processors.
+
+### Cassandra
+
+Cassandra is often compared against Redis. For a good comparison, look [here](https://www.knowledgenile.com/blogs/cassandra-vs-redis). Many of the notes here are drawn from that blog.
+
+This is used by some large chat platforms like Discord to store chat history. Some aspects of Cassandra:
+
+- Uses wide-column store as a database model, which makes it easy to store huge datasets. It acts as a two-dimensional key/val store.
+- Focuses on stability, but it's slower than other platforms like Redis. Redis becomes much slower if you store huge datasets, and thus it's more suited for highly variable datasets.
+- Cassandra focuses on consistency and partition tolerance, while redis focus on availability and partition tolerance.
+- Schema-free.
+- Uses Java, uses thrift protocol for API.
+- More useful when you have distributed, linearly scalable, write-oriented, and democratic P2P database structure.
