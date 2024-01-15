@@ -1,5 +1,6 @@
 ---
 title: System Design Interview – An insider's guide
+toc_depth: 2
 ---
 
 https://books.google.com/books/about/System_Design_Interview_An_Insider_s_Gui.html?id=b_mUzQEACAAJ&source=kp_book_description

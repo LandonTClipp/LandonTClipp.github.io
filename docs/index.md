@@ -1,7 +1,7 @@
 Welcome!
 ========
 
-Hello and welcome to my website! Here you will find various resources that I may find interesting.
+The human mind is finite, and the world is not. The struggle to understand the world, and to remember its intricacies, is made simpler by etching your thoughts into words. 
 
 About Me
 --------
@@ -9,6 +9,12 @@ About Me
 My name is Landon Clipp and I am a software engineer who currently lives in Chicago, IL. I was born, and grew up, in Champaign, IL amongst the corn and soybean fields. I went to the University of Illinois and graduated with a Bachelor of Science in Computer Engineering. I focused primarily on high performance computing and did a lot of cool work with climatology during my time in college. My passions include aviation, paramotoring, computers, programming, nature, RV-ing, piano, and dogs! In my blog, you'll find various posts about those topics. 
 
 If you want to get in contact with me, please message me in Linkedin using the link at the bottom right corner of this website. 
+
+What is this Blog?
+------------------
+
+This blog is my dumping ground for every random thought, every interesting idea, and every useful thing I learn. It's not meant so much for others, but moreso as a tool for me to remember my experiences and to make sense of the million ideas that swirl around in my head. I wasn't born with an eidetic memory so my brain only has a certain amount of informational capacity. This blog, in a sense, is a cross-section of my mind at various points in time. Then again, isn't that true for all written word? By writing things down, I hope to enshrine things I've learned and to reinforce the pathways I want to encourage. The side-effect, I hope, is that you find it somehow useful as well :smile:
+
 
 <div class="grid cards" markdown>
 
