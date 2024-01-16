@@ -1498,3 +1498,71 @@ The distribution of runtime/memory is so tight that it doesn't seem there is muc
 
 ### [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
 
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+
+A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+Example 1:
+
+    Input: digits = "23"
+    Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+
+Example 2:
+
+    Input: digits = ""
+    Output: []
+
+Example 3:
+
+    Input: digits = "2"
+    Output: ["a","b","c"]
+
+#### Thought dump
+
+This problem involves finding all possible combinations of letters given a sequence of digits on a phone number pad. This can be thought of as a recursive problem, as we want to iterate over every possible letter for each digit, and prepend that letter to all the combinations found to the right of the current digit. The steps might look something like this:
+
+1. Grab the first digit in the string, `s[0]`
+2. Create a for loop that iterates over the possible letters for that digit
+3. For each iteration in the for loop, find the possible combinations of all remaining numbers in `s[1:]`
+4. Ensure base cases are accounted for, i.e. when `len(digits) == 0` or when there are no remaining digits to the right.
+
+We can take into consideration the fact that the length of the digits string is between 0 and 4 (inclusive), and that the digits can only be between 2 and 9 (inclusive).
+
+#### Solution
+
+```go
+var mapping map[byte][]string = map[byte][]string{
+    byte('2'): {"a", "b", "c"},
+    byte('3'): {"d", "e", "f"},
+    byte('4'): {"g", "h", "i"},
+    byte('5'): {"j", "k", "l"},
+    byte('6'): {"m", "n", "o"},
+    byte('7'): {"p", "q", "r", "s"},
+    byte('8'): {"t", "u", "v"},
+    byte('9'): {"w", "x", "y", "z"},
+}
+func letterCombinations(digits string) []string {
+    if len(digits) == 0 {
+        return []string{}
+    }
+    digit := digits[0]
+    if len(digits) == 1 {
+        return mapping[digit]
+    }
+    combinations := []string{}
+    subCombos := letterCombinations(digits[1:])
+
+    for _, char := range mapping[digit] {
+        for _, subCombo := range subCombos {
+            combinations = append(combinations, char + subCombo)
+        }
+        
+    }
+    return combinations
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 1ms (78.99%) | 2.08 MB (18.78%) |
+

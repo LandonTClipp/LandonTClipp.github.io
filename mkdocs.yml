@@ -111,6 +111,7 @@ nav:
     - blog/index.md
   - Programming:
     - Bash: programming/bash.md
+    - Computer Science: programming/computer-science.md
     - Golang: programming/golang.md
     - Leetcode: programming/leetcode.md
     - Python: programming/python.md
