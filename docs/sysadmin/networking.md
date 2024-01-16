@@ -140,3 +140,23 @@ Types of DNS record types
 | CERT | Stores public key certificates. |
 | DCHID | Stores information related to DHCP. |
 | DNAME | A Delegation Name record allows you to redirect entire subdomains to a new domain. For example, `www.example.com` is often redirected to `example.com` in many companies, as the `www` prefix is often not actually used. |
+
+## TCP
+
+### SSH Optimizations
+
+TCP has a common problem in high-latency/lossy network paths where it will spend a lot of time establishing connections, acking packets, and re-sending packets. rsync uses SSH, which uses TCP to send data over the wire. OpenSSH does not provide any means of tuning TCP parameters, but there is an OpenSSH fork called [HPN-SSH](https://www.psc.edu/hpn-ssh-home/hpn-ssh-faq/) that provides options for you to tune things like:
+
+1. TCP Recieve buffer size
+2. TCP send buffer size
+3. TCP window size
+
+These parameters can be increased to provide more tolerance to lossy or high-latency networks. In addition, you might also want to select different SSH ciphers to reduce load on the CPU. [Here is a great blog](https://blog.twogate.com/entry/2020/07/30/benchmarking-ssh-connection-what-is-the-fastest-cipher) on various benchmarks that were performed on commonly-available ciphers.
+
+## rsync
+
+### Optimizations
+
+rsync relies on SSH, and many optimizations can be applied to it [as shown here](#ssh-optimizations). This is where most of your performance improvements will come from.
+
+The main method for improving aggregate rsync throughput is to spawn more processes so that more streams are being sent simultaneously. A single rsync process will eventually hit a max throughput, which is limited by TCP handshakes and retransmits.
