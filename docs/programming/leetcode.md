@@ -1365,3 +1365,136 @@ https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-tr
 | Accepted | Python | 436ms (5.03%) | 90.29 MB (36.34%) |
 
 I'm going to leave the second optimization for another day, because this problem has already taken a huge number of hours of my day :sob:. I don't seem to be alone, as many other people in the discussion tab are crying just like me.
+
+## 1D Dynamic Programming
+
+### [Climbing Stairs](https://leetcode.com/problems/climbing-stairs/description)
+
+#### Problem
+
+You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Example 1:
+
+    Input: n = 2
+    Output: 2
+    Explanation: There are two ways to climb to the top.
+    1. 1 step + 1 step
+    2. 2 steps
+
+Example 2:
+
+    Input: n = 3
+    Output: 3
+    Explanation: There are three ways to climb to the top.
+    1. 1 step + 1 step + 1 step
+    2. 1 step + 2 steps
+    3. 2 steps + 1 step
+ 
+
+Constraints:
+
+    1 <= n <= 45
+
+#### Thought Dump
+
+This problem can be broken down into a series of subproblems. Each staircase can be thought of as being a linked chain of steps. Those steps can either be combined together so that we climb two steps at once, or they can remain by themselves. The goal here is to find the number of ways we could combine the steps together (or not combine them) to reach the nth step.
+
+Let's take another example where `n=4`. The possible solutions are:
+
+    1. 1 + 1 + 1 + 1
+    2. 1 + 1 + 2
+    3. 2 + 2
+    4. 1 + 2 + 1
+    5. 2 + 1 + 1
+
+What about when `n=5`?
+
+    1. 1 + 1 + 1 + 1 + 1
+    2. 1 + 1 + 1 + 2
+    3. 1 + 2 + 2
+    4. 2 + 1 + 2
+    5. 1 + 1 + 2 + 1
+    6. 2 + 2 + 1
+    7. 1 + 2 + 1 + 1
+    8. 2 + 1 + 1 + 1
+
+
+Another way to look at this problem is in the links between the steps. Every flight of stairs will have `n-1` links in them. We can model combining the links together through an array. Take for example `n=5` above:
+
+    | 0 | 0 | 0 | 0 |
+
+This array represents whether a pair of steps have been linked together,  where `0` means "not linked" and `1` equals "linked". We can iterate through the possible ways these can be linked together. Note that in this model, we can't have two `1`s directly adjacent to each other because that would mean we would have skipped over more than two steps at once. Going back to `n=5`, let's see the ways in which this can be done:
+
+    | 0 | 0 | 0 | 0 | # 1 + 1 + 1 + 1 + 1
+
+    | 0 | 0 | 0 | 1 | # 1 + 1 + 1 + (1+1)
+
+    | 0 | 1 | 0 | 1 | #  1 + (1+1) + (1+1)
+
+    | 1 | 0 | 0 | 1 | # (1+1) + 1 + (1+1)
+
+    | 0 | 0 | 1 | 0 | # 1 + 1 + (1+1) + 1
+
+    | 1 | 0 | 1 | 0 | # (1+1) + (1+1) + 1
+
+    | 0 | 1 | 0 | 0 | # 1 + (1+1) + 1 + 1
+    
+    | 1 | 0 | 0 | 0 | # (1+1) + 1 + 1 + 1
+
+To confirm the idea that the 1's can't be adjacent, let's try the `n=4` example:
+
+    | 0 | 0 | 0 |
+
+    | 0 | 0 | 1 |
+
+    | 1 | 0 | 1 |
+
+    | 0 | 1 | 0 |
+
+    | 1 | 0 | 0 |
+
+This also checks out. The other pattern to note is that when we set a specific bit to 1, we've created a subproblem where we need to figure out how many combinations in the rest of the array we can have. Let's go back to the example of `n=5`, specifically this combination:
+
+    | 0 | 0 | 0 | 1 |
+
+The subproblem is to figure out which of the remaining bits can be 1. We already know that the bit to the left of 1 can't be 1, so the subproblem is to figure out how many combinations can exist in `n=3`.
+
+You can see how we can take advantage of dynamic programming to solve this. Let's consider the steps the program would take. Let's call `n` the number of steps, and `l` the number of links. `l=n-1`.
+
+1. Solve for `n=1, l=0`: 1.
+2. Solve for `n=2, l=1`: 2.
+3. Solve for `n=3, l=2`: `climbStairs(n=3) == climbStairs(n=2) + climbStairs(n=1)` = 3.
+4. Solve for `n=4, l=3`: `climbStairs(n=4) == climbStairs(n=3) + climbStairs(n=2)` = 5.
+5. Solve for `n=5, l=4`: `climbStairs(n=5) == climbStairs(n=4) + climbStairs(n=3)` = 8.
+
+Our calculations seem to work, so let's go ahead and implement it.
+
+#### Solution
+
+```go
+func climbStairs(n int) int {
+    prev1 := 1
+    prev2 := 1
+    answer := 1
+    for i := 2; i <= n; i++ {
+        answer = prev1 + prev2
+        prev2 = prev1
+        prev1 = answer
+    }
+    return answer
+}
+```
+
+| status | language | runtime | memory |
+|--------|----------|---------|--------|
+| Accepted | Go | 1ms (78.30%) | 1.95 MB (49.19%) |
+
+The distribution of runtime/memory is so tight that it doesn't seem there is much room for improvemet. This is probably going to be the best result we can get.
+
+## Backtracking
+
+### [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
+
