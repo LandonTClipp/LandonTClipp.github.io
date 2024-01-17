@@ -115,6 +115,7 @@ nav:
     - Golang: programming/golang.md
     - Leetcode: programming/leetcode.md
     - Python: programming/python.md
+    - Tools: programming/tools.md
     - YAML: programming/yaml.md
   - System Administration:
     - CVMFS: sysadmin/cvmfs.md
