@@ -147,11 +147,20 @@ Types of DNS record types
 
 TCP has a common problem in high-latency/lossy network paths where it will spend a lot of time establishing connections, acking packets, and re-sending packets. rsync uses SSH, which uses TCP to send data over the wire. OpenSSH does not provide any means of tuning TCP parameters, but there is an OpenSSH fork called [HPN-SSH](https://www.psc.edu/hpn-ssh-home/hpn-ssh-faq/) that provides options for you to tune things like:
 
-1. TCP Recieve buffer size
+1. [TCP Recieve buffer size](http://www.linux-admins.net/2010/09/linux-tcp-tuning.html)
 2. TCP send buffer size
 3. TCP window size
 
 These parameters can be increased to provide more tolerance to lossy or high-latency networks. In addition, you might also want to select different SSH ciphers to reduce load on the CPU. [Here is a great blog](https://blog.twogate.com/entry/2020/07/30/benchmarking-ssh-connection-what-is-the-fastest-cipher) on various benchmarks that were performed on commonly-available ciphers.
+
+[Redhat has a blog on how to set buffer sizes.](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/tuning_and_optimizing_red_hat_enterprise_linux_for_oracle_9i_and_10g_databases/sect-oracle_9i_and_10g_tuning_guide-adjusting_network_settings-changing_network_kernel_settings)
+
+```
+# sysctl -w net.core.rmem_default=262144
+# sysctl -w net.core.wmem_default=262144
+# sysctl -w net.core.rmem_max=262144
+# sysctl -w net.core.wmem_max=262144
+```
 
 ## rsync
 
