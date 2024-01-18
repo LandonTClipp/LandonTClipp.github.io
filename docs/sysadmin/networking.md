@@ -169,3 +169,39 @@ These parameters can be increased to provide more tolerance to lossy or high-lat
 rsync relies on SSH, and many optimizations can be applied to it [as shown here](#ssh-optimizations). This is where most of your performance improvements will come from.
 
 The main method for improving aggregate rsync throughput is to spawn more processes so that more streams are being sent simultaneously. A single rsync process will eventually hit a max throughput, which is limited by TCP handshakes and retransmits.
+
+## OSI Layer 7 Protocols
+
+### HTTP
+
+Obviously this has to be mentioned. It's the most common protocol of them all! :partying_face:
+
+### [Websocket](/system-design/tools/#websocket)
+
+![Websocket diagram](https://assets-global.website-files.com/5ff66329429d880392f6cba2/63fe488452cc63cf1cb0ae45_148.2.png)
+
+### [gRPC](/system-design/tools/#grpc)
+
+Google Remote Procedure Call.
+
+### Video Streaming
+
+There are various standardized protocols for video streaming
+
+#### MPEG-DASH
+
+MPEG stands for "Moving Picture Experts Group." DASH stands for "Dynamic Adaptive Streaming over HTTP". This protocol is used by YouTube and Netflix.
+
+#### Apple HLS
+
+HLS stands for "HTTP Live Streaming"
+
+#### [Microsoft Smooth Streaming](https://en.wikipedia.org/wiki/Adaptive_bitrate_streaming#Microsoft_Smooth_Streaming_(MSS))
+
+Seems to be exclusively used by Microsoft's products
+
+#### [Adobe HTTP Dynamic Streaming (HDS)](https://en.wikipedia.org/wiki/Adaptive_bitrate_streaming#Adobe_HTTP_Dynamic_Streaming_(HDS))
+
+Mainly used for flash.
+
+
