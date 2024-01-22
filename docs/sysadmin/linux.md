@@ -61,7 +61,9 @@ write(1, "hello world\n", 12hello world
 FUSE
 -----
 
-placeholder
+![FUSE diagram](https://upload.wikimedia.org/wikipedia/commons/0/08/FUSE_structure.svg)
+
+FUSE stands for **Filesystem in Userspace**. It is a software interface that allows non-privileged applications to provide their own filesystem and mount it within the Linux file namespace. The FUSE module (which is a kernel module) provides a software bridge to the kernel interfaces.
 
 NFS
 ---

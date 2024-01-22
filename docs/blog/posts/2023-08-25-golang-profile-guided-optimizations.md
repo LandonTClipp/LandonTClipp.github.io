@@ -819,7 +819,7 @@ You can see the Go PGO logic implements this function [here](https://github.com/
 
 ### Devirtualization
 
-Another optimization technique that takes advantage of PGO is what's called devirutalization. In Go, interfaces provide a virtualized way of accessing an implementation that might not be known at compile time. These virutalized calls are inefficient because they involve jump tables that must be travesed in order to call the implementation's method during runtime. Interfaces are also problematic because [it defeats a lot of other analysis techniques like heap escapes](analyzing-go-heap-escapes.md#use-of-reference-types-on-interface-methods). 
+Another optimization technique that takes advantage of PGO is what's called devirutalization. In Go, interfaces provide a virtualized way of accessing an implementation that might not be known at compile time. These virutalized calls are inefficient because they involve jump tables that must be travesed in order to call the implementation's method during runtime. Interfaces are also problematic because [it defeats a lot of other analysis techniques like heap escapes](/blog/2023/07/15/analyzing-go-heap-escapes/#use-of-reference-types-on-interface-methods). 
 
 We can still run profiles to see what concrete implementation in practice gets used the most. The compiler will then creare a small bit of if/else logic in the assembled code to do type assertions on the interface for the set of "hot" implementations found during profiling. If one of the type assertions succeeds, it will call that implementation's method directly.
 
