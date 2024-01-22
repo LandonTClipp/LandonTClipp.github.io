@@ -2,8 +2,38 @@
 title: Linux
 ---
 
-sysfs
+strace
 ------
+
+strace can be used to inspect the system calls being made by an application.
+
+```
+$ strace -f cat /tmp/hello.txt |& egrep 'hello'
+execve("/bin/cat", ["cat", "/tmp/hello.txt"], 0x7fffffffc1a0 /* 115 vars */) = 0
+openat(AT_FDCWD, "/tmp/hello.txt", O_RDONLY) = 3
+read(3, "hello world\n", 131072)        = 12
+write(1, "hello world\n", 12hello world
+```
+
+Filesystems
+-----------
+
+### FUSE
+
+![FUSE diagram](https://upload.wikimedia.org/wikipedia/commons/0/08/FUSE_structure.svg)
+
+FUSE stands for **Filesystem in Userspace**. It is a software interface that allows non-privileged applications to provide their own filesystem and mount it within the Linux file namespace. The FUSE module (which is a kernel module) provides a software bridge to the kernel interfaces.
+
+### NFS
+
+placeholder
+
+### [VFS](https://www.kernel.org/doc/html/next/filesystems/vfs.html)
+
+VFS, or Virtual File System, is a component of the Linux kernel that provides the filesystem interface to userspace programs. The VFS is what implements open, stat, chmod, and other similar filesystem-related system calls. The pathnames passed to these calls is used by the VFS to lookup the directory entry cache, aka dentry cache or dcache). This allows very fast lookups of dentries without needing to reference the backing filesystem.
+
+
+### sysfs
 
 https://en.wikipedia.org/wiki/Procfs
 https://docs.kernel.org/filesystems/proc.html
@@ -44,31 +74,6 @@ dr-xr-xr-x   2 ltclipp ltclipp   0 Dec  8 15:47 attr
 -rw-r--r--   1 ltclipp ltclipp   0 Dec  8 15:47 comm
 -rw-r--r--   1 ltclipp ltclipp   0 Dec  8 15:47 coredump_filter
 ```
-
-strace
-------
-
-strace can be used to inspect the system calls being made by an application.
-
-```
-$ strace -f cat /tmp/hello.txt |& egrep 'hello'
-execve("/bin/cat", ["cat", "/tmp/hello.txt"], 0x7fffffffc1a0 /* 115 vars */) = 0
-openat(AT_FDCWD, "/tmp/hello.txt", O_RDONLY) = 3
-read(3, "hello world\n", 131072)        = 12
-write(1, "hello world\n", 12hello world
-```
-
-FUSE
------
-
-![FUSE diagram](https://upload.wikimedia.org/wikipedia/commons/0/08/FUSE_structure.svg)
-
-FUSE stands for **Filesystem in Userspace**. It is a software interface that allows non-privileged applications to provide their own filesystem and mount it within the Linux file namespace. The FUSE module (which is a kernel module) provides a software bridge to the kernel interfaces.
-
-NFS
----
-
-placeholder
 
 Kernel Modules
 --------------
