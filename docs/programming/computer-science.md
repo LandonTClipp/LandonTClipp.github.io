@@ -29,3 +29,10 @@ Backpressure
 ------------
 
 Not necessarily a computer science topic, but it describes a scenario where a consumer of some resource (whether it be a queue, or a proxy, etc) cannot consume faster than things are pushing to this resource. This situation will eventually cause the resource to become overloaded as it queues the requests in-memory (or disk) for the consumer.
+
+Data Locality
+--------------
+
+Data locality refers to how data is laid out in memory or disk. In general, read requests for a particular data structure will read things sequentially, meaning that a request for an element at index `n`, for example, will often be followed up by requests at `n+1`. In most memory and storage systems, data retrieval for `n` will cause large blocks of data to be pulled from the backing storage and cached in memory, so we generally want `n+1` to be _local_ to `n`. This data locality trait will allow us to take advantage of these caching systems and improve performance.
+
+In computer memory, the CPU has three layers of cache: L1 (typically the smallest), L2 (larger), and L3 (the largest, shared by all cores). Main memory access is extremely slow while each layer of the CPU cache is progressively faster than the higher layer. This is why it's preferrable to take full advantage of each caching layer, instead of missing back to main memory on every access.
