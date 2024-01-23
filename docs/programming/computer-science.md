@@ -44,7 +44,7 @@ Data locality refers to how data is laid out in memory or disk. In general, read
 
 In computer memory, the CPU has three layers of cache: L1 (typically the smallest), L2 (larger), and L3 (the largest, shared by all cores). Main memory access is extremely slow while each layer of the CPU cache is progressively faster than the higher layer. This is why it's preferrable to take full advantage of each caching layer, instead of missing back to main memory on every access.
 
-2's Compliment
+2's Complement
 ---------------
 
 This is one of the most fundamental ways to represent a signed integer in binary format. 
@@ -60,4 +60,4 @@ This is one of the most fundamental ways to represent a signed integer in binary
 | `010`  | `2` |
 | `011`  | `3` |
 
-The range of negative integers 2's compliment can support is $\frac{2^n}{2}$ while the positive integers are $\frac{2^n}{2} - 1$.
+The range of negative integers 2's complement can support is $\frac{2^n}{2}$ while the positive integers are $\frac{2^n}{2} - 1$.
