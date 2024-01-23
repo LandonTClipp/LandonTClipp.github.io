@@ -30,6 +30,13 @@ Backpressure
 
 Not necessarily a computer science topic, but it describes a scenario where a consumer of some resource (whether it be a queue, or a proxy, etc) cannot consume faster than things are pushing to this resource. This situation will eventually cause the resource to become overloaded as it queues the requests in-memory (or disk) for the consumer.
 
+Strategies to mitigate backpressure:
+
+1. Vertical scaling (just make your queue bigger lulz)
+2. Increase consumer throughput. This could happen by vertically scaling the consumer if resources are a constraint, or by adding more consumers (horizontal scaling).
+3. Drop some sample of incoming requests. Eventually, this will happen anyway as your resource begins to time out, so maybe it's better for you to have explicit control on what gets dropped.
+4. Throttle incoming requests.
+
 Data Locality
 --------------
 
