@@ -123,6 +123,7 @@ nav:
     - Hardware: sysadmin/hardware.md
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
+    - Security: sysadmin/security.md
     - Systemd: sysadmin/systemd.md
   - System Design:
     - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
