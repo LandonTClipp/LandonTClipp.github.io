@@ -244,3 +244,7 @@ References:
 
 - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/configuring-huge-pages_monitoring-and-managing-system-status-and-performance
 - https://rigtorp.se/hugepages/
+
+## [Kickstart](https://en.wikipedia.org/wiki/Kickstart_(Linux))
+
+Kickstart is an installation mechanism provided by Redhat that allows you to install and configure operating systems in an automated fashion. Cobbler is used to automate the kickstart configuration process.
