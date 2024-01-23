@@ -24,3 +24,8 @@ Trees
 A Prefix Tree, or a trie, is a type of search tree used for locating specific keys from within a set. Each node of the trie represents a common prefix that all of its descendents contain. The name "trie" (pronounced try) comes from the word re**trie**val.
 
 Each node stores a single character, and it has at most 26 children, one for each letter of the alphabet.
+
+Backpressure
+------------
+
+Not necessarily a computer science topic, but it describes a scenario where a consumer of some resource (whether it be a queue, or a proxy, etc) cannot consume faster than things are pushing to this resource. This situation will eventually cause the resource to become overloaded as it queues the requests in-memory (or disk) for the consumer.
