@@ -43,3 +43,21 @@ Data Locality
 Data locality refers to how data is laid out in memory or disk. In general, read requests for a particular data structure will read things sequentially, meaning that a request for an element at index `n`, for example, will often be followed up by requests at `n+1`. In most memory and storage systems, data retrieval for `n` will cause large blocks of data to be pulled from the backing storage and cached in memory, so we generally want `n+1` to be _local_ to `n`. This data locality trait will allow us to take advantage of these caching systems and improve performance.
 
 In computer memory, the CPU has three layers of cache: L1 (typically the smallest), L2 (larger), and L3 (the largest, shared by all cores). Main memory access is extremely slow while each layer of the CPU cache is progressively faster than the higher layer. This is why it's preferrable to take full advantage of each caching layer, instead of missing back to main memory on every access.
+
+2's Compliment
+---------------
+
+This is one of the most fundamental ways to represent a signed integer in binary format. 
+
+| binary | decimal integer |
+|--------|-----------------|
+| `100`  | `-4` |
+| `101`  | `-3` |
+| `110`  | `-2` |
+| `111`  | `-1` |
+| `000`  | `0` |
+| `001`  | `1` |
+| `010`  | `2` |
+| `011`  | `3` |
+
+The range of negative integers 2's compliment can support is $\frac{2^n}{2}$ while the positive integers are $\frac{2^n}{2} - 1$.
