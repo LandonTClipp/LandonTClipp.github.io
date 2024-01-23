@@ -76,6 +76,24 @@ Many of these kinds of data streaming problems were commonly solved through HTTP
 
 Websocket is generally served through ports 80 or 443 (HTTP/HTTPS), which allows it to pass through many types of firewalls. 
 
+Polling Mechanisms
+------------------
+
+### Short polling
+
+A client would periodically poll the server for new messages. This would work but it's inefficient because it requires opening and closing many connections.
+
+### Long polling
+
+Same as short polling, but we can keep the connection open until we receive new messages. The disadvantages are:
+- The sender and receiver might not be on the same server.
+- The server has no good way to tell if a client is disconnected.
+- It's inefficient because long polling will still make periodic connection requests even if there are no messages being sent.
+
+### Websocket
+
+Websocket is a protocol that allows you to asynchronously send and receive messages over the same connection. 
+
 Service Discovery
 -----------------
 
