@@ -1566,3 +1566,149 @@ func letterCombinations(digits string) []string {
 |--------|----------|---------|--------|
 | Accepted | Go | 1ms (78.99%) | 2.08 MB (18.78%) |
 
+## Binary Tree BFS
+
+### Binary Tree Right Side View
+
+#### Problem Statement
+
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+**Example 1**
+
+![Binary Tree Right Side View Example 1](https://assets.leetcode.com/uploads/2021/02/14/tree.jpg)
+
+    Input: root = [1,2,3,null,5,null,4]
+    Output: [1,3,4]
+
+Example 2:
+
+    Input: root = [1,null,3]
+    Output: [1,3]
+
+Example 3:
+
+    Input: root = []
+    Output: []
+
+#### Solution
+
+##### Incorrect interpretation
+
+I coded up a solution, but it turns out that my solution was incorrect because the problem statement is ambiguous. I interpreted the problem statement to mean that we want to always be looking to the _right_ of the tree and return the nodes that appear farther right than the previous maximum "rightness" value we've seen. This means that we would want to keep track of the rightmost node as we're traversing the tree and add the nodes to the list that are greater than the previous maximum right. However, it appears this is not what the question is asking, and it appears I am not alone in my confusion. The Editorial states:
+
+!!! quote
+
+    The problem is to return a list of the last elements from all levels, so it's way more natural to implement BFS here.
+
+Nonetheless, here is my solution:
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        # What does it mean to "see" the right nodes? Consider the tree:
+        #           1
+        #         /   \
+        #        2     3
+        #             /
+        #            4
+        #             \
+        #              5
+        #               \
+        #                6
+        # Would we be able to see #6? I think the answer would be yes, as we are able to see
+        # only the nodes which appear to the _right_ of 3. In this case, we need to keep track of:
+        # 1. What's the farthest right node we've compile
+        # 2. What's the depth of the farthest right node we've seen?
+        # A node would be _visible_ if it is both farther right than the last previously seen node
+        # and it's at a lower depth. So as we traverse the tree, we want to keep track of the "rightness"
+        # and the depth of each node we've traversed.
+        #
+        # Proposed implementation:
+        # 1. Do a breadth first search
+        # 2. At every node, calculate the "rightness" and depth of the node. Initialize the "rightness" to 0
+        #    and the depth to 0.
+        # 3. If the node we're iterating over has a "rightness" greater than the previous "rightness", then
+        #    add that node to the list, and update the max "rightness" seen.
+
+        # Initialize our variables. The root node will always be visible.
+        if root is None:
+            return []
+        nodes = [root.val]
+        maxRight = 0
+        root.rightness = 0
+
+        nodesToIterate = [root]
+        while nodesToIterate:
+            curNode = nodesToIterate.pop(0)
+
+            if curNode.rightness > maxRight:
+                nodes.append(curNode.val)
+
+            if curNode.left:
+                left = curNode.left
+                left.rightness = curNode.rightness - 1
+                nodesToIterate.append(left)
+            if curNode.right:
+                right = curNode.right
+                right.rightness = curNode.rightness + 1
+                nodesToIterate.append(right)
+        return nodes
+```
+
+:material-timer: 00:18:18
+
+##### [Correct solution](https://leetcode.com/problems/binary-tree-right-side-view/submissions/1155913705)
+
+Given I had to peek at the editorial to figure out what the description meant, I attempted this a second time.
+
+```python linenums="1"
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return []
+        root.level = 0
+        curLevel = 0
+        nodes = [root.val]
+        queue = [root]
+
+        while queue:
+            curNode = queue.pop(0)
+
+            # When we enter into a new level, reset the maxRightness seen.
+            # We want to add the rightmost element at each level
+            if curNode.level > curLevel:
+                curLevel = curNode.level
+                # It's possible this will be overwritten by a more right node.
+                nodes.append(curNode.val)
+            
+            nodes[-1] = curNode.val
+
+            left = curNode.left
+            if left:
+                left.level = curNode.level + 1
+                queue.append(left)
+            right = curNode.right
+            if right:
+                right.level = curNode.level + 1
+                queue.append(right)
+        return nodes
+```
+
+In this solution, we use BFS to iterate over each level individually. We keep track of the current level we're iterating at, and because we're iterating over the levels from left to right, we simply add each element to the end of the `nodes` list. When we've entered into a new level, we [append a new element onto our list](#__codelineno-60-24). Within a level, this will continue to overwrite the previous value such that only the rightmost value will not be overwritten. This is an efficient solution because we're taking advantage of how the BFS is ordered, because we know that the rightmost node will be iterated _last_ at each level.
+
+| status | language | runtime | memory | solution timer |
+|--------|----------|---------|--------|-------|
+| Accepted | Python | 22ms (99.81%) | 16.56 MB (59.91%) | :material-timer: 00:15:01 |
