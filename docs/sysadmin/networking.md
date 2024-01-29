@@ -168,7 +168,11 @@ These parameters can be increased to provide more tolerance to lossy or high-lat
 
 rsync relies on SSH, and many optimizations can be applied to it [as shown here](#ssh-optimizations). This is where most of your performance improvements will come from.
 
-The main method for improving aggregate rsync throughput is to spawn more processes so that more streams are being sent simultaneously. A single rsync process will eventually hit a max throughput, which is limited by TCP handshakes and retransmits.
+The main method for improving aggregate rsync throughput is to spawn more processes so that more streams are being sent simultaneously. A single rsync process will eventually hit a max throughput, which is limited by TCP handshakes and retransmits. Some optimizations you can do:
+
+1. Increase TCP window size (more data sent per round trip)
+2. Increase TCP send buffer size (kernel parameter)
+3. Increase TCP receive buffer size (kernel parameter)
 
 ## OSI Layer 7 Protocols
 
