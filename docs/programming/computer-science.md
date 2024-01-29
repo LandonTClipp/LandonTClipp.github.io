@@ -32,7 +32,9 @@ A heap is a type of tree that satisfies the heap property: in max heaps, each no
 - Priority queues
 - Heapsort
 - Graph algorithms (Dijkstra)
+- Finding the largest or smallest element in a dataset
 
+When encountering problems requiring us to find the largest or smallest element, it's often insufficient to simply sort the entire dataset because the dataset may be growing/shrinking over time. Sorting the dataset during each change causes a large number of operations. This is why heaps are useful in situations like this because adding or removing an element is $O(log(n))$.
 
 Backpressure
 ------------
