@@ -25,6 +25,15 @@ A Prefix Tree, or a trie, is a type of search tree used for locating specific ke
 
 Each node stores a single character, and it has at most 26 children, one for each letter of the alphabet.
 
+### [Heap](https://en.wikipedia.org/wiki/Heap_(data_structure))
+
+A heap is a type of tree that satisfies the heap property: in max heaps, each node is the maximum-valued node for its subtree. For min-heaps, each node is the minimum-valued node for its subtree. Heaps are good for:
+
+- Priority queues
+- Heapsort
+- Graph algorithms (Dijkstra)
+
+
 Backpressure
 ------------
 

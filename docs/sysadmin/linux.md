@@ -248,3 +248,11 @@ References:
 ## [Kickstart](https://en.wikipedia.org/wiki/Kickstart_(Linux))
 
 Kickstart is an installation mechanism provided by Redhat that allows you to install and configure operating systems in an automated fashion. Cobbler is used to automate the kickstart configuration process.
+
+## POSIX Signals
+
+| number | name | default action | description |
+|--------|------|----------------|-------------|
+| 1 | SIGHUP | Terminate | Hang up controlling terminal or process. Often used by many systems to mean "please re-read and reload config." |
+| 2 | SIGINT | Terminate | Interrupt from keyboard. Ctrl-C. |
+| 

@@ -35,5 +35,5 @@ This blog is my dumping ground for every random thought, every interesting idea,
 
 Resume
 ------
-
+              
 ![resume](https://f005.backblazeb2.com/file/landons-blog/LandonClippResumeScrubbed.svg)
