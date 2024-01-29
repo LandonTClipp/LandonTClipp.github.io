@@ -255,4 +255,27 @@ Kickstart is an installation mechanism provided by Redhat that allows you to ins
 |--------|------|----------------|-------------|
 | 1 | SIGHUP | Terminate | Hang up controlling terminal or process. Often used by many systems to mean "please re-read and reload config." |
 | 2 | SIGINT | Terminate | Interrupt from keyboard. Ctrl-C. |
-| 
+
+
+## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass)
+
+Kernel Bypass is a technology implemented in Linux (and often other kernels as well) that allows network processing to happen in userspace. This often leads to a huge performance improvement for network-bound applications as the traffic does not have to pass through the kernel-userspace boundary.
+
+These are some kernel bypass techniques:
+
+### [PACKET_MMAP](https://www.kernel.org/doc/Documentation/networking/packet_mmap.txt)
+
+Allows the kernel to allocate a circular buffer in userspace so that applications can read their memory directly, instead of making one system call per packet.
+
+### [PF_RING](https://www.ntop.org/products/packet-capture/pf_ring/)
+
+This is a type of network socket, originally implemented by Napatech ntop cards, that provides a circular ring buffer of the network traffic. This is a kernel module that you must load. The kernel module polls packets from the NIC through Linux NAPI and copies the packets from the NIC to the ring buffer, which lives in kernel space. The user application mmaps itself to this kernel buffer. PF_RING is capable of delivering packets to multiple ring buffers, which allows each application to be isolated from others.
+
+### [snabbswitch](https://github.com/snabbco/snabb)
+
+This is a networking framework for Lua applications that allows the app to completely control a network card. The user application acts as a hardware driver. This is done on the PCI device level by mmapping the device registers with sysfs.
+
+### DPDK
+
+A networking framework written in C that is similar to snabbswitch. It also relies on User IO (UIO).
+
