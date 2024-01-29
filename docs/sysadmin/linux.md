@@ -106,7 +106,7 @@ The main benefit of a DRAC is being able to independently execute commands to th
 Kernel Parameters
 ------------------
 
-### nohz_full
+### nohz_full :material-run-fast:
 
 https://www.kernel.org/doc/Documentation/timers/NO_HZ.txt
 
@@ -190,7 +190,7 @@ execve("/usr/bin/echo", ["echo", "hello"], 0xffffc7800510 /* 24 vars */) = 0
 write(1, "hello\n", 6)                  = 6
 ```
 
-hugepages
+hugepages :material-run-fast:
 ---------
 
 Huge pages are a memory optimization technique whereby you grant your application memory space that uses larger memory page allocation sizes. The typical page size is 4096 bytes, but by enabling hugepages, you can get much larger page sizes. This improves performance in workloads that use large blocks of memory because there will be fewer requests sent to the page cache.
@@ -257,7 +257,7 @@ Kickstart is an installation mechanism provided by Redhat that allows you to ins
 | 2 | SIGINT | Terminate | Interrupt from keyboard. Ctrl-C. |
 
 
-## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass)
+## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass) :material-run-fast:
 
 Kernel Bypass is a technology implemented in Linux (and often other kernels as well) that allows network processing to happen in userspace. This often leads to a huge performance improvement for network-bound applications as the traffic does not have to pass through the kernel-userspace boundary.
 
