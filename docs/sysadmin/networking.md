@@ -209,3 +209,6 @@ Seems to be exclusively used by Microsoft's products
 Mainly used for flash.
 
 
+## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access) :material-run-fast:
+
+Remote Direct Memory Access is a method of direct memory access across the network that does not involve either server's operating system. I

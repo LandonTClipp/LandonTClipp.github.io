@@ -44,3 +44,9 @@ RAID, or Redundant Array of Inexpensive Disks, is a data storage virutalization 
 ---------------------
 
 Branch prediction is a digital circuit on most modern CPUs that attempts to guess which direction an if/else statement (a branch) will take. The accuracy of the prediction plays a major role into improving the pipelining efficiency of a CPU. The predicted instructions will be preemptively executed. If the result of the branch is different from the predicted path, the preemptive result is thrown away and execution is resumed from the true branch path.
+
+[NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access)
+---------
+
+Most modern datacenter servers have multiple CPU sockets. Each socket is generally physically close to a portion of the main memory. Each socket is capable of accessing the memory of another NUMA node, however this incurs performance penalties as it has to traverse the memory bus.
+

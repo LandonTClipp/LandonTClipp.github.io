@@ -294,3 +294,18 @@ A networking framework written in C that is similar to snabbswitch. It also reli
 ### [nice](https://man7.org/linux/man-pages/man2/nice.2.html)
 
 `nice` determines the CPU scheduling priority. Processes have values between -20 (highest priority) and 19 (lowest priority).
+
+## CPU Affinity
+
+The `taskset` command is used to set CPU affinity. Example:
+
+```
+$ taskset –cp 2 914745
+pid 914745’s current affinity list: 0
+pid 914745’s new affinity list: 2
+```
+
+### Optimizing for the NUMA node :material-run-fast:
+
+The `lscpu` command will show you which cores are on which NUMA node. If possible, applications should be given CPU affinities that are on a single NUMA node to prevent long-distance memory access on a different node.
+
