@@ -40,7 +40,7 @@ RAID, or Redundant Array of Inexpensive Disks, is a data storage virutalization 
 | RAID 5 | Provides striping and double parity. Parity information is distributed across many disks, which makes it faster than RAID 4. | 3 | ![RAID 5](https://upload.wikimedia.org/wikipedia/commons/6/64/RAID_5.svg) |
 | RAID 6 | Extends RAID 5 by creating two copies of the parity code, instead of just one. | 4 | ![RAID 6](https://upload.wikimedia.org/wikipedia/commons/7/70/RAID_6.svg)
 
-[CPU Branch Prediction](https://en.wikipedia.org/wiki/Branch_predictor) :material-run-fast:
+[CPU Branch Prediction](https://en.wikipedia.org/wiki/Branch_predictor) <!-- md:optimization -->
 ---------------------
 
 Branch prediction is a digital circuit on most modern CPUs that attempts to guess which direction an if/else statement (a branch) will take. The accuracy of the prediction plays a major role into improving the pipelining efficiency of a CPU. The predicted instructions will be preemptively executed. If the result of the branch is different from the predicted path, the preemptive result is thrown away and execution is resumed from the true branch path.

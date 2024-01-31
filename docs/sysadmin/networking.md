@@ -143,7 +143,7 @@ Types of DNS record types
 
 ## TCP
 
-### SSH Optimizations
+### SSH Optimizations <!-- md:optimization -->
 
 TCP has a common problem in high-latency/lossy network paths where it will spend a lot of time establishing connections, acking packets, and re-sending packets. rsync uses SSH, which uses TCP to send data over the wire. OpenSSH does not provide any means of tuning TCP parameters, but there is an OpenSSH fork called [HPN-SSH](https://www.psc.edu/hpn-ssh-home/hpn-ssh-faq/) that provides options for you to tune things like:
 
@@ -164,7 +164,7 @@ These parameters can be increased to provide more tolerance to lossy or high-lat
 
 ## rsync
 
-### Optimizations
+### Optimizations <!-- md:optimization -->
 
 rsync relies on SSH, and many optimizations can be applied to it [as shown here](#ssh-optimizations). This is where most of your performance improvements will come from.
 

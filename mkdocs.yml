@@ -35,6 +35,7 @@ theme:
     - navigation.tracking
     - toc.follow
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
   - footnotes
@@ -58,7 +59,9 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
   - pymdownx.tabbed:
       alternate_style: true 
   - toc:
@@ -108,6 +111,7 @@ plugins:
 
 nav:
   - index.md
+  - Conventions: conventions.md
   - Blog:
     - blog/index.md
   - Programming:
@@ -147,3 +151,9 @@ extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+watch:
+  - includes
+
+hooks:
+  - overrides/hooks/shortcodes.py
