@@ -279,3 +279,18 @@ This is a networking framework for Lua applications that allows the app to compl
 
 A networking framework written in C that is similar to snabbswitch. It also relies on User IO (UIO).
 
+## niceness
+
+"niceness" is a parameter given to processes that determine their overall runtime priority. 
+
+### [ionice](https://linux.die.net/man/1/ionice)
+
+`ionice`` determines the IO scheduling priority and class. The various classes that can be used:
+
+- **Idle**: the program with idle IO priority will only get disk time if nothing else is using the disk.
+- **Best effort**: This is the default scheduling class. Programs running best-effort are served in a round-robin fashion.
+- **Realtime**: The program with realtime class priority will be given first access to the disk. This must be used with care as there is a potential for realtime processes to starve other processes of disk IO.
+
+### [nice](https://man7.org/linux/man-pages/man2/nice.2.html)
+
+`nice` determines the CPU scheduling priority. Processes have values between -20 (highest priority) and 19 (lowest priority).
