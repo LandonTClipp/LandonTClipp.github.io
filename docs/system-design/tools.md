@@ -99,11 +99,11 @@ Service Discovery
 
 When you have a pool of services, for example a pool of websocket servers that provide clients with messages in a chat system, you often need to provide the client with a list of DNS hostnames they could connect to. This process is called "Server-side Service Discovery" and there are many off-the-shelf solutions:
 
-### [etcd](https://etcd.io/)
+### [etcd](https://etcd.io/) :simple-etcd:
 
 This is a distributed key-value store that can be used for service discovery (among many other things). It uses an eventually-consistent model through the gossip-based protocol. It does not have many built-in features for service discovery as it focuses more on the key-value store.
 
-### [consul](https://www.consul.io/)
+### [consul](https://www.consul.io/) :simple-consul:
 
 consul is a Service Mesh that provides a rich suite of metrics and monitoring capabilities. It allows you to define health checks on your services. It also comes with native support for cross-datacenter replication, while etcd does not.
 
@@ -116,14 +116,12 @@ This is another distributed key/value store that also provides service discovery
 Key-Value Stores
 ---------------
 
-- etcd
 - redis
-- zookeeper
 - cassandra
 
 Redis is often chosen over etcd for key-value stores because etcd requires consensus amongst its nodes before committing changes, which slows performance. The benefit of etcd is that it provides a lot of consistency guarantees. The [docs](https://etcd.io/docs/v3.3/learning/api_guarantees/#:~:text=etcd%20is%20a%20consistent%20and,API%20guarantees%20made%20by%20etcd.) claim it follows [Sequential Consistency](https://en.wikipedia.org/wiki/Consistency_model#Sequential_consistency), which means that while a write does not have to be seen instantaneously, the _sequence_ in which writes to a piece of data are seen is identical across all processors.
 
-### Cassandra
+### Cassandra :simple-apachecassandra:
 
 Cassandra is often compared against Redis. For a good comparison, look [here](https://www.knowledgenile.com/blogs/cassandra-vs-redis). Many of the notes here are drawn from that blog.
 
@@ -135,3 +133,9 @@ This is used by some large chat platforms like Discord to store chat history. So
 - Schema-free.
 - Uses Java, uses thrift protocol for API.
 - More useful when you have distributed, linearly scalable, write-oriented, and democratic P2P database structure.
+
+### redis :simple-redis:
+
+Meant specifically as an in-memory key-value data store. Most commonly used for distributed key-val.
+
+

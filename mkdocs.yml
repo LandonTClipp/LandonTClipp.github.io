@@ -131,6 +131,7 @@ nav:
     - Security: sysadmin/security.md
     - Systemd: sysadmin/systemd.md
   - System Design:
+    - Databases: system-design/databases.md
     - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
     - Tools: system-design/tools.md
 
