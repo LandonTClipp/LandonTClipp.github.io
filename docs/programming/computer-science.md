@@ -75,3 +75,8 @@ This is one of the most fundamental ways to represent a signed integer in binary
 | `011`  | `3` |
 
 The range of negative integers 2's complement can support is $\frac{2^n}{2}$ while the positive integers are $\frac{2^n}{2} - 1$.
+
+[NP-hardness](https://en.wikipedia.org/wiki/NP-hardness)
+-----------
+
+Stands for Non-deterministic Polynomial-time hardness. Refers to a set of problems where the solution is "at least as hard as the hardest problems in NP".
