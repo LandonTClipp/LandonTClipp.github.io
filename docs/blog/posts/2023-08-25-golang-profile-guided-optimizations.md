@@ -821,13 +821,13 @@ You can see the Go PGO logic implements this function [here](https://github.com/
 
 Another optimization technique that takes advantage of PGO is what's called devirutalization. In Go, interfaces provide a virtualized way of accessing an implementation that might not be known at compile time. These virutalized calls are inefficient because they involve jump tables that must be travesed in order to call the implementation's method during runtime. Interfaces are also problematic because [it defeats a lot of other analysis techniques like heap escapes](/blog/2023/07/15/analyzing-go-heap-escapes/#use-of-reference-types-on-interface-methods). 
 
-We can still run profiles to see what concrete implementation in practice gets used the most. The compiler will then creare a small bit of if/else logic in the assembled code to do type assertions on the interface for the set of "hot" implementations found during profiling. If one of the type assertions succeeds, it will call that implementation's method directly.
+We can still run profiles to see what concrete implementation in practice gets used the most. The compiler will then create a small bit of if/else logic in the assembled code to do type assertions on the interface for the set of "hot" implementations found during profiling. If one of the type assertions succeeds, it will call that implementation's method directly.
 
 We will not dive deeply into this specific optimization technique, but it's something to keep in mind and highlights various ways in which PGO can be leveraged. 
 
 ## Proving the CDF experimentally
 
-Let's go back to our examples where we modified [`pgoinlinedthreshold`](#95). The calculated threshold value was `0.18328445747800587`, which according to the Go PGO code is the percentage of $W_m$ over the sum of all edge weights. The PGO logic does not have any debug statements that tells us what the total cumulative weight, so let's modify the Go source code with some additional print statements so we can confirm our calculations.
+Let's go back to our examples where we modified [`pgoinlinedthreshold`](#95). The calculated threshold value was `0.18328445747800587`, which according to the Go PGO code is the percentage of $W_m$ over the sum of all edge weights. The PGO logic does not have any debug statements that tells us what the total cumulative weight is, so let's modify the Go source code with some additional print statements so we can confirm our calculations.
 
 ```diff title="src/cmd/compile/internal/inline/inl.go"
 diff --git a/src/cmd/compile/internal/inline/inl.go b/src/cmd/compile/internal/inline/inl.go
