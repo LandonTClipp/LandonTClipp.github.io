@@ -107,3 +107,22 @@ ncdu -o out.json  &
 jq . < out.json
 ```
 
+Double Bracket Test `[[`
+--------------------
+
+This is an extended form of test.
+
+### String Truthiness
+
+Non-empty strings in `[[` are considered falsey:
+
+```
+ $ [[ "foobar" ]] && echo true
+true
+```
+
+Versus:
+
+```
+ $ [[ "" ]] && echo true 
+```
