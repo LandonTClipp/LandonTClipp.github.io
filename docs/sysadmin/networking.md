@@ -190,7 +190,7 @@ Google Remote Procedure Call.
 
 ### Video Streaming
 
-There are various standardized protocols for video streaming
+There are various standardized protocols for video streaming.
 
 #### MPEG-DASH
 
@@ -208,7 +208,12 @@ Seems to be exclusively used by Microsoft's products
 
 Mainly used for flash.
 
-
 ## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access) <!-- md:optimization -->
 
-Remote Direct Memory Access is a method of direct memory access across the network that does not involve either server's operating system. I
+Remote Direct Memory Access is a method of direct memory access across the network that does not involve either server's operating system.
+
+### [RoCE](https://en.wikipedia.org/wiki/RDMA_over_Converged_Ethernet)
+
+![RoCE Header Format Diagram](https://upload.wikimedia.org/wikipedia/commons/c/c5/RoCE_Header_format.png)
+
+RDMA over Converged Ethernet is an RDMA implementation over ethernet. It utilizes an Infiniband payload encapsulated by ethernet. RoCE's goal is to port Infiniband's specification of how to do RDMA over an ethernet network. This is why the Infiniband payload is encapsulated as that protocol is still used on the host side to perform the RDMA access.
