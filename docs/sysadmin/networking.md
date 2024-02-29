@@ -217,3 +217,8 @@ Remote Direct Memory Access is a method of direct memory access across the netwo
 ![RoCE Header Format Diagram](https://upload.wikimedia.org/wikipedia/commons/c/c5/RoCE_Header_format.png)
 
 RDMA over Converged Ethernet is an RDMA implementation over ethernet. It utilizes an Infiniband payload encapsulated by ethernet. RoCE's goal is to port Infiniband's specification of how to do RDMA over an ethernet network. This is why the Infiniband payload is encapsulated as that protocol is still used on the host side to perform the RDMA access.
+
+ARP
+----
+
+Address Resolution Protocol is used for mapping MAC addresses to IP addresses. This is often used by routers on a local network to figure out what host (or MAC) has been assigned a specific IP.
