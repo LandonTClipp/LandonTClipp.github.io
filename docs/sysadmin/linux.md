@@ -309,7 +309,7 @@ pid 914745’s new affinity list: 2
 
 The `lscpu` command will show you which cores are on which NUMA node. If possible, applications should be given CPU affinities that are on a single NUMA node to prevent long-distance memory access on a different node.
 
-# netstat
+## netstat
 
 === "linux"
 
