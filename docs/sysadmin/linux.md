@@ -2,8 +2,10 @@
 title: Linux
 ---
 
-strace
-------
+CLI Tools
+----------
+
+### strace
 
 strace can be used to inspect the system calls being made by an application.
 
@@ -14,6 +16,26 @@ openat(AT_FDCWD, "/tmp/hello.txt", O_RDONLY) = 3
 read(3, "hello world\n", 131072)        = 12
 write(1, "hello world\n", 12hello world
 ```
+
+### netstat
+
+=== "linux"
+
+       ```shell
+       $ netstat -ntulp
+       ```
+
+=== "MacOS"
+
+       ```shell
+       $ netstat -anv
+       Active Internet connections (including servers)
+       Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)      rhiwat  shiwat    pid   epid state  options           gencnt    flags   flags1 usscnt rtncnt fltrs
+       tcp4       0      0  127.0.0.1.8001         127.0.0.1.60348        ESTABLISHED  407878  146988  34323      0 00102 00000004 000000000027587a 00000080 01000900      1      0 000001
+       tcp4       0      0  127.0.0.1.60348        127.0.0.1.8001         ESTABLISHED  408300  146988  24807  24804 00102 00020000 0000000000275879 10180081 00080900      1      0 000001
+       tcp4       0      0  192.168.50.89.60347    140.82.113.5.443       ESTABLISHED  131072  132432  24807  24804 00102 00020000 0000000000275878 10180081 00080900      1      0 000001
+       tcp4       0      0  192.168.50.89.60344    149.137.136.16.443     ESTABLISHED 1511016  131768  24807  24804 00102 00020000 000000000027585b 10180081 00080900      1      0 000001
+       ```
 
 Filesystems
 -----------
@@ -179,17 +201,6 @@ other::r--
 
 As you can see, this allows you finer grained control over access to your filesystem objects.
 
-## strace
-
-strace, or System Trace, is an excellent utility to see what system calls an application is making. Let's try tracing `lsof` as an example:
-
-```
-ubuntu@primary:/tmp$ strace -f echo hello
-execve("/usr/bin/echo", ["echo", "hello"], 0xffffc7800510 /* 24 vars */) = 0
-[...]
-write(1, "hello\n", 6)                  = 6
-```
-
 hugepages <!-- md:optimization -->
 ---------
 
@@ -308,23 +319,3 @@ pid 914745’s new affinity list: 2
 ### Optimizing for the NUMA node <!-- md:optimization -->
 
 The `lscpu` command will show you which cores are on which NUMA node. If possible, applications should be given CPU affinities that are on a single NUMA node to prevent long-distance memory access on a different node.
-
-## netstat
-
-=== "linux"
-
-       ```shell
-       $ netstat -ntulp
-       ```
-
-=== "MacOS"
-
-       ```shell
-       $ netstat -anv
-       Active Internet connections (including servers)
-       Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)      rhiwat  shiwat    pid   epid state  options           gencnt    flags   flags1 usscnt rtncnt fltrs
-       tcp4       0      0  127.0.0.1.8001         127.0.0.1.60348        ESTABLISHED  407878  146988  34323      0 00102 00000004 000000000027587a 00000080 01000900      1      0 000001
-       tcp4       0      0  127.0.0.1.60348        127.0.0.1.8001         ESTABLISHED  408300  146988  24807  24804 00102 00020000 0000000000275879 10180081 00080900      1      0 000001
-       tcp4       0      0  192.168.50.89.60347    140.82.113.5.443       ESTABLISHED  131072  132432  24807  24804 00102 00020000 0000000000275878 10180081 00080900      1      0 000001
-       tcp4       0      0  192.168.50.89.60344    149.137.136.16.443     ESTABLISHED 1511016  131768  24807  24804 00102 00020000 000000000027585b 10180081 00080900      1      0 000001
-       ```
