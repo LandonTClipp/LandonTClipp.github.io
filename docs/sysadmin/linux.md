@@ -37,6 +37,14 @@ write(1, "hello world\n", 12hello world
        tcp4       0      0  192.168.50.89.60344    149.137.136.16.443     ESTABLISHED 1511016  131768  24807  24804 00102 00020000 000000000027585b 10180081 00080900      1      0 000001
        ```
 
+### uniq
+
+Use `uniq -c` to get counts of each occurence. This is more commonly used like `cat file.txt | sort | uniq -c`.
+
+### sort
+
+Can also use sort with `-u`, which is equivalent to `sort | uniq`.
+
 Filesystems
 -----------
 
