@@ -54,3 +54,8 @@ In this authorization scheme, the client calculates a signature that is based of
 In its essence, this scheme uses a shared private key to create a digital signature of the request, which allows both the server to verify the identity of the cleint, and it protects against MITM attacks (assuming the private key has not been compromised) from modifying the request. It's still recommended to use in conjunction with HTTPS.
 
 The signed portions of the request are valid within 15 minutes of the original timestmap. This means that an attacker can re-use a signed request within 15 minutes and modify the unsigned portions. This is why Amazon recommends you always hash the contents, and as many headers as is practical.
+
+SSSD
+----
+
+System Security Services Daemon provides a set of authentication and authorization services on Linux hosts, primarily used to authenticate/authorize user login to external services (such as LDAP), but can be used for other use-cases.
