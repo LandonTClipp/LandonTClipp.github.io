@@ -20,6 +20,14 @@ Non-Volatile Memory Express is a more modern SSD that has much higher speeds tha
 
 Typical read speeds are up to 3,500 MB/s for PCIe Gen 3, 7,500MB/s for PCIe Gen 4.
 
+##### M.2
+
+M.2 is the most common form factor for consumer NVMe.
+
+##### [U.2](https://en.wikipedia.org/wiki/U.2)
+
+U.2 is a form factor more common in datacenter applications. It's mechanically identical to SATA but provides four PCIe lanes. U.2 can use 3.3 V, 5 V and 12 V while M.2 can only 3.3 V.
+
 ### HDD
 
 Hard Disk Drives are drives which use magnetic spinning disks to store data. They are used for data which does not require high throughput, as disk head seek times can be quite high. 
