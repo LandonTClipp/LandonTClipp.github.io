@@ -137,6 +137,8 @@ nav:
     - Databases: system-design/databases.md
     - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
     - Tools: system-design/tools.md
+  - Misc:
+    - "Word of the Day": misc/word-of-the-day.md
 
 extra:
   social:
