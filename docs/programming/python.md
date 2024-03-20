@@ -297,3 +297,24 @@ print(a | b)
 
 ```
 </div>
+
+## async
+
+### async functions
+
+Defined as
+
+```python
+async def foo():
+    print("foo")
+```
+
+### `async with`
+
+This context manager calls the `__aenter__` and `__aexit__` magic methods instead of the regular `__enter__` and `__exit__`. This is useful when your enter/exit methods rely on potentially expensive external calls.
+
+```python
+async with Connection() as conn:
+    conn.get_item()
+```
+
