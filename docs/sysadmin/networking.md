@@ -222,3 +222,9 @@ ARP
 ----
 
 Address Resolution Protocol is used for mapping MAC addresses to IP addresses. This is often used by routers on a local network to figure out what host (or MAC) has been assigned a specific IP.
+
+[MIME Types](https://en.wikipedia.org/wiki/Media_type)
+----------
+
+Media Types (or formerly known as MIME types) are names given to particular message formats. Historically this has been used in HTTP to define what kind of data is in the message body, but it is more broadly applicable to any kind of messaging protocol. The Media type is roughly analagous to a file extension.
+
