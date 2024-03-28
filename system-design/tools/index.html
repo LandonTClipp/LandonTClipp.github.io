@@ -1,0 +1,2457 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Landon's personal life and coding blog">
+      
+      
+      
+        <link rel="canonical" href="https://LandonTClipp.github.io/system-design/tools/">
+      
+      
+        <link rel="prev" href="../system-design-interview-alex-xu/">
+      
+      
+        <link rel="next" href="../../misc/word-of-the-day/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.15+insiders-4.53.3">
+    
+    
+      
+        <title>Tools - Landon's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.458d28d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-F9YVCCMVEX"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-F9YVCCMVEX",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-F9YVCCMVEX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tools - Landon's Blog" />
+<meta property="og:description" content="Landon's personal life and coding blog" />
+<meta property="og:image" content="https://LandonTClipp.github.io/assets/images/social/system-design/tools.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://LandonTClipp.github.io/system-design/tools/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter.title" content="Tools - Landon's Blog" />
+<meta property="twitter:description" content="Landon's personal life and coding blog" />
+<meta property="twitter:image" content="https://LandonTClipp.github.io/assets/images/social/system-design/tools.png" />
+ <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="light-blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bloom-filters" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Landon&#39;s Blog" class="md-header__button md-logo" aria-label="Landon's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 21v-3H3l5-5H5l5-5H7l5-5 5 5h-3l5 5h-3l5 5h-7v3h-4Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Landon's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tools
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="light-blue" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/LandonTClipp/LandonTClipp.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    LandonTClipp.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Landon&#39;s Blog" class="md-nav__button md-logo" aria-label="Landon's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 21v-3H3l5-5H5l5-5H7l5-5 5 5h-3l5 5h-3l5 5h-7v3h-4Z"/></svg>
+
+    </a>
+    Landon's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/LandonTClipp/LandonTClipp.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    LandonTClipp.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Welcome!
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../blog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      2024
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      2023
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/archive/2018/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      2018
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/aws/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      AWS
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/cloud/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Cloud
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/golang/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Golang
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/grafana/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Grafana
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/intech-sol-horizon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Intech Sol Horizon
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Programming
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/rv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      RV
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/system-administration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      System Administration
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/category/system-design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      System Design
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/bash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Bash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/computer-science/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Science
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/golang/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/leetcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Leetcode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/python/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    YAML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    System Administration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Administration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/cvmfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    CVMFS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/databases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/systemd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Systemd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../databases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system-design-interview-alex-xu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design Interview: An Insider's Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bloom-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Bloom Filters
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Consistent Hashing
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          CAP Theorem
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Communication Protocols
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Communication Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grpc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          gRPC
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Websocket
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#polling-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Polling Mechanisms
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Polling Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Short polling
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Long polling
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Websocket
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Service Discovery
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          etcd <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.985 10.715A1.565 1.565 0 1 1 9.42 9.151a1.566 1.566 0 0 1 1.565 1.564zm2.023 0a1.565 1.565 0 1 0 1.565-1.564 1.564 1.564 0 0 0-1.565 1.564zm10.653 1.698a4.295 4.295 0 0 1-.346.013 4.517 4.517 0 0 1-1.986-.462 18.448 18.448 0 0 0 .267-3.515 18.184 18.184 0 0 0-2.274-2.695 4.519 4.519 0 0 1 1.603-1.717l.294-.182-.23-.26a11.977 11.977 0 0 0-4.182-3.05l-.319-.138-.08.336a4.506 4.506 0 0 1-1.135 2.058 18.19 18.19 0 0 0-3.277-1.35 18.126 18.126 0 0 0-3.272 1.348A4.495 4.495 0 0 1 7.594.745L7.512.408l-.317.139a12.091 12.091 0 0 0-4.182 3.05l-.23.259.294.182a4.512 4.512 0 0 1 1.599 1.708 18.322 18.322 0 0 0-2.27 2.685 18.435 18.435 0 0 0 .26 3.538 4.505 4.505 0 0 1-1.975.458 4.224 4.224 0 0 1-.346-.013L0 12.386l.032.344a11.904 11.904 0 0 0 1.609 4.924l.175.298.263-.223a4.502 4.502 0 0 1 2.132-.998 18.29 18.29 0 0 0 1.824 2.971 18.473 18.473 0 0 0 3.457.85 4.493 4.493 0 0 1-.287 2.36l-.132.319.338.075a12.048 12.048 0 0 0 2.59.286l2.59-.286.338-.075-.131-.32a4.487 4.487 0 0 1-.287-2.361 18.476 18.476 0 0 0 3.443-.848 18.208 18.208 0 0 0 1.826-2.974 4.51 4.51 0 0 1 2.143.999l.263.223.175-.296a11.877 11.877 0 0 0 1.607-4.924l.032-.343zm-7.958 4.209a13.981 13.981 0 0 1-7.416 0 14.189 14.189 0 0 1-2.256-7.013 14.118 14.118 0 0 1 2.687-2.558 14.333 14.333 0 0 1 3.279-1.784 14.377 14.377 0 0 1 3.27 1.779 14.226 14.226 0 0 1 2.7 2.576 14.293 14.293 0 0 1-.675 3.652 14.365 14.365 0 0 1-1.59 3.348z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consul" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          consul <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.075 12.028a2.506 2.506 0 0 0-2.506-2.506 2.506 2.506 0 0 0-2.505 2.506 2.506 2.506 0 0 0 2.506 2.506 2.506 2.506 0 0 0 2.505-2.506zm3.532 0a1.156 1.156 0 0 0-1.156-1.155 1.156 1.156 0 0 0-1.156 1.156 1.156 1.156 0 0 0 1.156 1.155 1.156 1.156 0 0 0 1.156-1.155zM22.4 17.54a1.158 1.156 0 0 0-1.158-1.156 1.158 1.156 0 0 0-1.158 1.156 1.158 1.156 0 0 0 1.158 1.156A1.158 1.156 0 0 0 22.4 17.54zm-1.651-3.651a1.153 1.157 0 0 0-1.153-1.157 1.153 1.157 0 0 0-1.154 1.157 1.153 1.157 0 0 0 1.154 1.157 1.153 1.157 0 0 0 1.153-1.157zm3.251.062a1.154 1.154 0 0 0-1.154-1.154 1.154 1.154 0 0 0-1.154 1.154 1.154 1.154 0 0 0 1.154 1.154 1.154 1.154 0 0 0 1.154-1.154zm-3.279-3.883a1.156 1.153 0 0 0-1.156-1.154 1.156 1.153 0 0 0-1.156 1.154 1.156 1.153 0 0 0 1.156 1.153 1.156 1.153 0 0 0 1.156-1.153zm3.28.045a1.161 1.157 0 0 0-1.161-1.157 1.161 1.157 0 0 0-1.162 1.157 1.161 1.157 0 0 0 1.162 1.157A1.161 1.157 0 0 0 24 10.112zM22.374 6.48a1.157 1.16 0 0 0-1.157-1.16 1.157 1.16 0 0 0-1.158 1.16 1.157 1.16 0 0 0 1.157 1.16 1.157 1.16 0 0 0 1.158-1.16zM11.617.383c-3.11 0-6.029 1.207-8.22 3.398A11.578 11.578 0 0 0 0 12c0 3.109 1.207 6.028 3.397 8.22a11.58 11.58 0 0 0 8.22 3.397c2.578 0 5.018-.825 7.055-2.386l-1.42-1.852a9.187 9.187 0 0 1-5.635 1.904 9.26 9.26 0 0 1-6.572-2.715A9.23 9.23 0 0 1 2.334 12c0-2.478.964-4.812 2.715-6.57a9.224 9.224 0 0 1 6.568-2.713c2.058 0 4.007.659 5.637 1.905l1.417-1.854A11.518 11.518 0 0 0 11.617.383Z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apache-zookeeper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Apache Zookeeper
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-value-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Key-Value Stores
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key-Value Stores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cassandra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Cassandra <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.374 10.53a3.102 3.102 0 0 1-.428-.222l.555.143c0 .02-.01.036-.01.055l-.117.025zm-.283 1.506-.315.253.852-1.079-1.078.391c.002.017.009.033.009.05a.57.57 0 0 1-.184.42c.102.217.228.424.375.616a3.2 3.2 0 0 1 .34-.651zm.717-2.347-.652-.82a.427.427 0 0 1-.506.162c-.054.073-.083.162-.13.24l1.258.463c.011-.015.019-.031.03-.045zm-1.666.444c-.07.314-.087.637-.05.956a.566.566 0 0 1 .451.475l.946-.606c-.067-.022-.126-.06-.191-.088l-1.119-.08.64-.14a3.186 3.186 0 0 1-.668-.554l-.01.037zM20.1 11.648c-.164.202.833 1.022.833 1.022s-1.654-1.022-2.234-.72c-.278.144.574.811 1.175 1.242-.428-.274-.982-.571-1.175-.408-.328.277 1.565 2.549 1.565 2.549s-2.145-2.322-2.36-2.209c-.214.114.593 1.224.593 1.224s-1.06-1.16-1.35-.959c-.29.202 1.514 3.218 1.514 3.218s-1.956-3.091-2.763-2.574c1.268 2.782.795 3.18.795 3.18s-.162-2.839-1.742-2.764c-.795.038.379 2.12.379 2.12s-1.08-1.902-1.8-1.864c1.326 2.51.854 3.53.854 3.53s.219-2.143-1.58-3.336c.682.606-.427 3.336-.427 3.336s.976-4.023-.719-3.256c-.268.121-.019 2.007-.019 2.007s-.34-2.158-.851-2.045c-.298.066-1.893 2.99-1.893 2.99s1.306-3.16.908-3.027c-.29.096-.833 1.4-.833 1.4s.265-1.287 0-1.363c-.264-.075-1.74 1.363-1.74 1.363s1.097-1.287.908-1.552c-.287-.402-.623-.42-1.022-.265-.581.226-1.363 1.287-1.363 1.287s.78-1.074.643-1.476c-.219-.647-2.46 1.249-2.46 1.249s1.325-1.25 1.022-1.514c-.303-.265-1.947-.183-2.46-.185-1.515-.004-2.039-.36-2.498-.724 1.987.997 3.803-.151 6.094.494l.21.06c-1.3-.558-2.144-1.378-2.226-2.354-.036-.416.074-.827.297-1.222.619-.4 1.29-.773 2.06-1.095a4 4 0 0 0-.064.698c0 2.44 2.203 4.417 4.92 4.417s4.92-1.977 4.92-4.417c0-.45-.083-.881-.223-1.29 1.431.404 2.45.968 3.132 1.335.022.092.045.184.053.279.024.274-.018.547-.11.814.095-.147.198-.288.28-.445.367-.997 1.855.227 1.855.227s-1.085-.454-1.06-.24c.026.215 1.628.96 1.628.96s-1.45-.455-1.362-.114c.088.34 1.817 1.703 1.817 1.703s-1.956-1.489-2.12-1.287zm-7.268 2.65.042-.008-.06.01zM9.256 9.753c.12.13.26.234.396.343l.927-.029-1.064-.788c-.093.154-.195.303-.26.474Zm10.62 3.44c.3.215.54.373.54.373s-.24-.181-.54-.374zM7.507 8.617c-.14.229-.214.492-.215.76a3.99 3.99 0 0 0 2.358 3.64c0-.005.002-.01.003-.014a3.19 3.19 0 0 1-.58-.788c-.648.099-.926-.794-.336-1.08a3.174 3.174 0 0 1 .138-1.388 3.162 3.162 0 0 1-.52-1.36c-.296.07-.579.147-.848.23Zm1.488.82c.108-.24.243-.46.402-.661a.435.435 0 0 1 .568-.557c.077-.059.166-.099.248-.15a16.17 16.17 0 0 0-1.727.284c.114.388.272.76.509 1.084Zm2.285 3.928c1.4 0 2.633-.723 3.344-1.816a3.399 3.399 0 0 0-1.265-.539l-.297-.023.916.9-1.197-.467.704 1.078-1.074-.832-.012.006.347 1.278-.596-1.134-.098 1.33-.401-1.326-.472 1.261.114-1.359c-.006-.002-.01-.006-.015-.008l-.814 1.154.286-1.067c-.34.322-.605.713-.781 1.146.095.102.197.198.303.29.322.083.66.128 1.008.128zm10.145-4.434c.971-.567 1.716-1.955 1.716-1.955s-1.893 1.955-3.205 1.665c1.186-.934 1.766-2.549 1.766-2.549s-1.506 2.325-2.448 2.423c1.086-.959 1.54-2.322 1.54-2.322s-1.237 1.817-2.196 1.944c1.287-1.161 1.338-1.893 1.338-1.893s-1.781 2.302-2.499 1.943c.858-.934 1.439-2.12 1.439-2.12s-1.489 2.019-1.893 1.69c-.277-.05.454-.958.454-.958s-.908.807-1.16.606c.454-.278 1.236-1.64 1.236-1.64S16 7.505 15.621 7.304l.731-1.483s-.73 1.483-1.715 1.23c.454-.58.63-1.112.63-1.112s-.756 1.213-1.69.885c-.22-.077.273-.635.273-.635s-.626.61-1.055.534c-.43-.076.025-.858.025-.858s-.757 1.186-.908 1.136c-.152-.05.075-.833.075-.833s-.555.908-.858.858c-.302-.05 0-.934 0-.934s-.328.984-.58.909c-.252-.076-.303-.656-.303-.656s-.068.788-.429.858c-2.725.53-5.728 1.69-9.489 5.45C3.887 10.738 5.3 7.91 11.962 7.659c5.044-.191 7.399 2.137 8.177 2.17C22.51 9.93 24 7.633 24 7.633s-1.489 1.716-2.574 1.3zm-7.74.872-.608.464v.001l.054.003a3.35 3.35 0 0 0 .554-.468zm1.583-.426c0-.536-.237-.929-.594-1.217a3.178 3.178 0 0 1-.165.825.393.393 0 0 1-.328.681c-.154.233-.34.445-.549.63l.661.034-.995.237c-.025.018-.045.041-.07.058a3.194 3.194 0 0 1 1.536.691c.32-.574.504-1.235.504-1.94zM10.99 7.996a3.5 3.5 0 0 0-.785.46.427.427 0 0 1-.013.357l.885.643.023-.016-.36-1.262.627 1.12c.018-.006.04-.006.058-.011l-.02-1.251.398 1.163.477-1.15.016 1.268c.004.001.007.005.012.007l.713-1.005-.363 1.218.009.01 1.04-.69-.759 1.05.002.005.95-.34c.012-.016.028-.029.041-.045a.395.395 0 0 1 .394-.632 3.43 3.43 0 0 0 .27-.784 13.99 13.99 0 0 0-2.798-.168c-.286.011-.55.033-.817.053Z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          redis <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10.5 2.661.54.997-1.797.644 2.409.218.748 1.246.467-1.121 2.077-.208-1.61-.613.426-1.017-1.578.519zm6.905 2.077L13.76 6.182l3.292 1.298.353-.146 3.293-1.298zm-10.51.312a2.97 1.153 0 0 0-2.97 1.152 2.97 1.153 0 0 0 2.97 1.153 2.97 1.153 0 0 0 2.97-1.153 2.97 1.153 0 0 0-2.97-1.152zM24 6.805s-8.983 4.278-10.395 4.953c-1.226.561-1.901.561-3.261.094C8.318 11.022 0 7.241 0 7.241v1.038c0 .24.332.499.966.8 1.277.613 8.34 3.677 9.45 4.206 1.112.53 1.9.54 3.313-.197 1.412-.738 8.049-3.905 9.326-4.57.654-.342.945-.602.945-.84zm-10.042.602L8.39 8.26l3.884 1.61zM24 10.637s-8.983 4.279-10.395 4.954c-1.226.56-1.901.56-3.261.093C8.318 14.854 0 11.074 0 11.074v1.038c0 .238.332.498.966.8 1.277.612 8.34 3.676 9.45 4.205 1.112.53 1.9.54 3.313-.197 1.412-.737 8.049-3.905 9.326-4.57.654-.332.945-.602.945-.84zm0 3.842-10.395 4.954c-1.226.56-1.901.56-3.261.094C8.318 18.696 0 14.916 0 14.916v1.038c0 .239.332.499.966.8 1.277.613 8.34 3.676 9.45 4.206 1.112.53 1.9.54 3.313-.198 1.412-.737 8.049-3.904 9.326-4.569.654-.343.945-.613.945-.841z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/word-of-the-day/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Word of the Day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bloom-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Bloom Filters
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Consistent Hashing
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          CAP Theorem
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Communication Protocols
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Communication Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grpc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          gRPC
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Websocket
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#polling-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Polling Mechanisms
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Polling Mechanisms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#short-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Short polling
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Long polling
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#websocket_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Websocket
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Service Discovery
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          etcd <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.985 10.715A1.565 1.565 0 1 1 9.42 9.151a1.566 1.566 0 0 1 1.565 1.564zm2.023 0a1.565 1.565 0 1 0 1.565-1.564 1.564 1.564 0 0 0-1.565 1.564zm10.653 1.698a4.295 4.295 0 0 1-.346.013 4.517 4.517 0 0 1-1.986-.462 18.448 18.448 0 0 0 .267-3.515 18.184 18.184 0 0 0-2.274-2.695 4.519 4.519 0 0 1 1.603-1.717l.294-.182-.23-.26a11.977 11.977 0 0 0-4.182-3.05l-.319-.138-.08.336a4.506 4.506 0 0 1-1.135 2.058 18.19 18.19 0 0 0-3.277-1.35 18.126 18.126 0 0 0-3.272 1.348A4.495 4.495 0 0 1 7.594.745L7.512.408l-.317.139a12.091 12.091 0 0 0-4.182 3.05l-.23.259.294.182a4.512 4.512 0 0 1 1.599 1.708 18.322 18.322 0 0 0-2.27 2.685 18.435 18.435 0 0 0 .26 3.538 4.505 4.505 0 0 1-1.975.458 4.224 4.224 0 0 1-.346-.013L0 12.386l.032.344a11.904 11.904 0 0 0 1.609 4.924l.175.298.263-.223a4.502 4.502 0 0 1 2.132-.998 18.29 18.29 0 0 0 1.824 2.971 18.473 18.473 0 0 0 3.457.85 4.493 4.493 0 0 1-.287 2.36l-.132.319.338.075a12.048 12.048 0 0 0 2.59.286l2.59-.286.338-.075-.131-.32a4.487 4.487 0 0 1-.287-2.361 18.476 18.476 0 0 0 3.443-.848 18.208 18.208 0 0 0 1.826-2.974 4.51 4.51 0 0 1 2.143.999l.263.223.175-.296a11.877 11.877 0 0 0 1.607-4.924l.032-.343zm-7.958 4.209a13.981 13.981 0 0 1-7.416 0 14.189 14.189 0 0 1-2.256-7.013 14.118 14.118 0 0 1 2.687-2.558 14.333 14.333 0 0 1 3.279-1.784 14.377 14.377 0 0 1 3.27 1.779 14.226 14.226 0 0 1 2.7 2.576 14.293 14.293 0 0 1-.675 3.652 14.365 14.365 0 0 1-1.59 3.348z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consul" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          consul <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.075 12.028a2.506 2.506 0 0 0-2.506-2.506 2.506 2.506 0 0 0-2.505 2.506 2.506 2.506 0 0 0 2.506 2.506 2.506 2.506 0 0 0 2.505-2.506zm3.532 0a1.156 1.156 0 0 0-1.156-1.155 1.156 1.156 0 0 0-1.156 1.156 1.156 1.156 0 0 0 1.156 1.155 1.156 1.156 0 0 0 1.156-1.155zM22.4 17.54a1.158 1.156 0 0 0-1.158-1.156 1.158 1.156 0 0 0-1.158 1.156 1.158 1.156 0 0 0 1.158 1.156A1.158 1.156 0 0 0 22.4 17.54zm-1.651-3.651a1.153 1.157 0 0 0-1.153-1.157 1.153 1.157 0 0 0-1.154 1.157 1.153 1.157 0 0 0 1.154 1.157 1.153 1.157 0 0 0 1.153-1.157zm3.251.062a1.154 1.154 0 0 0-1.154-1.154 1.154 1.154 0 0 0-1.154 1.154 1.154 1.154 0 0 0 1.154 1.154 1.154 1.154 0 0 0 1.154-1.154zm-3.279-3.883a1.156 1.153 0 0 0-1.156-1.154 1.156 1.153 0 0 0-1.156 1.154 1.156 1.153 0 0 0 1.156 1.153 1.156 1.153 0 0 0 1.156-1.153zm3.28.045a1.161 1.157 0 0 0-1.161-1.157 1.161 1.157 0 0 0-1.162 1.157 1.161 1.157 0 0 0 1.162 1.157A1.161 1.157 0 0 0 24 10.112zM22.374 6.48a1.157 1.16 0 0 0-1.157-1.16 1.157 1.16 0 0 0-1.158 1.16 1.157 1.16 0 0 0 1.157 1.16 1.157 1.16 0 0 0 1.158-1.16zM11.617.383c-3.11 0-6.029 1.207-8.22 3.398A11.578 11.578 0 0 0 0 12c0 3.109 1.207 6.028 3.397 8.22a11.58 11.58 0 0 0 8.22 3.397c2.578 0 5.018-.825 7.055-2.386l-1.42-1.852a9.187 9.187 0 0 1-5.635 1.904 9.26 9.26 0 0 1-6.572-2.715A9.23 9.23 0 0 1 2.334 12c0-2.478.964-4.812 2.715-6.57a9.224 9.224 0 0 1 6.568-2.713c2.058 0 4.007.659 5.637 1.905l1.417-1.854A11.518 11.518 0 0 0 11.617.383Z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apache-zookeeper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Apache Zookeeper
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-value-stores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Key-Value Stores
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key-Value Stores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cassandra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Cassandra <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.374 10.53a3.102 3.102 0 0 1-.428-.222l.555.143c0 .02-.01.036-.01.055l-.117.025zm-.283 1.506-.315.253.852-1.079-1.078.391c.002.017.009.033.009.05a.57.57 0 0 1-.184.42c.102.217.228.424.375.616a3.2 3.2 0 0 1 .34-.651zm.717-2.347-.652-.82a.427.427 0 0 1-.506.162c-.054.073-.083.162-.13.24l1.258.463c.011-.015.019-.031.03-.045zm-1.666.444c-.07.314-.087.637-.05.956a.566.566 0 0 1 .451.475l.946-.606c-.067-.022-.126-.06-.191-.088l-1.119-.08.64-.14a3.186 3.186 0 0 1-.668-.554l-.01.037zM20.1 11.648c-.164.202.833 1.022.833 1.022s-1.654-1.022-2.234-.72c-.278.144.574.811 1.175 1.242-.428-.274-.982-.571-1.175-.408-.328.277 1.565 2.549 1.565 2.549s-2.145-2.322-2.36-2.209c-.214.114.593 1.224.593 1.224s-1.06-1.16-1.35-.959c-.29.202 1.514 3.218 1.514 3.218s-1.956-3.091-2.763-2.574c1.268 2.782.795 3.18.795 3.18s-.162-2.839-1.742-2.764c-.795.038.379 2.12.379 2.12s-1.08-1.902-1.8-1.864c1.326 2.51.854 3.53.854 3.53s.219-2.143-1.58-3.336c.682.606-.427 3.336-.427 3.336s.976-4.023-.719-3.256c-.268.121-.019 2.007-.019 2.007s-.34-2.158-.851-2.045c-.298.066-1.893 2.99-1.893 2.99s1.306-3.16.908-3.027c-.29.096-.833 1.4-.833 1.4s.265-1.287 0-1.363c-.264-.075-1.74 1.363-1.74 1.363s1.097-1.287.908-1.552c-.287-.402-.623-.42-1.022-.265-.581.226-1.363 1.287-1.363 1.287s.78-1.074.643-1.476c-.219-.647-2.46 1.249-2.46 1.249s1.325-1.25 1.022-1.514c-.303-.265-1.947-.183-2.46-.185-1.515-.004-2.039-.36-2.498-.724 1.987.997 3.803-.151 6.094.494l.21.06c-1.3-.558-2.144-1.378-2.226-2.354-.036-.416.074-.827.297-1.222.619-.4 1.29-.773 2.06-1.095a4 4 0 0 0-.064.698c0 2.44 2.203 4.417 4.92 4.417s4.92-1.977 4.92-4.417c0-.45-.083-.881-.223-1.29 1.431.404 2.45.968 3.132 1.335.022.092.045.184.053.279.024.274-.018.547-.11.814.095-.147.198-.288.28-.445.367-.997 1.855.227 1.855.227s-1.085-.454-1.06-.24c.026.215 1.628.96 1.628.96s-1.45-.455-1.362-.114c.088.34 1.817 1.703 1.817 1.703s-1.956-1.489-2.12-1.287zm-7.268 2.65.042-.008-.06.01zM9.256 9.753c.12.13.26.234.396.343l.927-.029-1.064-.788c-.093.154-.195.303-.26.474Zm10.62 3.44c.3.215.54.373.54.373s-.24-.181-.54-.374zM7.507 8.617c-.14.229-.214.492-.215.76a3.99 3.99 0 0 0 2.358 3.64c0-.005.002-.01.003-.014a3.19 3.19 0 0 1-.58-.788c-.648.099-.926-.794-.336-1.08a3.174 3.174 0 0 1 .138-1.388 3.162 3.162 0 0 1-.52-1.36c-.296.07-.579.147-.848.23Zm1.488.82c.108-.24.243-.46.402-.661a.435.435 0 0 1 .568-.557c.077-.059.166-.099.248-.15a16.17 16.17 0 0 0-1.727.284c.114.388.272.76.509 1.084Zm2.285 3.928c1.4 0 2.633-.723 3.344-1.816a3.399 3.399 0 0 0-1.265-.539l-.297-.023.916.9-1.197-.467.704 1.078-1.074-.832-.012.006.347 1.278-.596-1.134-.098 1.33-.401-1.326-.472 1.261.114-1.359c-.006-.002-.01-.006-.015-.008l-.814 1.154.286-1.067c-.34.322-.605.713-.781 1.146.095.102.197.198.303.29.322.083.66.128 1.008.128zm10.145-4.434c.971-.567 1.716-1.955 1.716-1.955s-1.893 1.955-3.205 1.665c1.186-.934 1.766-2.549 1.766-2.549s-1.506 2.325-2.448 2.423c1.086-.959 1.54-2.322 1.54-2.322s-1.237 1.817-2.196 1.944c1.287-1.161 1.338-1.893 1.338-1.893s-1.781 2.302-2.499 1.943c.858-.934 1.439-2.12 1.439-2.12s-1.489 2.019-1.893 1.69c-.277-.05.454-.958.454-.958s-.908.807-1.16.606c.454-.278 1.236-1.64 1.236-1.64S16 7.505 15.621 7.304l.731-1.483s-.73 1.483-1.715 1.23c.454-.58.63-1.112.63-1.112s-.756 1.213-1.69.885c-.22-.077.273-.635.273-.635s-.626.61-1.055.534c-.43-.076.025-.858.025-.858s-.757 1.186-.908 1.136c-.152-.05.075-.833.075-.833s-.555.908-.858.858c-.302-.05 0-.934 0-.934s-.328.984-.58.909c-.252-.076-.303-.656-.303-.656s-.068.788-.429.858c-2.725.53-5.728 1.69-9.489 5.45C3.887 10.738 5.3 7.91 11.962 7.659c5.044-.191 7.399 2.137 8.177 2.17C22.51 9.93 24 7.633 24 7.633s-1.489 1.716-2.574 1.3zm-7.74.872-.608.464v.001l.054.003a3.35 3.35 0 0 0 .554-.468zm1.583-.426c0-.536-.237-.929-.594-1.217a3.178 3.178 0 0 1-.165.825.393.393 0 0 1-.328.681c-.154.233-.34.445-.549.63l.661.034-.995.237c-.025.018-.045.041-.07.058a3.194 3.194 0 0 1 1.536.691c.32-.574.504-1.235.504-1.94zM10.99 7.996a3.5 3.5 0 0 0-.785.46.427.427 0 0 1-.013.357l.885.643.023-.016-.36-1.262.627 1.12c.018-.006.04-.006.058-.011l-.02-1.251.398 1.163.477-1.15.016 1.268c.004.001.007.005.012.007l.713-1.005-.363 1.218.009.01 1.04-.69-.759 1.05.002.005.95-.34c.012-.016.028-.029.041-.045a.395.395 0 0 1 .394-.632 3.43 3.43 0 0 0 .27-.784 13.99 13.99 0 0 0-2.798-.168c-.286.011-.55.033-.817.053Z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          redis <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10.5 2.661.54.997-1.797.644 2.409.218.748 1.246.467-1.121 2.077-.208-1.61-.613.426-1.017-1.578.519zm6.905 2.077L13.76 6.182l3.292 1.298.353-.146 3.293-1.298zm-10.51.312a2.97 1.153 0 0 0-2.97 1.152 2.97 1.153 0 0 0 2.97 1.153 2.97 1.153 0 0 0 2.97-1.153 2.97 1.153 0 0 0-2.97-1.152zM24 6.805s-8.983 4.278-10.395 4.953c-1.226.561-1.901.561-3.261.094C8.318 11.022 0 7.241 0 7.241v1.038c0 .24.332.499.966.8 1.277.613 8.34 3.677 9.45 4.206 1.112.53 1.9.54 3.313-.197 1.412-.738 8.049-3.905 9.326-4.57.654-.342.945-.602.945-.84zm-10.042.602L8.39 8.26l3.884 1.61zM24 10.637s-8.983 4.279-10.395 4.954c-1.226.56-1.901.56-3.261.093C8.318 14.854 0 11.074 0 11.074v1.038c0 .238.332.498.966.8 1.277.612 8.34 3.676 9.45 4.205 1.112.53 1.9.54 3.313-.197 1.412-.737 8.049-3.905 9.326-4.57.654-.332.945-.602.945-.84zm0 3.842-10.395 4.954c-1.226.56-1.901.56-3.261.094C8.318 18.696 0 14.916 0 14.916v1.038c0 .239.332.499.966.8 1.277.613 8.34 3.676 9.45 4.206 1.112.53 1.9.54 3.313-.198 1.412-.737 8.049-3.904 9.326-4.569.654-.343.945-.613.945-.841z"/></svg></span>
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/LandonTClipp/LandonTClipp.github.io/edit/main/docs/system-design/tools.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/LandonTClipp/LandonTClipp.github.io/raw/main/docs/system-design/tools.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+  <h1>Tools</h1>
+
+<p>This page shows various methods, techniques, algorithms, and data structures that may be useful in your system design career.</p>
+<h2 id="bloom-filters"><a href="https://en.wikipedia.org/wiki/Bloom_filter">Bloom Filters</a><a class="headerlink" href="#bloom-filters" title="Permanent link">&para;</a></h2>
+<p><a class="glightbox" href="https://upload.wikimedia.org/wikipedia/commons/a/ac/Bloom_filter.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Bloom Filter diagram" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Bloom_filter.svg" /></a></p>
+<p>A bloom filter is a probabilistic data structure that tells you either:</p>
+<ol>
+<li>A particular piece of data is <em>possibly</em> in the set</li>
+<li>A particular piece of data is <em>definitely not</em> in the set.</li>
+</ol>
+<p>It is highly memory efficient (as most filters can reside totally in memory) and easy to implement in a distributed environment. The way it works starts with an array of bit-length N. Then:</p>
+<ol>
+<li>When you add an element to the set, you take its hash then <code>OR</code> the hash's bitwise value with the bloom filter. This adds the hash's bits to the array.</li>
+<li>To check of an element possibly exists in the set, take its hash and check if the 1's bits in the bloom filter match the 1's bits in the hash</li>
+<li>If the 1's match, then the element possibly already exists. If they don't, then it's a certainty the element was never added.</li>
+</ol>
+<p>The reason why you can only determine "possibly exists in set" is because different hashes can mark the same bit as 1. The probability of these false positives is dependent on the size of the filter and the number of elements added to it. This can be seen in the graph below:</p>
+<p><a class="glightbox" href="https://upload.wikimedia.org/wikipedia/commons/e/ef/Bloom_filter_fp_probability.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Bloom Filter false positives probability graph" src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Bloom_filter_fp_probability.svg" /></a></p>
+<h2 id="consistent-hashing"><a href="https://en.wikipedia.org/wiki/Consistent_hashing">Consistent Hashing</a><a class="headerlink" href="#consistent-hashing" title="Permanent link">&para;</a></h2>
+<p>Consistent Hashing is a load balancing technique that allows you to add and remove nodes in a pool without causing massive redistributions in the client/server mappings (called the Rehashing Problem).</p>
+<div class="grid cards">
+<ul>
+<li><a class="glightbox" href="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_01.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Hash ring 1" src="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_01.png" /></a></li>
+<li><a class="glightbox" href="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_02.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Hash ring 2" src="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_02.png" /></a></li>
+</ul>
+</div>
+<p>The general idea is that both servers and users live within the same hash space. The servers, more often than not, will have a hash key that depends on the name. The users will have a hash that depends on their name, but also possibly their location.</p>
+<p>When a user is hashed, we find the closest adjacent server in a counter-clockwise manner (it could also be clockwise, it doesn't matter). When a new server gets added, there is only a small probability that any particular user needs to get re-mapped to a new server. Or in other words, the chance of a new server being blaced <em>between</em> a user and that user's prior server is quite low.</p>
+<p>In the case that does happen, a re-mapping will indeed have to occur, but the overall probability is low enough that the cache misses should be minimal.</p>
+<div class="admonition note">
+<p class="admonition-title">Virtual Nodes for Smoothing</p>
+<p><a class="glightbox" href="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_virtual_nodes.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img align="left" alt="Consistent hash ring with virtual nodes" src="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_virtual_nodes.png" width="500" /></a> It's very likely for nodes in a hash ring to become too clumped together, which would cause uneven distribution (this is called the Hotspot Key Problem). You can smooth this out by using virtual nodes: for every real node, we also add some number of virtual nodes that maps back to the real node. This effectively causes the hash ring to become more uniformly distributed as it causes the standard deviation (in terms of empty space in the ring) to be smaller.</p>
+</div>
+<p>You can see in a consistent hashing scheme, adding a node to the ring will cause only <em>some</em> of the clients to be re-mapped.</p>
+<h2 id="cap-theorem">CAP Theorem<a class="headerlink" href="#cap-theorem" title="Permanent link">&para;</a></h2>
+<p>CAP stands for Consistency, Availability, and Partition Tolerance. The theorem states that distributed systems can exhibit at most two of these traits, which implies that a tradeoff must be made. In most systems, partition intolerance is not acceptable as networks and systems often fail. It's a bit of an oxymoron as well to state that a system is consistent and available, but not partition tolerant. So in reality, the tradeoff is usually between consistency and availability.</p>
+<h2 id="communication-protocols">Communication Protocols<a class="headerlink" href="#communication-protocols" title="Permanent link">&para;</a></h2>
+<h3 id="grpc"><a href="https://grpc.io/">gRPC</a><a class="headerlink" href="#grpc" title="Permanent link">&para;</a></h3>
+<p><a class="glightbox" href="https://grpc.io/img/landing-2.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="gRPC Diagram" src="https://grpc.io/img/landing-2.svg" /></a></p>
+<p>Used as a remote procedure call. Uses Protobuf to send and receive serialized structured data. Messages in protobuf are defined in a <a href="https://protobuf.dev/programming-guides/proto3/">language-agnostic DSL</a>.</p>
+<h3 id="websocket"><a href="https://en.wikipedia.org/wiki/WebSocket">Websocket</a><a class="headerlink" href="#websocket" title="Permanent link">&para;</a></h3>
+<p><a class="glightbox" href="https://assets-global.website-files.com/5ff66329429d880392f6cba2/63fe488452cc63cf1cb0ae45_148.2.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Websocket diagram" src="https://assets-global.website-files.com/5ff66329429d880392f6cba2/63fe488452cc63cf1cb0ae45_148.2.png" /></a></p>
+<p>Websocket is a web communication protocol that allows you to asynchronously send and receive messages over the same connection. It starts its life as an HTTP connection, and then is upgraded to a websocket session. This protocol is the answer to common HTTP polling techniques that are used to periodically check for updates from the server. Some examples of where this protocol is used:</p>
+<ol>
+<li>Real-time web applications where updates need to be continuously streamed.</li>
+<li>Chat applications where messages arrive asynchronously.</li>
+<li>Gaming applications where updates are fairly continual.</li>
+</ol>
+<p>Many of these kinds of data streaming problems were commonly solved through HTTP polling, however this solution is inefficient due to the constant HTTP/TCP handshakes that would need to occur even if no data was available.</p>
+<p>Websocket is generally served through ports 80 or 443 (HTTP/HTTPS), which allows it to pass through many types of firewalls. </p>
+<h2 id="polling-mechanisms">Polling Mechanisms<a class="headerlink" href="#polling-mechanisms" title="Permanent link">&para;</a></h2>
+<h3 id="short-polling">Short polling<a class="headerlink" href="#short-polling" title="Permanent link">&para;</a></h3>
+<p>A client would periodically poll the server for new messages. This would work but it's inefficient because it requires opening and closing many connections.</p>
+<h3 id="long-polling">Long polling<a class="headerlink" href="#long-polling" title="Permanent link">&para;</a></h3>
+<p>Same as short polling, but we can keep the connection open until we receive new messages. The disadvantages are:
+- The sender and receiver might not be on the same server.
+- The server has no good way to tell if a client is disconnected.
+- It's inefficient because long polling will still make periodic connection requests even if there are no messages being sent.</p>
+<h3 id="websocket_1">Websocket<a class="headerlink" href="#websocket_1" title="Permanent link">&para;</a></h3>
+<p>Websocket is a protocol that allows you to asynchronously send and receive messages over the same connection. </p>
+<h2 id="service-discovery">Service Discovery<a class="headerlink" href="#service-discovery" title="Permanent link">&para;</a></h2>
+<p>When you have a pool of services, for example a pool of websocket servers that provide clients with messages in a chat system, you often need to provide the client with a list of DNS hostnames they could connect to. This process is called "Server-side Service Discovery" and there are many off-the-shelf solutions:</p>
+<h3 id="etcd"><a href="https://etcd.io/">etcd</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.985 10.715A1.565 1.565 0 1 1 9.42 9.151a1.566 1.566 0 0 1 1.565 1.564zm2.023 0a1.565 1.565 0 1 0 1.565-1.564 1.564 1.564 0 0 0-1.565 1.564zm10.653 1.698a4.295 4.295 0 0 1-.346.013 4.517 4.517 0 0 1-1.986-.462 18.448 18.448 0 0 0 .267-3.515 18.184 18.184 0 0 0-2.274-2.695 4.519 4.519 0 0 1 1.603-1.717l.294-.182-.23-.26a11.977 11.977 0 0 0-4.182-3.05l-.319-.138-.08.336a4.506 4.506 0 0 1-1.135 2.058 18.19 18.19 0 0 0-3.277-1.35 18.126 18.126 0 0 0-3.272 1.348A4.495 4.495 0 0 1 7.594.745L7.512.408l-.317.139a12.091 12.091 0 0 0-4.182 3.05l-.23.259.294.182a4.512 4.512 0 0 1 1.599 1.708 18.322 18.322 0 0 0-2.27 2.685 18.435 18.435 0 0 0 .26 3.538 4.505 4.505 0 0 1-1.975.458 4.224 4.224 0 0 1-.346-.013L0 12.386l.032.344a11.904 11.904 0 0 0 1.609 4.924l.175.298.263-.223a4.502 4.502 0 0 1 2.132-.998 18.29 18.29 0 0 0 1.824 2.971 18.473 18.473 0 0 0 3.457.85 4.493 4.493 0 0 1-.287 2.36l-.132.319.338.075a12.048 12.048 0 0 0 2.59.286l2.59-.286.338-.075-.131-.32a4.487 4.487 0 0 1-.287-2.361 18.476 18.476 0 0 0 3.443-.848 18.208 18.208 0 0 0 1.826-2.974 4.51 4.51 0 0 1 2.143.999l.263.223.175-.296a11.877 11.877 0 0 0 1.607-4.924l.032-.343zm-7.958 4.209a13.981 13.981 0 0 1-7.416 0 14.189 14.189 0 0 1-2.256-7.013 14.118 14.118 0 0 1 2.687-2.558 14.333 14.333 0 0 1 3.279-1.784 14.377 14.377 0 0 1 3.27 1.779 14.226 14.226 0 0 1 2.7 2.576 14.293 14.293 0 0 1-.675 3.652 14.365 14.365 0 0 1-1.59 3.348z"/></svg></span><a class="headerlink" href="#etcd" title="Permanent link">&para;</a></h3>
+<p>This is a distributed key-value store that can be used for service discovery (among many other things). It uses an eventually-consistent model through the gossip-based protocol. It does not have many built-in features for service discovery as it focuses more on the key-value store.</p>
+<h3 id="consul"><a href="https://www.consul.io/">consul</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.075 12.028a2.506 2.506 0 0 0-2.506-2.506 2.506 2.506 0 0 0-2.505 2.506 2.506 2.506 0 0 0 2.506 2.506 2.506 2.506 0 0 0 2.505-2.506zm3.532 0a1.156 1.156 0 0 0-1.156-1.155 1.156 1.156 0 0 0-1.156 1.156 1.156 1.156 0 0 0 1.156 1.155 1.156 1.156 0 0 0 1.156-1.155zM22.4 17.54a1.158 1.156 0 0 0-1.158-1.156 1.158 1.156 0 0 0-1.158 1.156 1.158 1.156 0 0 0 1.158 1.156A1.158 1.156 0 0 0 22.4 17.54zm-1.651-3.651a1.153 1.157 0 0 0-1.153-1.157 1.153 1.157 0 0 0-1.154 1.157 1.153 1.157 0 0 0 1.154 1.157 1.153 1.157 0 0 0 1.153-1.157zm3.251.062a1.154 1.154 0 0 0-1.154-1.154 1.154 1.154 0 0 0-1.154 1.154 1.154 1.154 0 0 0 1.154 1.154 1.154 1.154 0 0 0 1.154-1.154zm-3.279-3.883a1.156 1.153 0 0 0-1.156-1.154 1.156 1.153 0 0 0-1.156 1.154 1.156 1.153 0 0 0 1.156 1.153 1.156 1.153 0 0 0 1.156-1.153zm3.28.045a1.161 1.157 0 0 0-1.161-1.157 1.161 1.157 0 0 0-1.162 1.157 1.161 1.157 0 0 0 1.162 1.157A1.161 1.157 0 0 0 24 10.112zM22.374 6.48a1.157 1.16 0 0 0-1.157-1.16 1.157 1.16 0 0 0-1.158 1.16 1.157 1.16 0 0 0 1.157 1.16 1.157 1.16 0 0 0 1.158-1.16zM11.617.383c-3.11 0-6.029 1.207-8.22 3.398A11.578 11.578 0 0 0 0 12c0 3.109 1.207 6.028 3.397 8.22a11.58 11.58 0 0 0 8.22 3.397c2.578 0 5.018-.825 7.055-2.386l-1.42-1.852a9.187 9.187 0 0 1-5.635 1.904 9.26 9.26 0 0 1-6.572-2.715A9.23 9.23 0 0 1 2.334 12c0-2.478.964-4.812 2.715-6.57a9.224 9.224 0 0 1 6.568-2.713c2.058 0 4.007.659 5.637 1.905l1.417-1.854A11.518 11.518 0 0 0 11.617.383Z"/></svg></span><a class="headerlink" href="#consul" title="Permanent link">&para;</a></h3>
+<p>consul is a Service Mesh that provides a rich suite of metrics and monitoring capabilities. It allows you to define health checks on your services. It also comes with native support for cross-datacenter replication, while etcd does not.</p>
+<p>consul also gives you distributed key-value stores</p>
+<h3 id="apache-zookeeper"><a href="https://en.wikipedia.org/wiki/Apache_ZooKeeper">Apache Zookeeper</a><a class="headerlink" href="#apache-zookeeper" title="Permanent link">&para;</a></h3>
+<p>This is another distributed key/value store that also provides service discovery.</p>
+<h2 id="key-value-stores">Key-Value Stores<a class="headerlink" href="#key-value-stores" title="Permanent link">&para;</a></h2>
+<ul>
+<li>redis</li>
+<li>cassandra</li>
+</ul>
+<p>Redis is often chosen over etcd for key-value stores because etcd requires consensus amongst its nodes before committing changes, which slows performance. The benefit of etcd is that it provides a lot of consistency guarantees. The <a href="https://etcd.io/docs/v3.3/learning/api_guarantees/#:~:text=etcd%20is%20a%20consistent%20and,API%20guarantees%20made%20by%20etcd.">docs</a> claim it follows <a href="https://en.wikipedia.org/wiki/Consistency_model#Sequential_consistency">Sequential Consistency</a>, which means that while a write does not have to be seen instantaneously, the <em>sequence</em> in which writes to a piece of data are seen is identical across all processors.</p>
+<h3 id="cassandra">Cassandra <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.374 10.53a3.102 3.102 0 0 1-.428-.222l.555.143c0 .02-.01.036-.01.055l-.117.025zm-.283 1.506-.315.253.852-1.079-1.078.391c.002.017.009.033.009.05a.57.57 0 0 1-.184.42c.102.217.228.424.375.616a3.2 3.2 0 0 1 .34-.651zm.717-2.347-.652-.82a.427.427 0 0 1-.506.162c-.054.073-.083.162-.13.24l1.258.463c.011-.015.019-.031.03-.045zm-1.666.444c-.07.314-.087.637-.05.956a.566.566 0 0 1 .451.475l.946-.606c-.067-.022-.126-.06-.191-.088l-1.119-.08.64-.14a3.186 3.186 0 0 1-.668-.554l-.01.037zM20.1 11.648c-.164.202.833 1.022.833 1.022s-1.654-1.022-2.234-.72c-.278.144.574.811 1.175 1.242-.428-.274-.982-.571-1.175-.408-.328.277 1.565 2.549 1.565 2.549s-2.145-2.322-2.36-2.209c-.214.114.593 1.224.593 1.224s-1.06-1.16-1.35-.959c-.29.202 1.514 3.218 1.514 3.218s-1.956-3.091-2.763-2.574c1.268 2.782.795 3.18.795 3.18s-.162-2.839-1.742-2.764c-.795.038.379 2.12.379 2.12s-1.08-1.902-1.8-1.864c1.326 2.51.854 3.53.854 3.53s.219-2.143-1.58-3.336c.682.606-.427 3.336-.427 3.336s.976-4.023-.719-3.256c-.268.121-.019 2.007-.019 2.007s-.34-2.158-.851-2.045c-.298.066-1.893 2.99-1.893 2.99s1.306-3.16.908-3.027c-.29.096-.833 1.4-.833 1.4s.265-1.287 0-1.363c-.264-.075-1.74 1.363-1.74 1.363s1.097-1.287.908-1.552c-.287-.402-.623-.42-1.022-.265-.581.226-1.363 1.287-1.363 1.287s.78-1.074.643-1.476c-.219-.647-2.46 1.249-2.46 1.249s1.325-1.25 1.022-1.514c-.303-.265-1.947-.183-2.46-.185-1.515-.004-2.039-.36-2.498-.724 1.987.997 3.803-.151 6.094.494l.21.06c-1.3-.558-2.144-1.378-2.226-2.354-.036-.416.074-.827.297-1.222.619-.4 1.29-.773 2.06-1.095a4 4 0 0 0-.064.698c0 2.44 2.203 4.417 4.92 4.417s4.92-1.977 4.92-4.417c0-.45-.083-.881-.223-1.29 1.431.404 2.45.968 3.132 1.335.022.092.045.184.053.279.024.274-.018.547-.11.814.095-.147.198-.288.28-.445.367-.997 1.855.227 1.855.227s-1.085-.454-1.06-.24c.026.215 1.628.96 1.628.96s-1.45-.455-1.362-.114c.088.34 1.817 1.703 1.817 1.703s-1.956-1.489-2.12-1.287zm-7.268 2.65.042-.008-.06.01zM9.256 9.753c.12.13.26.234.396.343l.927-.029-1.064-.788c-.093.154-.195.303-.26.474Zm10.62 3.44c.3.215.54.373.54.373s-.24-.181-.54-.374zM7.507 8.617c-.14.229-.214.492-.215.76a3.99 3.99 0 0 0 2.358 3.64c0-.005.002-.01.003-.014a3.19 3.19 0 0 1-.58-.788c-.648.099-.926-.794-.336-1.08a3.174 3.174 0 0 1 .138-1.388 3.162 3.162 0 0 1-.52-1.36c-.296.07-.579.147-.848.23Zm1.488.82c.108-.24.243-.46.402-.661a.435.435 0 0 1 .568-.557c.077-.059.166-.099.248-.15a16.17 16.17 0 0 0-1.727.284c.114.388.272.76.509 1.084Zm2.285 3.928c1.4 0 2.633-.723 3.344-1.816a3.399 3.399 0 0 0-1.265-.539l-.297-.023.916.9-1.197-.467.704 1.078-1.074-.832-.012.006.347 1.278-.596-1.134-.098 1.33-.401-1.326-.472 1.261.114-1.359c-.006-.002-.01-.006-.015-.008l-.814 1.154.286-1.067c-.34.322-.605.713-.781 1.146.095.102.197.198.303.29.322.083.66.128 1.008.128zm10.145-4.434c.971-.567 1.716-1.955 1.716-1.955s-1.893 1.955-3.205 1.665c1.186-.934 1.766-2.549 1.766-2.549s-1.506 2.325-2.448 2.423c1.086-.959 1.54-2.322 1.54-2.322s-1.237 1.817-2.196 1.944c1.287-1.161 1.338-1.893 1.338-1.893s-1.781 2.302-2.499 1.943c.858-.934 1.439-2.12 1.439-2.12s-1.489 2.019-1.893 1.69c-.277-.05.454-.958.454-.958s-.908.807-1.16.606c.454-.278 1.236-1.64 1.236-1.64S16 7.505 15.621 7.304l.731-1.483s-.73 1.483-1.715 1.23c.454-.58.63-1.112.63-1.112s-.756 1.213-1.69.885c-.22-.077.273-.635.273-.635s-.626.61-1.055.534c-.43-.076.025-.858.025-.858s-.757 1.186-.908 1.136c-.152-.05.075-.833.075-.833s-.555.908-.858.858c-.302-.05 0-.934 0-.934s-.328.984-.58.909c-.252-.076-.303-.656-.303-.656s-.068.788-.429.858c-2.725.53-5.728 1.69-9.489 5.45C3.887 10.738 5.3 7.91 11.962 7.659c5.044-.191 7.399 2.137 8.177 2.17C22.51 9.93 24 7.633 24 7.633s-1.489 1.716-2.574 1.3zm-7.74.872-.608.464v.001l.054.003a3.35 3.35 0 0 0 .554-.468zm1.583-.426c0-.536-.237-.929-.594-1.217a3.178 3.178 0 0 1-.165.825.393.393 0 0 1-.328.681c-.154.233-.34.445-.549.63l.661.034-.995.237c-.025.018-.045.041-.07.058a3.194 3.194 0 0 1 1.536.691c.32-.574.504-1.235.504-1.94zM10.99 7.996a3.5 3.5 0 0 0-.785.46.427.427 0 0 1-.013.357l.885.643.023-.016-.36-1.262.627 1.12c.018-.006.04-.006.058-.011l-.02-1.251.398 1.163.477-1.15.016 1.268c.004.001.007.005.012.007l.713-1.005-.363 1.218.009.01 1.04-.69-.759 1.05.002.005.95-.34c.012-.016.028-.029.041-.045a.395.395 0 0 1 .394-.632 3.43 3.43 0 0 0 .27-.784 13.99 13.99 0 0 0-2.798-.168c-.286.011-.55.033-.817.053Z"/></svg></span><a class="headerlink" href="#cassandra" title="Permanent link">&para;</a></h3>
+<p>Cassandra is often compared against Redis. For a good comparison, look <a href="https://www.knowledgenile.com/blogs/cassandra-vs-redis">here</a>. Many of the notes here are drawn from that blog.</p>
+<p>This is used by some large chat platforms like Discord to store chat history. Some aspects of Cassandra:</p>
+<ul>
+<li>Uses wide-column store as a database model, which makes it easy to store huge datasets. It acts as a two-dimensional key/val store.</li>
+<li>Focuses on stability, but it's slower than other platforms like Redis. Redis becomes much slower if you store huge datasets, and thus it's more suited for highly variable datasets.</li>
+<li>Cassandra focuses on consistency and partition tolerance, while redis focus on availability and partition tolerance.</li>
+<li>Schema-free.</li>
+<li>Uses Java, uses thrift protocol for API.</li>
+<li>More useful when you have distributed, linearly scalable, write-oriented, and democratic P2P database structure.</li>
+</ul>
+<h3 id="redis">redis <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10.5 2.661.54.997-1.797.644 2.409.218.748 1.246.467-1.121 2.077-.208-1.61-.613.426-1.017-1.578.519zm6.905 2.077L13.76 6.182l3.292 1.298.353-.146 3.293-1.298zm-10.51.312a2.97 1.153 0 0 0-2.97 1.152 2.97 1.153 0 0 0 2.97 1.153 2.97 1.153 0 0 0 2.97-1.153 2.97 1.153 0 0 0-2.97-1.152zM24 6.805s-8.983 4.278-10.395 4.953c-1.226.561-1.901.561-3.261.094C8.318 11.022 0 7.241 0 7.241v1.038c0 .24.332.499.966.8 1.277.613 8.34 3.677 9.45 4.206 1.112.53 1.9.54 3.313-.197 1.412-.738 8.049-3.905 9.326-4.57.654-.342.945-.602.945-.84zm-10.042.602L8.39 8.26l3.884 1.61zM24 10.637s-8.983 4.279-10.395 4.954c-1.226.56-1.901.56-3.261.093C8.318 14.854 0 11.074 0 11.074v1.038c0 .238.332.498.966.8 1.277.612 8.34 3.676 9.45 4.205 1.112.53 1.9.54 3.313-.197 1.412-.737 8.049-3.905 9.326-4.57.654-.332.945-.602.945-.84zm0 3.842-10.395 4.954c-1.226.56-1.901.56-3.261.094C8.318 18.696 0 14.916 0 14.916v1.038c0 .239.332.499.966.8 1.277.613 8.34 3.676 9.45 4.206 1.112.53 1.9.54 3.313-.198 1.412-.737 8.049-3.904 9.326-4.569.654-.343.945-.613.945-.841z"/></svg></span><a class="headerlink" href="#redis" title="Permanent link">&para;</a></h3>
+<p>Meant specifically as an in-memory key-value data store. Most commonly used for distributed key-val.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs Insiders
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/LandonTClipp" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/landonclipp/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "navigation.indexes", "navigation.sections", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.1e90e0fb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a255a381.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../js/open_in_new_tab.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
