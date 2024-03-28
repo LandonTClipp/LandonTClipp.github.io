@@ -17,15 +17,15 @@ read(3, "hello world\n", 131072)        = 12
 write(1, "hello world\n", 12hello world
 ```
 
-### netstat
+### View listening ports
 
-=== "linux"
+=== "netstat (linux)"
 
        ```shell
        $ netstat -ntulp
        ```
 
-=== "MacOS"
+=== "netstat (MacOS)"
 
        ```shell
        $ netstat -anv
@@ -35,6 +35,20 @@ write(1, "hello world\n", 12hello world
        tcp4       0      0  127.0.0.1.60348        127.0.0.1.8001         ESTABLISHED  408300  146988  24807  24804 00102 00020000 0000000000275879 10180081 00080900      1      0 000001
        tcp4       0      0  192.168.50.89.60347    140.82.113.5.443       ESTABLISHED  131072  132432  24807  24804 00102 00020000 0000000000275878 10180081 00080900      1      0 000001
        tcp4       0      0  192.168.50.89.60344    149.137.136.16.443     ESTABLISHED 1511016  131768  24807  24804 00102 00020000 000000000027585b 10180081 00080900      1      0 000001
+       ```
+
+=== "lsof"
+
+       ```
+       $ sudo lsof -i -P -n | grep LISTEN
+       systemd         1             root   79u  IPv4  116762      0t0  TCP *:111 (LISTEN)
+       rpcbind      2942             _rpc    4u  IPv4  116762      0t0  TCP *:111 (LISTEN)
+       systemd-r    2947  systemd-resolve   13u  IPv4  142435      0t0  TCP 127.0.0.53:53 (LISTEN)
+       sshd         3175             root    3u  IPv4  273290      0t0  TCP *:22 (LISTEN)
+       rpc.statd    3329            statd    9u  IPv4   18403      0t0  TCP *:35287 (LISTEN)
+       virt-expo  135395             root    9u  IPv4  334360      0t0  TCP *:9411 (LISTEN)
+       node_expo  178456         node-exp    3u  IPv4  593613      0t0  TCP *:9100 (LISTEN)
+       systemd_e  178515 systemd-exporter    3u  IPv4  624258      0t0  TCP *:9558 (LISTEN)
        ```
 
 ### uniq
