@@ -138,4 +138,21 @@ This is used by some large chat platforms like Discord to store chat history. So
 
 Meant specifically as an in-memory key-value data store. Most commonly used for distributed key-val.
 
+Testing Methodologies
+---------------------
 
+### Smoke Tests
+
+A Smoke Test tests basic functionality of a service. It can be thought of as a rough sanity check that major features are working as expected. Smoke testing is meant ot be lightweight and quick, and can be used as a gatekeeper for more involved and expensive integration tests.
+
+### A/B Tests
+
+A/B tests deploy two different implementations of a functionality and run them in parallel either in a development or production environment. The results of the two implementations are compared against each other to determine the viability of the new implementation.
+
+### Functional Tests
+
+Functional tests assert that the end state of a system is as you expect. They often assert specific details, like a specific value being committed to a database. Integration tests, on the other hand, are often defined as being a specific type of functional test that is simply checking that two or more systems can successfully communicate with each other.
+
+### Integration Tests
+
+Integration tests assert that two or more components of a system can properly communicate with each other. This is often used when interacting with databases: you might instantiate a Postgres database in docker-compose and assert that your application is sending valid SQL and can parse results from the database appropriately.
