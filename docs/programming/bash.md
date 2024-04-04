@@ -41,6 +41,35 @@ This is more succinctly written as:
 grep chocolate cookies.csv &> choco_cookies.csv
 ```
 
+### Here String
+
+```bash
+$ foobar <<<"hello world"
+```
+
+Here, the string `"hello world"` is redirected to `foobar`'s stdin.
+
+### Here document
+
+```bash
+$ foobar << END
+> hello world
+> today is a great day
+> goodbye
+> END
+```
+
+A heredoc is a multi-line string that is treated as a file literal. The heredoc itself is redirected into the command's stdin, as can be seen in this example:
+
+```bash
+$ strace cat << EOF                               
+> hello world                                                
+> EOF
+...
+read(0, "hello world\n", 131072)        = 12
+write(1, "hello world\n", 12)           = 12
+```
+
 Backgrounding a Terminal Process
 --------------------------------
 
