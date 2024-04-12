@@ -174,6 +174,22 @@ The main method for improving aggregate rsync throughput is to spawn more proces
 2. Increase TCP send buffer size (kernel parameter)
 3. Increase TCP receive buffer size (kernel parameter)
 
+## OSI Layer 4 Protocols
+
+### [QUIC](https://en.wikipedia.org/wiki/QUIC)
+
+QUIC is a transport-layer protocol that aims to be effectively equivalent to TCP but with much reduced latency. This is achieved primarily through an abbreviated handshake protocol that only requires 1 round trip, whereas TCP requires 3. It can be thought of as a TCP-like protocol with the efficiencies of UDP.
+
+![QUIC Handshake diagram](https://upload.wikimedia.org/wikipedia/commons/4/41/Tcp-vs-quic-handshake.svg)
+
+Congestion control algorithms are handled in userspace instead of kernel space (like TCP) which is claimed to allow the algorithms to rapidly evolve and improve.
+
+### TCP
+
+### UDP
+
+### LLDP
+
 ## OSI Layer 7 Protocols
 
 ### HTTP
