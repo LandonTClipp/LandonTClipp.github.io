@@ -244,3 +244,9 @@ Address Resolution Protocol is used for mapping MAC addresses to IP addresses. T
 
 Media Types (or formerly known as MIME types) are names given to particular message formats. Historically this has been used in HTTP to define what kind of data is in the message body, but it is more broadly applicable to any kind of messaging protocol. The Media type is roughly analagous to a file extension.
 
+Network Namespace
+-----------------
+
+Linux allows you to create a "network namespace" that acts kind of like a chroot but for network interfaces. It allows you to isolate a process from the host's network cards and create your own virtualized network topology.
+
+https://medium.com/@tech_18484/how-to-create-network-namespace-in-linux-host-83ad56c4f46f
