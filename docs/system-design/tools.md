@@ -156,3 +156,14 @@ Functional tests assert that the end state of a system is as you expect. They of
 ### Integration Tests
 
 Integration tests assert that two or more components of a system can properly communicate with each other. This is often used when interacting with databases: you might instantiate a Postgres database in docker-compose and assert that your application is sending valid SQL and can parse results from the database appropriately.
+
+Durable Execution
+------------------
+
+According to Temporal:
+
+!!! quote
+
+    Durable Execution is a development abstraction that preserves complete application state so that upon host or software failure it can seamlessly migrate execution to another machine.
+
+Temporal.io is one such implementation of Durable Execution. The model allows your application to seamlessly continue execution even after hardware failures.
