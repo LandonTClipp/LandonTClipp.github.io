@@ -58,3 +58,23 @@ Branch prediction is a digital circuit on most modern CPUs that attempts to gues
 
 Most modern datacenter servers have multiple CPU sockets. Each socket is generally physically close to a portion of the main memory. Each socket is capable of accessing the memory of another NUMA node, however this incurs performance penalties as it has to traverse the memory bus.
 
+
+GPU
+----
+
+### Architectures
+
+| Name | Launch Date | Description |
+|------|-------------|-------------|
+| [Blackwell](https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)) | March 18, 2024 | |
+| [Grace Hopper](https://en.wikipedia.org/wiki/Hopper_(microarchitecture)#Grace_Hopper) | Unknown | Combines the Grace-based 72-core CPU and Hopper-based H200 GPU on a single module. CPU+GPU are connected via NVLink |
+| [Hopper](https://en.wikipedia.org/wiki/Hopper_(microarchitecture)) | Sept 20, 2022 | |
+
+
+
+
+### Models
+
+| Type | Release Date | Description |
+|------|--------------|-------------|
+| GH200 | Unknown | Combines Grace and Hopper architectures using NVLink-C2C
