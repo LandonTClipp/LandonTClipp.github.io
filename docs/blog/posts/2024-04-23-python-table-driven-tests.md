@@ -12,9 +12,6 @@ Table-driven tests (TDT) are a popular form of unit testing that allow you to ra
 
 A table-driven test is a kind of unit test whereby a single body of test code is re-used over multiple test instances. The parameters to the test code are provided in a list whereby each entry contains all the relevant information to test the behavior you desire. Take for example this function:
 
-
-## Standard Approach
-
 ```python title="path.py" linenums="1"
 --8<-- "code/python_table_driven_tests/path.py"
 ```
@@ -26,6 +23,8 @@ This function does the following:
 2. If this cannot be done:
     a. Remove the leading `/` component from path
     b. Return `#!python root + path`.
+
+## Standard Approach
 
 A common approach to testing this function is to create one test per case:
 
