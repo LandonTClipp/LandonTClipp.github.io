@@ -2,6 +2,14 @@
 title: Virtualization
 ---
 
+Hypervisor
+----------
+
+![Hypervisor Types](https://f005.backblazeb2.com/file/landons-blog/assets/images/virtualization/hypervisor-types.jpg)
+
+There are two types of hypervisors, type 1 and type 2. Type 1 hypervisors are services that have direct access to hardware. They do not rely on the host OS to execute instructions.
+
+Type 2 hypervisors sit on top of the host OS which introduces a massive latency penalty. 
 
 KVM
 ----
@@ -18,3 +26,9 @@ The Quick Emulator is a full hardware emulator that allows you to run a VM for a
 
 QEMU can work directly with KVM to allow acceleration on host platforms that support it. Lack of KVM support means QEMU must fully emulate the hardware which makes it much slower.
 
+[Firecracker](https://firecracker-microvm.github.io/)
+-----------
+
+![Firecracker Diagram](https://firecracker-microvm.github.io/img/diagram-desktop@3x.png)
+
+Firecracker is an alternative to QEMU that is built specifically for microVMs. It was created by AWS for the Lambda service.
