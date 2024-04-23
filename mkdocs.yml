@@ -103,14 +103,14 @@ plugins:
       - custom-skip-class-name
     auto_caption: false
     caption_position: bottom
-#- meta
+- meta
 - social:
     cards_layout_dir: layouts
     cards_layout: custom
     debug: false
 - search
-#- typeset:
-#    enabled: true
+- typeset:
+    enabled: true
 - open-in-new-tab
 
 nav:
