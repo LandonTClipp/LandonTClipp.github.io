@@ -19,9 +19,13 @@ A table-driven test is a kind of unit test whereby a single body of test code is
 This function does the following:
 
 1. Attempt to return `path` relative to `root`.
+
     a. If `root` is `None`, set `root` equal to the home directory.
-2. If this cannot be done:
+
+3. If this cannot be done:
+   
     a. Remove the leading `/` component from path
+
     b. Return `#!python root + path`.
 
 ## Standard Approach
