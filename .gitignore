@@ -6,3 +6,7 @@ code/profile-guided-optimizations/fermats-factorization/fermats-factorization
 overrides/hooks/__pycache__/*.pyc
 .vscode/
 *-workspace
+.mypy_cache/
+.pytest_cache/
+__pycache__/
+

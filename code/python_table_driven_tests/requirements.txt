@@ -1,0 +1,4 @@
+black
+pytest
+mypy
+pytest-subtests

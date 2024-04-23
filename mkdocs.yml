@@ -82,6 +82,7 @@ plugins:
       - Grafana
       - Intech Sol Horizon
       - Programming
+      - Python
       - RV
       - System Administration
       - System Design
