@@ -1,6 +1,7 @@
 ---
 date: 2024-04-23
 title: Python Table-Driven Tests
+description: A better way to do table-driven tests in Python that doesn't suck.
 categories:
     - Programming
     - Python
