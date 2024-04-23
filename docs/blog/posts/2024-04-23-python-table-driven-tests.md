@@ -60,7 +60,7 @@ There are, however, some major disadvantages to `pytest.mark.parametrize`:
     $ mypy .
     Success: no issues found in 4 source files
     ```
-1. The arguments to each testcase are positional instead of keywork arguments, which makes it difficult to remember which part of the tuple corresponds to what argument of the test case.
+1. The arguments to each testcase are positional instead of keyword arguments, which makes it difficult to remember which part of the tuple corresponds to what argument of the test case.
 1. Because the arguments are positional, you _have_ to specify something even in the case you want to rely on default values.
 1. Adding a new parameter to the test requires modifying all previously existing cases (yuk!). Changing the argument definition:
     ```python
