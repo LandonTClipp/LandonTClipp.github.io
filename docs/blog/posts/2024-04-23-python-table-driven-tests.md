@@ -36,7 +36,7 @@ A common approach to testing this function is to create one test per case:
 --8<-- "code/python_table_driven_tests/test_path_individual_functions.py"
 ```
 
-The issue with this approach is that it's a lot of boilerplate: we have to define one function per test, call our function under test, and assert the value is what we expect. It's also moderately ugly to look at because while each function is testing the same thing, they are dispersed across the file and this makes it harder to find a specific case that you may care about. This approach may be tractable For functions that have a small number of behavior permutations, but it quickly gets out of hand when the number of cases for your function increases beyond a small handful.
+The issue with this approach is that it's a lot of boilerplate: we have to define one function per test, call our function under test, and assert the value is what we expect. It's also moderately ugly to look at because while each function is testing the same thing, they are dispersed across the file and this makes it harder to find a specific case that you may care about. This approach may be tractable for functions that have a small number of behaviorial permutations, but it quickly gets out of hand when the number of cases for your function increases beyond a small handful.
 
 ## `pytest` Parametrized Decorator
 
