@@ -102,14 +102,14 @@ plugins:
       - custom-skip-class-name
     auto_caption: false
     caption_position: bottom
-- meta
+#- meta
 - social:
     cards_layout_dir: layouts
     cards_layout: custom
     debug: false
 - search
-- typeset:
-    enabled: true
+#- typeset:
+#    enabled: true
 - open-in-new-tab
 
 nav:
@@ -133,6 +133,7 @@ nav:
     - Networking: sysadmin/networking.md
     - Security: sysadmin/security.md
     - Systemd: sysadmin/systemd.md
+    - Virutalization: sysadmin/virtualization.md
   - System Design:
     - Databases: system-design/databases.md
     - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
