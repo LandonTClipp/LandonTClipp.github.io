@@ -90,6 +90,10 @@ Each lane in a PCIe bus is composed of two differential signal pairs. One pair r
 
 A PCIe switch shuttles packets on the PCIe bus to different endpoints. It works in much the same way as a networking switch.
 
+### Bridge
+
+A PCIe bridge is a device that allows communication across two different PCIe busses.
+
 ### CLI Tools
 
 #### lspci
