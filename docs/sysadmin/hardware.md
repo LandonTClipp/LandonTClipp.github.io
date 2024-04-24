@@ -77,4 +77,43 @@ GPU
 
 | Type | Release Date | Description |
 |------|--------------|-------------|
-| GH200 | Unknown | Combines Grace and Hopper architectures using NVLink-C2C
+| GH200 | Unknown | Combines Grace and Hopper architectures using NVLink-C2C |
+
+PCIe
+-----
+
+### [Lanes](https://en.wikipedia.org/wiki/PCI_Express#Lane)
+
+Each lane in a PCIe bus is composed of two differential signal pairs. One pair receives data and the other transmits. Thus, each PCIe lane consists of four signal wires. The use of a differential signal pair where the signal is mirrored 180 degrees on each wire in the pair, as opposed to a single signal wire, is a common [noise reduction technique](https://en.wikipedia.org/wiki/Differential_signalling). 
+
+### Switch
+
+A PCIe switch shuttles packets on the PCIe bus to different endpoints. It works in much the same way as a networking switch.
+
+### CLI Tools
+
+#### lspci
+
+```
+$ lspci
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Device 164f (rev 01)
+00:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+```
+
+#### setpci
+
+```
+NAME
+       setpci - configure PCI devices
+
+SYNOPSIS
+       setpci [options] devices operations...
+
+DESCRIPTION
+       setpci is a utility for querying and configuring PCI devices.
+
+       All numbers are entered in hexadecimal notation.
+
+       Root privileges are necessary for almost all operations, excluding reads of the standard header of the configuration space on some operating systems.  Please see lspci(8) for details on access rights.
+```
