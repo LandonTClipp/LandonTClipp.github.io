@@ -121,3 +121,10 @@ DESCRIPTION
 
        Root privileges are necessary for almost all operations, excluding reads of the standard header of the configuration space on some operating systems.  Please see lspci(8) for details on access rights.
 ```
+
+[dmidecode](https://en.wikipedia.org/wiki/Dmidecode)
+----------
+
+Use `dmidecode` to read verbose information on all hardware being used on the computer. This tool decodes the [SMBIOS](https://en.wikipedia.org/wiki/System_Management_BIOS) table in a human-readable format.
+
+The acronym `DMI` refers to the Desktop Management Interface which is a closely-related standard to SMBIOS that `dmidecode` was originally written for.
