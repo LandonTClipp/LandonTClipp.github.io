@@ -1,3 +1,4 @@
 *[ACL]: Access Control List
-*[NUMA]: Non-uniform memory access
 *[:material-run-fast:]: Optimization
+*[NCCL]: Nvidia Collective Communications Library
+*[NUMA]: Non-uniform memory access
