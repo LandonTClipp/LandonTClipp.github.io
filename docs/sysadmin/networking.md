@@ -250,3 +250,10 @@ Network Namespace
 Linux allows you to create a "network namespace" that acts kind of like a chroot but for network interfaces. It allows you to isolate a process from the host's network cards and create your own virtualized network topology.
 
 https://medium.com/@tech_18484/how-to-create-network-namespace-in-linux-host-83ad56c4f46f
+
+NCCL
+----
+
+![NCCL PXN Path Diagram](https://f005.backblazeb2.com/file/landons-blog/assets/images/nvidia/nccl/message-path.png)
+
+NCCL stands for NVIDIA Collective Communication Library. It is a library used in applications that need to do collective, cross-GPU actions. It's topology-aware and allows an abstracted interface to the set of GPUs being used across a cluster system, such that applications don't need to understand where a particular GPU resides.
