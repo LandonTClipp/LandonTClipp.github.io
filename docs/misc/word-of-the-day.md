@@ -4,6 +4,35 @@ title: Word of the Day
 
 # Word of the Day
 
+## 2024-04-25 `comport`
+
+**FORMAL**
+
+conduct oneself; behave.
+
+"articulate students who comported themselves well in television interviews"
+
+??? info "similar"
+
+    conduct oneself
+    
+    acquit oneself
+    
+    behave
+    
+    act
+    
+    perform
+    
+    deport oneself
+    
+
+**US**
+
+accord or agree with.
+
+"our outdated rules did not comport with 21st-century realities"
+
 ## 2024-04-04 `clandestine`
 
 kept secret or done secretively, especially because illicit.
