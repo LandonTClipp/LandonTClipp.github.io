@@ -94,6 +94,44 @@ A PCIe switch shuttles packets on the PCIe bus to different endpoints. It works 
 
 A PCIe bridge is a device that allows communication across two different PCIe busses.
 
+### ATS
+
+![ATS Block Diagram](https://community.cadence.com/resized-image/__size/926x608/__key/communityserver-blogs-components-weblogfiles/00-00-00-00-11/4834.pastedimage1709589624935v2.png)
+
+The ATS, or Address Translation Services, supports translation DMA (Direct Memory Access) addresses to addresses on the PCIe device. It is comprised of many different sub-components that work together to provide fast, low-latency address translation.
+
+The ATS relieves the CPU from having to perform these address translations itself. It runs as a set of hardware components that bypass the CPU.
+
+#### Translation Agent
+
+The Translation Agent is a software component running on the host that translates addresses on behalf of the host for PCIe devices. It uses data structures like page tables and Translation Lookaside Buffers (TLB) to perform the virtual-to-physical memory translations.
+
+#### Address Translation Cache
+
+The ATC is a cache on the device that stores translations between virtual and physical addresses. This cache stores results from the TA and allows translations to be performed with much lower latency.
+
+#### Address Translation Protection Table
+
+The ATPT is a data structure used to store page tables for an address translation. It contains the set of address translations accessed by a Translation Agent to process PCIe requests.
+
+References:
+
+- https://www.intel.com/content/www/us/en/docs/programmable/683686/20-4/address-translation-services-ats.html
+- https://community.cadence.com/cadence_blogs_8/b/fv/posts/navigating-the-complexity-of-address-translation-verification-in-pci-express-6-0
+
+### [Root Complex](https://en.wikipedia.org/wiki/Root_complex)
+
+![Root Complex diagram](https://upload.wikimedia.org/wikipedia/commons/1/1c/Example_PCI_Express_Topology.svg)
+
+A Root Complex device connects the CPU and memory subsystem to the PCIe switch fabric. It generates transaction requests on behalf of the CPU, which is interconnected through a local bus. Root Complex functionality may be integrated in the chipset and/or the CPU.
+
+All CPU<->Memory operations happen inside of the root complex. The CPU may attempt to access something on the PCIe bus, in which case the root complex will forward the request to the PCIe controller, from where the controller will route the request to the proper PCIe endpoint.
+
+References:
+
+- https://electronics.stackexchange.com/questions/461251/what-is-the-role-of-the-root-complex-in-a-microprocessor-system-pci-express
+
+
 ### CLI Tools
 
 #### lspci
