@@ -67,6 +67,7 @@ markdown_extensions:
         - includes/abbreviations.md
   - pymdownx.tabbed:
       alternate_style: true 
+  - pymdownx.tilde
   - toc:
       permalink: true
 
