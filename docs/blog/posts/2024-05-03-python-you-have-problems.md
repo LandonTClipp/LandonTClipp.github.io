@@ -329,7 +329,7 @@ Here are some of the things I learned about what a good language should have:
 
 Python, as we know, is duck-typed. If it looks like a duck, swims like a duck, and quacks like a duck, then it's probably a duck. Variables in Python are pointers to underlying objects. The variable itself does not have a type. It may be pointed to anything and it can be reassigned to any type at any point in time.
 
-What this means, essentially, is that there is no protection against accidentally using the wrong type. There are tools that might warn you (even though those tools can be fooled), but ultimately you won't be made aware of these issues until you actually run the damn thing.
+What this means, essentially, is that there is no protection against accidentally using the wrong type. There are tools that might warn you (even though those tools can be fooled), but ultimately there still exist categories of type errors that you won't be made aware of until you actually run the damn thing.
 
 Strictly typed languages on the other hand will tell you _immediately_ if something is wrong. They won't even let you run the program, because syntactically, it's not valid. This is an incredibly important feature: you want your program to fail fast and fail hard so that you have no opportunities to send your code to production until the issue has been fixed.
 
