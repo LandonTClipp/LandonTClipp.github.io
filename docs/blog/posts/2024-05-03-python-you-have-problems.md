@@ -22,7 +22,7 @@ I was first introduced to Python in my college years during my work with the Nat
 
 This dovetailed into a mostly Python position at Jump Trading where most of my work involved either system administration in Python, using tools written in Python, or creating large, hundred-thousand-job metascheduling pipelines that Extract/Transform/Load petabytes of live HFT market data. There, my Python chops were refined in a professional and high-stakes environment, allowing me to grow my practices and strategies to be an effective and high-functioning Python developer.
 
-Thus for the longest time, my opinions of Python were glowing as I felt it had liberated me from the constraints of antiquated languages C/C++. I balked at the idea of ever having to deal with stupid things like _typing_, or _memory management_, or _pointers_ ever again. I was free to do what I wanted when I wanted, just like a true red-blooded American. Who doesn't like a good dose of freedom?
+Thus for the longest time, my opinions of Python were glowing as I felt it had liberated me from the constraints of antiquated languages like C/C++. I balked at the idea of ever having to deal with stupid things like _typing_, or _memory management_, or _pointers_ ever again. I was free to do what I wanted when I wanted, just like a true red-blooded American. Who doesn't like a good dose of freedom?
 
 ## My Disclaimer
 
