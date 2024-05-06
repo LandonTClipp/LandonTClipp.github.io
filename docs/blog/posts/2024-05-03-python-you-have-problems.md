@@ -120,7 +120,7 @@ If you're confused about the difference between `threading` and `asyncio` and `m
 
 #### `asyncio`: What Color Is Your Function
 
-Bob Nystrom wrote a fantastic blog post called [What Color is Your Function](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/). In this post, he describes a theoretical programming language that I'll name `Shithon` (pronounced _shy-thon_, or _shit-thon_, or _shit-hon_, whatever you prefer). This language has one particular feature: every function has a color. These are the properties of these colors:
+Bob Nystrom wrote a fantastic blog post called [What Color is Your Function](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/). In this post, he describes a theoretical programming language that I'll name `Shithon` (pronounced _shy-thon_, or _shit-thon_, or _shit-hon_, whatever you prefer). This language has one particular feature: every function has a color. These are the properties of these functions:
 
 1. Every function has a color.
 
