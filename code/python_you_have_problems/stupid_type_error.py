@@ -12,7 +12,7 @@ def no_type_error() -> None:
 
 def main():
     random.seed()
-    random_number = random.randrange(0, 99)
+    random_number = random.randrange(0, 100)
     if random_number % 7 == 0:
         type_error()
     else:
