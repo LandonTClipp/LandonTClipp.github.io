@@ -95,7 +95,7 @@ code/python_you_have_problems/stupid_type_error.py:5: error: "int" has no attrib
 
 Yeeeaaah, much better. But again, that again brings up the great point that if your external dependency forgot to add annotations, or if you're someone who has some weird thing against typing, then mypy will totally ignore it, or get it totally wrong.
 
-Can we also just sit down for a second and appreciate the fact that tons of super talented people had to spend a large amount of their time actually creating `mypy` and supporting it through various iterations of the Python language because the language itself just doesn't have static typing? We're shoe-horning a really important thing into a language that doesn't provide it. Props to everyone who develops and maintains `mypy`, it's a wonderful tool, but I posit that it shouldn't have to exist.
+Can we also just sit down for a second and appreciate the fact that tons of super talented people had to spend a large amount of their time actually creating `mypy` and supporting it through various iterations of the Python language because the language itself just doesn't have static typing? We're shoehorning a really important concept into a language that doesn't provide it. Props to everyone who develops and maintains `mypy`, it's a wonderful tool, but I posit that it shouldn't have to exist.
 
 ### Parallelism
 
