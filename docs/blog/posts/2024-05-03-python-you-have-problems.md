@@ -116,7 +116,7 @@ For those unfamiliar with `asyncio`, it is a Python package, created by the main
 
 `threading` differs from `asyncio` in that it uses actual OS threads to multiplex operations. With `asyncio`, you can reasonably submit hundreds of thousands, even millions of coroutines, because a coroutine is an internal concept in memory, not an actual OS thread. It would not be responsible, however, to treat threads the same way. Go ahead and try, see what happens.
 
-If you're confused about the difference between `threading` and `asyncio` and `multiprocessing` and `concurrent.futures.ThreadPoolExecutor`, you're not alone. The glut of options at our disposal might lead a layman believe that parallelism in Python is flexible and well-conceived, but it's actually quite the opposite. Not only is it confusing to understand the differences between these options, it's confusing to understand in what situations each solution is appropriate for. Let's not get too into the weeds, however. Let's instead focus on why `asyncio` is just plain awful.
+If you're confused about the difference between `threading` and `asyncio` and `multiprocessing` and `concurrent.futures.ThreadPoolExecutor`, you're not alone. The glut of options at our disposal might lead a layman believe that parallelism in Python is flexible and well-conceived, but it's actually quite the opposite. Not only is it confusing to understand the differences between these options, it's confusing to understand for which situations each solution is appropriate for. Let's not get too into the weeds, however. Let's instead focus on why `asyncio` is just plain awful.
 
 #### `asyncio`: What Color Is Your Function
 
