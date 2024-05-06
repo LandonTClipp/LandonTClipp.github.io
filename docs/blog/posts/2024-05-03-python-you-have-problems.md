@@ -376,7 +376,7 @@ This is a whole blog post unto itself so I will not enumerate all my thoughts, b
 
 ## Parting Thoughts
 
-Hopefully by this point, I've successfully enumerated my numerous complaints with Python. And if you've made it this far, congratulations, you either totally agree with me, you learned something new, or you've become so miffed that you can't wait to leave a comment telling me how stupid my arguments are. In any scenario: well-done.
+Hopefully by this point, I've successfully enumerated my varying complaints with Python. And if you've made it this far, congratulations, you either totally agree with me, you learned something new, or you've become so miffed that you can't wait to leave a comment telling me how stupid my arguments are. In any scenario: well-done.
 
 Any time a huge amount of complexity is introduced into a system to solve some fundamental problem, that usually means that the foundational model on which that system depends is inherently flawed. In Python's case, package management, lack of strict typing, its GIL, its concurrency primitives, are all examples of things that are just foundationally bad. Their existence necessitates a huge amount of complexity in the Python ecosystem that should have, and could have, been solved by changing the underlying model, but for reasons that I totally understand, at this point in Python's life, doing such a thing would be totally infeasible. Just look at how painful the Python 2->3 conversion was, we're still dealing with the affects of it 16 years later!
 
