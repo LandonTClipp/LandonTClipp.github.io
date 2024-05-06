@@ -354,7 +354,7 @@ All functions should be callable from all other functions. Bifurcating your lang
 
 ### GILs are bad
 
-There are a number of notable exapmles of interpreted languages, or implementations of Python, that lack a GIL:
+There are a number of notable examples of interpreted languages, or implementations of Python, that lack a GIL:
 
 - IronPython
 - IronRuby
