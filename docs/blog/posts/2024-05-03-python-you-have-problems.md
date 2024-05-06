@@ -189,7 +189,9 @@ But wait! The asyncio docs say about `asyncio.run`:
 
 !!! quote
 
-    This function cannot be called when another asyncio event loop is running in the same thread." So what do we do if there is already an event loop running somewhere? Well, you can't. If your synchronous function calls async code, or otherwise _adds_ an async function to the event loop, then by definition your function has to be `async` as well. Synchronous functions cannot call async functions if an event loop is already running in the same thread.[^1]
+    This function cannot be called when another asyncio event loop is running in the same thread.
+    
+So what do we do if there is already an event loop running somewhere? Well, you can't. If your synchronous function calls async code, or otherwise _adds_ an async function to the event loop, then by definition your function has to be `async` as well. Synchronous functions cannot call async functions if an event loop is already running in the same thread.[^1]
 
 I'm not going to go into detail the intricacies of asyncio, for one because it's just incredibly frustrating to me personally, and for two because it's already been well-documented in various places on the interwebz. Here are some good resources:
 
