@@ -32,7 +32,7 @@ A goroutine is essentially a "thread" of execution (not to be confused with an O
 Functional Options
 -------------------
 
-Functional Options are a style of specifying optional arguments. This is needed to get around the fact that Go does not have default parameter values. It works by creating a type that is defined as a function that takes, as its input, a config struct, and returns nothing. For example, `#!go type FuncOpt func(c *Config)`. Instances of this type will modify a config struct in various ways. Here is an example:
+Functional Options are a style of specifying optional arguments. This is needed to get around the fact that Go does not have default parameter values. It works by creating a type that is defined as a function that takes, as its input a config struct, and returns nothing. The function will set a specific attribute in the config to the value passed in to the constructor. For example, `#!go type FuncOpt func(c *Config)`. Here is an example:
 
 ```go
 package main
@@ -87,6 +87,26 @@ func main() {
 {name:Landon age:2 height:175}
 ```
 </div>
+
+The meat of this methodology lies within the `PersonOpt` constructor. Let's zoom in:
+
+```go
+type Person struct {
+	name   string
+	age    int
+	height int
+}
+
+type PersonOpt func(p *Person)
+
+func PersonName(name string) PersonOpt {
+	return func(p *Person) {
+		p.name = name
+	}
+}
+```
+
+You can see that `PersonName` is one such constructor that takes in a string, and it returns a function that modifies the value of the `Person` struct with the value "`name`" passed into the `PersonOpt` constructor. It relies on the fact that [Go functions can be closures](https://go.dev/tour/moretypes/25)
 
 Tools as Dependencies
 ----------------------
