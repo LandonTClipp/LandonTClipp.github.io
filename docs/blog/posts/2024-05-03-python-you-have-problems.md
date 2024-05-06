@@ -199,7 +199,7 @@ I'm not going to go into detail the intricacies of asyncio, for one because it's
 - https://docs.python.org/3/library/asyncio.html
 - https://realpython.com/async-io-python/
 
-Going back to "What Color Is Your Function", the point can be distilled down to the fact that it's _really hard_ to call `async` functions from non-`async` because considerations have to be made about whether or not an event loop is already running, and if it is, how you should structure your code in a way that allows you to call `async` functions. It bifurcates your world into two realms, so much so that crossing the boundaries between these realms is _super_ difficult. Managing this boundary cannot simply be done through semaphores because the entire model itself is just bad. It all goes back to the GIL, baby.
+Going back to "What Color Is Your Function", the point can be distilled down to the fact that it's _really hard_ to call `async` functions from non-`async` because considerations have to be made about whether or not an event loop is already running, and if it is, how you should structure your code in a way that allows you to call `async` functions. It bifurcates your world into two realms, so much so that crossing this boundary is _super_ difficult. Managing this boundary cannot simply be done through semaphores because the entire model itself is just bad. It all goes back to the GIL, baby.
 
 ### Packaging and Environment Management
 
