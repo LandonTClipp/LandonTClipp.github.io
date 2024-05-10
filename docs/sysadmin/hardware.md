@@ -143,6 +143,19 @@ $ lspci
 00:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
 ```
 
+##### Filter by Vendor
+
+[PCI-SIG maintains a list of vendor IDs](https://pcisig.com/membership/member-companies?combine=&order=field_vendor_id&sort=asc) that are used when reporting the vendor to the PCI system.
+
+For example, you can query all NVIDIA devices using the vendor ID `0x10de`:
+
+```
+$ lspci -v -d 10de:
+18:00.0 3D controller: NVIDIA Corporation Device 2330 (rev a1)
+2a:00.0 3D controller: NVIDIA Corporation Device 2330 (rev a1)
+```
+
+
 #### setpci
 
 ```
