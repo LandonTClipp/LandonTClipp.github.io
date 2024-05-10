@@ -132,6 +132,9 @@ References:
 - https://electronics.stackexchange.com/questions/461251/what-is-the-role-of-the-root-complex-in-a-microprocessor-system-pci-express
 
 
+### `sysfs`
+
+You can interact with devices on the PCIe bus using `sysfs`. Details listed [here](/sysadmin/linux/#sysfs).
 ### CLI Tools
 
 #### lspci

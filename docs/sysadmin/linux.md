@@ -77,12 +77,12 @@ placeholder
 VFS, or Virtual File System, is a component of the Linux kernel that provides the filesystem interface to userspace programs. The VFS is what implements open, stat, chmod, and other similar filesystem-related system calls. The pathnames passed to these calls is used by the VFS to lookup the directory entry cache, aka dentry cache or dcache). This allows very fast lookups of dentries without needing to reference the backing filesystem.
 
 
-### sysfs
+### procfs
 
 https://en.wikipedia.org/wiki/Procfs
 https://docs.kernel.org/filesystems/proc.html
 
-sysfs is a special filesystem maintained by the linux kernel that allows you to inspect the state of running processes.
+procfs is a special filesystem maintained by the linux kernel that allows you to inspect the state of running processes.
 
 ```
 $ ls -lah /proc/21/
@@ -118,6 +118,61 @@ dr-xr-xr-x   2 ltclipp ltclipp   0 Dec  8 15:47 attr
 -rw-r--r--   1 ltclipp ltclipp   0 Dec  8 15:47 comm
 -rw-r--r--   1 ltclipp ltclipp   0 Dec  8 15:47 coredump_filter
 ```
+
+### sysfs
+
+sysfs is a kernel-maintained filesystem for interacting with various kernel subsystems, hardware devices, and device drivers.
+
+#### PCIe Devices
+
+You can use sysfs to read the information about PCIe devices. 
+
+```
+# ls -lah /sys/bus/pci/devices/0000:db:00.0/
+total 0
+drwxr-xr-x 4 root root    0 Jul 17  2023 .
+drwxr-xr-x 6 root root    0 Jul 17  2023 ..
+-r--r--r-- 1 root root 4.0K May 10 18:03 aer_dev_correctable
+-r--r--r-- 1 root root 4.0K May 10 18:03 aer_dev_fatal
+-r--r--r-- 1 root root 4.0K May 10 18:03 aer_dev_nonfatal
+-r--r--r-- 1 root root 4.0K May 10 18:03 ari_enabled
+-rw-r--r-- 1 root root 4.0K May 10 18:03 broken_parity_status
+-r--r--r-- 1 root root 4.0K Jul 17  2023 class
+-rw-r--r-- 1 root root 4.0K Jul 17  2023 config
+-r--r--r-- 1 root root 4.0K May 10 18:03 consistent_dma_mask_bits
+-r--r--r-- 1 root root 4.0K May 10 18:03 current_link_speed
+-r--r--r-- 1 root root 4.0K May 10 18:03 current_link_width
+-rw-r--r-- 1 root root 4.0K May 10 18:03 d3cold_allowed
+```
+
+The device ID can be discovered by using `lspci`.
+
+##### `resource` files
+
+The file located at `/sys/bus/pci/devices/*/resource` provides ASCII text that describes the host addresses of PCI resources for that device. For each region, there is a corresponding `/sys/bus/pci/devices/*/resource*` file that contains the contents of that region. You must memory-map to this file in order to access it.
+
+For example, using `lspci` we can introspect the regions:
+
+```
+# lspci -n -s 0000:01:00.1 -vv
+0000:01:00.1 0200: 8086:10c9 (rev 01)
+        Subsystem: 10a9:8028
+        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- SERR- <PERR- INTx-
+        Latency: 0, Cache Line Size: 64 bytes
+        Interrupt: pin B routed to IRQ 40
+        Region 0: Memory at b2140000 (32-bit, non-prefetchable) [size=128K]
+        Region 1: Memory at b2120000 (32-bit, non-prefetchable) [size=128K]
+        Region 2: I/O ports at 2000 [size=32]
+        Region 3: Memory at b2240000 (32-bit, non-prefetchable) [size=16K]
+```
+
+These regions can be device memory, IO ports, or other resources. The exact contents of the memory is going to be specific to the device in question.
+
+Readings:
+
+- https://www.kernel.org/doc/Documentation/filesystems/sysfs-pci.txt
+- https://techpubs.jurassic.nl/manuals/linux/developer/REACTLINUX_PG/sgi_html/ch07.html
 
 Kernel Modules
 --------------
