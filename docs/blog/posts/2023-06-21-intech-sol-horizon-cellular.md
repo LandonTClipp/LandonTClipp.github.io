@@ -51,7 +51,7 @@ Mobile hotspots work by receiving a cellular signal and exposing a WiFi access p
 
 ### Dedicated Cellular Routers
 
-A cellular router is a more robust and permanent platform. A router like the [Peplink MAX Transit Duo](https://mobilemusthave.com/collections/cellular-wifi-routers/products/pepwave-max-transit-pro-dual-modem-cat-12-cat-7-lte-a-router) are powerful devices that are capable of bonding multiple sources of internet into a single WiFi access point. The MAX Transit Duo, for example, is capable of bonding two separate cellular SIM cards and external WiFi signals (like what campgrounds offer) into a single access point. Some of the more advanced Peplink models even allow bonding to a Starlink signal, providing you with quadruple internet redundancy.
+A cellular router is a more robust and permanent platform. A router like the [Peplink MAX Transit Duo](https://mobilemusthave.com/collections/cellular-wifi-routers/products/pepwave-max-transit-pro-dual-modem-cat-12-cat-7-lte-a-router) are powerful devices that are capable of bonding multiple sources of internet into a single WiFi access point. The MAX Transit Duo, for example, is capable of bonding two separate cellular SIM cards and external WiFi signals (like what campgrounds offer) into a single access point. This is a form of [multi-homing](https://en.wikipedia.org/wiki/Multihoming). Some of the more advanced Peplink models even allow bonding to a Starlink signal, providing you with quadruple internet redundancy.
 
 #### Pros
 
