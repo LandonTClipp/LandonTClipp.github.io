@@ -174,7 +174,23 @@ The main method for improving aggregate rsync throughput is to spawn more proces
 2. Increase TCP send buffer size (kernel parameter)
 3. Increase TCP receive buffer size (kernel parameter)
 
+## OSI Layer 2 Protocols
+
+Data Link Layer
+
+### LLDP
+
+## OSI Layer 3 Protocols
+
+Network Layer
+
+### [ICMP](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol)
+
+Internet Control Message Protocol is used to diagnose issues in a network. The `traceroute` and `ping` commands use ICMP.
+
 ## OSI Layer 4 Protocols
+
+Transport Layer
 
 ### [QUIC](https://en.wikipedia.org/wiki/QUIC)
 
@@ -187,8 +203,6 @@ Congestion control algorithms are handled in userspace instead of kernel space (
 ### TCP
 
 ### UDP
-
-### LLDP
 
 ## OSI Layer 7 Protocols
 
