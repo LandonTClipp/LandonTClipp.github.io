@@ -212,3 +212,11 @@ curl --insecure -H "Content-Type: application/json" -X POST -D headers.txt https
 
 A [Python script](https://github.com/LandonTClipp/dotfiles/blob/main/bin/redfish_auth.py), created by one of my coworkers at Lambda, can help automate this process.
 
+[IOMMU](https://en.wikipedia.org/wiki/Input%E2%80%93output_memory_management_unit)
+------
+
+![IOMMU diagram](https://upload.wikimedia.org/wikipedia/commons/d/d6/MMU_and_IOMMU.svg){ align=left width=400px }
+
+IOMMU is a memory-management unit that connects a direct-memory-access-capable (DMA-capable) IO bus to the main memory. IOMMUs are similar to CPU MMUs in that it translates device-visible virtual addresses to phyiscal addresses.
+
+An example IOMMU is the graphics address remapping table used by AGP and PCIe graphics cards on Intel and AMD computers.

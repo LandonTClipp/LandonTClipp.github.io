@@ -32,3 +32,32 @@ QEMU can work directly with KVM to allow acceleration on host platforms that sup
 ![Firecracker Diagram](https://firecracker-microvm.github.io/img/diagram-desktop@3x.png)
 
 Firecracker is an alternative to QEMU that is built specifically for microVMs. It was created by AWS for the Lambda service.
+
+[SR-IOV](https://en.wikipedia.org/wiki/Single-root_input/output_virtualization)
+-------
+
+![SR-IOV diagram](https://access.redhat.com/webassets/avalon/d/Red_Hat_Enterprise_Linux-7-Virtualization_Deployment_and_Administration_Guide-en-US/images/fac9cf14c66b5feb845c5039c89d88ab/SR-IOV_implementation.png)
+
+SR-IOV, or Single-Root I/O Virtualization, is a PCI-SIG standard that allows the isolation of PCIe resources for performance and manageability reasons. SR-IOV allows a device, like a network adapter, to separate access to its resources among various PCIe hardware functions. This is achieved through the introduction of two PCIe functions: Physical Functions (PFs) and Virtual Functions (VFs).
+
+SR-IOV enables a Single Root Function (such as an ethernet port) to appear as multiple, separate physical devices. A physical device with SR-IOV capabilities can be configured to appear in the PCI configuration space as multiple functions.
+
+Resources:
+
+- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-pci_devices-pci_passthrough
+
+### Physical and Virtual Functions
+
+SR-IOV uses physical and virtual functions to control or configure PCIe devices. Physical functions have the ability to move data in and out of the device while virtual functions are lightweight PCIe functions that support data flowing but also have a restricted set of configuration resources. The virtual or physical functions available to the hypervisor or guest operating system depend on the PCIe device.
+
+Physical Functions (PFs) are full PCIe devices that include the SR-IOV capabilities. Physical Functions are discovered, managed, and configured as normal PCI devices. Physical Functions configure and manage the SR-IOV functionality by assigning Virtual Functions.
+
+Virtual Functions (VFs) are simple PCIe functions that only process I/O. Each Virtual Function is derived from a Physical Function. The number of Virtual Functions a device may have is limited by the device hardware. A single Ethernet port, the Physical Device, may map to many Virtual Functions that can be shared to virtual machines.
+
+
+### Configuration
+
+SR-IOV is enabled through the system BIOS.
+
+https://docs.nvidia.com/networking/display/mlnxofedv582030lts/single+root+io+virtualization+(sr-iov)#src-2396585884_safe-id-U2luZ2xlUm9vdElPVmlydHVhbGl6YXRpb24oU1JJT1YpLXNldHRpbmd1cHNyLWlvdg
+
