@@ -25,3 +25,6 @@ Or, you could use message queues and batch the messages in groups of 1000's (for
 
 You could store the SQL updates in a sqlite file (ugh...) and import that directly into the MySQL/PostgreSQL/WhateverSQL. This only works if you can reasonably assume that the updates will not encounter any race conditions (for example, if the updates only consist of _adding_ rows, and not _modifying_ rows).
 
+## ACID
+
+ACID stands for Atomic, Consistent, Isolated and Durable. This is a type of consistency guarantee that ensures database access and updates are executed correctly and that the database can recover from failures without losing data or impacting data consistency.
