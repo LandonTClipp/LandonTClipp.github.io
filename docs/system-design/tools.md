@@ -4,6 +4,35 @@ title: Tools
 
 This page shows various methods, techniques, algorithms, and data structures that may be useful in your system design career.
 
+Distributed Transactions
+------------------------
+
+Transactions that span multiple microservices are difficult to manage due to the nature of distributed systems. Failures in the transaction need compensatory actions. 
+
+### [Saga Pattern](https://microservices.io/patterns/data/saga.html)
+
+The Saga pattern is one way of managing distributed transactions.
+
+![Saga Pattern diagram](https://microservices.io/i/sagas/From_2PC_To_Saga.png)
+
+There are two main ways to implement the saga pattern: orchestration and choreography.
+
+#### Choreography-based Saga
+
+![choreography saga](https://microservices.io/i/sagas/Create_Order_Saga.png)
+
+This relies heavily on a good message broker. Each service in the saga listens to an event. Each step in the saga is announced as an event. The saga is propagated through completion by each service listening to its respective message channel.
+
+This is a highly decoupled form of distributed transactions because new services can be added simply by subscribing to a particular channel. The other pieces of the saga do not need to be aware of a new service being added. There is no centralized orchestration of this transaction. It's a collaborative, bottom-up approach.
+
+#### Orchestration-based Saga
+
+![Orchestration-based saga](https://microservices.io/i/sagas/Create_Order_Saga_Orchestration.png)
+
+Orchestrated Sagas rely on a single entity managing the entire end-to-end state of the transaction. This has benefits over choreography because it aggregates all of your business logic into a single deployable unit. Thus, it's easier to reason about the steps that will happen as it will be within a single codebase. You might choose orchestration in cases where the business logic needs to be rigorously and thoroughly tested, where failures are not tolerable. A choreography-based transaction presents challenges in testing because the behavior of the system depends on how it's deployed. This is not something you can easily test in CI/CD.
+
+This method is more coupled as any changes to the transaction must be done within a single service. It also means that the service performing the transaction has to be aware of every step of the transaction and every sub-service involved therein, which increases its logical complexity. However, this may be a justifiable cost given the needs of the business.
+
 [Bloom Filters](https://en.wikipedia.org/wiki/Bloom_filter)
 -------------
 
