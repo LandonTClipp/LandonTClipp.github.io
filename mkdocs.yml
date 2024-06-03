@@ -55,6 +55,7 @@ markdown_extensions:
       pygments_lang_class: true
       auto_title: true
   - pymdownx.inlinehilite
+  - pymdownx.keys
   - pymdownx.magiclink
   - pymdownx.superfences:
       custom_fences:

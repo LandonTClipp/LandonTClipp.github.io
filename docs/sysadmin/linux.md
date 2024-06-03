@@ -339,11 +339,18 @@ Kickstart is an installation mechanism provided by Redhat that allows you to ins
 
 ## POSIX Signals
 
-| number | name | default action | description |
-|--------|------|----------------|-------------|
-| 1 | SIGHUP | Terminate | Hang up controlling terminal or process. Often used by many systems to mean "please re-read and reload config." |
-| 2 | SIGINT | Terminate | Interrupt from keyboard. Ctrl-C. |
-
+| number | name | default action | Shortcut | description |
+|--------|------|----------------|----------|-------------|
+| 1 | SIGHUP | Terminate | | Hang up controlling terminal or process. Often used by many systems to mean "please re-read and reload config." |
+| 2 | SIGINT | Terminate | ++ctrl+c++ | Interrupt from keyboard.|
+| 3 | SIGQUIT | Core | ++ctrl+backslash++ | Quit from keyboard. Similar to SIGINT, but it dumps a core in addition to terminating the program. |
+| 4 | SIGILL | Core | | Illegal instruction |
+| 6 | SIGABRT | Core | | Abort signal from [abort(3)](https://www.man7.org/linux/man-pages/man3/abort.3.html) |
+| 8 | SIGFPE | Core | | Floating point exception. |
+| 9 | SIGKILL | Terminate | | Forcefully terminate a program. This signal is not catchable. |
+| 15 | SIGTERM | Terminate | | Gracefully terminate a program. This is similar in behavior to SIGINT, but it cannot be sent from the keyboard. Parent processes will typically send this signal to its children upon termination. |
+| 19, 18, 25 | SIGCONT | Continue | | Continue execution of a process that was stopped by SIGSTOP. You can also use the `bg` bash command to continue the process in the background. See [Backgrounding a Terminal Process](/programming/bash/#backgrounding-a-terminal-process) for more details. |
+| 17, 19, 23 | SIGSTOP | Stop | ++ctrl+z++ | Stop execution of a process, but allow it to be resumed through SIGCONT. |
 
 ## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass) <!-- md:optimization -->
 
