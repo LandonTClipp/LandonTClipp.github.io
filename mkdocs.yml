@@ -134,6 +134,7 @@ nav:
     - Hardware: sysadmin/hardware.md
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
+    - PCIe: sysadmin/pcie.md
     - Security: sysadmin/security.md
     - Systemd: sysadmin/systemd.md
     - Virutalization: sysadmin/virtualization.md
