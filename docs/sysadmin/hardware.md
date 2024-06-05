@@ -101,6 +101,12 @@ This is a tool on most Linux distributions that can be used to interact with the
 ipmitool lan print
 ```
 
+#### Get Power Status
+
+```
+ipmitool -U ADMIN -H 10.8.54.133 -P <PASS> chassis power status
+```
+
 ### Redfish
 
 Redfish is an HTTP service that runs on a lot of modern BMCs that provides you with a REST endpoint for querying the BMC.
