@@ -403,3 +403,14 @@ pid 914745’s new affinity list: 2
 ### Optimizing for the NUMA node <!-- md:optimization -->
 
 The `lscpu` command will show you which cores are on which NUMA node. If possible, applications should be given CPU affinities that are on a single NUMA node to prevent long-distance memory access on a different node.
+
+## [udev](https://wiki.debian.org/udev)
+
+udev is a replacement for the Device File System (DevFS) starting with the Linux 2.6 kernel series. It allows you to identify devices based on their properties, like vendor ID and device ID, dynamically. udev runs in userspace (as opposed to devfs which was executed in kernel space).
+
+udev allows for rules that specify what name is given to a device, regardless of which port it is plugged into. For example, a rule to always mount a hard drive with manufacturer "iRiver" and device code "ABC" as /dev/iriver is possible. This consistent naming of devices guarantees that scripts dependent on a specific device's existence will not be broken.
+
+```
+/etc/udev/rules.d/
+```
+
