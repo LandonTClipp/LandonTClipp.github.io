@@ -318,3 +318,49 @@ async with Connection() as conn:
     conn.get_item()
 ```
 
+## Typing
+
+### [`typing.Protocol`](https://docs.python.org/3.12/library/typing.html#typing.Protocol)
+
+The `typing.Protocol` type allows you to define what is essentially a Go interface. Instead of a function taking a specific implementation of a class like this:
+
+```python3
+class RedisCounter:
+    def __init__(self): ...
+
+    def increment(self): ...
+
+    def decrement(self): ...
+
+def do_stuff(counter: RedisCounter): 
+    counter.increment()
+    counter.decrement()
+
+do_stuff(counter=RedisCounter())
+```
+
+We can instead define a `typing.Protocol` type that will define the shape of the class that we accept:
+
+```python3
+import typing
+
+class Counter(typing.Protocol):
+    def increment(self): ...
+
+    def decrement(self): ...
+
+class RedisCounter:
+    def __init__(self): ...
+
+    def increment(self): ...
+
+    def decrement(self): ...
+
+def do_stuff(counter: Counter): 
+    counter.increment()
+    counter.decrement()
+
+do_stuff(counter=RedisCounter())
+```
+
+`mypy` understands and accepts this even though `RedisCounter` doesn't inherit `Counter`. 
