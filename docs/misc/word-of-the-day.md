@@ -4,6 +4,22 @@ title: Word of the Day
 
 # Word of the Day
 
+## 2024-06-20 `recalcitrant`
+
+having an obstinately uncooperative attitude toward authority or discipline.
+
+??? info "similar"
+
+    uncooperative
+    
+    obstinately disobedient
+    
+    intractable
+    
+    unmanageable
+    
+    ungovernable
+
 ## 2024-04-25 `comport`
 
 **FORMAL**
