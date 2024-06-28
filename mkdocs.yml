@@ -124,6 +124,7 @@ nav:
     - Bash: programming/bash.md
     - Computer Science: programming/computer-science.md
     - Golang: programming/golang.md
+    - Javascript: programming/javascript.md
     - Leetcode: programming/leetcode.md
     - Python: programming/python.md
     - Tools: programming/tools.md
