@@ -312,6 +312,19 @@ There are a few other projects like nuitka as well like:
 
 Pick your poison.
 
+### Metrics in uWSGI
+
+uWSGI is the framework Python uses to serve web traffic. In brief, it forks the main process into multiple worker processes in what is called a "pre-fork web server model". This frustrates metrics collecting: consider that you have a Prometheus counter in your web server that you want incremented each time a request to an upstream HTTP service fails. Well, because each worker is a separate process, the counter only has meaning within that process. i.e. the counter state is not shared across processes, which may not be what developers intend.
+
+There are some ways to get around this:
+
+1. Append a `pid` attribute to the counter and sum the values `by pid` on query-time. This is fine but kind of burdensome, and possibly introduces other problems with high-cardinality labels.
+2. Use Redis as a storage backend for the counter. This is probably the "correct" solution, but it seems most of the major metrics packages don't provide support for this. It also places an additional dependency on Redis that might otherwise not be necessary if you use proper multi-threaded languages like Go.
+
+References:
+
+- https://github.com/open-telemetry/opentelemetry-python/issues/3885
+
 #### Misc
 
 There are so many other dependency management tools that try, with varying levels of success, to do what `pip` does but better. Some examples:
