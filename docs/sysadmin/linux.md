@@ -59,6 +59,18 @@ Use `uniq -c` to get counts of each occurence. This is more commonly used like `
 
 Can also use sort with `-u`, which is equivalent to `sort | uniq`.
 
+#### Describe a file handle using lsof
+
+This is from a useful gist here: https://gist.github.com/tonyc/1384523?permalink_comment_id=3334070
+
+```
+root@ml-512-node-031:/home/ubuntu# lsof -p 51953 -ad 100
+COMMAND   PID   USER   FD   TYPE     DEVICE SIZE/OFF NODE NAME
+python  51953 ubuntu  100u  IPv4 2717208220      0t0  TCP ml-512-node-031:33914->ml-512-node-031:58209 (ESTABLISHED)
+```
+
+
+
 Filesystems
 -----------
 
