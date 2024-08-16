@@ -137,7 +137,9 @@ nav:
     - Networking: sysadmin/networking.md
     - PCIe: sysadmin/pcie.md
     - Repositories: sysadmin/repositories.md
-    - Security: sysadmin/security.md
+    - Security: 
+        HTTP: sysadmin/security.md
+        GPG: sysadmin/gpg.md
     - Systemd: sysadmin/systemd.md
     - Virutalization: sysadmin/virtualization.md
   - System Design:
