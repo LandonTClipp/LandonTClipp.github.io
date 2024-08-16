@@ -12,10 +12,6 @@ It's been said that the key to any healthy relationship is the ability to see ey
 
 <!-- more -->
 
-I've programmed in Python for a long time. That is not to say I have been around for a long time, nor that the span of my career grants me a position in the same echelon as some of the true fabled engineering wizards of our time. In fact some of my coworkers have been software engineers for longer than I've been alive. Nonetheless, I've been around long enough to come to some stark conclusions about some serious shortcomings about one of the most popular languages in the world: Python. And boy are there a lot of them.
-
-Before I dive into my treatise on Python, I should first dive into my background with it and provide a sort of disclaimer to current and future employers who may be looking at this post with a raised eyebrow.
-
 ## My History with Python
 
 I was first introduced to Python in my college years during my work with the National Center for Supercomputing Applications. I learned Python because it had proven itself to be an invaluable tool when running large batch workloads on supercomputing clusters. You think you're going to create a huge meta-scheduler job pipeline in something like C? Ha! Good luck. One of my first proud accomplishments as a young, green grasshopper was writing a [TORQUE metascheduling package](https://github.com/TerraFusion/batch4py) in Python that took a DAG of TORQUE job definitions, performed a topological sort, and translated that graph into a tree of job dependencies in TORQUE. I also took pride (oh how cute of me) in some other small Python projects I authored like a [lightweight authentication wrapper over the Globus API](https://github.com/TerraFusion/globuslite). You know, just cute stuff that a college student might think is cool.
