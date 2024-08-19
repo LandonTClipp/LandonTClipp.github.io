@@ -130,8 +130,10 @@ nav:
     - Tools: programming/tools.md
     - YAML: programming/yaml.md
   - System Administration:
-    - CVMFS: sysadmin/cvmfs.md
     - Databases: sysadmin/databases.md
+    - Filesystems:
+      - sysadmin/cvmfs.md
+      - sysadmin/nfs.md
     - Hardware: sysadmin/hardware.md
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
