@@ -26,6 +26,30 @@ The Quick Emulator is a full hardware emulator that allows you to run a VM for a
 
 QEMU can work directly with KVM to allow acceleration on host platforms that support it. Lack of KVM support means QEMU must fully emulate the hardware which makes it much slower.
 
+### Socket Types
+
+#### AF_VSOCK
+
+AF_VSOCK is a bidirectional socket used for secure communication between a hypervisor and a VM. QEMU can be configured to create this channel through the domain XML: https://libvirt.org/formatdomain.html#vsock
+
+!!! tip
+    If the `auto` option is used, you can determine what CID libvirt gave to the socket by using `virsh dumpxml [domain]`. It will show you the assigned CID (called an `address`) in the domain XML.
+    You can then use this address to open the communication channel as shown below.
+
+An example of a hypervisor and VM communicating:
+
+```
+root@hypervisor:/home/landon# socat - VSOCK-CONNECT:3:1234
+host: hello
+vm: well hi der
+```
+
+```
+root@virtual-machine:/home/landon# socat VSOCK-LISTEN:1234,fork -
+host: hello
+vm: well hi der
+```
+
 [Firecracker](https://firecracker-microvm.github.io/)
 -----------
 
