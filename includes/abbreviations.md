@@ -9,8 +9,10 @@
 *[KVM]: Kernel Virtual Machine
 *[:material-run-fast:]: Optimization
 *[NCCL]: Nvidia Collective Communications Library
+*[NTP]: Network Time Protocol
 *[NUMA]: Non-uniform memory access
 *[QEMU]: Quick Emulator
+*[SNTP]: Simple Network Time Protocol
 *[SR-IOV]: Single-Root Input/Output Virtualization
 *[TA]: Translation agent
 *[TLB]: Translation Lookaside Buffer

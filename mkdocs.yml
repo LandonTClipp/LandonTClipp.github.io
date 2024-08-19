@@ -143,6 +143,7 @@ nav:
         HTTP: sysadmin/security.md
         GPG: sysadmin/gpg.md
     - Systemd: sysadmin/systemd.md
+    - Timekeeping: sysadmin/timekeeping.md
     - Virutalization: sysadmin/virtualization.md
   - System Design:
     - Databases: system-design/databases.md
