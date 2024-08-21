@@ -34,7 +34,9 @@ theme:
     - content.code.copy
     - content.code.select
     - navigation.indexes
+    - navigation.path
     - navigation.sections
+    - navigation.tabs
     - navigation.tracking
     - toc.follow
 markdown_extensions:
@@ -119,43 +121,44 @@ plugins:
       sysadmin/hardware.md: sysadmin/misc.md
 nav:
   - index.md
-  - Conventions: conventions.md
+  #- Conventions: conventions.md
   - Blog:
     - blog/index.md
-  - Programming:
-    - Bash: programming/bash.md
-    - Computer Science: programming/computer-science.md
-    - Golang: programming/golang.md
-    - Javascript: programming/javascript.md
-    - Leetcode: programming/leetcode.md
-    - Python: programming/python.md
-    - Tools: programming/tools.md
-    - YAML: programming/yaml.md
-  - System Administration:
-    - Databases: sysadmin/databases.md
-    - Filesystems:
-      - sysadmin/cvmfs.md
-      - sysadmin/nfs.md
-    - Hardware: 
-      - BMC: sysadmin/bmc.md
-      - CPU: sysadmin/cpu.md
-      - GPU: sysadmin/gpu.md
-      - Misc: sysadmin/misc.md
-      - Storage: sysadmin/storage.md
-    - Linux: sysadmin/linux.md
-    - Networking: sysadmin/networking.md
-    - PCIe: sysadmin/pcie.md
-    - Repositories: sysadmin/repositories.md
-    - Security: 
-        HTTP: sysadmin/security.md
-        GPG: sysadmin/gpg.md
-    - Systemd: sysadmin/systemd.md
-    - Timekeeping: sysadmin/timekeeping.md
-    - Virutalization: sysadmin/virtualization.md
-  - System Design:
-    - Databases: system-design/databases.md
-    - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
-    - Tools: system-design/tools.md
+  - Notes:
+    - Programming:
+      - Bash: programming/bash.md
+      - Computer Science: programming/computer-science.md
+      - Golang: programming/golang.md
+      - Javascript: programming/javascript.md
+      - Leetcode: programming/leetcode.md
+      - Python: programming/python.md
+      - Tools: programming/tools.md
+      - YAML: programming/yaml.md
+    - System Administration:
+      - Databases: sysadmin/databases.md
+      - Filesystems:
+        - sysadmin/cvmfs.md
+        - sysadmin/nfs.md
+      - Hardware: 
+        - BMC: sysadmin/bmc.md
+        - CPU: sysadmin/cpu.md
+        - GPU: sysadmin/gpu.md
+        - Misc: sysadmin/misc.md
+        - Storage: sysadmin/storage.md
+      - Linux: sysadmin/linux.md
+      - Networking: sysadmin/networking.md
+      - PCIe: sysadmin/pcie.md
+      - Repositories: sysadmin/repositories.md
+      - Security: 
+          HTTP: sysadmin/security.md
+          GPG: sysadmin/gpg.md
+      - Systemd: sysadmin/systemd.md
+      - Timekeeping: sysadmin/timekeeping.md
+      - Virutalization: sysadmin/virtualization.md
+    - System Design:
+      - Databases: system-design/databases.md
+      - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
+      - Tools: system-design/tools.md
   - Misc:
     - Suggested Readings: misc/suggested-readings.md
     - "Word of the Day": misc/word-of-the-day.md
