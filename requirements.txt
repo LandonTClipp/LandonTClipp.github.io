@@ -1,6 +1,7 @@
 mkdocs
 mkdocs-glightbox
 mkdocs-open-in-new-tab
+mkdocs-redirects
 cairosvg
 pillow
 git+https://${GH_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git

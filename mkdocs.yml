@@ -114,7 +114,9 @@ plugins:
 - typeset:
     enabled: true
 - open-in-new-tab
-
+- redirects:
+    redirect_maps:
+      sysadmin/hardware.md: sysadmin/misc.md
 nav:
   - index.md
   - Conventions: conventions.md
@@ -134,7 +136,12 @@ nav:
     - Filesystems:
       - sysadmin/cvmfs.md
       - sysadmin/nfs.md
-    - Hardware: sysadmin/hardware.md
+    - Hardware: 
+      - BMC: sysadmin/bmc.md
+      - CPU: sysadmin/cpu.md
+      - GPU: sysadmin/gpu.md
+      - Misc: sysadmin/misc.md
+      - Storage: sysadmin/storage.md
     - Linux: sysadmin/linux.md
     - Networking: sysadmin/networking.md
     - PCIe: sysadmin/pcie.md
