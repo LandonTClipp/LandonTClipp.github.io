@@ -5,6 +5,29 @@ title: Linux
 CLI Tools
 ----------
 
+### pdsh
+
+Used to run commands to multiple nodes at once. By default uses `/etc/genders` to determine the hosts to run the commands on.
+
+```
+$ pdsh -g gpu "echo hello"
+node-017: hello
+node-018: hello
+node-020: hello
+```
+
+### dshbak
+
+Often used in conjunction with pdsh to aggregate command output.
+
+```
+$ pdsh -g gpu "echo hello" | dshbak -c
+----------------
+node-[001-032]
+----------------
+hello
+```
+
 ### strace
 
 strace can be used to inspect the system calls being made by an application.
