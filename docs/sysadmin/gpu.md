@@ -92,7 +92,7 @@ The exact memory locations depend on the device manufacturer. Consult the manufa
 nvswitch is an NVLink switch that is used to enable cross-GPU communication on NVLink. You can view the available nvswitches on the PCI bus:
 
 ```
-root@aus01-gpu-001:/home/landon# lspci | grep NVIDIA
+$ lspci | grep NVIDIA
 05:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
 06:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
 07:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
