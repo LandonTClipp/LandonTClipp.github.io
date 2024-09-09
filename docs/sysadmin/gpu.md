@@ -113,3 +113,7 @@ $ lspci -vvv -s '05:00.0'
         IOMMU group: 5
 [...]
 ```
+
+!!! tip "Unhealthy nvswitch"
+
+    Often, an nvswitch can be detected as being unhealthy if the lspci output shows `(rev ff)`. This indicates corruption on the device.
