@@ -86,3 +86,30 @@ This is a file that contains PCI host resource addresses.
 ```
 
 The exact memory locations depend on the device manufacturer. Consult the manufacturer for more information on what memory locations mean.
+
+## nvswitch
+
+nvswitch is an NVLink switch that is used to enable cross-GPU communication on NVLink. You can view the available nvswitches on the PCI bus:
+
+```
+root@aus01-gpu-001:/home/landon# lspci | grep NVIDIA
+05:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
+06:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
+07:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
+08:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
+```
+
+Viewing verbose information of these devices:
+
+```
+$ lspci -vvv -s '05:00.0'
+05:00.0 Bridge: NVIDIA Corporation Device 22a3 (rev a1)
+        Subsystem: NVIDIA Corporation Device 1796
+        Physical Slot: 1
+        Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+        Interrupt: pin A routed to IRQ 16
+        NUMA node: 0
+        IOMMU group: 5
+[...]
+```
