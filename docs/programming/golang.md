@@ -301,3 +301,6 @@ Another interesting point, passing an interface to a generic function where the 
 
 The compiler is asserting that the interface you passed does indeed implement the interface in the type constraint (runtimeassertI2I), and it grabs the *itab of the interface in the type constraint. This tanks performance.
 
+### Rob Pike - The Design of the Go Assmebler
+
+https://www.youtube.com/watch?v=KINIAgRpkDA
