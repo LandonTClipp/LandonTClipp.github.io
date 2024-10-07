@@ -5,6 +5,8 @@ categories:
   - Intech Sol Horizon
 title: Intech Sol Horizon Cellular Setup
 description: Installing the Weboost Destination RV booster and the MobileMustHave cellular router
+links:
+  - blog/posts/2024-10-07-starlink-mobile.md
 ---
 
 Intech Sol Horizon Cellular Setup
