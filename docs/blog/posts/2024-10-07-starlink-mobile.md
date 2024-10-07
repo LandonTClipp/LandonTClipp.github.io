@@ -21,7 +21,7 @@ You may be asking yourself whether Starlink is really _necessary_ for a remote w
 
 1. For the most part, obviously some cell towers rely on microwave relays to locations with real underground cables.
 
-It didn't use to be this way. I remember the days when cell technology was atrocious, and getting access to a tower with decent throughput was a bit like winning a $2 lottery (and equally as satisfying. Kind of cool until you realize that you have to be glued to that one cell tower. Travel anywhere else and you're SOL). With advances in signal processing and increased bandwidth sales from the FCC, cell has come a long way.
+It didn't use to be this way. I remember the days when cell technology was atrocious, and getting access to a tower with decent throughput was a bit like winning a $2 lottery (and equally as satisfying. It's a quick jolt of dopamine until you realize that $2 ain't a lot of money, and you spent a lot of time trying to find that $2). With advances in signal processing and increased bandwidth sales from the FCC, cell has come a long way.
 
 Over the last year with my Peplink solution, I found that if I was ever near any small town, or any interstate at all, I almost always had access to decent cell coverage. In the instances where I didn't have good cell coverage, 90% of those situations wouldn't have been saved by Elon's solution due to tree coverage. So you may ask, why get Starlink? I already told you, I'm a technology nerd and I like to brag to people about how cool my remote work solution is.
 
@@ -57,7 +57,7 @@ For my proof-of-concept build, I will just use all the standard Starlink equipme
 
 ## Setup
 
-The setup was surprisingly simple. I downloaded the Starlink app and it took me through a series of setup tasks. After having plugged in the ACDC converter, the router, and the antenna together, the system for the most part set itself up. The antenna determines what cardinal direction it's pointing and will inform you that it prefers to point north. I found this wasn't strictly necessary and was in fact ill-advised because to my north was a large oak tree. Keeping it pointed south-west was totally fine for my environment.
+The setup was surprisingly simple. I downloaded the Starlink app and it took me through a series of setup tasks. After having plugged in the ACDC converter, the router, and the antenna together, the system for the most part set itself up. The antenna determines what cardinal direction it's pointing and will inform you that it prefers to point north. I found this wasn't strictly necessary and was in fact ill-advised because to my north-east was a large oak tree. After pointing the antenna directly north as instructed, the reliability and throughput tanked to an almost unusable level.
 
 <div class="grid cards" markdown>
 
@@ -80,4 +80,9 @@ The obstruction visualization had me scan the sky with my phone's camera. I'm as
 
 I spent a night in the Middle of Nowhere Nebraska and ran a few tests. The first was a simple speed test in the middle of the night, where I was able to pull 147 Mbps down. The next speed test I took was at around 2:30PM the following day where I got 41Mbps down/28Mbps up. While that's over three times slower than the middle of the night, it's still fast enough for most activities.
 
-Ping success rate, for my purposes, is the most important metric. I was able to get around 90% success rate in the middle of the day which for me is a bit sad. 
+Ping success rate, for my purposes, is the most important metric. I was able to get around 90% success rate in the middle of the day which for me is a bit sad. It's a significant departure from the standard benchmark this is being compared against, which is Cellular internet, whose ping reliability is measured (for me) in 9's. As in, it's about 4 9's of reliability (99.99%) with good signal. This is not a _totally_ fair comparison to draw because I do have a large obstruction in the antenna's view, but it I can't imagine even with a clear sky that I'm going to approach 4 9's of reliability.
+
+### Video Calls
+
+I tested Starlink in a video call with about 20 participants. It performed fine for the most part but it would drop about every 10 minutes for sometimes longer than 15s. The Big Oak Tree (BOT for short) almost certainly is playing into this droppiness, but it happened frequently enough to be distracting, and if I had been talking in this call, it would have been disruptive to the natural flow of communication and probably pretty annoying to the other participants.
+
