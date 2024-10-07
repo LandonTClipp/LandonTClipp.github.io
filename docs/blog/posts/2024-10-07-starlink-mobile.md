@@ -84,5 +84,6 @@ Ping success rate, for my purposes, is the most important metric. I was able to 
 
 ### Video Calls
 
-I tested Starlink in a video call with about 20 participants. It performed fine for the most part but it would drop about every 10 minutes for sometimes longer than 15s. The Big Oak Tree (BOT for short) almost certainly is playing into this droppiness, but it happened frequently enough to be distracting, and if I had been talking in this call, it would have been disruptive to the natural flow of communication and probably pretty annoying to the other participants.
+I tested Starlink in a video call with about 20 participants. It performed fine for the most part but it would drop about every 10 minutes for sometimes longer than 15s. The Big Oak Tree (BOT for short) almost certainly is playing into this droppiness. It happened frequently enough to be distracting, and if I had been talking in this call, it would have been disruptive to the natural flow of communication and probably pretty annoying to the other participants.
 
+The performance in this scenario is poor enough that I can't say I would rely solely on Starlink for video calls. I would want to switch to a cell connection if it's available.
