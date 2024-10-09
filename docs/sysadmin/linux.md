@@ -240,7 +240,7 @@ The main benefit of a DRAC is being able to independently execute commands to th
 Kernel Parameters
 ------------------
 
-### nohz_full <!-- md:optimization -->
+### nohz_full
 
 https://www.kernel.org/doc/Documentation/timers/NO_HZ.txt
 
@@ -313,7 +313,7 @@ other::r--
 
 As you can see, this allows you finer grained control over access to your filesystem objects.
 
-hugepages <!-- md:optimization -->
+hugepages
 ---------
 
 Huge pages are a memory optimization technique whereby you grant your application memory space that uses larger memory page allocation sizes. The typical page size is 4096 bytes, but by enabling hugepages, you can get much larger page sizes. This improves performance in workloads that use large blocks of memory because there will be fewer requests sent to the page cache.
@@ -387,7 +387,7 @@ Kickstart is an installation mechanism provided by Redhat that allows you to ins
 | 19, 18, 25 | SIGCONT | Continue | | Continue execution of a process that was stopped by SIGSTOP. You can also use the `bg` bash command to continue the process in the background. See [Backgrounding a Terminal Process](/programming/bash/#backgrounding-a-terminal-process) for more details. |
 | 17, 19, 23 | SIGSTOP | Stop | ++ctrl+z++ | Stop execution of a process, but allow it to be resumed through SIGCONT. |
 
-## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass) <!-- md:optimization -->
+## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass) 
 
 Kernel Bypass is a technology implemented in Linux (and often other kernels as well) that allows network processing to happen in userspace. This often leads to a huge performance improvement for network-bound applications as the traffic does not have to pass through the kernel-userspace boundary.
 
@@ -435,7 +435,7 @@ pid 914745’s current affinity list: 0
 pid 914745’s new affinity list: 2
 ```
 
-### Optimizing for the NUMA node <!-- md:optimization -->
+### Optimizing for the NUMA node 
 
 The `lscpu` command will show you which cores are on which NUMA node. If possible, applications should be given CPU affinities that are on a single NUMA node to prevent long-distance memory access on a different node.
 
@@ -448,4 +448,12 @@ udev allows for rules that specify what name is given to a device, regardless of
 ```
 /etc/udev/rules.d/
 ```
+
+## Syscalls
+
+### sendfile
+
+`sendfile` is an efficient way to copy data between two file descriptors. Because copying is done in kernel space, it eliminates the context switches needed to userspace in operations that would call `read` then `write`.
+
+A great article by my coworker at Lambda Labs on this topic can be found here: https://www.linuxjournal.com/article/6345
 
