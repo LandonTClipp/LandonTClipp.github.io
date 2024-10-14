@@ -10,6 +10,8 @@ links:
   - blog/posts/2023-06-21-intech-sol-horizon-cellular.md
 ---
 
+![aurora borealis](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6261+Large.jpeg){ style="width: 100%; height: 200px; object-fit: cover; object-position: 0 60%" title="The US experienced a near nation-wide Aurora Borealis on Oct 10, 2024. I had the privilege to catch it as I was camped in Woodland Park." }
+
 In a [previous blog post of mine](2023-06-21-intech-sol-horizon-cellular.md), I retrofitted my camper trailer with a cellular internet solution for remote work. After having over a year to gather data on the practical, real-world performance of the Peplink router, I've come to the realization that I am a huge nerd and want even more technology! In this post, I'll show you my journey with Starlink and my impressions with its usefulness as a remote-work solution.
 
 <!-- more -->
@@ -70,6 +72,8 @@ The obstruction visualization had me scan the sky with my phone's camera. I'm as
 
 ## Performance
 
+### An Unfair Situation
+
 <div class="grid cards" markdown>
 
 - ![Speed test night](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6148_down.jpg){data-gallery="all"}
@@ -78,12 +82,76 @@ The obstruction visualization had me scan the sky with my phone's camera. I'm as
 
 </div>
 
-I spent a night in the Middle of Nowhere Nebraska and ran a few tests. The first was a simple speed test in the middle of the night, where I was able to pull 147 Mbps down. The next speed test I took was at around 2:30PM the following day where I got 41Mbps down/28Mbps up. While that's over three times slower than the middle of the night, it's still fast enough for most activities.
+I spent a night in the Middle of Nowhere Nebraska and ran a few tests. The campsite I was at had a large oak tree that obscured about half of the sky, so we can consider this rather unfair, although informative of what we can expect in non-ideal situations.
 
-Ping success rate, for my purposes, is the most important metric. I was able to get around 90% success rate in the middle of the day which for me is a bit sad. It's a significant departure from the standard benchmark this is being compared against, which is Cellular internet, whose ping reliability is measured (for me) in 9's. As in, it's about 4 9's of reliability (99.99%) with good signal. This is not a _totally_ fair comparison to draw because I do have a large obstruction in the antenna's view, but it I can't imagine even with a clear sky that I'm going to approach 4 9's of reliability.
+The first test was a simple speed test in the middle of the night, where I was able to pull 147 Mbps down. The next speed test I took was at around 2:30PM the following day where I got 41Mbps down/28Mbps up. While that's over three times slower than the middle of the night, it's still fast enough for most activities.
 
-### Video Calls
+Ping success rate, for my purposes, is the most important metric. I was able to get around 90% success rate in the middle of the day which is going to be an issue for realtime workloads like video calls or gaming. 
+
+#### Video Calls
 
 I tested Starlink in a video call with about 20 participants. It performed fine for the most part but it would drop about every 10 minutes for sometimes longer than 15s. The Big Oak Tree (BOT for short) almost certainly is playing into this droppiness. It happened frequently enough to be distracting, and if I had been talking in this call, it would have been disruptive to the natural flow of communication and probably pretty annoying to the other participants.
 
 The performance in this scenario is poor enough that I can't say I would rely solely on Starlink for video calls. I would want to switch to a cell connection if it's available.
+
+### A Fair Situation
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_3431+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6255+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6256+Large.jpeg){data-gallery="all"}
+</div>
+
+Another campgroud I stayed at had a much clearer view of the sky. It was dotted with some trees but overall it gave a fairly unobstructed view for starlink. I placed the dish on the top of the trailer and ran the same tests as above. I was able to achieve similar throughput, but in this case I obtained 99.8% reliability. That's pretty remarkable and is approaching an acceptable level for basically all workloads.
+
+#### Video Calls
+
+Video calls in this situation was pretty much seamless. I was able to communicate with fairly little interruptions, and it was nearly impossible to tell that I was using satellite internet!
+
+## Installation
+
+### Roof Mount
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6157+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6158+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6159+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6160+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6161+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6162+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6164+Large.jpeg){data-gallery="all"}
+</div>
+
+The first step was to install the dish on the roof. Starlink provides a metal roof mount that comes with bolts. My particular trailer doesn't enjoy having bolts sent through its roof due to the fact that it consists of 3 thin layers: the outer fiberglass, an insulating layer, and particleboard. I didn't want bolts sticking through the ceiling so I opted to use 3M adhesive. I used 3M Scotch VHB tape and cut the strips into the exact shape of the mount. I cleaned the roof thoroughly using Lysol wipes and drying it with paper towels. 
+
+Once the mount was adhered to, I applied a liberal amount of Dicor Self-Leveling Sealant around the edges of the mount and inside of the holes where the bolts were supposed to go. You can see in the pictures above that the process is quite simple.
+
+### Roof Cabling
+
+For the cabling, I followed the same strategy I employed when I did my Peplink cellular install. I didn't take pictures of this process because it's identical to what I've already done. Here are the pictures from that blog post:
+
+<div class="grid cards" markdown>
+- ![junction box on roof](/images/intech_sol_horizon_cellular/IMG_1817_with_box.jpeg){data-gallery="all"}
+- ![microwave cavity underneath junction box](/images/intech_sol_horizon_cellular/IMG_1815.jpeg){data-gallery="all"}
+- ![cable gland](/images/intech_sol_horizon_cellular/IMG_1841.jpg){data-gallery="all"}
+- ![1" hole saw](/images/intech_sol_horizon_cellular/IMG_1842.jpg){data-gallery="all"}
+- ![antenna on roof](/images/intech_sol_horizon_cellular/IMG_1845.jpg){data-gallery="all"}
+- ![cables in junction box](/images/intech_sol_horizon_cellular/IMG_1846.jpg){data-gallery="all"}
+- ![cables inside of RV](/images/intech_sol_horizon_cellular/IMG_1848.jpg){data-gallery="all"}
+</div>
+
+The only difference this time is that I drilled 1" holes in the wall next to the shower and used 3/4" rubber grommets around the holes to protect the cables from the sharp edges. I realized my mistake of not using grommets for the Peplink install almost immediately after I was done, so I took the opportunity to fix those cables as well.
+
+<div class="grid cards" markdown>
+- ![radio removed](/images/intech_sol_horizon_cellular/IMG_1854.jpg){data-gallery="radio-removed"}
+- ![inside radio compartment](/images/intech_sol_horizon_cellular/IMG_1856.jpg){data-gallery="radio-removed"}
+- ![close up of shower cavity](/images/intech_sol_horizon_cellular/IMG_1853.jpg){data-gallery="radio-removed"}
+</div>
+
+### Interior Mounting
+
+I drilled a hole next to the fuse box and routed the Starlink cable through it. My temporary setup using all of the Starlink-provided hardware looks something like this:
+
+<figure markdown="span">
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" }
+</figure>

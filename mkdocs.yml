@@ -33,6 +33,7 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.code.select
+    - content.tooltips
     - navigation.indexes
     - navigation.path
     - navigation.sections
@@ -116,9 +117,6 @@ plugins:
 - typeset:
     enabled: true
 - open-in-new-tab
-- redirects:
-    redirect_maps:
-      sysadmin/hardware.md: sysadmin/misc.md
 nav:
   - index.md
   #- Conventions: conventions.md
@@ -150,8 +148,8 @@ nav:
       - PCIe: sysadmin/pcie.md
       - Repositories: sysadmin/repositories.md
       - Security: 
-          HTTP: sysadmin/security.md
-          GPG: sysadmin/gpg.md
+          - HTTP: sysadmin/security.md
+          - GPG: sysadmin/gpg.md
       - Systemd: sysadmin/systemd.md
       - Timekeeping: sysadmin/timekeeping.md
       - Virutalization: sysadmin/virtualization.md
