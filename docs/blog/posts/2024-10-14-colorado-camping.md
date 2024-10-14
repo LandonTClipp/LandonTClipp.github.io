@@ -33,6 +33,7 @@ Vedauwoo is a campground between Laramie and Cheyenne, WY. It's a great pitstop 
 ## Pikes Peak - Woodland Park, CO
 
 <div class="grid cards" markdown>
+
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6181+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6186+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6189+Large.jpeg){ loading=lazy }
@@ -49,6 +50,7 @@ Vedauwoo is a campground between Laramie and Cheyenne, WY. It's a great pitstop 
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6241+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6242+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6246+Large.jpeg){ loading=lazy }
+
 </div>
 
 We ended the day with a trip to the Wines of Colorado, which is probably my favorite restaraunt in the area. We got a table by the creek and had delightful wine flights!
@@ -56,6 +58,7 @@ We ended the day with a trip to the Wines of Colorado, which is probably my favo
 ## Morning Views
 
 <div class="grid cards" markdown>
+
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6251+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6254+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6256+Large.jpeg){ loading=lazy }
@@ -63,7 +66,8 @@ We ended the day with a trip to the Wines of Colorado, which is probably my favo
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6261+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6264+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6266+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6268+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6268+Large.jpeg)
+
 </div>
 
 On my trip a few months ago, I found our secret campsite that has stunning views of Pikes Peak. We were fortunate to have found ourselves in the midst of a near nation-wide Aurora Borealis. While our eyes could barely see more than a faint glow in the sky, our cameras peeled back the veil of the sky to reveal one of nature's most spectacular sites.
