@@ -32,7 +32,6 @@ background-color: rgb(43, 155, 70);
 .poem-text {
     line-height: 1.6;  /* Space between lines for better readability */
     margin: 20px auto;  /* Add some space around the div */
-    
     padding: 10px;  /* Padding inside the div */
     border: 1px solid #ccc;  /* Optional border for styling */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);  /* Subtle shadow for depth */
