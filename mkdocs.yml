@@ -86,6 +86,7 @@ plugins:
       - Golang
       - Grafana
       - Intech Sol Horizon
+      - Poems
       - Programming
       - Python
       - RV

@@ -12,7 +12,7 @@ links:
 
 ![Trailer campsite overlooking Pikes Peak](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_3431+Large.jpeg){ style="width: 100%; height: 300px; object-fit: cover; object-position: 0 60%" title="A view of Pikes Peak" }
 
-I can't keep away from Colorado, so I went back in the fall of 2024 as my last trip of the year. It's hard to imagine how the same place can re-impress even after multiple visits, but this is the magic of the mountains.
+I can't keep away from Colorado, so I went back in the fall of 2024 as my last trip of the year. It's hard to imagine how the same place can re-impress even after multiple visits, but such is the magic of the mountains.
 
 <!-- more -->
 
@@ -73,4 +73,6 @@ We ended the day with a trip to the Wines of Colorado, which is probably my favo
 On my trip a few months ago, I found our secret campsite that has stunning views of Pikes Peak. We were fortunate to have found ourselves in the midst of a near nation-wide Aurora Borealis. While our eyes could barely see more than a faint glow in the sky, our cameras peeled back the veil of the sky to reveal one of nature's most spectacular sites.
 
 The magic continued the next morning as we were visited by a group of 4 bucks right outside our window. Judging by their unafraid disposition, they clearly couldn't see us inside the trailer peering back at them. What a better way to get close with nature; and furthermore, the views were free!
+
+## Cañon City 
 

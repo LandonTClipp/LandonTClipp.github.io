@@ -19,3 +19,21 @@ background-color: rgb(43, 155, 70);
 -webkit-mask-image: var(--md-admonition-icon--chatgpt);
         mask-image: var(--md-admonition-icon--chatgpt);
 }
+
+.poem {
+    font-family: "Georgia", "Times New Roman", serif;  /* Classic, readable font */
+    font-size: 1.2em;  /* Slightly larger font for readability */
+    text-align: center;  /* Center justify the text */
+    white-space: pre-line;  /* Preserve line breaks */
+    max-width: 600px;  /* Limit the width to avoid stretching on large screens */
+    
+}
+
+.poem-text {
+    line-height: 1.6;  /* Space between lines for better readability */
+    margin: 20px auto;  /* Add some space around the div */
+    
+    padding: 10px;  /* Padding inside the div */
+    border: 1px solid #ccc;  /* Optional border for styling */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);  /* Subtle shadow for depth */
+}
