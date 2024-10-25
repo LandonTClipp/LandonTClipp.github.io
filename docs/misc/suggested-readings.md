@@ -17,6 +17,10 @@ title: Suggested Readings
 - https://www.amazon.com/MSAFF-Injector-Starlink-Protection-Developed/dp/B0CQRFCKGL/ref=asc_df_B0CQRFCKGL/?tag=hyprod-20&linkCode=df0&hvadid=693554129961&hvpos=&hvnetw=g&hvrand=10529417453291349876&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9021723&hvtargid=pla-2283102838943&psc=1&mcid=0cd55bee729c37d1b1bfe082d65f36cd
 - https://www.amazon.com/XLTTYWL-Starlink-Protection-Conversion-Converter/dp/B0D4DH9TDN/ref=asc_df_B0D4DH9TDN/?tag=hyprod-20&linkCode=df0&hvadid=702491679579&hvpos=&hvnetw=g&hvrand=10529417453291349876&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9021723&hvtargid=pla-2341583128284&psc=1&mcid=a88e8fe5fb4c37759a6158a26ff4c15f
 
+## Tech
+
+- [The BSD Packet Filter: A New Architecture for User-level Packet Capture](https://www.usenix.org/publications/library/proceedings/sd93/mccanne.pdf)
+
 ## Poems
 
 ??? quote "Good Timber – Douglas Malloch"
