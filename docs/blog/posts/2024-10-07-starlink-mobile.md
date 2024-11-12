@@ -112,19 +112,20 @@ Video calls in this situation was pretty much seamless. I was able to communicat
 
 ### Roof Mount
 
+The Starlink mobility mount comes with 4 M8-1.25 35mm bolts. I drilled 4 8mm holes in the roof using the mount as a template (Starlink suggests 10mm but this wasn't necessary, the 8mm hole was big enough). It turns out that the provided bolts were too small, so I went to Home Depot and got some M8-1.25 40mm bolts. You can see the result below:
+
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6157+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6158+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6159+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6160+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6161+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6162+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6164+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6629_(copy).jpg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6632.jpg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6635.jpg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6636.jpg){data-gallery="all"}
 </div>
 
-The first step was to install the dish on the roof. Starlink provides a metal roof mount that comes with bolts. My particular trailer doesn't enjoy having bolts sent through its roof due to the fact that it consists of 3 thin layers: the outer fiberglass, an insulating layer, and particleboard. I didn't want bolts sticking through the ceiling so I opted to use 3M adhesive. I used 3M Scotch VHB tape and cut the strips into the exact shape of the mount. I cleaned the roof thoroughly using Lysol wipes and drying it with paper towels. 
+!!! danger
 
-Once the mount was adhered to, I applied a liberal amount of Dicor Self-Leveling Sealant around the edges of the mount and inside of the holes where the bolts were supposed to go. You can see in the pictures above that the process is quite simple.
+    Do NOT use 3M adhesive tape for the mount. The forces experienced by the dish when driving are too strong for any tape to properly hold it down. You MUST bolt or screw this mount on, there is no other option (ask me how I know 😬)
+
+Once the bolts were secured to the roof, I applied a liberal amount of Dicor Self-Leveling Sealant around the edges and top of the mount. The mount feels _extremely_ sturdy and I was able to apply around 50 lbs of upward force without any noticable movement.
 
 ### Roof Cabling
 
@@ -155,3 +156,4 @@ I drilled a hole next to the fuse box and routed the Starlink cable through it. 
 <figure markdown="span">
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" }
 </figure>
+
