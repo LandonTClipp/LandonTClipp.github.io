@@ -74,5 +74,22 @@ On my trip a few months ago, I found our secret campsite that has stunning views
 
 The magic continued the next morning as we were visited by a group of 4 bucks right outside our window. Judging by their unafraid disposition, they clearly couldn't see us inside the trailer peering back at them. What a better way to get close with nature; and furthermore, the views were free!
 
-## Cañon City 
+## [Shelf Road](https://www.alltrails.com/explore/recording/evening-ohv-off-road-drive-at-shelf-road-gold-belt-tour-13fe9d8)
+
+The fastest route to Cañon City from Woodland Park is through this through [Shelf Road](https://www.alltrails.com/trail/us/colorado/shelf-road-gold-belt-tour). It's a 4WD trail that winds through BLM land dotted with numerous old mining claims, most of which have been repurposed into grazing ground and private single-family houses.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6287.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6291.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6292.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6295.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6298.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6299.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6301.jpg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6304.jpg){ loading=lazy }
+</div>
+
+## Royal Gorges
+
+At the end of Shelf Road is Cañon City which isn't exactly impressive as far as mountain towns go, but it does have a lot of interesting history. More notably, it has one of the _best_ Indian restaraunts I've ever been to called [Nirvana Culinary Paradise](https://g.co/kgs/YP2yoh1). We stopped there for a late lunch and then continued onto the Royal Gorges.
 
