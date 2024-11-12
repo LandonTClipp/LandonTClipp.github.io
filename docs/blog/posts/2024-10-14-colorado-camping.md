@@ -93,3 +93,6 @@ The fastest route to Cañon City from Woodland Park is through this through [She
 
 At the end of Shelf Road is Cañon City which isn't exactly impressive as far as mountain towns go, but it does have a lot of interesting history. More notably, it has one of the _best_ Indian restaraunts I've ever been to called [Nirvana Culinary Paradise](https://g.co/kgs/YP2yoh1). We stopped there for a late lunch and then continued onto the Royal Gorges.
 
+## Links
+
+- [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/BuPTLkNLYw5RsGmM9)
