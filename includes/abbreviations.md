@@ -9,8 +9,10 @@
 *[KVM]: Kernel Virtual Machine
 *[:material-run-fast:]: Optimization
 *[NCCL]: Nvidia Collective Communications Library
+*[NDFC]: Nexus Dashboard Fabric Controller
 *[NTP]: Network Time Protocol
 *[NUMA]: Non-uniform memory access
+*[OVN]: Open Virtual Network
 *[QEMU]: Quick Emulator
 *[SNTP]: Simple Network Time Protocol
 *[SR-IOV]: Single-Root Input/Output Virtualization
