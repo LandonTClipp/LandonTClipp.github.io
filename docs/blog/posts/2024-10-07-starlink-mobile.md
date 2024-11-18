@@ -119,6 +119,7 @@ The Starlink mobility mount comes with 4 M8-1.25 35mm bolts. I drilled 4 8mm hol
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6632.jpg){data-gallery="all"}
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6635.jpg){data-gallery="all"}
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6636.jpg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6656+Large.jpeg){data-gallery="all"}
 </div>
 
 !!! danger
@@ -144,9 +145,9 @@ For the cabling, I followed the same strategy I employed when I did my Peplink c
 The only difference this time is that I drilled 1" holes in the wall next to the shower and used 3/4" rubber grommets around the holes to protect the cables from the sharp edges. I realized my mistake of not using grommets for the Peplink install almost immediately after I was done, so I took the opportunity to fix those cables as well.
 
 <div class="grid cards" markdown>
-- ![radio removed](/images/intech_sol_horizon_cellular/IMG_1854.jpg){data-gallery="radio-removed"}
-- ![inside radio compartment](/images/intech_sol_horizon_cellular/IMG_1856.jpg){data-gallery="radio-removed"}
-- ![close up of shower cavity](/images/intech_sol_horizon_cellular/IMG_1853.jpg){data-gallery="radio-removed"}
+- ![radio removed](/images/intech_sol_horizon_cellular/IMG_1854.jpg){data-gallery="all"}
+- ![inside radio compartment](/images/intech_sol_horizon_cellular/IMG_1856.jpg){data-gallery="all"}
+- ![close up of shower cavity](/images/intech_sol_horizon_cellular/IMG_1853.jpg){data-gallery="all"}
 </div>
 
 ### Interior Mounting
@@ -154,7 +155,7 @@ The only difference this time is that I drilled 1" holes in the wall next to the
 I drilled a hole next to the fuse box and routed the Starlink cable through it. My temporary setup using all of the Starlink-provided hardware looks something like this:
 
 <figure markdown="span">
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" }
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" data-gallery="all" }
 </figure>
 
 
@@ -163,3 +164,94 @@ To save battery, you don't want to be using the provided router and power supply
 The POE injector has two other ports: one vanilla ethernet port that I'll plug into my Peplink router, and the other Starlink cable port that will be plugged into the dish.
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6654+Large.jpeg)
+
+### Electrical Routing
+
+Both my Peplink router and the POE injector need a reliable source of 12V DC. I also wanted to install toggle two switches so I could toggle the power to the POE injector and the Peplink router independently (for example, in situations where cell service is sufficient. Cell radios only use about 5 watts, versus Starlink which uses around 50 watts).
+
+The wiring flowchart isn't too complicated. It consists of two mirrored parts, one for the POE and another for the router: (1)
+{ .annotate }
+
+1. Technically, the router was already wired up but I didn't have it connected to a switch, so this project was an excuse to do that.
+
+```mermaid
+flowchart TD
+    12V+[12V+ Battery]
+    12V-[12V- Battery]
+    Fuse1[15A Fuse]
+    Fuse2[15A Fuse]
+    Fuse3[15A Fuse]
+    Fuse4[15A Fuse]
+    RockerSwitch[Rocker Switch]
+    RockerSwitch2[Rocker Switch]
+    POE[POE Injector]
+    Router[Peplink Router]
+
+    12V+ -->|12V+| Fuse1
+    Fuse1 -->|12V+| RockerSwitch
+    RockerSwitch -->|12V+| Fuse2
+    Fuse2 -->|12V+| POE
+    RockerSwitch -->|12V-| 12V-
+    POE -->|12V-| 12V-
+
+    12V+ -->|12V+| Fuse3
+    Fuse3 -->|12V+| RockerSwitch2
+    RockerSwitch2 -->|12V+| Fuse4
+    Fuse4 -->|12V+| Router
+    Router -->|12V-| 12V-
+    RockerSwitch2 -->|12V-| 12V-
+
+```
+
+
+
+Basically, the rocker switch will gate the flow of electrons towards the positive terminal of the POE injector. The switch also has an LED indication light, so it needs a direct negative connection to the battery. The first picture below shows the terminus for the 12V+, located on the main DC cutoff switch. The negative terminal in the second picture is a bus bar that should have a few open slots.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6642+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6643+Large.jpeg){data-gallery="all"}
+</div>
+
+Using standard 14AWG wiring and crimp connectors, I connected the pieces together. The pictures below show the rocker switch up close and what they look like after being installed.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6641+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6645+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6652+Large.jpeg){data-gallery="all"}
+</div>
+
+And voila! It worked liked a charm! I waited for Starlink to boot up and amazingly it just... kind of worked? You might notice in an install like this that the Starlink app doesn't work anymore. This is because it needs a static route configured in the router:
+
+<div class="annotate" markdown>
+- Network: 192.168.100.0
+- Subnet Mask: 255.255.255.0 (1)
+- Destination NIC: Ethernet port you plugged into the router.
+</div>
+
+1. Gateway `192.168.100.1` is implied.
+
+It looks roughly like this:
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6648.PNG){ style="width: 50%;" data-gallery="all" }
+
+While this is close to the right configuration, I couldn't quite get the Starlink app to detect the dish on the local network. However after waiting a few minutes, the router successfully gained an internet connection and the app was able to give me diagnostic information about the dish through the internet (I'm guessing).
+
+### Performance
+
+I measured the power draw and the bandwidth performance of this new setup. With both the router and the dish turned on (and all other components in the RV turned off), I measured about 50 watts of draw steady state. The throughput was about as expected for Starlink: 103Mbps/16.5Mbps.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6655+Large.jpeg){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6671.PNG){data-gallery="all"}
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6647.PNG){data-gallery="all"}
+</div>
+
+## Conclusion
+
+While this post may lend to the idea that such a permanent Starlink install was easy, it was the distillation of many hours of failures and setbacks. Most notably, I had a separate install where I foolishly thought that using VHB tape to adhere the mount to the roof would be sufficient, but I was woefully wrong. It lasted most of my prior trip out west, but on the last leg of the trip, it was mysteriously absent from my roof. So somewhere out west, it's lying on the side of the road and hopefully didn't damage anyone's property. Yikes. After that incident, I decided to drill into the roof so that it was essentially impossible for it to happen again, and that is what you see here.
+
+At this point, I have no further ambitions to improve my mobile data setup. This is a behemoth of remote work. Consider the fact that I now have 2 independent cellular WANs along with Starlink: the Peplink router gives me the flexibility to efficiently switch between the WANs depending on the physical constraints of wherever I am. Furthermore, I could choose to use Peplink's Speed Fusion Cloud product that will multiplex the packets across all the WANs, arbitrate and reconstitute them in a cloud datacenter, and send it off to the final destination. Such technology gives you truly seamless and effortless failover in the case one or more of your WANs suffers a degredation.
+
+Speed Fusion Cloud does not receive as much attention as it deserves. It relies on a principle I grew familiar with during my time working as a backend engineer for a high frequency trading firm, i.e. duplicating packets across multiple paths and arbitrating them at the landing site. This was used to send packets between exchanges mainly through two routes: a fiber optic line (higher latency but reliable) and a microwave line (low latency but unreliable). This same principle is directly applicable to cellular and satellite WANs.
+
+Anyway, let me know your thoughts in the comments below. Thanks!
