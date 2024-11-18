@@ -186,6 +186,7 @@ flowchart TD
     RockerSwitch2[Rocker Switch]
     POE[POE Injector]
     Router[Peplink Router]
+    Starlink[Starlink Dish]
 
     12V+ -->|12V+| Fuse1
     Fuse1 -->|12V+| RockerSwitch
@@ -193,17 +194,17 @@ flowchart TD
     Fuse2 -->|12V+| POE
     RockerSwitch -->|12V-| 12V-
     POE -->|12V-| 12V-
-
+    POE <-->|Ethernet| Router
+    POE <-->|CAT6| Starlink
+    
     12V+ -->|12V+| Fuse3
     Fuse3 -->|12V+| RockerSwitch2
     RockerSwitch2 -->|12V+| Fuse4
     Fuse4 -->|12V+| Router
     Router -->|12V-| 12V-
+    
     RockerSwitch2 -->|12V-| 12V-
-
 ```
-
-
 
 Basically, the rocker switch will gate the flow of electrons towards the positive terminal of the POE injector. The switch also has an LED indication light, so it needs a direct negative connection to the battery. The first picture below shows the terminus for the 12V+, located on the main DC cutoff switch. The negative terminal in the second picture is a bus bar that should have a few open slots.
 
