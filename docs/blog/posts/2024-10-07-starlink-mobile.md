@@ -157,3 +157,9 @@ I drilled a hole next to the fuse box and routed the Starlink cable through it. 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" }
 </figure>
 
+
+To save battery, you don't want to be using the provided router and power supply due to the need to convert the AC current (which has itself been inverted from the DC battery supply) back into DC. In my case, I didn't need the router anyway because I already had one. So I bought a [Starlink v3 POE Injector](https://www.amazon.com/MSAFF-Starlink-PoE-Injector-Compatible/dp/B0D4DH9Y2N/ref=sr_1_1_sspa?dib=eyJ2IjoiMSJ9.Z6qSvfjBa8EYd9KHAdycRzcC6CdRxNxhCbj0RNrGcA39ntkvfgIVknH6ZUU5zDNYW09dqQFVfNSXJKITZwvrpXW-chzS3A8Nbny_7dXJCLSxYiSsfiD8JU_mbhGXQELUIprJwRWWe5BgrQUBqpwu6c36zKMBHHJGudyLonhS4xoJJrtOHjnUXJ_d9apIh-qkDZXX1utn1RbUsgSEVUMSSyXAUIZ5gJu_NvaEPsI4gVs.rXWssahXEcBrSI1ir_E1Oq7PCzv1fT2tM0QPv0HKWHE&dib_tag=se&hvadid=707411643986&hvdev=c&hvlocphy=9222890&hvnetw=g&hvqmt=e&hvrand=5113051804189032344&hvtargid=kwd-2335877465691&hydadcr=24144_13516741&keywords=starlink+gen+3+poe+injector&qid=1731887694&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1) that takes 12V DC as input and supplies the dish with the higher voltage it needs to operate. This voltage is sent over the provided Starlink ethernet cable, thus the "Power Over Ethernet" (POE).
+
+The POE injector has two other ports: one vanilla ethernet port that I'll plug into my Peplink router, and the other Starlink cable port that will be plugged into the dish.
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6654+Large.jpeg)
