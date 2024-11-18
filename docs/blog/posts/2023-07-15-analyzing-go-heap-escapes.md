@@ -19,12 +19,12 @@ In this blog post, we discover how you can analyze what variables the Go compile
 What is a Heap?
 ---------------
 
-The working memory of most modern programs is divided into two main categories: the _stack_, which contains short-lived memory whose lifetime is intrinsically tied to the lifecycle of the stack of function calls, and the _heap_, which contains long-lived memory whose lifetime transcends your stack of function calls. The Go compiler has to make a decision on where a particular piece of data should reside, by running what's called an Escape Analysis Algorithm. If the analysis decides that an object can be referenced outside of the lexical scope which created it, it will allocate it on the heap.
+The working memory of most modern programs is divided into two main categories: the _stack_, which contains short-lived memory whose lifetime is intrinsically tied to the lifecycle of the stack of function calls, and the _heap_, which contains long-lived memory whose lifetime transcends your stack of function calls. The Go compiler has to make a decision on where a particular piece of data should reside by running what's called an Escape Analysis Algorithm. If the analysis decides that an object can be referenced outside of the lexical scope which created it, it will allocate it on the heap.
 
 Why is the Heap a Problem?
 -------------------------
 
-Garbage-collected languages like Go have to periodically sweep the tree of object references allocated on the heep to determine if the reference is reachable (meaning some part of the code might still potentially access it) or if the reference is orphaned. If it's orphaned, it's impossible for the code to ever use it, so we should free that memory. This process is highly memory-intensive and slows execution of the application. The garbage collector is a necessary evil due to the fact that Go does not require the programmer to manually free memory.
+Garbage-collected languages like Go have to periodically sweep the tree of object references allocated on the heap to determine if the reference is reachable (meaning some part of the code might still potentially access it) or if the reference is orphaned. If it's orphaned, it's impossible for the code to ever use it, so we should free that memory. This process is highly memory-intensive and slows execution of the application. The garbage collector is a necessary evil due to the fact that Go does not require the programmer to manually free memory.
 
 Configuring VSCode for GC Heap Escape Highlighting
 ------------------------------
