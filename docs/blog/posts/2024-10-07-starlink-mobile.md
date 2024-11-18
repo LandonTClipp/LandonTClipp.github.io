@@ -215,6 +215,7 @@ Basically, the rocker switch will gate the flow of electrons towards the positiv
 Using standard 14AWG wiring and crimp connectors, I connected the pieces together. The pictures below show the rocker switch up close and what they look like after being installed.
 
 <div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6640+Large.jpeg){data-gallery="all"}
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6641+Large.jpeg){data-gallery="all"}
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6645+Large.jpeg){data-gallery="all"}
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6652+Large.jpeg){data-gallery="all"}
