@@ -5,7 +5,6 @@ categories:
   - Intech Sol Horizon
 title: Starlink for a Mobile World
 description: Installing Starlink on an RV.
-draft: true
 links:
   - blog/posts/2023-06-21-intech-sol-horizon-cellular.md
 ---
