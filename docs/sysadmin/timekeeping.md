@@ -37,7 +37,10 @@ Network Time Protocol gives millisecond, and sometimes sub-millisecond, level of
 
 ## ptp
 
-![](https://media.fs.com/images/community/erp/rsMQn_1tYnh6.jpg)
+<div class="grid cards" markdown>
+- ![](https://media.fs.com/images/community/erp/rsMQn_1tYnh6.jpg)
+- ![](https://moniem-tech.com/wp-content/uploads/sites/3/2023/02/Master%E2%80%93Slave-Hierarchy-in-PTP.png)
+</div>
 
 Precision Time Protocol is a much more accurate form of network timekeeping, capable of reaching nanosecond and sometimes sub-nanosecond precision. It is typically driven off of GPS signals into a datacenter and replicated through a series of boundary clocks. By default it uses multicast routing. Managing PTP is a more complex protocol. It can be used with either software or hardware timestamping.
 
