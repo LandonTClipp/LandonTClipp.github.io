@@ -31,7 +31,17 @@ chrony implements the full NTP protocol and is often a replacement for timesyncd
 
 ## ntp
 
-This is the reference implementation.
+![](https://media.fs.com/images/community/erp/6R5Yb_3rAfAa.jpg)
+
+Network Time Protocol gives millisecond, and sometimes sub-millisecond, level of precision. It's based off of software timestamping which contributes to the reduced precision as compared to PTP. This is the standard implementation that is used when millisecond-level precision is acceptable.
+
+## ptp
+
+![](https://media.fs.com/images/community/erp/rsMQn_1tYnh6.jpg)
+
+Precision Time Protocol is a much more accurate form of network timekeeping, capable of reaching nanosecond and sometimes sub-nanosecond precision. It is typically driven off of GPS signals into a datacenter and replicated through a series of boundary clocks. By default it uses multicast routing. Managing PTP is more complex due to the requirement of specialized hardware timestamping. 
+
+The PTP protocol uses a multi-step, two-way message exchange that allows clocks to account for network latency.
 
 ## OpenNTPD
 
