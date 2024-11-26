@@ -143,7 +143,7 @@ Types of DNS record types
 
 ## TCP
 
-### SSH Optimizations <!-- md:optimization -->
+### SSH Optimizations
 
 TCP has a common problem in high-latency/lossy network paths where it will spend a lot of time establishing connections, acking packets, and re-sending packets. rsync uses SSH, which uses TCP to send data over the wire. OpenSSH does not provide any means of tuning TCP parameters, but there is an OpenSSH fork called [HPN-SSH](https://www.psc.edu/hpn-ssh-home/hpn-ssh-faq/) that provides options for you to tune things like:
 
@@ -164,7 +164,7 @@ These parameters can be increased to provide more tolerance to lossy or high-lat
 
 ## rsync
 
-### Optimizations <!-- md:optimization -->
+### Optimizations
 
 rsync relies on SSH, and many optimizations can be applied to it [as shown here](#ssh-optimizations). This is where most of your performance improvements will come from.
 
@@ -202,6 +202,24 @@ Congestion control algorithms are handled in userspace instead of kernel space (
 
 ### TCP
 
+#### Keepalive
+
+Keepalive is an OS parameter that tells the OS to regularly send empty TCP packets across the network every so often in order to keep the connection alive and prevent network components from expiring the connection.
+
+For example, in the `/etc/sysctl.conf` file, you can set these parameters:
+
+```
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.tcp_keepalive_probes = 9
+net.ipv4.tcp_keepalive_intvl = 25
+```
+
+If you find your TCP connections are hanging or being closed unexpectedly, it's possible they are being dropped by NAT or firewall.
+
+Relevant Links:
+
+- [TCP Keepalive Howto](https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/overview.html)
+
 ### UDP
 
 ## OSI Layer 7 Protocols
@@ -238,7 +256,7 @@ Seems to be exclusively used by Microsoft's products
 
 Mainly used for flash.
 
-## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access) <!-- md:optimization -->
+## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access) 
 
 Remote Direct Memory Access is a method of direct memory access across the network that does not involve either server's operating system.
 
