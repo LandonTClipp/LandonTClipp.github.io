@@ -132,6 +132,7 @@ nav:
       - Leetcode: programming/leetcode.md
       - Python: programming/python.md
       - Tools: programming/tools.md
+      - Vim: programming/vim.md
       - YAML: programming/yaml.md
     - System Administration:
       - Databases: sysadmin/databases.md
