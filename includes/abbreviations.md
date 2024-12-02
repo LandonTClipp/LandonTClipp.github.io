@@ -13,6 +13,7 @@
 *[NTP]: Network Time Protocol
 *[NUMA]: Non-uniform memory access
 *[OVN]: Open Virtual Network
+*[OVS]: Open vSwitch
 *[QEMU]: Quick Emulator
 *[SNTP]: Simple Network Time Protocol
 *[SR-IOV]: Single-Root Input/Output Virtualization
