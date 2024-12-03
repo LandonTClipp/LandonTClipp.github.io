@@ -36,3 +36,14 @@ background-color: rgb(43, 155, 70);
     border: 1px solid #ccc;  /* Optional border for styling */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);  /* Subtle shadow for depth */
 }
+
+.external::after {
+    content: '';
+    display: inline-block;
+    width: 0.75em;
+    height: 0.75em;
+    margin: 0 0.15em 0 0.25em;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="0.75em" height="1em" viewBox="0 0 12 16"><path fill-rule="evenodd" d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5L6.5 9l3.25-3.25L12 8V2H6z" fill="%234027FF"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+}

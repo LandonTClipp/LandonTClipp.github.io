@@ -82,6 +82,7 @@ plugins:
     blog_toc: true
     categories_allowed:
       - AWS
+      - Career
       - Cloud
       - Golang
       - Grafana

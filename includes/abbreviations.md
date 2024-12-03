@@ -5,6 +5,7 @@
 *[DAG]: Directed Acyclic Graph
 *[DMA]: Direct Memory Access
 *[GIL]: Global Interpreter Lock
+*[HFT]: High Frequency Trading
 *[IOMMU]: Input-Output Memory Management Unit
 *[KVM]: Kernel Virtual Machine
 *[:material-run-fast:]: Optimization
@@ -14,6 +15,7 @@
 *[NUMA]: Non-uniform memory access
 *[OVN]: Open Virtual Network
 *[OVS]: Open vSwitch
+*[SDN]: Software-Defined Networking
 *[QEMU]: Quick Emulator
 *[SNTP]: Simple Network Time Protocol
 *[SR-IOV]: Single-Root Input/Output Virtualization
