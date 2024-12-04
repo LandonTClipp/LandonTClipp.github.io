@@ -6,6 +6,7 @@
 *[DMA]: Direct Memory Access
 *[GIL]: Global Interpreter Lock
 *[HFT]: High Frequency Trading
+*[HFTs]: High Frequency Trading
 *[IOMMU]: Input-Output Memory Management Unit
 *[KVM]: Kernel Virtual Machine
 *[:material-run-fast:]: Optimization

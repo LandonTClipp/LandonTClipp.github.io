@@ -6,9 +6,6 @@ title: 2024 Career Reflections
 draft: true
 ---
 
-The year is coming to a close and I felt it was time for me to reflect on the changes
-that I went through both personally and professionally.
-
 <!-- more -->
 
 ## Highlights
@@ -28,16 +25,18 @@ Just _some_ of the main highlights include:
 My prior employer, Jump Trading, had graciously offered me an engineering role straight
 out of college back in 2018. Throughout my 5 years at the firm, I was exposed to
 a broad range of cutting edge technology and environments that propelled me to
-a competency that I feel college could never give. But moreso, I benefited from
+a competency that I feel college could never give. Moreso, I benefited from
 a number of close mentors who coached me out of bad habits and showed me grace
 when I needed it most. It also can't be denied that I regularly felt imposter
 syndrome because the sheer density of brainpower I was surrounded with was humbling.
 
-Sadly, all things end, and in late 2023 I decided my time at Jump was one of them. There was a broad (and noisy) kerfuffle that the crypto community experienced in 2022 that started with FTX and seemed to wind its way to a number of other coins and exchanges. The stock market also experienced headwinds with the post-COVID interest rate hikes and general market fear over the direction of the economy. These factors led to, what I felt, a changing working environment that made it difficult for me to be successful in my role not just in terms of happiness, but also for my general career trajectory. 
+Sadly, all things end, and in late 2023 I decided my time at Jump was one of them. There was a broad (and noisy) kerfuffle that the crypto community experienced in 2022 that began with FTX and seemed to wind its way to a number of other coins and exchanges. The stock market also experienced headwinds with the post-COVID interest rate hikes and general market fear over the direction of the economy. These factors led to, what I felt, a changing working environment that made it difficult for me to be successful in my role not just in terms of happiness, but also for my general career trajectory. 
 
 Those two sentiments I just described, both respect and disaffection, might sound contradictory. I credit Jump for catapulting my career to where it is today and to the relative ease with which I'm able to navigate the job market. However, it's true that business realities can change on a dime, often through no fault of our own. The HFT community can be characterized as being _really_ good when times are good, but really _really_ bad when times are tough. To be clear, I have nothing but fondness for those I had the pleasure to work with, and there are many invaluable lessons I learned through the grace of my mentors and the compassion they showed me, even when I messed up badly.
 
 ## [Lambda Labs](https://lambdalabs.com/){ .external }
+
+![](/images/lambda/1cc-grid-purple.png)
 
 Lambda Labs, if you are unfamiliar, is a startup cloud company that sells infrastructure tailored towards AI research. Practically speaking, this means we're building out large, GPU-dense datacenters with large, expensive Infiniband and ethernet fabrics. It's not entirely unlike what trading firms do, but the HPC environments add another significant layer of complexity that comes with multi-tenancy requirements. Being a public cloud, we have to host customers in a virtualized environment. This means dealing with technologies like:
 
@@ -64,3 +63,32 @@ The cool thing about startups, especially ones with such meteoric growth, is tha
 
 1. An entrenched technology culture by itself is not a bad thing because it often means that an organization has found a solution that works well enough. However it does mean finding ways to make company-wide impacts is sometimes a fruitless effort. In the worst cases, it means that the company has become so ossified that making dramatic business pivots is exceedingly difficult
 
+I was able to identify this need both from comments that executive leadership would make, but also from customers lamenting the lack of this fairly basic product. This led to me leading a project that we call the [lambda-guest-agent](https://docs.lambdalabs.com/public-cloud/guest-agent/). It's simple in theory but in practice it's a quagmire that deals with topics like data privacy laws, security, SOC compliance, cross-team collaboration, priority management, and of course the fun technical aspects like metrics collection, Prometheus, public APIs, frontend graphing technologies, API gateways... you get the picture. Building a public cloud is HARD and even conceptually simple things tend to take enormous effort. This is very much contrasted to HFTs where concepts can be turned into production with relatively minimal fuss.
+
+## Building a Cloud From Scratch
+
+Lambda's cloud is new. Originally, Lambda focused on building and selling desktops tailored to AI research. Within the last few years, they decided to pivot to creating a fully-fledged public cloud as the demand for AI hardware only increased. Researchers needed enterprise-grade hardware that could not fit inside a typical desktop chassis, and the leadership rightfully noticed the dearth of performant, affordable HPC solutions.
+
+What's been striking to me is two things:
+
+<div class="annotate" markdown>
+1. There aren't many opportunities to work at a company that is building a big-boy cloud from scratch
+2. Investors LOVE the idea of being able to get in on the ground floor of what appears to be the largest technological revolution in the last 20 years.(1)
+</div>
+
+1. This point is something I don't say lightly. Crypto was supposed to be the Next Big Thing^TM^ but it turned out to be one big massive fraud. My time at Jump only solidified my view that crypto does provide much benefit to society beyond finding novel ways of scamming people. I felt the impact of it by what it did to the people I worked with, the jobs it ended, and the turmoil it caused in my life. But that's enough fretting about, let's not dwell on the negative!
+
+The confluence of those two points lends to again finding myself in a situation where I am surrounded by people way smarter than me. I am in an environment that appreciates engineers who take the initiative in leading massive projects. I feel that everyone I work with _believes_ in the promise of AI and nearly everyone has an intrinsic motivation to push this company forward.
+
+## Thoughts on Competition
+
+People often ask me what the competitive landscape is for the AI public cloud space, especially when considering the cloud juggernauts like AWS, Azure, GCP etc. The points can be distilled down a few ways:
+
+1. The infrastructure demands of AI workloads are totally different from traditional web services. This means that the requisite high-performance IB networks are a fairly different skillset to operate efficiently in a multi-tenant cloud environment.
+2. As it stands today, the AI cloud market is still significantly smaller than the traditional web services market, so the juggernauts don't appear to be super interested in this space _yet_.
+3. The juggernauts demand high price points, because they can. Lambda Labs is currently amongst the cheapest compared to other cloud vendors. Obviously there is still a risk that the juggernauts could play anti-competitive pricing practices and take intentional losses to drive away our market share, but this has yet to materialize in any meaningful way.
+4. AI-specific HPC systems are heavy, expensive, complex beasts by themselves. They are orders of magnitude more complex when you ask those systems to become multi-tenant. It takes a lot of support and a lot of time to get these systems operating efficiently, which means it's very human-capital intensive. The marginal costs of standing up more compute is higher than traditional web-focused environments. While the HPC community continues to iron out how to run AI-tailored, multi-tenant HPC systems, the ongoing costs will remain elevated as well. Lambda is time-advantaged in this case because we are learning these lessons now, while the big cloud appear to be sleeping at the wheel.
+
+Currently, Lambda's focus is on tailoring our experience for the small AI developers. Our strategy is to court small AI startups through solid support experiences, reliable infrastructure, reasonable price points, and good experiences so that if/when the startup becomes larger, they continue to do business with us. 
+
+Our main competitor in this space, Coreweave, only focuses on landing a small number of mega-sized contracts. This presents a large business risk with the possibility that some of their customers decide not to renew. Lambda's approach is to spread our customer base amongst a large number of smaller customers and to wage an effective marketing campaign to prove to AI researchers that our product is better than the competition. It also incentivizes us to solve the multi-tenant AI-HPC infrastructure problem better than anyone else so that we are better positioned than anyone else to support AI research into the future.

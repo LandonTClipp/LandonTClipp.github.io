@@ -289,3 +289,17 @@ NCCL
 ![NCCL PXN Path Diagram](https://f005.backblazeb2.com/file/landons-blog/assets/images/nvidia/nccl/message-path.png)
 
 NCCL stands for NVIDIA Collective Communication Library. It is a library used in applications that need to do collective, cross-GPU actions. It's topology-aware and allows an abstracted interface to the set of GPUs being used across a cluster system, such that applications don't need to understand where a particular GPU resides.
+
+Load Balancing
+--------------
+
+### Layer 2 Direct Server Return (DSR)
+
+
+DSR is a method of load balancing whereby the server sitting behind the load balancer will reply directly to the originating client instead of through the LB. The general flow is as follows:
+
+1. Client packets arrive in the load balancer.
+2. The load balancer makes a decision on which backend to forward to. It will modify the destination MAC address in the ethernet frame to the chosen backend and retransmit the packet to the MAC of its chosen backend (this is critical to make it appear to the layer 2 network that the packet did not originate from the LB).
+3. The chosen backend receives the packet. Because the layer 3 IP frame was untouched, the packet appears in all respects as if it came from the originating client. Thus, the backend will respond directly to the client IP through the default IP gateway.
+
+It should be noted that, of course, the backends and the load balancer need to be configured with a VIP. When the LB forwards the packet to the backend, the destination IP is unchanged, only the destination MAC. So this means that the LB and the backend services need to be on the same layer 2 network. Because all the backends are configured with the same VIP, they will respond to the LB-forwarded packet.

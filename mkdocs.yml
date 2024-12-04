@@ -72,6 +72,8 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true 
   - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.mark
   - toc:
       permalink: true
 
