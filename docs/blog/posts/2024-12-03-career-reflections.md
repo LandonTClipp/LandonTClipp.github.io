@@ -10,7 +10,7 @@ draft: true
 
 ## Highlights
 
-For me, 2024 has been nothing short of extraordinary for a number of reasons. 
+For me, 2024 has been nothing short of extraordinary for a number of reasons.
 Just _some_ of the main highlights include:
 
 1. I got engaged to the love of my life.
@@ -30,7 +30,7 @@ a number of close mentors who coached me out of bad habits and showed me grace
 when I needed it most. It also can't be denied that I regularly felt imposter
 syndrome because the sheer density of brainpower I was surrounded with was humbling.
 
-Sadly, all things end, and in late 2023 I decided my time at Jump was one of them. There was a broad (and noisy) kerfuffle that the crypto community experienced in 2022 that started with FTX and seemed to wind its way to a number of other coins and exchanges. The stock market also experienced headwinds with the post-COVID interest rate hikes and general market fear over the direction of the economy. These factors led to what I felt was a changing working environment that made it difficult for me to be successful in my role not just in terms of happiness, but also for my general career trajectory. 
+Sadly, all things end, and in late 2023 I decided my time at Jump was one of them. There was a broad (and noisy) kerfuffle that the crypto community experienced in 2022 that started with FTX and seemed to wind its way to a number of other coins and exchanges. The stock market also experienced headwinds with the post-COVID interest rate hikes and general market fear over the direction of the economy. These factors led to what I felt was a changing working environment that made it difficult for me to be successful in my role not just in terms of happiness, but also for my general career trajectory.
 
 Those two sentiments I just described, both respect and disaffection, might sound contradictory. I credit Jump for catapulting my career to where it is today and to the relative ease with which I'm able to navigate the job market. However, it's true that business realities can change on a dime, often through no fault of our own. The HFT community can be characterized as being _really_ good when times are good, but really _really_ bad when times are tough. To be clear, I have nothing but fondness for those I had the pleasure to work with, and there are many invaluable lessons I learned through the grace of my mentors and the compassion they showed me, even when I messed up badly.
 
@@ -63,6 +63,8 @@ The cool thing about startups, especially ones with such meteoric growth, is tha
 
 1. An entrenched technology culture by itself is not a bad thing because it often means that an organization has found a solution that works well enough. However it does mean finding ways to make company-wide impacts is sometimes a fruitless effort. In the worst cases, it means that the company has become so ossified that making dramatic business pivots is exceedingly difficult
 
+![lambda-guest-agent](/images/lambda/lambda-guest-agent-1.jpeg){ align=right width="50%"}
+
 I was able to identify this need both from comments that executive leadership would make, but also from customers lamenting the lack of this fairly basic product. This led to me leading a project that we call the [lambda-guest-agent](https://docs.lambdalabs.com/public-cloud/guest-agent/). It's simple in theory but in practice it's a quagmire that deals with topics like data privacy laws, security, SOC compliance, cross-team collaboration, priority management, and of course the fun technical aspects like metrics collection, Prometheus, public APIs, frontend graphing technologies, API gateways... you get the picture. Building a public cloud is HARD and even conceptually simple things tend to take enormous effort. This is very much contrasted to HFTs where concepts can be turned into production with relatively minimal fuss.
 
 ## Building a Cloud From Scratch
@@ -89,6 +91,6 @@ People often ask me what the competitive landscape is for the AI public cloud sp
 3. The juggernauts demand high price points, because they can. Lambda Labs is currently amongst the cheapest compared to other cloud vendors. Obviously there is still a risk that the juggernauts could play anti-competitive pricing practices and take intentional losses to drive away our market share, but this has yet to materialize in any meaningful way.
 4. AI-specific HPC systems are heavy, expensive, complex beasts by themselves. They are orders of magnitude more complex when you ask those systems to become multi-tenant. It takes a lot of support and a lot of time to get these systems operating efficiently, which means it's very human-capital intensive. The marginal costs of standing up more compute is higher than traditional web-focused environments. While the HPC community continues to iron out how to run AI-tailored, multi-tenant HPC systems, the ongoing costs will remain elevated as well. Lambda is time-advantaged in this case because we are learning these lessons now, while the big cloud appear to be sleeping at the wheel.
 
-Currently, Lambda's focus is on tailoring our experience for the small AI developers. Our strategy is to court small AI startups through solid support experiences, reliable infrastructure, reasonable price points, and good experiences so that if/when the startup becomes larger, they continue to do business with us. 
+Currently, Lambda's focus is on tailoring our experience for the small AI developers. Our strategy is to court small AI startups through solid support experiences, reliable infrastructure, reasonable price points, and good experiences so that if/when the startup becomes larger, they continue to do business with us.
 
 Our main competitor in this space, Coreweave, only focuses on landing a small number of mega-sized contracts. This presents a large business risk with the possibility that some of their customers decide not to renew. Lambda's approach is to spread our customer base amongst a large number of smaller customers and to wage an effective marketing campaign to prove to AI researchers that our product is better than the competition. It also incentivizes us to solve the multi-tenant AI-HPC infrastructure problem better than anyone else so that we are better positioned than anyone else to support AI research into the future.
