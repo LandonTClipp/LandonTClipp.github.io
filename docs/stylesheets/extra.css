@@ -65,11 +65,7 @@ body {
 
 }
 
-h2,
-h3,
-h4,
-h5,
-h6 {
+h2 {
     font-family: var(--md-header-font-family);
     font-feature-settings: "kern", "liga";
     color: var(--md-typeset-color);
@@ -81,10 +77,5 @@ h6 {
 
 .md-typeset h5 {
     color: var(--md-primary-fg-color);
-}
-
-
-.md-typeset h2 {
-    font-weight: bold;
 }
 

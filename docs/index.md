@@ -1,9 +1,9 @@
-`topofmind.dev`
+---
+title: Welcome!
+---
+
+Welcome to `topofmind.dev`
 ========
-
-Welcome to my blog! My name is Landon Clipp
-
-The human mind is finite, and the world is not. The struggle to understand the world, and to remember its intricacies, is made simpler by etching your thoughts into words.
 
 About Me
 --------

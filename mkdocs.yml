@@ -11,7 +11,7 @@ theme:
   name: material
   custom_dir: overrides
   font:
-    header: Silkscreen
+    header: Press Start 2P
   icon:
     logo: material/pine-tree
   palette:
