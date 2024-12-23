@@ -192,5 +192,6 @@ extra_javascript:
 watch:
   - includes
 
-hooks:
-  - overrides/hooks/shortcodes.py
+# TODO: Get this working :'(
+#hooks:
+#  - overrides/hooks/links.py
