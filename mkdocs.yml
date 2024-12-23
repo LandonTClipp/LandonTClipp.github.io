@@ -10,20 +10,22 @@ edit_uri: edit/main/docs
 theme:
   name: material
   custom_dir: overrides
+  font:
+    header: Silkscreen
   icon:
     logo: material/pine-tree
   palette:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: light blue
+      primary: green
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light blue
+      primary: green
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode

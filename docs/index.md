@@ -1,14 +1,16 @@
-Welcome!
+`topofmind.dev`
 ========
 
-The human mind is finite, and the world is not. The struggle to understand the world, and to remember its intricacies, is made simpler by etching your thoughts into words. 
+Welcome to my blog! My name is Landon Clipp
+
+The human mind is finite, and the world is not. The struggle to understand the world, and to remember its intricacies, is made simpler by etching your thoughts into words.
 
 About Me
 --------
 
-My name is Landon Clipp and I am a software engineer who currently lives in Chicago, IL. I was born, and grew up, in Champaign, IL amongst the corn and soybean fields. I went to the University of Illinois and graduated with a Bachelor of Science in Computer Engineering. I focused primarily on high performance computing and did a lot of cool work with climatology during my time in college. My passions include aviation, paramotoring, computers, programming, nature, RV-ing, piano, and dogs! In my blog, you'll find various posts about those topics. 
+My name is Landon Clipp and I am a software engineer who currently lives in Chicago, IL. I was born, and grew up, in Champaign, IL amongst the corn and soybean fields. I went to the University of Illinois and graduated with a Bachelor of Science in Computer Engineering. I focused primarily on high performance computing and did a lot of cool work with climatology during my time in college. My passions include aviation, paramotoring, computers, programming, nature, RV-ing, piano, and dogs! In my blog, you'll find various posts about those topics.
 
-If you want to get in contact with me, please message me in Linkedin using the link at the bottom right corner of this website. 
+If you want to get in contact with me, please message me in Linkedin using the link at the bottom right corner of this website.
 
 What is this Blog?
 ------------------
@@ -35,5 +37,5 @@ This blog is my dumping ground for every random thought, every interesting idea,
 
 Resume
 ------
-              
+
 ![resume](https://f005.backblazeb2.com/file/landons-blog/LandonClippResumeScrubbed.svg)
