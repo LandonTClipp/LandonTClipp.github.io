@@ -1,5 +1,5 @@
-site_name: Landon's Blog
-site_url: https://LandonTClipp.github.io/
+site_name: Top of Mind
+site_url: https://topofmind.dev
 site_description: >-
   Landon's personal life and coding blog
 
@@ -10,7 +10,7 @@ edit_uri: edit/main/docs
 theme:
   name: material
   custom_dir: overrides
-  icon: 
+  icon:
     logo: material/pine-tree
   palette:
     # Palette toggle for dark mode
@@ -70,7 +70,7 @@ markdown_extensions:
       auto_append:
         - includes/abbreviations.md
   - pymdownx.tabbed:
-      alternate_style: true 
+      alternate_style: true
   - pymdownx.tilde
   - pymdownx.caret
   - pymdownx.mark
@@ -142,19 +142,19 @@ nav:
       - Filesystems:
         - sysadmin/cvmfs.md
         - sysadmin/nfs.md
-      - Hardware: 
+      - Hardware:
         - BMC: sysadmin/bmc.md
         - CPU: sysadmin/cpu.md
         - GPU: sysadmin/gpu.md
         - Misc: sysadmin/misc.md
         - Storage: sysadmin/storage.md
       - Linux: sysadmin/linux.md
-      - Networking: 
+      - Networking:
           - General: sysadmin/networking.md
           - SDN: sysadmin/software-defined-networking.md
       - PCIe: sysadmin/pcie.md
       - Repositories: sysadmin/repositories.md
-      - Security: 
+      - Security:
           - HTTP: sysadmin/security.md
           - GPG: sysadmin/gpg.md
       - Systemd: sysadmin/systemd.md
