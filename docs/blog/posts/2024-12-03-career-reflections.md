@@ -3,6 +3,7 @@ date: 2024-12-03
 categories:
   - Career
 title: 2024 Career Reflections
+description: A year in review.
 ---
 
 <!-- more -->
