@@ -2,7 +2,7 @@ size: { width: 1200, height: 630 }
 layers:
 - background:
     image: layouts/background.jpg
-    color: "#4051b5D5"
+    color: "#4cae4fd5"
 - size: { width: 500, height: 170 }
   offset: { x: 62, y: 50 }
   typography:
