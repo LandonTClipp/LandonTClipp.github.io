@@ -5,12 +5,17 @@ title: Welcome!
 Welcome to `topofmind.dev`
 ========
 
+<center>
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Press+Start+2P&size=30&duration=1200&pause=500&color=4CAE4F&center=true&vCenter=true&multiline=true&repeat=false&width=900&height=100&lines=SWE+%40+Lambda+Labs;Building+an+AI+Public+Cloud)](https://git.io/typing-svg)
+</center>
+
 About Me
 --------
 
-My name is Landon Clipp and I am a software engineer who currently lives in Chicago, IL. I was born, and grew up, in Champaign, IL amongst the corn and soybean fields. I went to the University of Illinois and graduated with a Bachelor of Science in Computer Engineering. I focused primarily on high performance computing and did a lot of cool work with climatology during my time in college. My passions include aviation, paramotoring, computers, programming, nature, RV-ing, piano, and dogs! In my blog, you'll find various posts about those topics.
+My name is Landon Clipp and I am a software engineer who currently lives in Chicago, IL. I've worked in a number of different fields, including public research (mainly climatology), high frequency trading, and most recently in the public cloud building out high performance infrastructure for AI research.
 
-If you want to get in contact with me, please message me in Linkedin using the link at the bottom right corner of this website.
+I'm passionate about a number of things, and consequently this blog will dive into many various topics. The two most interesting sections of this website are my [Blog](blog/index.md) and also what I call my ["Professional" Notes](notes/index.md)
+
 
 What is this Blog?
 ------------------

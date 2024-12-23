@@ -129,46 +129,47 @@ nav:
   - Blog:
     - blog/index.md
   - Notes:
+    - notes/index.md
     - Programming:
-      - Bash: programming/bash.md
-      - Computer Science: programming/computer-science.md
-      - Golang: programming/golang.md
-      - Javascript: programming/javascript.md
-      - Leetcode: programming/leetcode.md
-      - Python: programming/python.md
-      - Tools: programming/tools.md
-      - Vim: programming/vim.md
-      - YAML: programming/yaml.md
+      - Bash: notes/programming/bash.md
+      - Computer Science: notes/programming/computer-science.md
+      - Golang: notes/programming/golang.md
+      - Javascript: notes/programming/javascript.md
+      - Leetcode: notes/programming/leetcode.md
+      - Python: notes/programming/python.md
+      - Tools: notes/programming/tools.md
+      - Vim: notes/programming/vim.md
+      - YAML: notes/programming/yaml.md
     - System Administration:
-      - Databases: sysadmin/databases.md
+      - Databases: notes/sysadmin/databases.md
       - Filesystems:
-        - sysadmin/cvmfs.md
-        - sysadmin/nfs.md
+        - notes/sysadmin/cvmfs.md
+        - notes/sysadmin/nfs.md
       - Hardware:
-        - BMC: sysadmin/bmc.md
-        - CPU: sysadmin/cpu.md
-        - GPU: sysadmin/gpu.md
-        - Misc: sysadmin/misc.md
-        - Storage: sysadmin/storage.md
-      - Linux: sysadmin/linux.md
+        - BMC: notes/sysadmin/bmc.md
+        - CPU: notes/sysadmin/cpu.md
+        - GPU: notes/sysadmin/gpu.md
+        - Misc: notes/sysadmin/misc.md
+        - Storage: notes/sysadmin/storage.md
+      - Linux: notes/sysadmin/linux.md
       - Networking:
-          - General: sysadmin/networking.md
-          - SDN: sysadmin/software-defined-networking.md
-      - PCIe: sysadmin/pcie.md
-      - Repositories: sysadmin/repositories.md
+          - General: notes/sysadmin/networking.md
+          - SDN: notes/sysadmin/software-defined-networking.md
+      - PCIe: notes/sysadmin/pcie.md
+      - Repositories: notes/sysadmin/repositories.md
       - Security:
-          - HTTP: sysadmin/security.md
-          - GPG: sysadmin/gpg.md
-      - Systemd: sysadmin/systemd.md
-      - Timekeeping: sysadmin/timekeeping.md
-      - Virutalization: sysadmin/virtualization.md
+          - HTTP: notes/sysadmin/security.md
+          - GPG: notes/sysadmin/gpg.md
+      - Systemd: notes/sysadmin/systemd.md
+      - Timekeeping: notes/sysadmin/timekeeping.md
+      - Virutalization: notes/sysadmin/virtualization.md
     - System Design:
-      - Databases: system-design/databases.md
-      - "System Design Interview: An Insider's Guide": system-design/system-design-interview-alex-xu.md
-      - Tools: system-design/tools.md
+      - Databases: notes/system-design/databases.md
+      - "System Design Interview: An Insider's Guide": notes/system-design/system-design-interview-alex-xu.md
+      - Tools: notes/system-design/tools.md
   - Misc:
-    - Suggested Readings: misc/suggested-readings.md
-    - "Word of the Day": misc/word-of-the-day.md
+    - Suggested Readings: notes/misc/suggested-readings.md
+    - "Word of the Day": notes/misc/word-of-the-day.md
 
 extra:
   social:

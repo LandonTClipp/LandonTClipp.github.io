@@ -12,7 +12,7 @@ Profile Guided Optimizations in Go
 
 ![A view of the mountains from the top of Pikes Peak](https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/images/banners/pikes-peak-1.jpg?blog=Profile%20Guided%20Optimizations%20in%20Go "A view of the mountains from the top of Pikes Peak. This road, just outside of Woodland Park, CO, travels up an enormous distance, through many hairpin turns and past sheer drops is a hair-raising experience. The top, however, is a breathtaking view that puts you on your heels. This particular view, looking south, is not even at the summit! Oh how I wish I could stay here forever."){ style="width: 100%; height: 200px; object-fit: cover; object-position: 0 40%" }
 
-In this post, we'll explore Profile Guided Optimizations (PGO) introduced in Go 1.20 and how they can be effectively used to improve the performance of your production applications. PGO is a compiler optimization technique that allows you to tune the performance of your Go applications in an environment- and workload-specific way. The profiles themselves are simple metadata files that contain information on what functions are called, how often they're called, what system calls are used, and generally what the computational _profile_ is of your application. This information can be used by the compiler to better inform what sorts of optimizations are useful in your specific environment and workfload. 
+In this post, we'll explore Profile Guided Optimizations (PGO) introduced in Go 1.20 and how they can be effectively used to improve the performance of your production applications. PGO is a compiler optimization technique that allows you to tune the performance of your Go applications in an environment- and workload-specific way. The profiles themselves are simple metadata files that contain information on what functions are called, how often they're called, what system calls are used, and generally what the computational _profile_ is of your application. This information can be used by the compiler to better inform what sorts of optimizations are useful in your specific environment and workfload.
 
 <!-- more -->
 
@@ -111,7 +111,7 @@ We can write a simple benchmarking test for `findFactors`:
     --8<-- "code/profile-guided-optimizations/fermats-factorization/main.go"
     ```
 
-Recall the last section that we can the benchmark with the parameter `-cpuprofile default.pgo`. As mentioned before, this causes the benchmark to profile the code as its running, and outputs the `default.pgo` profile. 
+Recall the last section that we can the benchmark with the parameter `-cpuprofile default.pgo`. As mentioned before, this causes the benchmark to profile the code as its running, and outputs the `default.pgo` profile.
 
 ### Using in-lined pprof
 
@@ -486,14 +486,14 @@ $ curl -o /dev/null -v http://localhost:6060/debug/pprof/profile?seconds=1
 > User-Agent: curl/7.29.0
 > Host: localhost:6060
 > Accept: */*
-> 
+>
   0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0< HTTP/1.1 200 OK
 < Content-Disposition: attachment; filename="profile"
 < Content-Type: application/octet-stream
 < X-Content-Type-Options: nosniff
 < Date: Mon, 28 Aug 2023 20:25:04 GMT
 < Transfer-Encoding: chunked
-< 
+<
 { [data not shown]
 100  3054    0  3054    0     0   2613      0 --:--:--  0:00:01 --:--:--  2625
 * Connection #0 to host localhost left intact
@@ -532,7 +532,7 @@ This is set to 2000 by default but you can specify any value you want. This name
 
 The way to read this variable is "Profile Guided Optimization Inline Cumulative Distribution Function Threshold". Wow, what a mouthful! Simply put, this threshold sets the lower bound that the weight of a function must have in order to be considered hot. Or in other words, you can think of it as a percentage of the total runtime, whereby the functions whose edge weights represent the top 95% of total edge weights will be considered hot.
 
-Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=95` and run the PGO build and graph the [DOT notation](https://graphviz.org/doc/info/lang.html)(1) conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied. 
+Let's take a look at what this means in practice. We'll set a `pgoinlinecdfthreshold=95` and run the PGO build and graph the [DOT notation](https://graphviz.org/doc/info/lang.html)(1) conveniently provided to us. Note that we've already generated _one_ `default.pgo` profile by simply running the program without any optimizations applied.
 { .annotate }
 
 1. A DOT graph is simply a way you can specify directed graphs in a text format. This text can be rendered into a graph.
@@ -667,14 +667,14 @@ hot-callsite-thres-from-CDF=1.935483870967742
 ```
 
 === "DOT graph visualization"
-    And the visualization shows us that none of the paths are considered hot(1) because none of them are above a weight of 1.935483870967742: 
+    And the visualization shows us that none of the paths are considered hot(1) because none of them are above a weight of 1.935483870967742:
     { .annotate}
 
     1. To be clear, and to prevent confusion, there _are indeed_ some nodes that are still being marked as hot, but these nodes all live within the Go runtime, and thus are not being included in this visualization. Setting lower threshold values will still _guarantee_ at least one node is marked as hot.
 
     ![](/images/golang-profile-guided-optimizations/graphviz-threshold-80.svg)
 
-    
+
 
 === "DOT graph code"
     ```
@@ -803,10 +803,10 @@ $$
 
 Where $W$ is the set of all edge weights in a program, ordered by descending value. We first need to find the value of positive integer $m$ such that the sum of the weights up to $m$ is approximately $p$. Why? Well because that's what the user is asking for when they specify `pgoinlinecdfthreshold`, they are asking the question "what nodes do I need to select (ordered by weight) such that their cumulative weight is approximately equal to `pgoinlinecdfthreshold`?"
 
-This can be represented as 
+This can be represented as
 
 $$
-m \in \mathbb{W} 
+m \in \mathbb{W}
 $$
 
 $$
@@ -819,11 +819,11 @@ You can see the Go PGO logic implements this function [here](https://github.com/
 
 ### Devirtualization
 
-Another optimization technique that takes advantage of PGO is what's called devirutalization. In Go, interfaces provide a virtualized way of accessing an implementation that might not be known at compile time. These virutalized calls are inefficient because they involve jump tables that must be travesed in order to call the implementation's method during runtime. Interfaces are also problematic because [it defeats a lot of other analysis techniques like heap escapes](/blog/2023/07/15/analyzing-go-heap-escapes/#use-of-reference-types-on-interface-methods). 
+Another optimization technique that takes advantage of PGO is what's called devirutalization. In Go, interfaces provide a virtualized way of accessing an implementation that might not be known at compile time. These virutalized calls are inefficient because they involve jump tables that must be travesed in order to call the implementation's method during runtime. Interfaces are also problematic because [it defeats a lot of other analysis techniques like heap escapes](/blog/2023/07/15/analyzing-go-heap-escapes/#use-of-reference-types-on-interface-methods).
 
 We can still run profiles to see what concrete implementation in practice gets used the most. The compiler will then create a small bit of if/else logic in the assembled code to do type assertions on the interface for the set of "hot" implementations found during profiling. If one of the type assertions succeeds, it will call that implementation's method directly.
 
-We will not dive deeply into this specific optimization technique, but it's something to keep in mind and highlights various ways in which PGO can be leveraged. 
+We will not dive deeply into this specific optimization technique, but it's something to keep in mind and highlights various ways in which PGO can be leveraged.
 
 ## Proving the CDF experimentally
 
@@ -840,7 +840,7 @@ index 4ae7fa95d2..56fdcfb099 100644
                 fmt.Printf("hot-callsite-thres-from-CDF=%v\n", inlineHotCallSiteThresholdPercent)
 +               fmt.Printf("total-edge-weight=%v\n", p.TotalEdgeWeight)
         }
- 
+
         if x := base.Debug.PGOInlineBudget; x != 0 {
 @@ -145,6 +146,12 @@ func hotNodesFromCDF(p *pgo.Profile) (float64, []pgo.NodeMapKey) {
                 w := p.NodeMap[n].EWeight
@@ -872,7 +872,7 @@ hot-callsite-thres-from-CDF=0.18328445747800587
 total-edge-weight=13640
 ```
 
-We can see that the node which caused the cumulative distribution to exceed the threshold was `runtime.scanblock`. Because it's part of the runtime, it was probably not included in our graph visualization. We can see that $\frac{25}{13640}*100\%=0.18328445747800587\%$ so it matches exactly the numbers that we're getting from `hot-callsite-thres-from-CDF`, which is no surprise. 
+We can see that the node which caused the cumulative distribution to exceed the threshold was `runtime.scanblock`. Because it's part of the runtime, it was probably not included in our graph visualization. We can see that $\frac{25}{13640}*100\%=0.18328445747800587\%$ so it matches exactly the numbers that we're getting from `hot-callsite-thres-from-CDF`, which is no surprise.
 
 
 ## Viewing the assembly
@@ -880,14 +880,14 @@ We can see that the node which caused the cumulative distribution to exceed the 
 Let's have some fun an convince ourselves on what's really going on here. Sure these nice pretty graphs tell us that the PGO has inlined certain function calls, but why don't we take a look at the raw assembly code? First, let's look at the unoptimzed executable by building it with PGO turned off:
 
 ```
-$ go build -pgo=off 
+$ go build -pgo=off
 $ go tool objdump ./fermats-factorization |& less
 ```
 
 By grepping for `main.go:34` we indeed find the location where `main.isSquare` is called on the function stack:
 
 ```
-  main.go:34            0x6741a7                e814feffff              CALL main.isSquare(SB)                  
+  main.go:34            0x6741a7                e814feffff              CALL main.isSquare(SB)
 ```
 
 Let's build this again with PGO turned on, and for fun let's just rely on the default PGO values:
@@ -909,20 +909,20 @@ Great! Even with the default parameters it still shows `main.isSquare` is allowe
 What does the assembly say?
 
 ```
-$ go tool objdump -s 'main.findFactors' ./fermats-factorization 
-  main.go:30            0x6762e5                31f6                    XORL SI, SI                             
-  main.go:33            0x6762e7                e91a010000              JMP 0x676406                            
-  main.go:12            0x6762ec                4885c9                  TESTQ CX, CX                            
-  main.go:12            0x6762ef                7c0a                    JL 0x6762fb                             
-  main.go:12            0x6762f1                0f57c0                  XORPS X0, X0                            
-  main.go:12            0x6762f4                f2480f2ac1              CVTSI2SDQ CX, X0                        
-  main.go:12            0x6762f9                eb18                    JMP 0x676313                            
-  main.go:12            0x6762fb                4889ce                  MOVQ CX, SI                             
-  main.go:12            0x6762fe                83e101                  ANDL $0x1, CX  
+$ go tool objdump -s 'main.findFactors' ./fermats-factorization
+  main.go:30            0x6762e5                31f6                    XORL SI, SI
+  main.go:33            0x6762e7                e91a010000              JMP 0x676406
+  main.go:12            0x6762ec                4885c9                  TESTQ CX, CX
+  main.go:12            0x6762ef                7c0a                    JL 0x6762fb
+  main.go:12            0x6762f1                0f57c0                  XORPS X0, X0
+  main.go:12            0x6762f4                f2480f2ac1              CVTSI2SDQ CX, X0
+  main.go:12            0x6762f9                eb18                    JMP 0x676313
+  main.go:12            0x6762fb                4889ce                  MOVQ CX, SI
+  main.go:12            0x6762fe                83e101                  ANDL $0x1, CX
 ```
 
 We indeed see that the code in `isSquare` is being inlined directly in the assembly for `main.findFactors`.
 
 ## Conclusion
 
-PGO is a really effective tool you can use to provide the compiler real-world examples of your code's CPU profile in a production system. The optimizations it provides are significant and are definitely worth the effort if reducing the latency in your applications is something you value. Let me know in the comments below what you think, and please do let me know if you see any errors that need correcting! 
+PGO is a really effective tool you can use to provide the compiler real-world examples of your code's CPU profile in a production system. The optimizations it provides are significant and are definitely worth the effort if reducing the latency in your applications is something you value. Let me know in the comments below what you think, and please do let me know if you see any errors that need correcting!
