@@ -60,7 +60,7 @@ To those who dealt with my immaturity: I apologize. To those same people who sho
 
 ![](/images/lambda/1cc-grid-purple.png)
 
-Lambda Labs, if you are unfamiliar, is a startup cloud company that sells infrastructure tailored towards AI research. Practically speaking, this means we're building out large, GPU-dense datacenters with large, expensive Infiniband and ethernet fabrics. It's not entirely unlike what trading firms do, but the HPC environments add another significant layer of complexity that comes with multi-tenancy requirements.
+That brings me to where I land myself today: Lambda Labs. Lambda, if you are unfamiliar, is a startup cloud company that sells infrastructure tailored towards AI research. Practically speaking, this means we're building out large, GPU-dense datacenters with large, expensive Infiniband and ethernet fabrics. It's not entirely unlike what trading firms do, but the HPC environments add another significant layer of complexity that comes with multi-tenancy requirements.
 
 Being a public cloud, we have to host customers in a virtualized environment. This means dealing with technologies like:
 
