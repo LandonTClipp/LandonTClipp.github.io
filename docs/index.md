@@ -14,7 +14,7 @@ About Me
 
 My name is Landon Clipp and I am a software engineer who currently lives in Chicago, IL. I've worked in a number of different fields, including public research (mainly climatology), high frequency trading, and most recently in the public cloud building out high performance infrastructure for AI research.
 
-I'm passionate about a number of things, and consequently this blog will dive into many various topics. The two most interesting sections of this website are my [Blog](blog/index.md) and also what I call my ["Professional" Notes](notes/index.md)
+I'm passionate about a number of things, and consequently this blog will dive into many various topics. The two most interesting sections of this website are my [Blog](blog/index.md) and also what I call my ["Professional" Notes](notes/index.md).
 
 
 What is this Blog?
