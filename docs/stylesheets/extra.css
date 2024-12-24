@@ -62,7 +62,12 @@ body {
     --md-header-font-family:
       var(--md-header-font, _),
       -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+      text-align: justify;
+      text-justify: inter-word;
+}
 
+.md-typeset h1,h2,h3,h4,h5,h6 {
+    text-align: left;
 }
 
 h2 {
