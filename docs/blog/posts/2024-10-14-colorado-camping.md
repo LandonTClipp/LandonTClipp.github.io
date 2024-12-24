@@ -28,9 +28,11 @@ I can't keep away from Colorado, so I went back in the fall of 2024 as my last t
 
 </div>
 
-Vedauwoo is a campground between Laramie and Cheyenne, WY. It's a great pitstop before continuing on to the Rocky Mountains. I've been  here multiple times and it never fails to delight.
+Vedauwoo is a campground between Laramie and Cheyenne, WY. It's a great pitstop before continuing on to the Rocky Mountains. I've been here multiple times and it never fails to delight.
 
 ## Pikes Peak - Woodland Park, CO
+
+My mom decided to come along for part of my trip, so I picked her up from the Denver airport on my way through, and we headed off to Woodland Park. Also holy shite, I didn't realize tolls were so expensive in this part of Denver! 😧
 
 <div class="grid cards" markdown>
 
