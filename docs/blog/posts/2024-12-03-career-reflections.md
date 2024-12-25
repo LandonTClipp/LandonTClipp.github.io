@@ -43,8 +43,6 @@ The interesting thing to note is that Illinois has this law called the [`Personn
 
 1. While these reviews were technically anonymous and had no names attached, I could usually estimate who had written them (sorry).
 
-I recognize that what I said might come across strikingly vulnerable, especially in such a public setting such as this blog, and you may be right. Honestly, I strive to be vulnerable about my mistakes, and perhaps I'll enumerate that in more detail in a separate post. Regardless, these mistakes gave me a reputation that I found hard to shake. For any amount of growth, it's critical to understand fully and completely all the ways you have fallen short, and that's what I aimed to do.
-
 The fact of the matter is that if I truly wanted to, I could have stayed at Jump for as long as I wanted. While the personnel record highlighted some flaws I had to address, I also learned that people said many wonderful things about me and the quality of the work I generated.(1) I could perform the work, and exceptionally well, but I never found myself being granted the responsibilities and trust that I needed to truly stretch my professional skills. I found myself constantly embroiled in bike-shedy debates on technical direction, engineering decisions, and nit-picks that I felt were needlessly complicating my efforts to achieve my goals. I also didn't have the political wherewithal to ignore these distractions. I partially credit this with the dearth of trust that people felt in me. The other part can certainly be placed on other parties who may or may not have been dealing with their own demons, but elaborating on that wouldn't be of much use to the pursuit of :sparkles::rainbow: _introspection_ :rainbow::sparkles:.
 { .annotate }
 
