@@ -68,9 +68,6 @@ body {
 
 .md-typeset h1,h2,h3,h4,h5,h6 {
     text-align: left;
-}
-
-h2 {
     font-family: var(--md-header-font-family);
     font-feature-settings: "kern", "liga";
     color: var(--md-typeset-color);

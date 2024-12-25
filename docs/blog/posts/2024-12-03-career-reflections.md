@@ -32,11 +32,15 @@ Further, it's hard for me to not feel attached to my work. I think about my time
 
 ## A Story of Mistakes
 
+### Money Ain't Everything, Dummy
+
 I consider myself to be a bit of a populist. That may be considered a charged term in today's political climate, but allow me to explain. There is a general principle in the US that it's considered to be rude, or impolite, or frowned-upon, or `[insert any negative adjective]` to talk about one's compensation. This sentiment is one propagated by none other than the very folks who have a vested interest in making sure you _don't_ talk about it. Could you guess which class of society that is?
 
 It's no secret that HFT pays well. Like, _really_ well. Fresh out of college, I was within the 99th percentile of earners for my age. In fact I was probably making more than what most college graduates make at big tech. This is compounded by the fact that Chicago, where Jump Trading's headquarters reside, can be considered in absolute terms to be a medium cost of living city. You can imagine that these factors led to a feeling that I "made it". I didn't worry about money. It was easy to come by, and the end-of-year bonuses endowed upon my savings an enormous boon. This is why I'm so adamant in the belief that if you can get a job in an HFT early in your career, you _MUST_ seize the opportunity. You might even say that compounding interest demands you to do it.
 
-You, dear reader, also know that money is not everything. During my last few years at Jump, I struggled mightily between the pursuit of all things green and the less tangible ideals such as "career growth". What do I mean by that precisely? Well, it became a fact that through a series of personal and professional missteps that I cornered myself into a part of Jump that, while important to the business, didn't challenge me in the ways I needed to be challenged (as I've already stated).
+You, dear reader, also know that money is not everything. During my last few years at Jump, I struggled mightily between the pursuit of all things green and the less tangible ideals such as "career growth". What do I mean by that precisely? Well, it became a fact that through a series of personal and professional missteps that I cornered myself into a part of Jump that, while important to the business, didn't challenge me in the ways I needed to be challenged.
+
+### Let the Sunlight Bleach All Sins
 
 The interesting thing to note is that Illinois has this law called the [`Personnel Records Review Act`](https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=2395). In short, this law gives Illinoisans the right to review their personal record from any employer. I submitted this request to Jump, and they returned to me an extremely comprehensive file that contained all of my end-of-year reviews where my colleagues enumerated in detail all of the ways that I had succeeded and fallen short.(1) Graciously, many of them were incredibly kind and generous in their appraisals of me (sometimes I feel unfairly so). But, I felt it was necessary for me to truly understand the ways I had been perceived, to let the sunlight bleach all sins.
 { .annotate }
@@ -50,9 +54,12 @@ While the personnel record highlighted some flaws I had to address, I also learn
 
 1. And yeah, of course I knew what people said about me to my face, which was almost always positive. But that's a biased sample because most people are not going to say negative things to your face. What people say under the veil of anonymity is going to be far more authentic and genuine.
 
+### Professional Relationships
 This goes back to the topic of focus in this section: compensation. While my compensation was good in absolute terms, it was neither notable in HFT-relative terms, nor particularly exciting to me anymore. I found that in my pursuit of money, I had lost focus of the thing that carries you more than anything in life: relationships. I had squandered my relationships at Jump. I failed to foster them, I failed to nurture them. I thought that if I _just work hard enough_, churn out enough code, work enough hours, deliver enough JIRA tickets, that my compensation will follow. When I found that it didn't, that I was barely within the standard deviation of the mean, I was frustrated and deflated. Of course I was more myopic at that time and didn't realize that while it was true the business was suffering at that particular moment in time, I too had a hand to play in not being my best self to those around me.
 
 Of course I could get into a long rant on why I wasn't always my best self. This could turn into a long, complicated diatribe, but some of the main points were that I disliked Chicago, I disliked having to fight through crowded trains to sit in a chair only to barely talk to anyone, I was unhappy with the direction of my career, I was unhappy with the cultural environment I was in, I was dealing with personal issues at home, I was unhappy that I couldn't spend more time in nature (although my managers, to their credit, tried very hard to accommodate this need of mine, but I always felt I was asking for too much)... and so many other reasons. The confluence of these factors made me a generally unhappy person, and unhappy people aren't always pleasant to be around.
+
+### Solace
 
 I'm pleased to report however that I'm currently the happiest I've ever been in my life because pretty much all of my issues in life could be traced back to how stressed and unfulfilled I was at work. Now that I'm in an environment that encourages ambition and doesn't give a f*ck _where_ I do my work, I can spend all of my time with the people I love, go to the places I love (\*COUGH\* Colorado \*COUGH\*), work when I want, how I want, and on whatever I want, all the background problems in my life have kind of just... faded away.
 
