@@ -14,7 +14,7 @@ For me, 2024 has been nothing short of extraordinary for a number of reasons.
 Just _some_ of the main highlights include:
 
 1. I got engaged to the love of my life.
-2. Me and my fiancee couldn't wait to get married so we went to the courthouse a couple months later and sealed the deal!
+2. Me and my fiancé couldn't wait to get married so we went to the courthouse a couple months later and sealed the deal!
 3. I changed jobs.
 4. I went to Colorado 2 times. I don't know if you can tell, but I REALLY love Colorado.
 5. I saw a total solar eclipse in Olney, IL with my friends.
