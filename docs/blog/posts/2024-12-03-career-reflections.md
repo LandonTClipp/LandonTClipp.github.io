@@ -1,5 +1,7 @@
 ---
 date: 2024-12-03
+authors:
+  - LandonTClipp
 categories:
   - Career
 title: 2024 Career Reflections
