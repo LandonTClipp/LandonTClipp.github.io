@@ -1,0 +1,5040 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Landon's personal life and coding blog">
+      
+      
+      
+        <link rel="canonical" href="https://topofmind.dev/notes/system-design/system-design-interview-alex-xu/">
+      
+      
+        <link rel="prev" href="../databases/">
+      
+      
+        <link rel="next" href="../tools/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49+insiders-4.53.14">
+    
+    
+      
+        <title>System Design Interview – An insider's guide - Top of Mind</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f50c755.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+
+
+
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i%7CPress+Start+2P:300,300i,400,400i,700,700i&display=fallback">
+<style>
+:root{
+    --md-text-font:"Roboto";
+    --md-code-font:"Roboto Mono";
+    --md-header-font:"Press Start 2P";
+}
+</style>
+
+
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-F9YVCCMVEX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-F9YVCCMVEX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-F9YVCCMVEX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="System Design Interview – An insider's guide - Top of Mind" />
+<meta property="og:description" content="Landon's personal life and coding blog" />
+<meta property="og:image" content="https://topofmind.dev/assets/images/social/notes/system-design/system-design-interview-alex-xu.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://topofmind.dev/notes/system-design/system-design-interview-alex-xu/" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter.title" content="System Design Interview – An insider's guide - Top of Mind" />
+<meta property="twitter:description" content="Landon's personal life and coding blog" />
+<meta property="twitter:image" content="https://topofmind.dev/assets/images/social/notes/system-design/system-design-interview-alex-xu.png" />
+ <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-1-scale-from-zero-to-millions-of-users" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Top of Mind" class="md-header__button md-logo" aria-label="Top of Mind" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 21v-3H3l5-5H5l5-5H7l5-5 5 5h-3l5 5h-3l5 5h-7v3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Top of Mind
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Design Interview – An insider's guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1M8 13h8v-2H8zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4a5 5 0 0 0 5-5 5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5M7 15a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/LandonTClipp/LandonTClipp.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    LandonTClipp.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Welcome!
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../blog/" class="md-tabs__link">
+          
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  Notes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../misc/suggested-readings.md" class="md-tabs__link">
+          
+  
+    
+  
+  Misc
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Top of Mind" class="md-nav__button md-logo" aria-label="Top of Mind" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 21v-3H3l5-5H5l5-5H7l5-5 5 5h-3l5 5h-3l5 5h-7v3z"/></svg>
+
+    </a>
+    Top of Mind
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/LandonTClipp/LandonTClipp.github.io" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    LandonTClipp.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../blog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2024/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      2024
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2023/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      2023
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/archive/2018/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      2018
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/aws/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      AWS
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/career/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Career
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/cloud/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Cloud
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/golang/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Golang
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/grafana/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Grafana
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/intech-sol-horizon/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Intech Sol Horizon
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/poems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Poems
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Programming
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/python/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Python
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/rv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      RV
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/system-administration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      System Administration
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/category/system-design/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      System Design
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/bash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Bash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/computer-science/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Computer Science
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/golang/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Golang
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/javascript/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Javascript
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/leetcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Leetcode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/python/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/vim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Vim
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    YAML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    System Administration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Administration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/databases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Filesystems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filesystems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/cvmfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    CVMFS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/nfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      NFS
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/bmc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    BMC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    CPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/gpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/misc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Networking
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    General
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/software-defined-networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    SDN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/pcie/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    PCIe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/repositories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Repositories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_8" id="__nav_3_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    HTTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/gpg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    GPG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/systemd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Systemd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/timekeeping/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Timekeeping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sysadmin/virtualization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Virutalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    System Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../databases/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Databases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design Interview: An Insider's Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design Interview: An Insider's Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-scale-from-zero-to-millions-of-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 1: Scale from Zero To Millions of Users
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-2-back-of-the-envelope-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 2: Back-of-the-Envelope Estimation
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 2: Back-of-the-Envelope Estimation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#power-of-two" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Power of Two
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latency-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Latency numbers
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#availability-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Availability numbers
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-3-a-framework-for-system-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 3: A Framework for System Design
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 3: A Framework for System Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-step-process-for-interview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          4-step process for interview
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4-step process for interview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dos-and-donts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Do's and Don'ts
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Time allocation
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-4-design-a-rate-limiter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 4: Design a Rate Limiter
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 4: Design a Rate Limiter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 1
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 2
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choice-of-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Choice of algorithms
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 3
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-design-consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 5: Design Consistent Hashing
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 5: Design Consistent Hashing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-rehashing-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          The rehashing problem
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Consistent Hashing
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-6-design-a-key-value-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 6: Design a Key-Value Store
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 6: Design a Key-Value Store">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          CAP Theorem
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Data partitions
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Consistency
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inconsistency-resolution-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Inconsistency resolution: versioning
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inconsistency resolution: versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vector-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Vector Clock
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Failure detection
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Failure detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gossip-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Gossip Protocol
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Temporary
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Permanent
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datacenter-outages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Datacenter outages
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Write Path
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Read Path
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Summary
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-7-design-a-unique-id-generator-in-distributed-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 7: Design a Unique ID Generator in Distributed Systems
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-11-design-a-news-feed-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 11: Design a News Feed System
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 11: Design a News Feed System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feed-publishing-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Feed publishing API
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newsfeed-retrieval-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Newsfeed retrieval API
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fanout-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Fanout service
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fanout service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fanout-on-write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Fanout on Write
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fanout-on-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Fanout on Read
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newsfeed-retrieval-deep-dive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Newsfeed retrieval deep dive
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Cache architecture
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-12-design-a-chat-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 12: Design a Chat System
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 12: Design a Chat System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 1
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 2
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          High-level design
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 3
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Service Discovery
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chat flow
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#online-presence-indicator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Online Presence Indicator
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    
+  
+    Misc
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Misc
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/suggested-readings.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Suggested Readings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../misc/word-of-the-day.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    
+  
+    Word of the Day
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-scale-from-zero-to-millions-of-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 1: Scale from Zero To Millions of Users
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-2-back-of-the-envelope-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 2: Back-of-the-Envelope Estimation
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 2: Back-of-the-Envelope Estimation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#power-of-two" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Power of Two
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latency-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Latency numbers
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#availability-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Availability numbers
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-3-a-framework-for-system-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 3: A Framework for System Design
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 3: A Framework for System Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-step-process-for-interview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          4-step process for interview
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4-step process for interview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dos-and-donts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Do's and Don'ts
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Time allocation
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-4-design-a-rate-limiter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 4: Design a Rate Limiter
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 4: Design a Rate Limiter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 1
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 2
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choice-of-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Choice of algorithms
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 3
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-design-consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 5: Design Consistent Hashing
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 5: Design Consistent Hashing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-rehashing-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          The rehashing problem
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Consistent Hashing
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-6-design-a-key-value-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 6: Design a Key-Value Store
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 6: Design a Key-Value Store">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cap-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          CAP Theorem
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Data partitions
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Consistency
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inconsistency-resolution-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Inconsistency resolution: versioning
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inconsistency resolution: versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vector-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Vector Clock
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Failure detection
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Failure detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gossip-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Gossip Protocol
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#temporary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Temporary
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permanent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Permanent
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datacenter-outages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Datacenter outages
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Write Path
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Read Path
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Summary
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-7-design-a-unique-id-generator-in-distributed-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 7: Design a Unique ID Generator in Distributed Systems
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-11-design-a-news-feed-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 11: Design a News Feed System
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 11: Design a News Feed System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feed-publishing-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Feed publishing API
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newsfeed-retrieval-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Newsfeed retrieval API
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fanout-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Fanout service
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fanout service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fanout-on-write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Fanout on Write
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fanout-on-read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Fanout on Read
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newsfeed-retrieval-deep-dive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Newsfeed retrieval deep dive
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Cache architecture
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-12-design-a-chat-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chapter 12: Design a Chat System
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 12: Design a Chat System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 1
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 2
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-level-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          High-level design
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Step 3
+        </span>
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Service Discovery
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chat-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Chat flow
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#online-presence-indicator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Online Presence Indicator
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Welcome!
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Notes
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../databases/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    System Design
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/LandonTClipp/LandonTClipp.github.io/edit/main/docs/notes/system-design/system-design-interview-alex-xu.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/LandonTClipp/LandonTClipp.github.io/raw/main/docs/notes/system-design/system-design-interview-alex-xu.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+  <h1>System Design Interview: An Insider's Guide</h1>
+
+<p><a href="https://books.google.com/books/about/System_Design_Interview_An_Insider_s_Gui.html?id=b_mUzQEACAAJ&amp;source=kp_book_description">https://books.google.com/books/about/System_Design_Interview_An_Insider_s_Gui.html?id=b_mUzQEACAAJ&amp;source=kp_book_description</a></p>
+<h2 id="chapter-1-scale-from-zero-to-millions-of-users">Chapter 1: Scale from Zero To Millions of Users<a class="headerlink" href="#chapter-1-scale-from-zero-to-millions-of-users" title="Permanent link">&para;</a></h2>
+<p><strong>Database Sharding</strong></p>
+<p>Sharing is a horizontal scaling technique used in databases whereby multiple databases share the same schema, but will store different sets of data. Where a specific piece of data goes depends on the sharding key.</p>
+<p>Sharding has many problems:</p>
+<ol>
+<li>Resharding data: one shard might become too saturated due to uneven data distribution. This requires changing the sharding function and moving data around.</li>
+<li>Celebrity problem: what if Lady Gaga gets put on a single shard? Now that shard will be overloaded with reads.</li>
+<li>Joins: corss-shard joins become difficult (you need to think about how to optimize your query by considering where the data lives).</li>
+</ol>
+<h2 id="chapter-2-back-of-the-envelope-estimation">Chapter 2: Back-of-the-Envelope Estimation<a class="headerlink" href="#chapter-2-back-of-the-envelope-estimation" title="Permanent link">&para;</a></h2>
+<p>Back-of-the-envelope estimations are typically asked for in system design interviews.</p>
+<p>Tips:</p>
+<ul>
+<li>Write down your assumptions</li>
+<li>Label your units</li>
+<li>Write down QPS (queries per second), peak QPS, storage, cache (if applicable), number of servers etc.</li>
+</ul>
+<h3 id="power-of-two">Power of Two<a class="headerlink" href="#power-of-two" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>power</th>
+<th>approximate value</th>
+<th>full name</th>
+<th>short name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>1 Thousand</td>
+<td>1 Kilobyte</td>
+<td>1 KB</td>
+</tr>
+<tr>
+<td>20</td>
+<td>1 Million</td>
+<td>1 Megabyte</td>
+<td>1 MB</td>
+</tr>
+<tr>
+<td>30</td>
+<td>1 Billion</td>
+<td>1 Gigabyte</td>
+<td>1 GB</td>
+</tr>
+<tr>
+<td>40</td>
+<td>1 Trillion</td>
+<td>1 Terabyte</td>
+<td>1 TB</td>
+</tr>
+<tr>
+<td>50</td>
+<td>1 Quadrillion</td>
+<td>1 Petabyte</td>
+<td>1 PB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="latency-numbers">Latency numbers<a class="headerlink" href="#latency-numbers" title="Permanent link">&para;</a></h3>
+<p>Here are some typical latency numbers every programmer should know:</p>
+<table>
+<thead>
+<tr>
+<th>Operation Name</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 cache reference</td>
+<td>0.5 ns</td>
+</tr>
+<tr>
+<td>Branch mispredict</td>
+<td>5 ns</td>
+</tr>
+<tr>
+<td>L2 cache reference</td>
+<td>7 ns</td>
+</tr>
+<tr>
+<td>Mutex lock/unlock</td>
+<td>100 ns</td>
+</tr>
+<tr>
+<td>Main memory reference</td>
+<td>100ns</td>
+</tr>
+<tr>
+<td>Compress 1K bytes with Zippy</td>
+<td>10,000 ns = 10 μs</td>
+</tr>
+<tr>
+<td>Send 2K bytes over 1Gbps network</td>
+<td>20,000 ns = 20 μs</td>
+</tr>
+<tr>
+<td>Read 1 MB sequentially from memory</td>
+<td>250,000 ns = 250 μs</td>
+</tr>
+<tr>
+<td>Round trip within the same datacenter</td>
+<td>500,000 ns = 500 μs</td>
+</tr>
+<tr>
+<td>Disk seek</td>
+<td>10,000,000 ns = 10 ms</td>
+</tr>
+<tr>
+<td>Read 1 MB sequentially from network</td>
+<td>10,000,000 ns = 10 ms</td>
+</tr>
+<tr>
+<td>Read 1 MB sequentially from disk</td>
+<td>30,000,000 ns = 30ms</td>
+</tr>
+<tr>
+<td>Send packet (California -&gt; Netherlands -&gt; California)</td>
+<td>150,000,000 ns = 150ms</td>
+</tr>
+</tbody>
+</table>
+<h3 id="availability-numbers">Availability numbers<a class="headerlink" href="#availability-numbers" title="Permanent link">&para;</a></h3>
+<p>Usually measured in "nines", or number of 9's digits. Example: 3 nines is 99.9% availability.</p>
+<h2 id="chapter-3-a-framework-for-system-design">Chapter 3: A Framework for System Design<a class="headerlink" href="#chapter-3-a-framework-for-system-design" title="Permanent link">&para;</a></h2>
+<h4 id="4-step-process-for-interview">4-step process for interview<a class="headerlink" href="#4-step-process-for-interview" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Understand the problem and establish design scope<ul>
+<li>Do not rush into starting a solution. Slow down, ask questions, and think deeply about the requirements and assumptions. This is extremely important.</li>
+<li>When you ask a question, the interviewer will either answer or tell you to make an assumption. In either case, write down the answer, or the new assumption you have to make.</li>
+<li>Ask questions to understand the requirements. Examples:<ul>
+<li>What specific features are we going to build?</li>
+<li>How many users does the product have?</li>
+<li>How fast does the company anticipate to scale up?</li>
+<li>What is the company's technology stack? What existing services you might leverage to simplify the design?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Propose high-level design and get buy-in<ul>
+<li>Come up with an initial blueprint. Ask for feedback. Treat your interviewer as a teammate and work together.</li>
+<li>Draw box diagrams with key components on a whiteboard or paper.</li>
+<li>Do back-of-the-envelope calculations to evaluate if your blueprint fits the scale constraints. Think out loud. Communicate with interviewer if back-of-the-envelope is necessary before diving into it.</li>
+<li>Go through a few concrete use-cases</li>
+<li>Should we include API endpoints and database schema? What level of detail are we looking for?</li>
+</ul>
+</li>
+<li>Design deep dive<ul>
+<li>You and the interviewer should have already agreed on the following objectives:<ol>
+<li>Agreed on overall goals</li>
+<li>Sketched out high-level blueprint for overall design</li>
+<li>Obtained feedback from interviewer on high-level design</li>
+<li>Had some intial ideas about areas to focus on based on interviewer's feedback</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Wrap up<ul>
+<li>Interviewer might ask a few follow up questions:<ol>
+<li>Identify system bottlenecks and potential improvements</li>
+<li>Might be useful to give the interviewer a recap of the design. Refreshing the interviewer's memory is helpful.</li>
+<li>Error cases?</li>
+<li>Operation issues. How do support this system in on-call? Observability/monitoring/logging?</li>
+<li>How to scale this up? If your design can handle 1 million users, what changes have to be made to scale to 10 million?</li>
+<li>Propose other refinements</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="dos-and-donts">Do's and Don'ts<a class="headerlink" href="#dos-and-donts" title="Permanent link">&para;</a></h5>
+<p><strong>Dos</strong>:</p>
+<ol>
+<li>Ask for clarification. Do not assume assumption is correct.</li>
+<li>Understand the requirements</li>
+<li>There is no right answer nor the best answer. </li>
+<li>Let the interviewer know what you are thinking.</li>
+<li>Suggest multiple approaches if possible.</li>
+<li>Once you agree on blueprint, go into detail on each component. Design most critical components first.</li>
+<li>Bounce ideas off interviewer</li>
+<li>Never give up</li>
+</ol>
+<p><strong>Don'ts</strong>:</p>
+<ol>
+<li>Don't be unprepared for typical interview questions</li>
+<li>Don't jump into a solution without clarifying requirements</li>
+<li>Don't go into too much detail on a single component. Start at high-level, then drill down where appropriate.</li>
+<li>If you get stuck, don't hesitate to ask for hints.</li>
+<li>Don't think in silence.</li>
+<li>Don't think the interviewer is done when you give the design. Ask for feedback early and often.</li>
+</ol>
+<h4 id="time-allocation">Time allocation<a class="headerlink" href="#time-allocation" title="Permanent link">&para;</a></h4>
+<p>Allocated 45 minutes or an hour is typical, but not enough to entirely flesh out a full system.</p>
+<p>Step 1: understanding problem and design scope (3-10 minutes)</p>
+<p>Step 2: Propose high-level design (10-15 minutes)</p>
+<p>Step 3: Design deep dive (10-25 minutes)</p>
+<p>Step 4: Wrap up (3-5 minutes)</p>
+<h2 id="chapter-4-design-a-rate-limiter">Chapter 4: Design a Rate Limiter<a class="headerlink" href="#chapter-4-design-a-rate-limiter" title="Permanent link">&para;</a></h2>
+<p>(these are just my notes of what the author would ask in such an interview)</p>
+<h3 id="step-1">Step 1<a class="headerlink" href="#step-1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>What kind of rate limiter? Client or server side? Answer: server side.</li>
+<li>Does the rate limiter throttle API requests based on IP, user ID, or other property? Answer: It should be flexible enough to support different kinds of throttle rules.</li>
+<li>Scale of the system? Startup-scale or big company with large user base? Answer: Large number of users</li>
+<li>Will the system work in a distributed environment? Answer: yes.</li>
+<li>Is the rate limiter a separate service or is it implemented in application code? Answer: it's a design decision up to you.</li>
+<li>Do we need to inform users when they're throttled? Answer: yes.</li>
+</ol>
+<p><strong>Requirements</strong></p>
+<ol>
+<li>Accurately limit excessive requests</li>
+<li>Low latency</li>
+<li>Use as little memory as possible</li>
+<li>Distributed rate limiting. Rate limiter should be shared across multiple processes/servers.</li>
+<li>Exception handling: show clear message to the user</li>
+<li>High fault tolerance: any problems with rate limiter will not affect the entire system.</li>
+</ol>
+<h3 id="step-2">Step 2<a class="headerlink" href="#step-2" title="Permanent link">&para;</a></h3>
+<p>Where to put rate limiter? You could put it as a separate microservice next to the API servers, but this introduces an issue of the API servers needing to potentially query the rate limiter. It's not a scalable solution.</p>
+<p>Cloud microservices usually implement rate limiting within an API gateway, in front of the API servers. </p>
+<p>These two implementations are both valid, but have various pros/cons. Things to consider:</p>
+<ol>
+<li>Company's current tech stack</li>
+<li>Identify rate limiting algorithm that meets business needs. You have much control if you implement your own solution. Using a third-party API gateway might limit you in your choices.</li>
+<li>Building your own limiter takes time.</li>
+</ol>
+<h4 id="choice-of-algorithms">Choice of algorithms<a class="headerlink" href="#choice-of-algorithms" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Token bucket<ul>
+<li>Very common, well-understood.</li>
+<li>Used by large companies like Amazon and stripe.</li>
+<li>A bucket can contain a certain number of tokens. A refiller will periodically add a token to the bucket.</li>
+<li>Consumers of the API grab a token. If no token exists, the request is rate limited.</li>
+<li>Pros:<ul>
+<li>easy to implement</li>
+<li>memory efficient</li>
+<li>Allows bursts in traffic for short periods</li>
+</ul>
+</li>
+<li>Cons:<ul>
+<li>Two parameters to the algorithm might be challenging to tune properly.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Leaking bucket<ul>
+<li>Requests go into a queue. If the queue is full, the request is dropped.</li>
+<li>The queue is processed at a fixed rate.</li>
+<li>Pros:<ul>
+<li>Memory efficient given limited queue size</li>
+<li>Requests are processed at a fixed rate, so it's suitable in cases where a stable outflow is needed.</li>
+</ul>
+</li>
+<li>Cons:<ul>
+<li>Bursts of traffic will fill up the queue with old requests. New requests will get dropped.</li>
+<li>Two parameters to the algorithm (queue size, outflow rate) might be difficult to tune.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Fixed window counter algorithm<ul>
+<li>Each time window is allowed only a certain number of requests. If a request comes in when that limit is reached, it's dropped.</li>
+<li>Pros:<ul>
+<li>Memory efficient</li>
+<li>Easy to understand</li>
+<li>Resetting available quota at the end of time unit might fit some use cases.</li>
+</ul>
+</li>
+<li>Cons:<ul>
+<li>Spike in traffic can cause more requests to come through than what is intended/allowed.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sliding log window<ul>
+<li>Keeps track of request timestamps, cached in something like redis.</li>
+<li>When new request arrives, remove timestamps from redis bucket that are older than <code>now - window_size</code>.</li>
+<li>Add new request timestamp to bucket</li>
+<li>If bucket size is less than or equal to max allowed size, allow the request. Otherwise, deny it.</li>
+<li>Note: the main difference between the sliding log window and the fixed window is that the boundary of the fixed window is set on some regular interval (something like every second, or every minute, or every hour).</li>
+<li>Pros: <ul>
+<li>Rate limiting is very accurate. In any rolling window, requests will not exceed the limit.</li>
+</ul>
+</li>
+<li>Cons:<ul>
+<li>Memory intensive. Timestamps still need to be stored in memory even if the request is rejected.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sliding window counter<ul>
+<li>We use a set of predefined time windows, as in the Fixed Window algorithm, that have boundaries on some regular interval.</li>
+<li>We use another sliding window that overlaps these fixed windows.</li>
+<li>To calculate the number of requests in our rolling window, we:<ul>
+<li>Calculate the number of requests in the previous minute. Multiply it by the percentage of which our sliding window overlaps with the previous window.</li>
+<li>Calculate the number of requests in the current minute</li>
+<li>Formula: <code>requests_current_window + (requests_previous_window * percent_overlap_previous_window)</code>.</li>
+</ul>
+</li>
+<li>Pros:<ul>
+<li>Smooths out spikes in traffic</li>
+<li>Memory efficient (only have to store the requests counts of a few fixed windows)</li>
+</ul>
+</li>
+<li>Cons:<ul>
+<li>Assumes that the distribution of the previous window is uniform. Consequently, it might incorrectly block a request. For example, consider if all requests for the previous window came towards the beginning of the window. When we run our calculation, the average number of requests in the previous window might put us over our limit, even if our sliding window does not overlap when the previous requests happened.</li>
+<li>Author notes that according to experiments at Cloudflare, only 0.003% of requests are incorrectly rate-limited or allowed over 400 million requests.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>The author's high-level overview is as such:</p>
+<pre class="mermaid"><code>flowchart
+    client --&gt; rateLimiter
+    rateLimiter --&gt; redis
+    rateLimiter --&gt; APIServers[API Servers]</code></pre>
+<h3 id="step-3">Step 3<a class="headerlink" href="#step-3" title="Permanent link">&para;</a></h3>
+<p>A basic data structure in Redis is to have a single counter value that we increment/decrement. Race conditions arise when you have multiple API gateway instances trying to read this counter value. This can be solved by:</p>
+<ul>
+<li>Using locks (not preferrable as they slow down the system)</li>
+<li><a href="https://redis.io/docs/data-types/sorted-sets/">Sorted set data structure</a></li>
+<li>Lua scripts (I don't know what the author means by this).</li>
+</ul>
+<p>We want a centralized datastore like redis so that all rate limiter instances hit the same backing store. </p>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>A question to myself is whether you should have one big-ass redis cluster for the whole world (probably not) or if you should have a single redis cluster for every datacenter (or region). With anycast DNS (or geocast), it might be sufficient for the rate limiters local to a specific datacenter to only use a redis backend specific to that datacenter. I can't immediately think of any reason why this wouldn't work.</p>
+</div>
+<p>The author does note that you want to synchronize the data across datacenters with an eventual consistency model. This will come up in Chapter 6.</p>
+<h2 id="chapter-5-design-consistent-hashing">Chapter 5: Design Consistent Hashing<a class="headerlink" href="#chapter-5-design-consistent-hashing" title="Permanent link">&para;</a></h2>
+<p>Notes on using different hashing methods to route your requests to a specific server.</p>
+<h3 id="the-rehashing-problem">The rehashing problem<a class="headerlink" href="#the-rehashing-problem" title="Permanent link">&para;</a></h3>
+<p>Using the hash method <code>serverIdx = hash(key) % N</code> works when server size is fixed, but if you add more servers, then the mappings will get reshuffled quasi-randomly. This causes tons of cache misses and will tank performance.</p>
+<h3 id="consistent-hashing"><a href="https://en.wikipedia.org/wiki/Consistent_hashing">Consistent Hashing</a><a class="headerlink" href="#consistent-hashing" title="Permanent link">&para;</a></h3>
+<p>Consistent hashing is the answer to the rehashing problem. I'm going to be borrowing a lot of diagrams from <a href="https://www.toptal.com/big-data/consistent-hashing">https://www.toptal.com/big-data/consistent-hashing</a>, which is a great blog that describes in detail how consistent hashing works.</p>
+<div class="grid cards">
+<ul>
+<li><a class="glightbox" href="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_01.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Hash ring 1" src="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_01.png" /></a></li>
+<li><a class="glightbox" href="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_02.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Hash ring 2" src="https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/consistent_hashing/consistent_hash_ring_02.png" /></a></li>
+</ul>
+</div>
+<p>The general idea is that both servers and users live within the same hash space. The servers, more often than not, will have a hash key that depends on the name. The users will have a hash that depends on their name, but also possibly their location.</p>
+<p>When a user is hashed, we find the closest adjacent server in a counter-clockwise manner (it could also be clockwise, it doesn't matter). When a new server gets added, there is only a small probability that any particular user needs to get re-mapped to a new server. Or in other words, the chance of a new server being blaced <em>between</em> a user and that user's prior server is quite low.</p>
+<p>In the case that does happen, a re-mapping will indeed have to occur, but the overall probability is low enough that the cache misses should be minimal.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The author notes that it's very likely for nodes in a hash ring to become too clumped together, which would cause uneven distribution (this is called the Hotspot Key Problem). He notes that for every "real" node, we can inject a finite number of virtual nodes and hash those as well. This effectively causes the hash ring to become more uniformly distributed as it causes the standard deviation (in terms of empty space in the ring) to be smaller.</p>
+</div>
+<h2 id="chapter-6-design-a-key-value-store">Chapter 6: Design a Key-Value Store<a class="headerlink" href="#chapter-6-design-a-key-value-store" title="Permanent link">&para;</a></h2>
+<p>We want to design a distributed key-value store. These are the requirements:</p>
+<ol>
+<li>Key-value pair is small: less than 10KB</li>
+<li>Store big data</li>
+<li>High availability</li>
+<li>High scalability</li>
+<li>Automatic scaling</li>
+<li>Tunable consistency</li>
+<li>Low latency</li>
+</ol>
+<h3 id="cap-theorem">CAP Theorem<a class="headerlink" href="#cap-theorem" title="Permanent link">&para;</a></h3>
+<p>CAP stands for Consistency, Availability, and Partition Tolerance. The theorem states that a distributed system cannot meet more than 2 of those attributes at once. Partition Tolerance refers to the ability of the system to tolerate its network being unintentionally partitioned/separated (think: split brain scenarios).</p>
+<p>Key-value stores are categorized based on which of these attributes they meet:</p>
+<ul>
+<li>CP systems: supports consistency and partition tolerance while sacrificing availability.</li>
+<li>AP systems: supports availability and partition tolerance while sacrificing consistency.</li>
+<li>CA systems: supports consistency and availability while sacrificing partition tolerance. The author notes that because networks can fail, partition intolerance is generally not acceptable.</li>
+</ul>
+<h3 id="data-partitions">Data partitions<a class="headerlink" href="#data-partitions" title="Permanent link">&para;</a></h3>
+<p>We can use the consistent hashing method to partition data! This will minimize data movement when nodes are added/removed. We need to consider how to handle the case when data <em>does</em> need to be moved when we add/remove nodes. We also need to consider how our data will be replicated to multiple nodes for high availability purposes. </p>
+<p>When creating a key, we can simply place it to the first N nodes seen (when rotating clockwise along the hash ring). We ensure that we only look at real nodes, not virtual nodes, to ensure we're not incorrectly writing a key multiple times to the same server.</p>
+<h3 id="consistency">Consistency<a class="headerlink" href="#consistency" title="Permanent link">&para;</a></h3>
+<p>Quorum consensus can be used to ensure read/write consistency. First some definitions:</p>
+<ul>
+<li><strong>N</strong> = the number of replicas</li>
+<li><strong>W</strong> = write quorum size. Write operations must be ack'ed by W replicas to be considered successful.</li>
+<li><strong>R</strong> = read quorum size. Read must wait for responses from R replicas.</li>
+</ul>
+<p>N/W/R can be tuned for various use cases:</p>
+<ul>
+<li>R=1, W=N, system optimized for fast read.</li>
+<li>W=1, R=N, systemm optimized for fast write.</li>
+<li>W+R&gt;N, strong consistency is guaranteed.</li>
+<li>W+R&lt;=N, strong consistency is not guaranteed.</li>
+</ul>
+<p>Types of consistency models:</p>
+<ol>
+<li>Strong consistency: read operations are guaranteed to have the most updated view of the data. Think: GPFS, LustreFS, most on-disk POSIX filesystems.</li>
+<li>Weak consistency: subsequent read operations not guaranteed to see the most updated view.</li>
+<li>Eventual consistency: read operations eventually receive the most updated view.</li>
+</ol>
+<h3 id="inconsistency-resolution-versioning">Inconsistency resolution: versioning<a class="headerlink" href="#inconsistency-resolution-versioning" title="Permanent link">&para;</a></h3>
+<p>When concurrent writes are made, how do we handle the conflicts. In CVMFS, all concurrent writes go through a serialization step on the publisher. Because it's all transaction based, transactions updates are processed serially, so there is no chance for conflicting writes to happen. CVMFS also explicitly versions each update in the root catalog.</p>
+<h4 id="vector-clock"><a href="https://en.wikipedia.org/wiki/Vector_clock#:~:text=A%20vector%20clock%20of%20a,vector%20clock%20maintained%20by%20process">Vector Clock</a><a class="headerlink" href="#vector-clock" title="Permanent link">&para;</a></h4>
+<p>The author recommend a vector clock as one possible solution. It's a <code>&lt;server,version&gt;</code> pair associated with a data item.</p>
+<h3 id="failure-detection">Failure detection<a class="headerlink" href="#failure-detection" title="Permanent link">&para;</a></h3>
+<p>We need to detect failures in our system. There are a few methods of doing this.</p>
+<h4 id="gossip-protocol">Gossip Protocol<a class="headerlink" href="#gossip-protocol" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Each nodes maintains node membership list, which contains member IDs and heartbeat counters</li>
+<li>Each node periodically increments its heartbeat counter</li>
+<li>Each node periodically sends heartbeats to a set of random nodes, which in turn propagate to other set of nodes</li>
+<li>Once nodes receive heartbeats, membership list is updated to the latest info.</li>
+<li>If heartbeat has not increased for more than predefined period, the member his considered as offline. (question: should a peer eagerly declare to other peers that it considers something offline?)</li>
+</ul>
+<h4 id="temporary">Temporary<a class="headerlink" href="#temporary" title="Permanent link">&para;</a></h4>
+<p>In strict quorum approach, reads/writes will be blocked until there is quorum consensus. In a "sloppy quorum" approach, the system chooses the first W healthy servers for writes, and first R healthy servers for reads on the hash ring.</p>
+<p>For sloppy quorum, unavailable servers which come back up will go through what's called a "hinted handoff," or in other words, its peers will push changes back to it to achieve consistency.</p>
+<h4 id="permanent">Permanent<a class="headerlink" href="#permanent" title="Permanent link">&para;</a></h4>
+<p>What happens if replica is permanently unavailable? We use what's called an Anti-Entropy Protocol. A Merkle Tree is suggested, which surprise surprise, is exactly what CVMFS uses! Merkle trees verify integrity first by comparing the root hash. If the hash is the same, the trees are identical. If they're not, we need to recurse into the tree to find which nodes are different. This can be done in a <span class="arithmatex">\(O(log(n))\)</span> manner as each node contains hash pointers to its children, so we can easily find what part of the tree is different. Once the differences has been found, we can reconcile the differences.</p>
+<h4 id="datacenter-outages">Datacenter outages<a class="headerlink" href="#datacenter-outages" title="Permanent link">&para;</a></h4>
+<p>Your data must be replicated across multiple datacenters. You can do this by having the client interact with a coordinator that acts as a proxy to the key-value store. Using a consistent hash ring helps resolve this, along with the gossip protocol.</p>
+<h3 id="write-path">Write Path<a class="headerlink" href="#write-path" title="Permanent link">&para;</a></h3>
+<p>The author proposes a write path that's similar to how Cassandra works.</p>
+<pre class="mermaid"><code>flowchart TD
+
+    client
+
+    subgraph Server
+        subgraph memory
+            memoryCache(Memory Cache)
+            processor(Write Processor)
+
+            processor --&gt;|"(2)"| memoryCache
+        end
+
+        subgraph disk
+            SSTables(SS Tables)
+            CommitLog(Commit Log)
+
+            memoryCache --&gt;|"(3) Flush"| SSTables
+            processor --&gt;|"(1)"| CommitLog
+        end
+
+    end
+
+    client --&gt; processor</code></pre>
+<div class="annotate">
+<ol>
+<li>The write request goes to a commit log in a file</li>
+<li>Data is saved to in-memory cache</li>
+<li>When cache is full, data is flushed to an SStable (1) on disk.</li>
+</ol>
+</div>
+<ol>
+<li>An SSTable is a sorted-string table. It's a sorted list of key/value pairs.</li>
+</ol>
+<h3 id="read-path">Read Path<a class="headerlink" href="#read-path" title="Permanent link">&para;</a></h3>
+<div class="annotate">
+<p>A client will reference the in-memory cache initially. If it's not in the cache, it will be retrieved from disk. We have to find what SSTable contains the key (because they can be dispersed through many). A bloom filter (1) is a common method of solving this.</p>
+</div>
+<ol>
+<li>What is a bloom filter? I had heard of this before but wasn't sure what exactly it is. It's a data structure that is used to test if an element is a member of a set. False positives are possible, but not false negatives, so it tells you either "possibly in set" or "definitely not in set." <a href="https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/">Geeks for Geeks</a> has a great article on how this works. It's actually quite a simple data structure, but it's very powerful!</li>
+</ol>
+<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Goal/Problems</th>
+<th>Technique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ability to store big data</td>
+<td>Use consistent hashing to spread the load</td>
+</tr>
+<tr>
+<td>High availability reads</td>
+<td>Data replication. Multi-datacenter setup</td>
+</tr>
+<tr>
+<td>High availability writes</td>
+<td>Version and conflict resolution with vector clocks</td>
+</tr>
+<tr>
+<td>Dataset partition</td>
+<td>Consistent hashing</td>
+</tr>
+<tr>
+<td>Incremental scalability</td>
+<td>Consistent hashing</td>
+</tr>
+<tr>
+<td>Heterogeneity</td>
+<td>Consistent hashing</td>
+</tr>
+<tr>
+<td>Tunable consistency</td>
+<td>Quorum consensus</td>
+</tr>
+<tr>
+<td>Handling temporary failures</td>
+<td>sloppy quorum and hinted handoff</td>
+</tr>
+<tr>
+<td>Handling permanent failures</td>
+<td>Merkle tree</td>
+</tr>
+<tr>
+<td>Handling data center outages</td>
+<td>Cross-datacenter replication</td>
+</tr>
+</tbody>
+</table>
+<h2 id="chapter-7-design-a-unique-id-generator-in-distributed-systems">Chapter 7: Design a Unique ID Generator in Distributed Systems<a class="headerlink" href="#chapter-7-design-a-unique-id-generator-in-distributed-systems" title="Permanent link">&para;</a></h2>
+<p>The interviewer asks us to design a unique ID generator that works globally. </p>
+<p><strong>Step 1</strong></p>
+<p>We need to understand the problem scope. The constraints are:</p>
+<ol>
+<li>IDs must be unique and sortable</li>
+<li>It increments by time but not necessarily by 1.</li>
+<li>It only contains numerical values</li>
+<li>It should fit into 64 bits</li>
+<li>The system should be able to generate 10,000 IDs per second</li>
+</ol>
+<p><strong>Step 2</strong></p>
+<p>We need to propose a high-level design. There are a few options:</p>
+<ol>
+<li>UUID: this is a solution that already exists, however this doesn't work because it doesn't fit in 64 bits.</li>
+<li>Auto-incrementing ID in a database: also doesn't work because it's not scalable.</li>
+<li>Ticket server: a single server generates numeric IDs, but it's not scalable because it's a single point of failure.</li>
+<li>"Twitter snowflake": this is the approach we'll try. Twitter has a system called snowflake that uses a 64 bit ID. These 64 bits are partitioned accordingly:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>bit range</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:1</td>
+<td>reserved for future use</td>
+</tr>
+<tr>
+<td>1:42</td>
+<td>timestamp</td>
+</tr>
+<tr>
+<td>42:47</td>
+<td>datacenter ID</td>
+</tr>
+<tr>
+<td>47:52</td>
+<td>machine ID</td>
+</tr>
+<tr>
+<td>52:64</td>
+<td>sequence number</td>
+</tr>
+</tbody>
+</table>
+<p>The timestamp is a millisecond-since-epoch timestamp, with the epoch being Nov 04, 2010, 01:42:54 UTC. The sequence number is incremented by every ID generated on the machine, and is reset back to 0 once per millisecond.</p>
+<p><strong>Step 3</strong></p>
+<p>Now let's go into a deep-dive on our design.</p>
+<p>The timestamp uses 41 bits so it can only represent 2199023255551 milliseconds, or about 69 years. So this will work only up until sometime in 2079.</p>
+<p>The sequence number lets us generate 4096 seqnums per millisecond, so this is the maximum threshold that each server can generate.</p>
+<p><strong>Step 4</strong></p>
+<p>Now we need to wrap up our design. We designed a system that requires no synchronization between ID generators and is capable of scaling out to a huge number of servers. It is not possible to generate duplicate IDs for 69 years, assuming all datacenter IDs and machine IDs (within their datacenter) are unique.</p>
+<h2 id="chapter-11-design-a-news-feed-system">Chapter 11: Design a News Feed System<a class="headerlink" href="#chapter-11-design-a-news-feed-system" title="Permanent link">&para;</a></h2>
+<p>I've skipped writing down notes for the previous few chapters as I'm intending to follow solutions for problems that are trivial to me personally (mind you, I still read the chapters obviously, but some of the design questions are fairly simple to me).</p>
+<p>In this chapter, we're asked to design a news feed. </p>
+<p><strong>Step 1</strong></p>
+<p>We need to ask follow-up questions. These are the author's questions:</p>
+<ol>
+<li><strong>Question</strong>: What kinds of devices does this run on? <strong>Answer</strong>: Web and mobile app.</li>
+<li><strong>Question</strong>: What are the important features? <strong>Answer</strong>: a user can publish a post and see friends' posts on the news feed page.</li>
+<li><strong>Question</strong>: Is the news feed sorted by reverse chronological order or any particular order such as topic scores? <strong>Answer</strong>: assume it's sorted by reverse chronological order.</li>
+<li><strong>Question</strong>: how many friends can a user have? <strong>Answer</strong>: 5000</li>
+<li><strong>Question</strong>: What is the traffic volume? <strong>Answer</strong>: 10 million DAU.</li>
+<li><strong>Question</strong>: Can it contain images, videos, or just text? <strong>Answer</strong>: it can contain media files, including images and videos.</li>
+</ol>
+<p>These are the kinds of questions I would ask:</p>
+<ol>
+<li>Can the news feed be populated via ads?</li>
+<li>Can it be populated with relevant news articles that you may find interesting?</li>
+<li>What are the latency requirements fom when a friend creates a post, to when it can potentially show up on a user's feed?</li>
+<li>Can a user decide to hide a particular friend's posts?</li>
+</ol>
+<p><strong>Step 2</strong></p>
+<p>There are two main components to this: feed publishing, and feed building.</p>
+<h3 id="feed-publishing-api">Feed publishing API<a class="headerlink" href="#feed-publishing-api" title="Permanent link">&para;</a></h3>
+<p>To create a post, we send an HTTP POST request to an API:</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>URL</th>
+<th>params</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/v1/me/feed</td>
+<td><ul><li>content: the text of the post</li><li>auth_token: used to authenticate requests</li></ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="newsfeed-retrieval-api">Newsfeed retrieval API<a class="headerlink" href="#newsfeed-retrieval-api" title="Permanent link">&para;</a></h3>
+<p>To get the news feed, we do:</p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>URL</th>
+<th>params</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/v1/me/feed</td>
+<td><ul><li>auth_token: used to authenticate requests</li></ul></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is not the way I would design such an API. My preference would be for the <code>POST</code> request to send to an endpoint like <code>/v1/me/posts</code>, which would then return a post ID that you could use to retrieve just that particular post, like <code>GET /v1/me/posts/51</code>. Additionally, it might make even more sense for the API to be structured around users. For example, if you wanted to get all posts for a particular user, you could do <code>GET /v1/users/8192/posts</code>. Under such a scheme, you would create a post under that user's ID like <code>POST /v1/users/8192/posts</code> and get a particular post like <code>GET /v1/users/8192/posts/51</code>. The feed for a particular user would be under <code>GET /v1/users/8192/feed</code>.</p>
+<p>This is a bit cleaner in my opinion and it makes it clear that every post and feed is specific to a particular user.</p>
+</div>
+<p><strong>Step 3</strong></p>
+<h3 id="fanout-service">Fanout service<a class="headerlink" href="#fanout-service" title="Permanent link">&para;</a></h3>
+<p>There are two primary ways to architect this: fanout on write, or fanout on read.</p>
+<h4 id="fanout-on-write">Fanout on Write<a class="headerlink" href="#fanout-on-write" title="Permanent link">&para;</a></h4>
+<p>The feed is pre-computed for every user during write time. It's delivered to a friend's cache immediately after publish.</p>
+<p>Pros:</p>
+<ol>
+<li>Feed generated realtime and can be pushed immediately</li>
+<li>Fetching feed is fast because it's already been pre-computed.</li>
+</ol>
+<p>Cons:
+1. If a user has many friends, fetching the friend list and generating feed is slow and time consuming. It's called the hotkey problem.
+2. For inactive users, pre-computing the feed is a waste of resources.</p>
+<h4 id="fanout-on-read">Fanout on Read<a class="headerlink" href="#fanout-on-read" title="Permanent link">&para;</a></h4>
+<p>Pros:</p>
+<ol>
+<li>For inactive users, resources are not wasted on generating a feed.</li>
+<li>Data is not published to friends so there is no hotkey problem</li>
+</ol>
+<p>Cons:</p>
+<ol>
+<li>Fetching news feed is slow as it's not pre-computed.</li>
+</ol>
+<p>You can adopt a hybrid approach where we adtop a fanout-on-write model for most users, but for users like celebreties or well-connected accounts, we can grab the feed on read to prevent system overload. We can use consistent hashing here (yay consistent hashing! <img alt="🥳" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f973.svg" title=":partying_face:" />)</p>
+<p>The fanout service works as follows:</p>
+<ol>
+<li>Fetch friend IDs from the graph database.</li>
+<li>Get friends info from the user cache. The system filters based on user settings, for example if the user mutes someone.</li>
+<li>Send friends list and new post ID to the message queue.</li>
+<li>Fanout workers fetch data from message queue and store news feed data in news feed cache. The news feed cache is a <code>&lt;post_id,user_id&gt;</code> mapping table. Whehter new post is made, it will be appended to news feed table.</li>
+<li>Store <code>&lt;post_id,user_id&gt;</code> in news feed cache. </li>
+</ol>
+<h3 id="newsfeed-retrieval-deep-dive">Newsfeed retrieval deep dive<a class="headerlink" href="#newsfeed-retrieval-deep-dive" title="Permanent link">&para;</a></h3>
+<ol>
+<li>A user sends a request to retrieve feed. The request looks like <code>GET /v1/me/feed</code></li>
+<li>Load balancer redistributes requests to web servers</li>
+<li>Web server call the news feed service to fetch feed.</li>
+<li>News feed service gets a list of post IDs from the feed cache.</li>
+<li>A user's feed is more than just a list of feed IDs. Contains username, profile picture, post content, image etc. Thus, news feed service fetches the complete user and post objects to construct the full news feed.</li>
+<li>News feed is returned in JSON format back to the client for rendering.</li>
+</ol>
+<h3 id="cache-architecture">Cache architecture<a class="headerlink" href="#cache-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li>News feed: stores IDs of new feeds</li>
+<li>Content: stores every post data.</li>
+<li>Social Graph: stores user relationships</li>
+<li>Action: stores info on whether a user liked, replied, or took another action on a post.</li>
+<li>Counters: stores counters for likes, replies, followers, following etc</li>
+</ul>
+<p><strong>Step 4</strong></p>
+<p>You can talk about scalability issues with this system. Maybe go into the ways in which other companies have solved this problem, like Twitter, Facebook etc. How might you scale the databases? SQL vs NoSQL? Read Replicas? How to keep web tier stateless? How to cache data? Supporting multiple datacenters? How to handle dead letter queues? Monitoring key metrics?</p>
+<h2 id="chapter-12-design-a-chat-system">Chapter 12: Design a Chat System<a class="headerlink" href="#chapter-12-design-a-chat-system" title="Permanent link">&para;</a></h2>
+<p>The interviewer asks us to design a chat system. </p>
+<h3 id="step-1_1">Step 1<a class="headerlink" href="#step-1_1" title="Permanent link">&para;</a></h3>
+<p>Understand the requirements:</p>
+<ol>
+<li>This should support both 1 on 1 and group chat</li>
+<li>It's both a mobile and web app</li>
+<li>It should support 50 million DAU</li>
+<li>The important features are 1 on 1 chat, group chat, online indicator. The system only supports text messages.</li>
+<li>Text length is less than 100,000 characters long.</li>
+<li>e2e encryption is not an initial requirement.</li>
+<li>Chat history should be stored forever.</li>
+</ol>
+<h3 id="step-2_1">Step 2<a class="headerlink" href="#step-2_1" title="Permanent link">&para;</a></h3>
+<p>There are 3 main ways we could implement sending messages from client to client:</p>
+<ol>
+<li>Short polling: a client would periodically poll the server for new messages. This would work but it's inefficient because it requires opening and closing many connections.</li>
+<li>Long polling: same as short polling, but we can keep the connection open until we receive new messages. The disadvantages are:<ul>
+<li>The sender and receiver might not be on the same server.</li>
+<li>The server has no good way to tell if a client is disconnected.</li>
+<li>It's inefficient because long polling will still make periodic connection requests even if there are no messages being sent.</li>
+</ul>
+</li>
+<li>Websocket: Websocket is a protocol that allows you to asynchronously send and receive messages over the same connection. </li>
+</ol>
+<pre class="mermaid"><code>flowchart TD
+    Sender &lt;--&gt;|Websocket| chatService[Chat Service]
+    Receiver &lt;--&gt;|Websocket| chatService</code></pre>
+<h4 id="high-level-design">High-level design<a class="headerlink" href="#high-level-design" title="Permanent link">&para;</a></h4>
+<p>Our system is partitioned into two types of services: stateful, and stateless. The stateful service includes the websocket connections for sending/receiving data. The stateless service includes things like user settings, group memberships, service discovery etc. Stateless services can remain as HTTP endpoints.</p>
+<pre class="mermaid"><code>flowchart TD
+
+    subgraph Stateless
+        user --&gt;|HTTP| loadBalancer[Load Balancer]
+        loadBalancer --&gt; serviceDiscovery[Service Discovery]
+        loadBalancer --&gt; auth[Authentication Service]
+        loadBalancer --&gt; GroupManagement[Group Management]
+        loadBalancer --&gt; userProfile[User Profile]
+    end
+
+    subgraph Stateful
+        User1 &lt;--&gt;|Websocket| chatService[Chat Service]
+        User2 &lt;--&gt;|Websocket| chatService
+    end</code></pre>
+<p>Many of the stateless services listed above can be implemented using third-party solutions. The service discovery unit is a service that provides the client with a list of possible DNS names that it could connect to for the chat service. </p>
+<p>Where should we store chat history? A common solution might be a relational database, but at the scale needed by this system, SQL will begin to slow down tremendously as the indexes grow. A previous study showed that Facebook messenger and Whatsapp process 60 billion messages per day. That's probably not going to fit in most modern relational databases. Further, only the most recent chat messages are retrieved. A key-value store is a good fit for this pattern:</p>
+<ul>
+<li>It allows easy horizontal scaling</li>
+<li>It provides low latency access</li>
+<li>Relational databases do not handle long tails well</li>
+<li>Key-value stores are adopted by other proven chat systems. Facebook uses HBase and Discord uses Cassandra.</li>
+</ul>
+<h3 id="step-3_1">Step 3<a class="headerlink" href="#step-3_1" title="Permanent link">&para;</a></h3>
+<h4 id="service-discovery">Service Discovery<a class="headerlink" href="#service-discovery" title="Permanent link">&para;</a></h4>
+<p>The service discovery will recommend the best chat server for the client to connect to. Based off of things like geographical region, node health, node load etc. Zookeeper is a popular choice for this.</p>
+<h4 id="chat-flow">Chat flow<a class="headerlink" href="#chat-flow" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flowchart TD
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    UserA --&gt; ChatServer
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ChatServer --&gt; UserBQueue[(User B Queue)]
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ChatServer --&gt; UserCQueue[(User B Queue)]
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    UserBQueue --&gt; UserB
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    UserCQueue --&gt; UserC
+</span></code></pre></div>
+<p>One way to route messages is for each user to have their own queue. This works fine for small-membership groups, but once membership becomes large, it becomes unacceptable to store the same message multiple times. This is why many chat services limit the number of members in a group.</p>
+<h4 id="online-presence-indicator">Online Presence Indicator<a class="headerlink" href="#online-presence-indicator" title="Permanent link">&para;</a></h4>
+<p>We can have the user client send a heartbeat to the presence service. If the presence service doesn't receive a heartbeat within some amount of time, it can mark the user as offline. To fanout, we can have the presence service send to each user's individual queue. Again, this is okay for small groups, but is unsustainable for larger groups.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs Insiders
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/LandonTClipp" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/landonclipp/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.tooltips", "navigation.indexes", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.tracking", "toc.follow"], "search": "../../../assets/javascripts/workers/search.c7c1ca2c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.b71cdcd1.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../js/open_in_new_tab.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
