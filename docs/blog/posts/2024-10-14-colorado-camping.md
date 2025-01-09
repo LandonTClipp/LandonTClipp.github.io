@@ -275,6 +275,34 @@ I didn't even know cows would even _want_ to climb a mountain, but I'm just here
 </div>
 
 I can't lie that I was on one hand disappointed because the weather prevented me from achieving my goal of making another summit, but on the other I got to witness (not surprisingly) another incredible view. The peace, the solitude, the serenity of this land when the snow began to come felt palpable. It was as if I was going back to a place that was familiar to me, although I had never been there before.
+
+## On The Road Again
+
+That last hike on Saturday marked the beginning of the end for this trip. The following Sunday morning, I packed up and started making my way back. I drove through Monarch Mountain where it had also recently experienced snow, but was high enough in altitude to not melt it off. My _last_ last camping site in the mountain was some dispersed location near Bailey, CO. I don't know exactly where, I just remember that it required driving through lots of washboard dirt roads that I thought were gonna shake the other tire (the one that _didn't_ blow up) off my trailer.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6539+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6544+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6546+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6548+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6553+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6558+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6559+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6560+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6562+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6565+Large.jpeg){ loading=lazy }
+</div>
+
+Again, it was stunning. Again, I was blown away at the beauty around me. Although this night I had a sense of longing. You know that feeling when you're about to say goodbye to someone you love that you know you won't see again in a long time? There's not an English word for that feeling, but that's what I felt.
+
+<video controls>
+  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6561.MOV" type="video/mp4">
+</video>
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6566+Large.jpeg){ loading=lazy }
+
+I sat outside in the cold night just taking in as much as I could, because this would be the last time I see the mountains for probably 8 months. And that felt like eternity. I looked at the twinkling lights of the houses on the mountain thinking to myself how lucky those people must be to be able to live in a place like this.
+
 ## Links
 
 - [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/BuPTLkNLYw5RsGmM9)
