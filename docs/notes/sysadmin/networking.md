@@ -65,10 +65,10 @@ Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
 7.0.0.0         7.151.164.131   255.0.0.0       UG        0 0          0 eno1
 7.151.164.128   0.0.0.0         255.255.255.128 U         0 0          0 eno1
 $ ip r s
-default via 7.151.164.131 dev eno1 proto static metric 100 
-7.0.0.0/8 via 7.151.164.131 dev eno1 proto static metric 65024000 
-7.151.164.128/25 dev eno1 proto kernel scope link src 7.151.164.166 metric 100 
-7.151.176.0/21 dev ib0 proto kernel scope link src 7.151.181.31 metric 150 
+default via 7.151.164.131 dev eno1 proto static metric 100
+7.0.0.0/8 via 7.151.164.131 dev eno1 proto static metric 65024000
+7.151.164.128/25 dev eno1 proto kernel scope link src 7.151.164.166 metric 100
+7.151.176.0/21 dev ib0 proto kernel scope link src 7.151.181.31 metric 150
 ```
 
 DHCP
@@ -256,7 +256,7 @@ Seems to be exclusively used by Microsoft's products
 
 Mainly used for flash.
 
-## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access) 
+## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access)
 
 Remote Direct Memory Access is a method of direct memory access across the network that does not involve either server's operating system.
 
@@ -303,3 +303,37 @@ DSR is a method of load balancing whereby the server sitting behind the load bal
 3. The chosen backend receives the packet. Because the layer 3 IP frame was untouched, the packet appears in all respects as if it came from the originating client. Thus, the backend will respond directly to the client IP through the default IP gateway.
 
 It should be noted that, of course, the backends and the load balancer need to be configured with a VIP. When the LB forwards the packet to the backend, the destination IP is unchanged, only the destination MAC. So this means that the LB and the backend services need to be on the same layer 2 network. Because all the backends are configured with the same VIP, they will respond to the LB-forwarded packet.
+
+`tracepath`/`traceroute`/`mtr`
+------------------------------
+
+This section describes how various path tracing utilities work (in general).
+
+When using ICMP mode, the tools will follow this general pattern:
+
+1. Set the TTL field of the ICMP packet to 1.
+2. Send this packet to the _destination_ address.
+3. The first router in the path will decrement the TTL by 1, making it 0. This indicates to the router that the packet should be discarded.
+4. The router replies with an "ICMP Time Exceeded" message that will identify the router to the tracepath utility.
+5. The utility sends a new packet to the destination with TTL 1 higher than before, repeat from step 2.
+6. Once the packet reaches the destination host, it replies with an ICMP echo reply.
+
+Some of the challenges with ICMP:
+
+1. Not all routers participate in ICMP Time Exceeded replies.
+2. Some routers won't even decrement at all!
+3. Asymmetric routing may differ from the forward path.
+4. Some firewalls block ICMP.
+
+To get around ICMP being blocked, there are other options, such as:
+
+1. Using UDP packets (which are almost never blocked). `traceroute` does UDP probing by default.
+2. Using TCP SYN probes.
+
+### Asymmetric Routing
+
+These tools will often report when the packets go through different routers between the forward and return trips. Asymmetry can be detected in the following ways:
+
+1. Inconsistent IPs for the same hop during subsequent probes.
+2. Inconsistent RTT (round-trip-time) latency. Hops at higher indicies should always have higher latency. If this is not the case, it indicates possible routing asymmetry.
+3. ICMP Time Exceeded response TTL is unexpected. The TTL in the response packet header should contain more or less the same number of decrements as expected for the number of hops.
