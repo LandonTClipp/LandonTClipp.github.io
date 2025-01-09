@@ -183,7 +183,98 @@ While I was waiting for the tires to arrive, I took a hike up Mt. Pennsylvania.
 
 Although it's not a 14'er, it's still a decent hike up to the summit at 13,013 ft. Parts of it were especially challenging because the trail was basically straight up with no switchbacks. It wasn't anywhere near as challenging as Mt. Sherman (an actual 14'er I did a few months prior that I haven't yet written a post about) but it was the kind of exercise I needed.
 
+## Trip to Crested Butte
 
+Stranded in a town I didn't necessarily want to be in, I did this for the next few days: work remotely, hike a mountain, make dinner and go to sleep. My new tires eventually arrived so I put my trailer on jacks and remove the rims, go to the tire shop, pet the tire shop dog, and finally put on my brand spakin new :muscle_tone2: off-road :muscle_tone2: TRUCK TIRES! :exploding_head:
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6479+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6480+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6482+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6484+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6485+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6486+Large.jpeg){ loading=lazy }
+</div>
+
+I was back in business baby! I started my trek back to Crested Butte, my original destination.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-08+at+10.43.27%E2%80%AFPM.png){ loading=lazy }
+</div>
+
+The drive was long and involved going through some incredibly gorgeous towns. I drove through Buena Vista which stunned me in its majesty. Also keep in mind, this was near the tail end of fall so there will still many trees that had fire yellow leaves. I began driving down US 306 (instead of US 285/50 that Google maps shows above) and I could really only describe it as driving through a fairly tale. Like, you know those movies where the main characters (who happen to be magicians) are riding a train across a picturesque Swiss mountain landscape? Where wizards and fairies and knights are running around? It kind of felt like that, although this time the magical story was real. Don't believe me? Sit down in that chair and shut yer trap. Let me show you something else I saw:
+
+
+<div class="grid cards" markdown>
+- ![A comet](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6487+Large.jpeg){ loading=lazy }
+- ![A comet up close](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6487+cropped+Large.jpeg){ loading=lazy width="75%"}
+</div>
+
+A dark road! No wait, there's something in the sky? A UFO? Joe Biden? You see that streak of cloudy light just above the trees? That's a comet! Now I'm not gonna get sentimental and tell you that that's a sign from the sky gods sent specifically to me to deliver a message that says "move out here" because I'm not crazy, but that's exactly what happened.
+
+That comet's name is C/2023 A3 Tsuchinshan-ATLAS, so I just call it Kit Kat for short (because the initials of that long name would be CAT-A, I guess?). Anyway, Kit Kat and I saw each other for the next hour or so, but when I got to my campsite, I looked all around and realized that the mountains were now obscuring Kit Kat from my view. I never saw it again :cry:
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6488+Large.jpeg)
+
+## Stay At Crested Butte
+
+I pull up to my campsite for the next few days and can't really see much of anything beyond what the starts illuminate. I picked a spot that I guess was good, but I was so tired from the driving that I just wanted a beer then to go to sleep.
+
+I wake up the next morning to THIS
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6489+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6490+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6491+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6495+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6500+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6501+Large.jpeg){ loading=lazy }
+</div>
+
+I've got a mountain in front of me, real-life cowboy cattle ranchers behind me, and a BEAUTIFUL rainbow just jettisoning out of the porta-potty as if someone on an exclusive Skittle diet just had explosive diarrhea.
+
+I'm just partly kidding, the porta-potty was in town and there were no signs of civilization at my campsite. But holy cow this place is amazing! It turns out I actually came here for a reason, because the mountain behind me is Mt. Gothic, a not-quite 14'er but considered to be a challenging, steep climb nonetheless.(1) I saw that mountain on the map and again thought to myself: "eh, that's a good one to climb up."
+{ .annotate }
+
+1. I say this a bit sheepishly because I'm sure many Coloradans (and my future self) are looking at that and thinking "haha that's so cute."
+
+That's the beauty of this state. You can just pick a random spot on the map and say "meh, I'll hike up that mountain today." In fact, that's how all of my few mountain hikes have gone so far. I just see one off in the distance and think to myself yeah, that'll do.
+
+I only really had one day that I could hike up the mountain: on Saturday when I could dedicate the whole day, and not Sunday because I'll have to start heading back home. So I worked Tuesday through Friday, just enjoying the scenery and not doing anything too strenuous (and I couldn't anyway, because it was getting dark at 4:30 pm).
+
+Saturday morning comes and I head off to the mountain. By this time it had started snowing pretty heavily which made me concerned for my ambitions.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6505+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6508+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6513+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6514+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6515+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6516+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6518+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6522+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6523+Large.jpeg){ loading=lazy }
+</div>
+
+<video controls>
+  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6531.MOV" type="video/mp4">
+</video>
+
+I'm not one to take unnecessary risk, and I knew it would be an unnecessary risk to climb to the top of a mountain you're unfamiliar with when it's snowing and you don't have proper cleeted boots. I thought I would go as far as I could before I thought the slippery ground would pose a danger.
+
+I'm glad I did go on the hike despite the snow because I got to meet those \*cue David Attenborough voiceover\* wild mountain cows, a rare breed of cow only seen in this part of CO.
+
+I didn't even know cows would even _want_ to climb a mountain, but I'm just here to learn. I decided near the point when the trail started sharply angling upwards that it wouldn't be wise of me to continue any further, so I sadly had to start heading back.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6532+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6535+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6536+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6537+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6538+Large.jpeg){ loading=lazy }
+</div>
+
+I can't lie that I was on one hand disappointed because the weather prevented me from achieving my goal of making another summit, but on the other I got to witness (not surprisingly) another incredible view. The peace, the solitude, the serenity of this land when the snow began to come felt palpable. It was as if I was going back to a place that was familiar to me, although I had never been there before.
 ## Links
 
 - [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/BuPTLkNLYw5RsGmM9)

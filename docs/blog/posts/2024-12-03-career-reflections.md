@@ -8,6 +8,8 @@ title: 2024 Career Reflections
 description: A year in review.
 ---
 
+![](/images/lambda/1cc-grid-purple.png)
+
 <!-- more -->
 
 ## Highlights
