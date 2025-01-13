@@ -1,5 +1,6 @@
 ---
 title: Networking
+icon: material/ip-network
 ---
 
 Anycast

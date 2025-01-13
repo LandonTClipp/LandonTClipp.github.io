@@ -5,7 +5,6 @@ categories:
   - Intech Sol Horizon
 title: Colorado in the Fall
 description: The last trip of 2024 to Colorado.
-draft: true
 links:
   - blog/posts/2024-10-07-starlink-mobile.md
 ---
