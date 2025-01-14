@@ -1,3 +1,7 @@
+---
+icon: material/ethernet-cable
+---
+
 # OSI Model
 
 The Open Systems Interconnect model is a conceptual framework for understanding the various layers of abstraction involved in networked communication.

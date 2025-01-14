@@ -1,6 +1,6 @@
 ---
 title: Tracing
-icon: material/network-outline
+icon: material/chart-timeline
 ---
 
 This section describes how various path tracing utilities work (in general).
@@ -36,21 +36,21 @@ The common utilities for network tracing are:
 
 MTR is probably the most featured option; I recommend it for most use-cases. You can install it with most typical repositories:
 
-=== brew
+=== "brew"
 
-    ```
+    ``` title=""
     brew install mtr
     ```
 
-=== apt
+=== "apt"
 
-    ```
+    ``` title=""
     apt install mtr
     ```
 
-=== yum
+=== "yum"
 
-    ```
+    ``` title=""
     yum install mtr
     ```
 
