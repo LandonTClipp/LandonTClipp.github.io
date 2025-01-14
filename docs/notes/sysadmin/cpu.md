@@ -1,3 +1,7 @@
+---
+icon: octicons/cpu-16
+---
+
 # CPU
 
 ## [CPU Branch Prediction](https://en.wikipedia.org/wiki/Branch_predictor) <!-- md:optimization -->

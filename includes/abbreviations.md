@@ -10,6 +10,7 @@
 *[IOMMU]: Input-Output Memory Management Unit
 *[KVM]: Kernel Virtual Machine
 *[:material-run-fast:]: Optimization
+*[MTU]: Maximum Transmissible Unit
 *[NCCL]: Nvidia Collective Communications Library
 *[NDFC]: Nexus Dashboard Fabric Controller
 *[NTP]: Network Time Protocol
@@ -23,3 +24,4 @@
 *[TA]: Translation agent
 *[TLB]: Translation Lookaside Buffer
 *[TORQUE]: Terascale Open-source Resource and Queue Manager
+*[VRRP]: Virtual Router Redundancy Protocol

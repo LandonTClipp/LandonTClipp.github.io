@@ -193,70 +193,6 @@ The main method for improving aggregate rsync throughput is to spawn more proces
 2. Increase TCP send buffer size (kernel parameter)
 3. Increase TCP receive buffer size (kernel parameter)
 
-## OSI Layer 2 Protocols
-
-Data Link Layer
-
-### LLDP
-
-## OSI Layer 3 Protocols
-
-Network Layer
-
-### [ICMP](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol)
-
-Internet Control Message Protocol is used to diagnose issues in a network. The `traceroute` and `ping` commands use ICMP.
-
-## OSI Layer 4 Protocols
-
-Transport Layer
-
-### [QUIC](https://en.wikipedia.org/wiki/QUIC)
-
-QUIC is a transport-layer protocol that aims to be effectively equivalent to TCP but with much reduced latency. This is achieved primarily through an abbreviated handshake protocol that only requires 1 round trip, whereas TCP requires 3. It can be thought of as a TCP-like protocol with the efficiencies of UDP.
-
-![QUIC Handshake diagram](https://upload.wikimedia.org/wikipedia/commons/4/41/Tcp-vs-quic-handshake.svg)
-
-Congestion control algorithms are handled in userspace instead of kernel space (like TCP) which is claimed to allow the algorithms to rapidly evolve and improve.
-
-### TCP
-
-### UDP
-
-## OSI Layer 7 Protocols
-
-### HTTP
-
-Obviously this has to be mentioned. It's the most common protocol of them all! :partying_face:
-
-### [Websocket](/system-design/tools/#websocket)
-
-![Websocket diagram](https://assets-global.website-files.com/5ff66329429d880392f6cba2/63fe488452cc63cf1cb0ae45_148.2.png)
-
-### [gRPC](/system-design/tools/#grpc)
-
-Google Remote Procedure Call.
-
-### Video Streaming
-
-There are various standardized protocols for video streaming.
-
-#### MPEG-DASH
-
-MPEG stands for "Moving Picture Experts Group." DASH stands for "Dynamic Adaptive Streaming over HTTP". This protocol is used by YouTube and Netflix.
-
-#### Apple HLS
-
-HLS stands for "HTTP Live Streaming"
-
-#### [Microsoft Smooth Streaming](https://en.wikipedia.org/wiki/Adaptive_bitrate_streaming#Microsoft_Smooth_Streaming_(MSS))
-
-Seems to be exclusively used by Microsoft's products
-
-#### [Adobe HTTP Dynamic Streaming (HDS)](https://en.wikipedia.org/wiki/Adaptive_bitrate_streaming#Adobe_HTTP_Dynamic_Streaming_(HDS))
-
-Mainly used for flash.
-
 ## [RDMA](https://en.wikipedia.org/wiki/Remote_direct_memory_access)
 
 Remote Direct Memory Access is a method of direct memory access across the network that does not involve either server's operating system.
@@ -305,36 +241,3 @@ DSR is a method of load balancing whereby the server sitting behind the load bal
 
 It should be noted that, of course, the backends and the load balancer need to be configured with a VIP. When the LB forwards the packet to the backend, the destination IP is unchanged, only the destination MAC. So this means that the LB and the backend services need to be on the same layer 2 network. Because all the backends are configured with the same VIP, they will respond to the LB-forwarded packet.
 
-`tracepath`/`traceroute`/`mtr`
-------------------------------
-
-This section describes how various path tracing utilities work (in general).
-
-When using ICMP mode, the tools will follow this general pattern:
-
-1. Set the TTL field of the ICMP packet to 1.
-2. Send this packet to the _destination_ address.
-3. The first router in the path will decrement the TTL by 1, making it 0. This indicates to the router that the packet should be discarded.
-4. The router replies with an "ICMP Time Exceeded" message that will identify the router to the tracepath utility.
-5. The utility sends a new packet to the destination with TTL 1 higher than before, repeat from step 2.
-6. Once the packet reaches the destination host, it replies with an ICMP echo reply.
-
-Some of the challenges with ICMP:
-
-1. Not all routers participate in ICMP Time Exceeded replies.
-2. Some routers won't even decrement at all!
-3. Asymmetric routing may differ from the forward path.
-4. Some firewalls block ICMP.
-
-To get around ICMP being blocked, there are other options, such as:
-
-1. Using UDP packets (which are almost never blocked). `traceroute` does UDP probing by default.
-2. Using TCP SYN probes.
-
-### Asymmetric Routing
-
-These tools will often report when the packets go through different routers between the forward and return trips. Asymmetry can be detected in the following ways:
-
-1. Inconsistent IPs for the same hop during subsequent probes.
-2. Inconsistent RTT (round-trip-time) latency. Hops at higher indicies should always have higher latency. If this is not the case, it indicates possible routing asymmetry.
-3. ICMP Time Exceeded response TTL is unexpected. The TTL in the response packet header should contain more or less the same number of decrements as expected for the number of hops.

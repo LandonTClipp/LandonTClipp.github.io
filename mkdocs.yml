@@ -158,7 +158,9 @@ nav:
       - Linux: notes/sysadmin/linux.md
       - Networking:
           - General: notes/sysadmin/networking.md
+          - OSI: notes/sysadmin/osi-model.md
           - SDN: notes/sysadmin/software-defined-networking.md
+          - Tracing: notes/sysadmin/network-tracing.md
       - PCIe: notes/sysadmin/pcie.md
       - Repositories: notes/sysadmin/repositories.md
       - Security:

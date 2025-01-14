@@ -1,3 +1,7 @@
+---
+icon: octicons/database-16
+---
+
 # Storage
 
 ## SSD
@@ -26,7 +30,7 @@ U.2 is a form factor more common in datacenter applications. It's mechanically i
 
 ## HDD
 
-Hard Disk Drives are drives which use magnetic spinning disks to store data. They are used for data which does not require high throughput, as disk head seek times can be quite high. 
+Hard Disk Drives are drives which use magnetic spinning disks to store data. They are used for data which does not require high throughput, as disk head seek times can be quite high.
 
 Typical read speeds are between 80MB/s and 160MB/s.
 

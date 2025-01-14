@@ -1,3 +1,7 @@
+---
+icon: octicons/clock-16
+---
+
 # Timekeeping
 
 ## `systemd-timesyncd.service`

@@ -1,5 +1,6 @@
 ---
 title: Linux
+icon: simple/linux
 ---
 
 CLI Tools
@@ -134,8 +135,8 @@ dr-xr-xr-x   2 root root 0 Dec  8 15:43 attr
 There are a lot of useful bits here. For example, you can inspect all open file descriptors for a process. In fact, this is what `lsof` uses to show open files:
 
 ```
-$ ls -l /proc/79808/fd                    
-lr-x------ 1 ltclipp ltclipp 64 Dec  8 15:44 0 -> /dev/null  
+$ ls -l /proc/79808/fd
+lr-x------ 1 ltclipp ltclipp 64 Dec  8 15:44 0 -> /dev/null
 lrwx------ 1 ltclipp ltclipp 64 Dec  8 15:44 1 -> 'socket:[126462260]'
 lrwx------ 1 ltclipp ltclipp 64 Dec  8 15:44 10 -> /tmp/foo.txt
 ```
@@ -160,7 +161,7 @@ sysfs is a kernel-maintained filesystem for interacting with various kernel subs
 
 #### PCIe Devices
 
-You can use sysfs to read the information about PCIe devices. 
+You can use sysfs to read the information about PCIe devices.
 
 ```
 # ls -lah /sys/bus/pci/devices/0000:db:00.0/
@@ -233,7 +234,7 @@ DRAC
 
 https://en.wikipedia.org/wiki/Dell_DRAC
 
-A DRAC (Dell Remote Access Controller) is a hardware unit within a server chassis that is capable of monitoring, deploying, and interacting with the main server hardware and host outside of the typical kernel. It's often integrated into the motherboard itself, and acts as a standalone computer that you can log into and issue commands to. 
+A DRAC (Dell Remote Access Controller) is a hardware unit within a server chassis that is capable of monitoring, deploying, and interacting with the main server hardware and host outside of the typical kernel. It's often integrated into the motherboard itself, and acts as a standalone computer that you can log into and issue commands to.
 
 The main benefit of a DRAC is being able to independently execute commands to the host kernel (either through a console or through power cycling commands via hardware), monitoring the health of hardware components, configuring hardware, BIOS, host OS, and various other facets.
 
@@ -387,7 +388,7 @@ Kickstart is an installation mechanism provided by Redhat that allows you to ins
 | 19, 18, 25 | SIGCONT | Continue | | Continue execution of a process that was stopped by SIGSTOP. You can also use the `bg` bash command to continue the process in the background. See [Backgrounding a Terminal Process](/programming/bash/#backgrounding-a-terminal-process) for more details. |
 | 17, 19, 23 | SIGSTOP | Stop | ++ctrl+z++ | Stop execution of a process, but allow it to be resumed through SIGCONT. |
 
-## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass) 
+## [Kernel Bypass](https://blog.cloudflare.com/kernel-bypass)
 
 Kernel Bypass is a technology implemented in Linux (and often other kernels as well) that allows network processing to happen in userspace. This often leads to a huge performance improvement for network-bound applications as the traffic does not have to pass through the kernel-userspace boundary.
 
@@ -411,7 +412,7 @@ A networking framework written in C that is similar to snabbswitch. It also reli
 
 ## niceness
 
-"niceness" is a parameter given to processes that determine their overall runtime priority. 
+"niceness" is a parameter given to processes that determine their overall runtime priority.
 
 ### [ionice](https://linux.die.net/man/1/ionice)
 
@@ -435,7 +436,7 @@ pid 914745’s current affinity list: 0
 pid 914745’s new affinity list: 2
 ```
 
-### Optimizing for the NUMA node 
+### Optimizing for the NUMA node
 
 The `lscpu` command will show you which cores are on which NUMA node. If possible, applications should be given CPU affinities that are on a single NUMA node to prevent long-distance memory access on a different node.
 

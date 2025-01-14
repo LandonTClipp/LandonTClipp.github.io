@@ -1,5 +1,6 @@
 ---
 title: CVMFS
+icon: octicons/file-16
 ---
 
 https://cvmfs.readthedocs.io/en/stable/

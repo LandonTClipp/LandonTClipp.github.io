@@ -1,3 +1,6 @@
+---
+icon: simple/nvidia
+---
 
 # GPU
 
@@ -25,12 +28,12 @@
 You can use this filesystem to query device information directly using the NVIDIA driver.
 
 ```
-$ cat /proc/driver/nvidia/gpus/0000\:62\:00.0/information                                                                                                                             
-Model:           NVIDIA H100 80GB HBM3                                                                
-IRQ:             10                                                                                                                                                                                          
-GPU UUID:        GPU-9221d5d1-b60b-a624-bf14-0a1819cfda3b                                
-Video BIOS:      96.00.99.00.01                                                                                                                                                                              
-Bus Type:        PCIe                                                                                                                                                                                        
+$ cat /proc/driver/nvidia/gpus/0000\:62\:00.0/information
+Model:           NVIDIA H100 80GB HBM3
+IRQ:             10
+GPU UUID:        GPU-9221d5d1-b60b-a624-bf14-0a1819cfda3b
+Video BIOS:      96.00.99.00.01
+Bus Type:        PCIe
 DMA Size:        52 bits
 DMA Mask:        0xfffffffffffff
 Bus Location:    0000:62:00.0

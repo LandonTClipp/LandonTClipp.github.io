@@ -1,3 +1,7 @@
+---
+icon: material/security
+---
+
 # GPG
 
 ## [Subkeys](https://wiki.debian.org/Subkeys#:~:text=In%20other%20words%2C%20subkeys%20are,mails%20with%20GnuPG%20at%20all.)
@@ -10,7 +14,7 @@ When creating new keys, GPG creates the primary key as signing-only and automati
 
 Subkeys make management easier. Primary keys should be kept incredibly safe, which usually means storing the keys on a Yubikey device that can only be accessed through physical means (and possibly hidden behind lawyers and/or security guards). Subkeys can be generated from the primary key, which can then be used in your security infrastructure. Subkeys can be revoked and re-created if needed by gaining access to the primary key.
 
-### Primay Key Replication
+### Primary Key Replication
 
 When generating your primary key, there are two main methods:
 

@@ -1,4 +1,9 @@
+---
+icon: octicons/info-16
+---
+
 # Misc
+
 
 [NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access)
 ---------

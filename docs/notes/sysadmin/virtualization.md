@@ -1,5 +1,6 @@
 ---
 title: Virtualization
+icon: simple/virtualbox
 ---
 
 Hypervisor
@@ -9,7 +10,7 @@ Hypervisor
 
 There are two types of hypervisors, type 1 and type 2. Type 1 hypervisors are services that have direct access to hardware. They do not rely on the host OS to execute instructions.
 
-Type 2 hypervisors sit on top of the host OS which introduces a massive latency penalty. 
+Type 2 hypervisors sit on top of the host OS which introduces a massive latency penalty.
 
 KVM
 ----
