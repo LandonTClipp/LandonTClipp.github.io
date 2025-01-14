@@ -6,7 +6,6 @@ categories:
   - Misc
 title: On Blogs and Social Media
 description: Reviewing values on social communication.
-draft: True
 ---
 
 It's no surprise to you, but social media sucks. My relationship with it, like most people, is complex. This post will talk about my experience with social media and, tangentially, the purpose of this blog.
