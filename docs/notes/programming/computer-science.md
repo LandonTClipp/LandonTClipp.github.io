@@ -1,5 +1,6 @@
 ---
 title: Computer Science
+icon: material/math-integral-box
 ---
 
 This page describes various algorithmic techniques and terms related to computer science.
@@ -61,7 +62,7 @@ In computer memory, the CPU has three layers of cache: L1 (typically the smalles
 2's Complement
 ---------------
 
-This is one of the most fundamental ways to represent a signed integer in binary format. 
+This is one of the most fundamental ways to represent a signed integer in binary format.
 
 | binary | decimal integer |
 |--------|-----------------|

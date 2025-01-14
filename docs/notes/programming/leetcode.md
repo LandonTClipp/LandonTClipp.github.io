@@ -1,6 +1,7 @@
 ---
 title: Leetcode
 toc_depth: 3
+icon: simple/leetcode
 ---
 
 !!! warning
@@ -41,7 +42,7 @@ Example 3:
     The result of the merge is [1].
 
  Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
- 
+
 
 Constraints:
 
@@ -50,7 +51,7 @@ Constraints:
 - 0 <= m, n <= 200
 - 1 <= m + n <= 200
 - -109 <= nums1[i], nums2[j] <= 109
- 
+
 
 Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 
@@ -118,7 +119,7 @@ A phrase is a palindrome if, after converting all uppercase letters into lowerca
 
 Given a string s, return true if it is a palindrome, or false otherwise.
 
- 
+
 
 Example 1:
 
@@ -138,7 +139,7 @@ Example 3:
     Output: true
     Explanation: s is an empty string "" after removing non-alphanumeric characters.
     Since an empty string reads the same forward and backward, it is a palindrome.
- 
+
 
 Constraints:
 
@@ -195,11 +196,11 @@ func isAlphaNumeric(c byte) bool {
 
 #### Problem Statement
 
-Given an array of positive integers nums and a positive integer target, return the minimal length of a 
+Given an array of positive integers nums and a positive integer target, return the minimal length of a
 subarray
  whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
 
- 
+
 
 Example 1:
 
@@ -216,14 +217,14 @@ Example 3:
 
     Input: target = 11, nums = [1,1,1,1,1,1,1,1]
     Output: 0
-    
+
 
 Constraints:
 
 1 <= target <= 109
 1 <= nums.length <= 105
 1 <= nums[i] <= 104
- 
+
 
 Follow up: If you have figured out the O(n) solution, try coding another solution of which the time complexity is O(n log(n)).
 
@@ -320,7 +321,7 @@ Only the filled cells need to be validated according to the mentioned rules.
 
 There are a few ways this could be solved. A naive solution would be to first iterate over every `(x,y)` coordinate in the puzzle, and for each coordinate, traverse the entire column at `x` and the entire row at `y` to see if an integer repeats. This algoirthm would require $O(n^2)$ to iterate over every element, then $O(2n)=O(n)$ to iterate over the respective column/row, for a total time complexity of $O(n^3)$. The space complexity would be $O(n)$ as we would want to allocate a set that contains the values seen in the entire column/row for `(x,y)`.
 
-Another solution would be as follows: 
+Another solution would be as follows:
 
 1. Allocate two sets: one for every column, and one for every row. This gives a space complexity of $O(n^2)$.
 2. Iterate over every `(x,y)` coordinate. This gives time complexity of $O(n^2)$
@@ -460,7 +461,7 @@ The two prior solutions are relying on a `#!go type set map[byte]struct{}` to re
 
 https://leetcode.com/problems/valid-sudoku/submissions/1124547528?envType=study-plan-v2&envId=top-interview-150
 
-```go 
+```go
 type index int
 
 func isValidSudoku(board [][]byte) bool {
@@ -560,7 +561,7 @@ func isValidSudoku(board [][]byte) bool {
                 valMap[val] = v
             }
             valInt = valMap[val]
-           
+
             mask := (uint16(1)<<valInt)
             // Has this number been seen in this row before?
             if rows[y] & mask != 0 {
@@ -613,7 +614,7 @@ Example 3:
 
     Input: strs = ["a"]
     Output: [["a"]]
- 
+
 
 **Constraints**:
 
@@ -636,7 +637,7 @@ from typing import Dict
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        groups: Dict[str, list] = {} 
+        groups: Dict[str, list] = {}
         for word in strs:
             sorted_word = ''.join(sorted(word))
             if sorted_word not in groups:
@@ -695,7 +696,7 @@ Given an array of intervals where intervals[i] = [starti, endi], merge all overl
     Input: intervals = [[1,4],[4,5]]
     Output: [[1,5]]
     Explanation: Intervals [1,4] and [4,5] are considered overlapping.
- 
+
 
 **Constraints**:
 
@@ -737,7 +738,7 @@ class Solution:
                 continue
             ranges.append(interval)
             current_interval += 1
-        
+
         return ranges
 ```
 
@@ -764,7 +765,7 @@ The canonical path should have the following format:
 - The path does not end with a trailing '/'.
 - The path only contains the directories on the path from the root directory to the target file or directory (i.e., no period '.' or double period '..')
 
-Return the simplified canonical path. 
+Return the simplified canonical path.
 
 Example 1:
 
@@ -783,7 +784,7 @@ Example 3:
     Input: path = "/home//foo/"
     Output: "/home/foo"
     Explanation: In the canonical path, multiple consecutive slashes are replaced by a single one.
- 
+
 
 Constraints:
 
@@ -807,7 +808,7 @@ class Solution:
             if elem in ("", "."):
                 continue
             out_path.append(elem)
-             
+
         return "/" + "/".join(out_path)
 ```
 
@@ -834,7 +835,7 @@ In one step, you can:
 - Insert one character to password,
 - Delete one character from password, or
 - Replace one character of password with another character.
- 
+
 
 Example 1:
 
@@ -850,7 +851,7 @@ Example 3:
 
     Input: password = "1337C0d3"
     Output: 0
- 
+
 
 Constraints:
 
@@ -919,7 +920,7 @@ class Solution:
                 num_excessive_repeating_sequences > 0
                 and num_deleted < len(password) - 20
             ):
-                
+
                 steps += 1
                 num_excessive_repeating_sequences -= 1
                 num_deleted += 1
@@ -931,7 +932,7 @@ class Solution:
             num_added = 0
             while num_added < 6 - len(password):
                 if num_excessive_repeating_sequences > 0:
-                    
+
                     if not has_lowercase_letter:
                         has_lowercase_letter = True
                         print("added character in repeating sequence: lowercase")
@@ -957,7 +958,7 @@ class Solution:
                     print("added arbitrary")
                 num_added += 1
                 steps += 1
-    
+
         # We need to replace one character for each repeating
         # sequence.
         # By doing a replacement, we could also add missing upper/lower/digits
@@ -1028,7 +1029,7 @@ This question is asking us to create a data structure that represents the true _
 #         self.right = right
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        
+
 ```
 
 What we need to determine is what nodes are children of what other nodes. To do this, we should look for some kind of pattern in how preorder/inorder traversals work. Let's remind ourselves of what preorder/inorder is:
@@ -1045,7 +1046,7 @@ class Solution:
         root = TreeNode(val=preorder[0])
 ```
 
-The _next_ node in the preorder traversal is going to be the immediate left child (if it exists), then the right node (if it exists). How do we know if, in example 1, that 9 is a direct child of 3? 
+The _next_ node in the preorder traversal is going to be the immediate left child (if it exists), then the right node (if it exists). How do we know if, in example 1, that 9 is a direct child of 3?
 
 1. 9 would have to be situated _left_ of 3 in the in-order traversal, and
 2. 9 would have to be directly to the right of 3 in the pre-order traversal.
@@ -1392,7 +1393,7 @@ Example 2:
     1. 1 step + 1 step + 1 step
     2. 1 step + 2 steps
     3. 2 steps + 1 step
- 
+
 
 Constraints:
 
@@ -1441,7 +1442,7 @@ This array represents whether a pair of steps have been linked together,  where 
     | 1 | 0 | 1 | 0 | # (1+1) + (1+1) + 1
 
     | 0 | 1 | 0 | 0 | # 1 + (1+1) + 1 + 1
-    
+
     | 1 | 0 | 0 | 0 | # (1+1) + 1 + 1 + 1
 
 To confirm the idea that the 1's can't be adjacent, let's try the `n=4` example:
@@ -1556,7 +1557,7 @@ func letterCombinations(digits string) []string {
         for _, subCombo := range subCombos {
             combinations = append(combinations, char + subCombo)
         }
-        
+
     }
     return combinations
 }
@@ -1693,7 +1694,7 @@ class Solution:
                 curLevel = curNode.level
                 # It's possible this will be overwritten by a more right node.
                 nodes.append(curNode.val)
-            
+
             nodes[-1] = curNode.val
 
             left = curNode.left

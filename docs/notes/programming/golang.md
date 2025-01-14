@@ -1,5 +1,6 @@
 ---
 title: Golang
+icon: simple/go
 ---
 
 Golang
@@ -283,7 +284,7 @@ Accessing the function pointer if you call a generic function with a pointer to 
 
 ```
 MOVQ ""..dict+48(SP), CX # load the virtual table from the stack into CX
-0094  MOVQ 64(CX), CX.    # dereference the dictionary to get the *itab 
+0094  MOVQ 64(CX), CX.    # dereference the dictionary to get the *itab
 0098  MOVQ 24(CX), CX.    # Offset by 24 bytes to load the function pointer within *itab
 ```
 

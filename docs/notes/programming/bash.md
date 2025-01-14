@@ -1,5 +1,6 @@
 ---
 title: Bash
+icon: material/bash
 ---
 
 Bash
@@ -62,8 +63,8 @@ $ foobar << END
 A heredoc is a multi-line string that is treated as a file literal. The heredoc itself is redirected into the command's stdin, as can be seen in this example:
 
 ```bash
-$ strace cat << EOF                               
-> hello world                                                
+$ strace cat << EOF
+> hello world
 > EOF
 ...
 read(0, "hello world\n", 131072)        = 12
@@ -90,7 +91,7 @@ snickerdoodle,cookies
 [1]  + 82721 suspended  bash /tmp/long_cookies.sh
 $ bg
 [1]  + 82721 continued  bash /tmp/long_cookies.sh
-snickerdoodle,cookies                                                                                                                 
+snickerdoodle,cookies
 $ jobs
 [1]  + running    bash /tmp/long_cookies.sh
 ```
@@ -153,5 +154,5 @@ true
 Versus:
 
 ```
- $ [[ "" ]] && echo true 
+ $ [[ "" ]] && echo true
 ```

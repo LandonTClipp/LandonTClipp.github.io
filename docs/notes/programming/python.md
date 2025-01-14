@@ -1,5 +1,6 @@
 ---
 title: Python
+icon: simple/python
 ---
 
 ## Floor Division
@@ -8,7 +9,7 @@ title: Python
 
 ## Lists
 
-Lists are implemented as an array of pointers. 
+Lists are implemented as an array of pointers.
 
 https://github.com/python/cpython/blob/5c22476c01622f11b7745ee693f8b296a9d6a761/Include/listobject.h#L22
 
@@ -105,7 +106,7 @@ def addFoo(string: str) -> str:
     return string + "foo"
 ```
 
-We can wrap this function in another function that extends the behavior. 
+We can wrap this function in another function that extends the behavior.
 
 ```python
 from typing import Callable
@@ -251,7 +252,7 @@ print(dict(foo="bar"))
 
 ### dict merging
 
-#### Dict unpacking 
+#### Dict unpacking
 
 (this is my preferred way of doing it, for no good reason in particular):
 
@@ -332,7 +333,7 @@ class RedisCounter:
 
     def decrement(self): ...
 
-def do_stuff(counter: RedisCounter): 
+def do_stuff(counter: RedisCounter):
     counter.increment()
     counter.decrement()
 
@@ -356,11 +357,11 @@ class RedisCounter:
 
     def decrement(self): ...
 
-def do_stuff(counter: Counter): 
+def do_stuff(counter: Counter):
     counter.increment()
     counter.decrement()
 
 do_stuff(counter=RedisCounter())
 ```
 
-`mypy` understands and accepts this even though `RedisCounter` doesn't inherit `Counter`. 
+`mypy` understands and accepts this even though `RedisCounter` doesn't inherit `Counter`.

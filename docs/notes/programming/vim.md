@@ -1,5 +1,6 @@
 ---
 title: Vim
+icon: simple/vim
 ---
 
 Keyboard Shortcuts

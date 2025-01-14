@@ -1,5 +1,6 @@
 ---
 title: YAML
+icon: simple/yaml
 ---
 
 YAML... Yet another markup language. YAML Ain't a Markup Language!

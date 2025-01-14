@@ -1,5 +1,6 @@
 ---
 title: Javascript
+icon: simple/javascript
 ---
 
 Javascript

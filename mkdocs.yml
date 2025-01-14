@@ -40,6 +40,7 @@ theme:
     - content.code.copy
     - content.code.select
     - content.tooltips
+    - navigation.expand
     - navigation.indexes
     - navigation.path
     - navigation.sections
