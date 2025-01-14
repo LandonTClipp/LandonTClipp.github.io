@@ -2,7 +2,6 @@
 date: 2023-06-21
 categories:
   - RV
-  - Intech Sol Horizon
 title: Intech Sol Horizon Cellular Setup
 description: Installing the Weboost Destination RV booster and the MobileMustHave cellular router
 links:
@@ -36,7 +35,7 @@ After a lot of researching online, I found that there are two main categories of
 
 ### Mobile Hotspots
 
-Mobile hotspots work by receiving a cellular signal and exposing a WiFi access point inside your trailer. Most modern cellphones have a hotspot feature, but you can also buy dedicated hotspot modems like the Verizon Jetpack or the AT&T Nighthawk. 
+Mobile hotspots work by receiving a cellular signal and exposing a WiFi access point inside your trailer. Most modern cellphones have a hotspot feature, but you can also buy dedicated hotspot modems like the Verizon Jetpack or the AT&T Nighthawk.
 
 #### Pros
 
@@ -65,13 +64,13 @@ A cellular router is a more robust and permanent platform. A router like the [Pe
 
 #### Cons
 
-- More expensive. Most of the multi-WAN bonding devices _start_ at around $1000 and quickly increase depending on the options you want. 
+- More expensive. Most of the multi-WAN bonding devices _start_ at around $1000 and quickly increase depending on the options you want.
 - More complex. Careful consideration has to be taken on the physical installation with antenna placement, wire routing, and drilling. The devices themselves also tend to require manual configuration in order to work with the carriers and bands you need. For the Intech Sol Horizon specifically (as I'll elaborate on later), the antenna itself could not be drilled anywhere near the AC unit which means I had to figure out how to use a magnetic mount on a fiberglass roof.
 
 Weboost Destination RV
 -----------------------
 
-My goal for my internet setup was ultimate redundancy. I wanted a setup where I could use my phone's internal hotspot for internet, as well as access to a directional antenna that will be powerful enough to punch through areas with incredibly weak signal. The Weboost Destination RV was a great choice because it required minimal setup and works seamlessly with all cellular devices that have their own internal antennas. 
+My goal for my internet setup was ultimate redundancy. I wanted a setup where I could use my phone's internal hotspot for internet, as well as access to a directional antenna that will be powerful enough to punch through areas with incredibly weak signal. The Weboost Destination RV was a great choice because it required minimal setup and works seamlessly with all cellular devices that have their own internal antennas.
 
 Here is a general diagram of how it works:
 
@@ -97,7 +96,7 @@ I found that placing the antenna on the floor next to the bed was an easy option
 
 ![final antenna location](/images/intech_sol_horizon_cellular/IMG_1870.jpg)
 
-The bundled [weBoost app](https://apps.apple.com/us/app/weboost/id1611974453) is great for guiding you through the setup of pointing the antenna in the right direction and measuring the signal dB as reported by your phone. You can access the internal cellular metrics of your phone by dialing `*3001#12345#*`. 
+The bundled [weBoost app](https://apps.apple.com/us/app/weboost/id1611974453) is great for guiding you through the setup of pointing the antenna in the right direction and measuring the signal dB as reported by your phone. You can access the internal cellular metrics of your phone by dialing `*3001#12345#*`.
 
 <div class="grid cards" markdown>
 
@@ -132,7 +131,7 @@ Before installing this system, we have to consider a number of factors.
 
 #### To 5G or not to 5G?
 
-5G is a new standard that operates in both sub-6GHz (called Frequency Range 1, or FR1) and 24.25 GHz to 71.0 GHz (FR2). FR2 is a microwave band that provides significantly faster download speeds, but in my experience the upload speed gains have been unimpressive. I've found through my own un-scientific tests that upload speeds for 5G in general are lackluster, which is an issue for video conferencing. 
+5G is a new standard that operates in both sub-6GHz (called Frequency Range 1, or FR1) and 24.25 GHz to 71.0 GHz (FR2). FR2 is a microwave band that provides significantly faster download speeds, but in my experience the upload speed gains have been unimpressive. I've found through my own un-scientific tests that upload speeds for 5G in general are lackluster, which is an issue for video conferencing.
 
 Because of the somewhat untested and experimental nature of 5G, I decided to go with a 4G solution as it provides plenty of bandwidth for my needs.
 
@@ -151,7 +150,7 @@ Here's an image of each coverage map, overlayed with various combinations of pro
 | :octicons-x-12: | :octicons-check-16: | :octicons-x-12: | ![Verizon only](/images/intech_sol_horizon_cellular/Screenshot 2023-06-24 at 6.10.05 PM.jpeg){data-gallery="coverage-map"} |
 | :octicons-x-12: | :octicons-check-16: | :octicons-check-16: | ![Verizon and AT&T coverage map](/images/intech_sol_horizon_cellular/Screenshot 2023-06-24 at 6.10.13 PM.jpeg){data-gallery="coverage-map"} |
 
-You can see that T-Mobile by far offers the worst overall coverage: their towers are concentrated along interstates and highly populated regions, but beyond those areas it becomes pretty sparse. Verizon and AT&T offer fairly similar coverage out west, but there are many areas where only one of them provides coverage. 
+You can see that T-Mobile by far offers the worst overall coverage: their towers are concentrated along interstates and highly populated regions, but beyond those areas it becomes pretty sparse. Verizon and AT&T offer fairly similar coverage out west, but there are many areas where only one of them provides coverage.
 
 Using this knowledge, it suggests that the best solution is to acquire data plans for both AT&T and Verizon simultaneously. Using T-Mobile provides no advantage beyond a few select regions in the west.
 
@@ -191,7 +190,7 @@ A few months prior, I had solar experts install a solar panel system on the RV a
 - ![microwave cavity underneath junction box](/images/intech_sol_horizon_cellular/IMG_1815.jpeg){data-gallery="roof1"}
 </div>
 
-I used a 1" hole saw to drill a hole into the junction box. I installed a 3/4" cable glands that would serve as a water resistent entry point for the cables. 
+I used a 1" hole saw to drill a hole into the junction box. I installed a 3/4" cable glands that would serve as a water resistent entry point for the cables.
 
 !!! warning
     Cable glands are typically meant to only have a single cable passed through. Having multiple cables passing through weakens the water resistence of the hand-tightened seal. You might want to consider adding a small bit of expanding foam inside of the gland to make it truly watertight. I opted not to add the foam (yet), but I will be monitoring the box for any water intrusion during heavy rain. I will add expanding foam if I notice water intruding into the box.
@@ -210,7 +209,7 @@ Originally, I wanted to route the antenna cables across the dinette and into the
 
 ![Cable routing across front of trailer](/images/intech_sol_horizon_cellular/IMG_1812 traced.jpeg)
 
-However even with the longest cable option of the Parsec Husky antenna, there's not enough length to do this. So instead I decided I would mount the router next to the fuse box. 
+However even with the longest cable option of the Parsec Husky antenna, there's not enough length to do this. So instead I decided I would mount the router next to the fuse box.
 
 Now that the cables were inside, the question now became how to route the cables from the microwave compartment into the electronic compartment just below. I asked the Intech Sol Horizon Facebook group about how they've previously done this. The best suggestion was that you can drill into the exterior shell of the shower surrounds. there is a fairly large gap between the interior shower surrounds fiberglass and the exterior, which is mainly where a lot of plumbing and electrical systems are routed through. If you take off the radio, you can see this more clearly:
 
@@ -220,7 +219,7 @@ Now that the cables were inside, the question now became how to route the cables
 - ![close up of shower cavity](/images/intech_sol_horizon_cellular/IMG_1853.jpg){data-gallery="radio-removed"}
 </div>
 
-The factory-cut hole in the radio comparment is large enough that you can fit your whole arm in it, which should make it easy to fish the antenna cables through. I cut a 3/4" hole and put the cables through that hole, then fished them into the radio compartment. 
+The factory-cut hole in the radio comparment is large enough that you can fit your whole arm in it, which should make it easy to fish the antenna cables through. I cut a 3/4" hole and put the cables through that hole, then fished them into the radio compartment.
 
 <div class="grid cards" markdown>
 - ![pilot hole](/images/intech_sol_horizon_cellular/IMG_1861.jpg)
@@ -251,15 +250,15 @@ Now that the router is connected to the external antenna and powered up, it's ti
 
 ![main peplink page](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 9.55.01 PM.png)
 
-The `Cellular 1`/`Cellular 2` status may take a couple minutes to update. If you're using a Verizon SIM card, you need to configure it. Click on `Details` to bring up its configuration page. There are a few settings I like to set manually. First, change the `Network Mode` from `auto` to `Verizon Wireless` (or your respsective carrier). 
+The `Cellular 1`/`Cellular 2` status may take a couple minutes to update. If you're using a Verizon SIM card, you need to configure it. Click on `Details` to bring up its configuration page. There are a few settings I like to set manually. First, change the `Network Mode` from `auto` to `Verizon Wireless` (or your respsective carrier).
 
 ![WAN settings](/images/intech_sol_horizon_cellular/Screenshot 2023-06-30 at 10.09.55 PM.png)
 
 !!! note "Verizon-specific steps"
 
     The following steps should only be done for Verizon Wireless. Go to the `Cellular Settings` section:
-    
-    1. Set `SIM Card` to `Both SIMs`. NOTE: each individual SIM card slot appears as TWO SIM cards to the Peplink software. This section here is _not_ referring to both physical SIM cards. Even though this appears to be configuring both SIM cards, you're only configuring one at a time. 
+
+    1. Set `SIM Card` to `Both SIMs`. NOTE: each individual SIM card slot appears as TWO SIM cards to the Peplink software. This section here is _not_ referring to both physical SIM cards. Even though this appears to be configuring both SIM cards, you're only configuring one at a time.
     2. Set `Preferred SIM card` to `No preference`.
     3. Check `Data Roaming`.
     4. In `Operator Settings` click `Custom`.
@@ -298,6 +297,6 @@ Throughout my tests on the road, the same story tends to play out where Verizon 
 
 ## Conclusion
 
-Hopefully this post was useful to other Sol Horizon owners that are looking to add a more robust cellular installation to their rig. My current goal in life is to be able to travel the US in my rig while working in remote areas, and this project was the last piece I needed to make that dream a reality. 
+Hopefully this post was useful to other Sol Horizon owners that are looking to add a more robust cellular installation to their rig. My current goal in life is to be able to travel the US in my rig while working in remote areas, and this project was the last piece I needed to make that dream a reality.
 
 Let me know your thoughts below (you'll have to create a GitHub account to comment), thanks!

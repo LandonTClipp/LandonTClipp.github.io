@@ -2,7 +2,6 @@
 date: 2024-10-14
 categories:
   - RV
-  - Intech Sol Horizon
 title: Colorado in the Fall
 description: The last trip of 2024 to Colorado.
 links:

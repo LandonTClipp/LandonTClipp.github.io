@@ -2,7 +2,6 @@
 date: 2024-10-07
 categories:
   - RV
-  - Intech Sol Horizon
 title: Starlink for a Mobile World
 description: Installing Starlink on an RV.
 links:
@@ -48,7 +47,7 @@ When you buy the Starlink antenna, it comes with three components:
 
 </div>
 
-Any semi-experienced RVer will immediately balk at the idea of running an ACDC adapter due to the fact that the DC battery from the RV has to be inverted to 60Hz AC, then converted back to DC by the adapter. You might also balk at the idea of running a separate router when we already have our Peplink Cellular modem/router! Not to fear, as a quick search on the internet shows that technically speaking, the Starlink antenna does not _need_ these two components to operate. 
+Any semi-experienced RVer will immediately balk at the idea of running an ACDC adapter due to the fact that the DC battery from the RV has to be inverted to 60Hz AC, then converted back to DC by the adapter. You might also balk at the idea of running a separate router when we already have our Peplink Cellular modem/router! Not to fear, as a quick search on the internet shows that technically speaking, the Starlink antenna does not _need_ these two components to operate.
 
 There exist third-party Starlink PoE conversion kits that are powered by 12V DC and will step up to 50V DC required by the antenna. The "ethernet" cable that the antenna uses is a proprietary form factor despite having the same number of wiring pins as ethernet. These conversion kits will bridge the gap between the Starlink ethernet, which requires the 50V PoE line, and the standard ethernet that you can send directly to your router. The other benefit is that it cuts out the Starlink-specific router which further aids in power efficiency.
 
@@ -85,7 +84,7 @@ I spent a night in the Middle of Nowhere Nebraska and ran a few tests. The camps
 
 The first test was a simple speed test in the middle of the night, where I was able to pull 147 Mbps down. The next speed test I took was at around 2:30PM the following day where I got 41Mbps down/28Mbps up. While that's over three times slower than the middle of the night, it's still fast enough for most activities.
 
-Ping success rate, for my purposes, is the most important metric. I was able to get around 90% success rate in the middle of the day which is going to be an issue for realtime workloads like video calls or gaming. 
+Ping success rate, for my purposes, is the most important metric. I was able to get around 90% success rate in the middle of the day which is going to be an issue for realtime workloads like video calls or gaming.
 
 #### Video Calls
 
@@ -195,13 +194,13 @@ flowchart TD
     POE -->|12V-| 12V-
     POE <-->|Ethernet| Router
     POE <-->|CAT6| Starlink
-    
+
     12V+ -->|12V+| Fuse3
     Fuse3 -->|12V+| RockerSwitch2
     RockerSwitch2 -->|12V+| Fuse4
     Fuse4 -->|12V+| Router
     Router -->|12V-| 12V-
-    
+
     RockerSwitch2 -->|12V-| 12V-
 ```
 
