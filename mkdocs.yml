@@ -159,6 +159,7 @@ nav:
       - Linux: notes/sysadmin/linux.md
       - Networking:
           - General: notes/sysadmin/networking.md
+          - OpenStack: notes/sysadmin/openstack.md
           - OSI: notes/sysadmin/osi-model.md
           - SDN: notes/sysadmin/software-defined-networking.md
           - Tracing: notes/sysadmin/network-tracing.md
