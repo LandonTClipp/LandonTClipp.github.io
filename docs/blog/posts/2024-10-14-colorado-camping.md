@@ -146,7 +146,7 @@ I don't know if you can see right there in that there picture, but that's what's
 <div class="grid cards" markdown>
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6423+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6424+Large.jpeg){ loading=lazy }
-- - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6425+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6425+Large.jpeg){ loading=lazy }
 </div>
 
 I got the spare on just fine, but it was only at this moment did I realize that my electric tire pump wasn't capable of pumping to the spare's recommended PSI of 65. It could only go to 35 :facepalm:. Woohoo!
