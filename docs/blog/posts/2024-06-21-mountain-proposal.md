@@ -2,6 +2,7 @@
 date: 2024-06-21
 categories:
   - RV
+  - Misc
 title: Mountains and Proposals
 description: The trip that began a chapter of life.
 draft: true
