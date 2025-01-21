@@ -133,7 +133,7 @@ Signal Butte is this prominent hill that juts out in the valley that is abutted 
 
 <div class="grid cards" markdown>
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_2423+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_2426+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_2426.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_2429+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_2436+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_2437+Large.jpeg){ loading=lazy }
