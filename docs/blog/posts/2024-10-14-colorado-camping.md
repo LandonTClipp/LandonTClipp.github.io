@@ -53,7 +53,7 @@ My mom decided to come along for part of my trip, so I picked her up from the De
 
 </div>
 
-We ended the day with a trip to the Wines of Colorado, which is probably my favorite restaraunt in the area. We got a table by the creek and had delightful wine flights!
+We ended the day with a trip to the Wines of Colorado, which is probably my favorite restaraunt in the area. We got a table by the creek and got absolutely _blasted_ off of some nice wine flights. (jk I am a responsible drinker, believe it or not)
 
 ## Morning Views `Woodland Park, CO`
 
@@ -70,9 +70,11 @@ We ended the day with a trip to the Wines of Colorado, which is probably my favo
 
 </div>
 
-On my trip a few months ago, I found our secret campsite that has stunning views of Pikes Peak. We were fortunate to have found ourselves in the midst of a near nation-wide Aurora Borealis. While our eyes could barely see more than a faint glow in the sky, our cameras peeled back the veil of the sky to reveal one of nature's most spectacular sites.
+On my trip a few months ago, I found our secret campsite that has stunning views of Pikes Peak. It was a long drive on bumpy forests roads to get there, and I wasn't sure it was even going to be available. But alas, it was! 
 
-The magic continued the next morning as we were visited by a group of 4 bucks right outside our window. Judging by their unafraid disposition, they clearly couldn't see us inside the trailer peering back at them. What a better way to get close with nature; and furthermore, the views were free!
+We parked at the campsite and then realized there was supposed to be a near nation-wide Aurora Borealis tonight. Sure enough, once it was dark enough, you could see a faint glow in the sky that our phone cameras captured even better than our eyes could. It was a _spectacular_ light show. It took a long while to convince myself that the aurora was not just light pollution because it kind of sort of looked like lights you see from distant cities, but it was shifting and moving colors enough to very obviously not be light pollution.
+
+The magic continued the next morning as we were visited by a group of 4 bucks right outside our window. They couldn't see us in the trailer so we had a front-row seat to the best zoo in the world: nature itself! Damn, does it get any more magical than this? (hint: yes it does)
 
 ## [Shelf Road](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/shelf-road-gold-belt-tour-2298a822.pdf) `Cripple Creek, CO`
 
