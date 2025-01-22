@@ -179,3 +179,49 @@ It's because of Kelly's fighting spirit that I have no question in my mind that 
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4677+Large.jpeg){ loading=lazy }
 </div>
 
+## Grand Lake `Mon, July 1`
+
+The reason why the proposal had to be on-schedule and on-time is because we had an awesome adventure planned to the north. We made our way over to Grand Lake, CO which is on the western side of the famous Rocky Mountain National Park. The drive itself there was of course amazing:
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4681+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4682+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4689+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4691+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4694+Large.jpeg){ loading=lazy }
+- <video controls>
+    <source loading="lazy" id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4693.MOV" type="video/mp4">
+  </video>
+</div>
+
+The route took us through this area called Berthoud Pass. The pictures above are on Hwy 40 just before the pass, but sadly I couldn't take pictures of this area because it's an intense drive up an extremely steep, winding mountain road, and needless to say, I had to stay focused. Here's some street photos from Google:
+
+<iframe src="https://www.google.com/maps/embed?pb=!4v1737518332901!6m8!1m7!1seKJ8Y1Ymha_xgr0FhHgR6Q!2m2!1d39.78365972573759!2d-105.7866570651747!3f217.18763067765968!4f6.778425624877912!5f0.4000000000000002" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+Of course these pictures don't really do it justice how steep and how high it felt to be on that road. Kelly's fear of heights was kicking in again :cry:
+
+We arrived at our campsite which was situated about 5 minutes away from the Grand Lake Entrance Station. The reason why this is important is because Rocky Mountain National Park can get _very_ busy. So busy in fact that the park service implemented limited timed entry permits. Folks wishing to enter have to either buy timed entry tickets a month in advance of the reservation date, or the night before. They release only a limited number each time, so you have to be on your computer the very moment that the tickets are released. 
+
+We didn't get them in advance so I had to log onto their website at 7PM and scramble to buy tickets. It was difficult because I would refresh the site and immediately select the ticket I wanted, but it kept saying "sold out". I would then try selecting tickets for the next time slot, and again, immediately sold out. I tried doing this for the 3 or 4 time slots they had available, and NONE of them could be reserved even though I was on the site at the exact moment they were released! Ugh! And it didn't help that their website seemed to be crashing from all the traffic.
+
+This was a pretty bad experience and I hated having to fight to get these dang tickets. I understand why the NPS does this and I don't fault them for it, they are just trying to stem the onslaught of tourists like us from flooding the park. Fortunately, timed tickets are only necessary after 9am, so you're allowed to enter the park before 9am. That's what we ended up doing, and surprisingly, there was no line and it was not an issue at all. No tickets needed after all!
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4697+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4704+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4705+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4709+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4710+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4714+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4715+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4716+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4720+Large.jpeg){ loading=lazy }
+</div>
+
+One REALLY interesting fact about this campground is that it sits right next to a tiny little creek. "Aw, that's not that interesting :disappointed:." No no no, this is not just any tiny little creek. This is the Colorado River! This area is not far away from the Colorado River headwaters, so at this point it's only a tiny little stream, unassuming and nondescript.
+
+Kelly's highlights from this campsite were the duckies and chickens they had in this cage. Chickens are one of her favorite animals so she was enthralled with them.
+
+## Links
+
+- [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/q2npc8xDn5DpFyVz9)
