@@ -10,6 +10,7 @@ edit_uri: edit/main/docs
 theme:
   name: material
   custom_dir: overrides
+  favicon: assets/images/favicon.svg
   font:
     header: Press Start 2P
   icon:
@@ -46,6 +47,10 @@ theme:
     - navigation.sections
     - navigation.tabs
     - navigation.tracking
+    - navigation.top
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
     - toc.follow
 markdown_extensions:
   - abbr
@@ -53,6 +58,14 @@ markdown_extensions:
   - attr_list
   - footnotes
   - md_in_html
+  - material.extensions.preview:
+      sources:
+        include:
+          - "notes/*"
+          - "blog/*"
+      targets:
+        include:
+          - "notes/*"
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.emoji:
