@@ -38,9 +38,3 @@ This blog is my dumping ground for every random thought, every interesting idea,
 - ![](https://sasgidotxvcxfexkslru.supabase.co/storage/v1/object/public/assets/images/miscellaneous/about_me/IMG_3575.jpeg?t=2024-01-02T23%3A46%3A04.629Z)
 
 </div>
-
-
-Resume
-------
-
-![resume](https://f005.backblazeb2.com/file/landons-blog/LandonClippResumeScrubbed.svg)
