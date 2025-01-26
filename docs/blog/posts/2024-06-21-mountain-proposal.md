@@ -222,6 +222,31 @@ One REALLY interesting fact about this campground is that it sits right next to 
 
 Kelly's highlights from this campsite were the duckies and chickens they had in this cage. Chickens are one of her favorite animals so she was enthralled with them.
 
+## Rocky Mountain National Park `Tues, July 2`
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4759+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4771+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4778+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4792+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4797+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4799+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4804+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4810+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4813+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4824+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4828+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4842+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4854+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4872+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4876+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4881+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4885+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4902+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4918+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4925+Large.jpeg){ loading=lazy }
+</div>
+
 ## Links
 
 - [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/q2npc8xDn5DpFyVz9)
