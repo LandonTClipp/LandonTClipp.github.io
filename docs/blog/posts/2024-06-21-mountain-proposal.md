@@ -68,7 +68,7 @@ I hiked up a REALLY steep trail that terminates at this beautiful mountain strea
 
 ## :material-ring: Horsethief Trail `Sat, June 29`
 
-Kelly flew into Colorado Springs on the 28th. We both knew that the main purpose of this goal was for us to get engaged, and even better, we were _both_ going to propose to each other! We're kind of non-traditional like that but sometimes tradition is wrong (or maybe not wrong, but not as fun). Like, why wouldn't both parties want to put effort into officially asking their partner to live the rest of their lives with them? 
+Kelly flew into Colorado Springs on the 28th. We both knew that the main purpose of this goal was for us to get engaged, and even better, we were _both_ going to propose to each other! We're kind of non-traditional like that but sometimes tradition is wrong (or maybe not wrong, but not as fun). Like, why wouldn't both parties want to put effort into officially asking their partner to live the rest of their lives with them?
 
 Neither of us knew when or where the proposal would happen, but I did have to tell Kelly that I _have_ to propose to her this weekend due to the timing of everything so let's not waste any time! Let's get this shindig going!
 
@@ -109,7 +109,7 @@ Also, can we just appreciate how fashionable Kelly looks in these pictures? Some
 
 ## Crazy Gulch Trail `Sun, June 30`
 
-Next on the proposal adventure was this random trail called Grazy Culch. I don't know what's so crazy about it, it's not like it was a difficult hike. In fact I actually wanted it to be easy, because the last clue was going to be a real lung-buster. 
+Next on the proposal adventure was this random trail called Grazy Culch. I don't know what's so crazy about it, it's not like it was a difficult hike. In fact I actually wanted it to be easy, because the last clue was going to be a real lung-buster.
 
 Kelly traded her Columbia jacket for a sun hat because she realized that all this hiking is a real workout.
 
@@ -164,7 +164,7 @@ To give even more context, the path to Signal Butte is a rugged OHV trail that r
   </video>
 </div>
 
-At the top of this butte/hill thing, I asked Kelly to be my wife. The 5 years we had been dating at this point solidified the truth that she is the woman for me. She is an amazing partner. She is a kind, thoughtful, loving, affectionate, passionate, caring, generous soul and has always strived to be the best partner that she can be in our relationship. All of the obstacles we encountered were overcome because of her willingness to work _together_ (and my willingness too of course, but this section is about her dammit!). In fact, all successfull relationships require that. Relationships need both parties to set aside ego, to admit mistakes, to take measurable action towards correcting wrongs, and most importantly to give all the love one can muster to the other person, because they deserve it. That's what I feel has been the story of our relationship, a story of overcoming our personal demons and together nurturing a prosperous, loving, respectful, and FUN relationship. 
+At the top of this butte/hill thing, I asked Kelly to be my wife. The 5 years we had been dating at this point solidified the truth that she is the woman for me. She is an amazing partner. She is a kind, thoughtful, loving, affectionate, passionate, caring, generous soul and has always strived to be the best partner that she can be in our relationship. All of the obstacles we encountered were overcome because of her willingness to work _together_ (and my willingness too of course, but this section is about her dammit!). In fact, all successfull relationships require that. Relationships need both parties to set aside ego, to admit mistakes, to take measurable action towards correcting wrongs, and most importantly to give all the love one can muster to the other person, because they deserve it. That's what I feel has been the story of our relationship, a story of overcoming our personal demons and together nurturing a prosperous, loving, respectful, and FUN relationship.
 
 It's because of Kelly's fighting spirit that I have no question in my mind that she is a lifelong partner. She's cares deeply about doing the right thing and living authentically with those around her. It turns out that Kelly was so happy that she started dancing! And boy does she have some moves. :dancer:
 
@@ -200,7 +200,7 @@ The route took us through this area called Berthoud Pass. The pictures above are
 
 Of course these pictures don't really do it justice how steep and how high it felt to be on that road. Kelly's fear of heights was kicking in again :cry:
 
-We arrived at our campsite which was situated about 5 minutes away from the Grand Lake Entrance Station. The reason why this is important is because Rocky Mountain National Park can get _very_ busy. So busy in fact that the park service implemented limited timed entry permits. Folks wishing to enter have to either buy timed entry tickets a month in advance of the reservation date, or the night before. They release only a limited number each time, so you have to be on your computer the very moment that the tickets are released. 
+We arrived at our campsite which was situated about 5 minutes away from the Grand Lake Entrance Station. The reason why this is important is because Rocky Mountain National Park can get _very_ busy. So busy in fact that the park service implemented limited timed entry permits. Folks wishing to enter have to either buy timed entry tickets a month in advance of the reservation date, or the night before. They release only a limited number each time, so you have to be on your computer the very moment that the tickets are released.
 
 We didn't get them in advance so I had to log onto their website at 7PM and scramble to buy tickets. It was difficult because I would refresh the site and immediately select the ticket I wanted, but it kept saying "sold out". I would then try selecting tickets for the next time slot, and again, immediately sold out. I tried doing this for the 3 or 4 time slots they had available, and NONE of them could be reserved even though I was on the site at the exact moment they were released! Ugh! And it didn't help that their website seemed to be crashing from all the traffic.
 
