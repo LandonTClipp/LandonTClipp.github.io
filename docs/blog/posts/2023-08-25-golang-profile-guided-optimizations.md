@@ -877,7 +877,7 @@ We can see that the node which caused the cumulative distribution to exceed the 
 
 ## Viewing the assembly
 
-Let's have some fun an convince ourselves on what's really going on here. Sure these nice pretty graphs tell us that the PGO has inlined certain function calls, but why don't we take a look at the raw assembly code? First, let's look at the unoptimzed executable by building it with PGO turned off:
+Let's have some fun and convince ourselves on what's really going on here. Sure these nice pretty graphs tell us that the PGO has inlined certain function calls, but why don't we take a look at the raw assembly code? First, let's look at the unoptimzed executable by building it with PGO turned off:
 
 ```
 $ go build -pgo=off
