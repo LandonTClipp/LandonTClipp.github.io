@@ -91,7 +91,11 @@ These thoughts of mine are mine alone, and no social media site deserves to host
 
 I still find myself longing for the period of the Decade-Long Party, the golden era of the internet. I'm not sure we can ever truly return to that, but me disengaging from social media in all forms is one step towards that direction. Even if it's my own lonely corner of the internet that no one ever visits, at least I'll have peace from whatever kind of soul-sucking monstrosity the internet has become.
 
-## :material-robot-happy: The Kingdom of Ember Vale
+## :material-robot-happy: A Fun ChatGPT Allegory
+
+I asked ChatGPT to make an allegory of the post above and it's kinda neat what it came up with :D 
+
+I know I know, it's kinda cringe, but it's interesting the kinds of things it comes up with.
 
 ??? chatgpt "The Kingdom of Ember Vale"
 
