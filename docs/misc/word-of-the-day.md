@@ -4,6 +4,40 @@ title: Word of the Day
 
 # Word of the Day
 
+## 2025-02-06 `promulgate`
+
+promote or make widely known (an idea or cause).
+
+"these objectives have to be promulgated within the organization"
+
+??? info "similar"
+
+    make known
+    
+    make public
+    
+    publicize
+    
+    spread
+    
+    communicate
+    
+    propagate
+    
+    disseminate
+    
+    circulate
+    
+    broadcast
+    
+    promote
+    
+    announce
+    
+    proclaim
+    
+    bruit about
+
 ## 2024-06-20 `recalcitrant`
 
 having an obstinately uncooperative attitude toward authority or discipline.
