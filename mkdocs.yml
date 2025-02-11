@@ -139,6 +139,7 @@ plugins:
 - typeset:
     enabled: true
 - open-in-new-tab
+- privacy
 nav:
   - index.md
   #- Conventions: conventions.md
