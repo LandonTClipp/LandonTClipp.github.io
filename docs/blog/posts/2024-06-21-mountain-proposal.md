@@ -224,6 +224,8 @@ Kelly's highlights from this campsite were the duckies and chickens they had in 
 
 ## Rocky Mountain National Park `Tues, July 2`
 
+Our first day in the park was spent driving up the long road up Milner pass to the top of the mountain. We stopped at the visitor center for a meal and visited with the local marmot population. You can see in the picture where Kelly is pointing that there is a little furry marmot scoping out the landscape below.
+
 <div class="grid cards" markdown>
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4759+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4771+Large.jpeg){ loading=lazy }
@@ -232,6 +234,13 @@ Kelly's highlights from this campsite were the duckies and chickens they had in 
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4797+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4799+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4804+Large.jpeg){ loading=lazy }
+</div>
+
+Coming down the other side of the mountain towards Estes Park on the east side is an incredible drive down a well-maintained paved road called Trail Ridge Road. We didn't travel all the way to Estes Park because the primary goal of the day was just to enjoy the mountain and be out in nature. When we got to the bottom, we had two choices; we could either take the same paved road back up (boring) or go up the narrow dirt road called Old Fall River Rd. You know me, I love an adventure (and I have an off-roading SUV) so I convinced Kelly to let us go up the dirt road!
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.39468954174!2d-105.69443242398872!3d40.42225847143864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876976b564c77ab1%3A0xde041e923d51b5e3!2sOld%20Fall%20River%20Rd%2C%20Colorado%2080517!5e0!3m2!1sen!2sus!4v1739252875296!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<div class="grid cards" markdown>
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4810+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4813+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4824+Large.jpeg){ loading=lazy }
@@ -246,6 +255,71 @@ Kelly's highlights from this campsite were the duckies and chickens they had in 
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4918+Large.jpeg){ loading=lazy }
 - ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4925+Large.jpeg){ loading=lazy }
 </div>
+
+## Estes Park `Wed, July 3`
+
+The next day was our Estes Park day. The plan was for us to visit as many attractions as we could in the town. I wanted to surprise Kelly so I booked us tickets on this thing called a "mountain coaster" which is essentially this small coaster that's in, well... the mountains :sweat_smile. On the way to the mountain coaster, Kelly saw this horseback riding company and she desperately wanted to go for a ride. So that's exactly what we did!
+
+### Horseback Riding
+
+Many don't know this about me but I was actually a pretty prolific horseback rider when I was a kid. I used to participate in horsemanship competitions, things like dressage, cross country jumping, and regular jumping. I haven't ridden a horse regularly in a long time but it actually felt very familiar to me, despite being in a western saddle.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4933+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4938+Large.jpeg){ loading=lazy }
+- <video controls>
+    <source loading="lazy" id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4940.MOV" type="video/mp4">
+  </video>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4944+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4948+Large.jpeg){ loading=lazy }
+- <video controls>
+    <source loading="lazy" id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4952.MOV" type="video/mp4">
+  </video>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4967+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4974+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4977+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4979+Large.jpeg){ loading=lazy }
+</div>
+
+### The Stanley Hotel
+
+Next on the agenda was for us to visit the infamous Stanley Hotel. For those who don't know, the Stanley Hotel is what inspired Stephen King to write his horror novel The Shining. Another commonly mistaken fact about the hotel is that the _movie_ The Shining was not actually filmed at this hotel. The film rather used exterior shots of the Timberline Lodge in Oregon and a soundstage for its interior shots.(1)
+{ .annotate }
+
+1. This is actually a whole other story. Stephen was deeply frustrated that Stanley Kubrick's 1980 film adaptation decided not to use the Stanley Hotel itself. He was so upset not just with that decision, but with various aspects of the film itself, that he re-purchased the rights to the film so that he could make his own 1997 TV Miniseries adaptation of his book, which was much more faithful to his original vision of the story.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4981+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4985+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4986+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_4997+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5003+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5005+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5029+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5044+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5053+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5062+Large.jpeg){ loading=lazy }
+</div>
+
+### Bear Lake
+
+Bear Lake is a section of the park that, surprisingly, is even more difficult to get to than the park itself. Remember how I mentioned that Rocky Mountain National Park requires a timed entry permit? Well to enter the Bear Lake corridor, you need not only the Rocky Mountain timed entry permit, but you also need a _separate_ Bear Lake timed entry permit. And guess what, those are even more difficult to obtain. And also guess what, we weren't able to obtain it! Thankfully as before, you could enter the corridor after a certain time period, so we planned (somewhat spontaneously) to visit the lake after the last timed entry permit.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5073+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5076+Large.jpeg){ loading=lazy }
+- <video controls>
+    <source loading="lazy" id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5081.MOV" type="video/mp4">
+  </video>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5082+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5092+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5100+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5109+Large.jpeg){ loading=lazy }
+</div>
+
+The lake itself was no doubt incredibly beautiful, however there was a lot of traffic to get into the parking lot next to the lake itself. We sat in line for quite a while, waiting for a spot in the parking lot. Even more frustratingly, the parking lot was barely even full. The only reason the long line existed is because people insisted on getting a spot as close to the lake as possible, so they blocked this huge line of cars, who couldn't go around them, simply because they... didn't want to walk? Like what are you even doing at a national park if you don't want to walk? Ugh.
+
+As far as mountain lakes go, I would say it was marginally worth the trouble. Well that's not true, it _wasn't_ worth the trouble. It was definitely cool, but the crowd of people and the bumper-to-bumper traffic was really off-putting, so I probably won't be visiting again.
 
 ## Links
 
