@@ -139,7 +139,11 @@ plugins:
 - typeset:
     enabled: true
 - open-in-new-tab
-- privacy
+- privacy:
+    external_assets_exclude: 
+      - cdn.jsdelivr.net/npm/mathjax@3/* 
+      - giscus.app/*
+
 nav:
   - index.md
   #- Conventions: conventions.md
