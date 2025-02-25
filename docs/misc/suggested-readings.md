@@ -20,6 +20,7 @@ title: Suggested Readings
 ## Tech
 
 - [The BSD Packet Filter: A New Architecture for User-level Packet Capture](https://www.usenix.org/publications/library/proceedings/sd93/mccanne.pdf)
+- [The UNIX-Haters Handbook](https://web.mit.edu/~simsong/www/ugh.pdf)
 
 ## Poems
 
