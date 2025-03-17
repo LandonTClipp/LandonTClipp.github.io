@@ -140,8 +140,8 @@ plugins:
     enabled: true
 - open-in-new-tab
 - privacy:
-    external_assets_exclude: 
-      - cdn.jsdelivr.net/npm/mathjax@3/* 
+    external_assets_exclude:
+      - cdn.jsdelivr.net/npm/mathjax@3/*
       - giscus.app/*
 
 nav:
@@ -175,6 +175,7 @@ nav:
       - Linux: notes/sysadmin/linux.md
       - Networking:
           - General: notes/sysadmin/networking.md
+          - Infiniband: notes/sysadmin/infiniband.md
           - OpenStack: notes/sysadmin/openstack.md
           - OSI: notes/sysadmin/osi-model.md
           - SDN: notes/sysadmin/software-defined-networking.md

@@ -5,6 +5,8 @@
 *[DAG]: Directed Acyclic Graph
 *[DMA]: Direct Memory Access
 *[GIL]: Global Interpreter Lock
+*[HCA]: Host Card Adapter
+*[HCAs]: Host Card Adapter
 *[HFT]: High Frequency Trading
 *[HFTs]: High Frequency Trading
 *[IOMMU]: Input-Output Memory Management Unit
