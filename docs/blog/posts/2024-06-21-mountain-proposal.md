@@ -321,6 +321,26 @@ The lake itself was no doubt incredibly beautiful, however there was a lot of tr
 
 As far as mountain lakes go, I would say it was marginally worth the trouble. Well that's not true, it _wasn't_ worth the trouble. It was definitely cool, but the crowd of people and the bumper-to-bumper traffic was really off-putting, so I probably won't be visiting again.
 
+## Tarryall `Friday, July 5`
+
+It was time to start making our way back towards the Colorado Springs area, so we stopped for a night in the Tarryall area. More specifically, the Pike-San Isabel National Forest. We drove for a long time down this forest road called Matukat Rd. After driving (very slowly) for about an hour along this road, we found an incredible designated camping spot that overlooked Hackett and Cedar Mountains.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5127+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5129+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5133+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5141+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5142+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5144+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5146+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5149+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5150+Large.jpeg){ loading=lazy }
+</div>
+
+I get to claim something at this camping spot that almost no one can say: I saved Kelly from a bear! (or at least, I like to say so) While I was sitting down by the campfire, Kelly walked along the forest road looking at some birds through her binoculars. For whatever reason, I decided to turn around in my chair to see where she had gone, and I happened to notice a black bear running down the mountain exactly towards her! I yelled at her that there was a bear coming towards her. The bear heard me yelling and briefly paused to look at me as if to say "wtf was that noise". She ran back to the camper while I scrambled to get the bear spray. We watched the bear continue down the mountain and run across the road. It never really stopped _running_, which feels impressive to me, but it clearly had somewhere important to be and god dammit it wasn't going to be late. It never got closer to us and kind of just minded its own business. We watched it run off into the distance until we couldn't see it anymore.
+
+For those who don't know, black bears are the only type of bear commonly found in Colorado and don't typically pose a threat to humans. They're much more skiddish and docile than grizzly bears. Most of the locals consider them to be large racoons. In fact, even with baby cubs, black bear mothers aren't typically aggressive towards humans and prefer to flee instead of fight in almost all situations. Regardless, it's kind of jarring to see my newly minted fiancee nearly have a direct encounter with this huge animal. And to think that the only reason they _didn't_ cross direct paths with each other is because I just happened to turn around at the exact moment I could see it. Crazy!
+
 ## Links
 
 - [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/q2npc8xDn5DpFyVz9)
