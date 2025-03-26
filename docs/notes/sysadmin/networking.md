@@ -241,3 +241,19 @@ DSR is a method of load balancing whereby the server sitting behind the load bal
 
 It should be noted that, of course, the backends and the load balancer need to be configured with a VIP. When the LB forwards the packet to the backend, the destination IP is unchanged, only the destination MAC. So this means that the LB and the backend services need to be on the same layer 2 network. Because all the backends are configured with the same VIP, they will respond to the LB-forwarded packet.
 
+Topologies
+----------
+
+### [Rail-Optimized](https://infohub.delltechnologies.com/zh-cn/l/generative-ai-in-the-enterprise-with-nvidia-gpus-and-dell-powerswitch-networking/rail-optimized-topology/
+
+![](https://site-cdn.core.nytro.ai/static/media/b8ec0475-4144-43f7-91b3-929391844fb0.jpg)
+
+In this topology, each NIC is connected to a different switch (or spine-leaf network) and is called a rail (represented by a unique color in the following figure). The rails are also interconnected at an upper tier. Therefore, this topology provides two ways to cross rails: through the Scale Up fabric (preferred) or through the upper tier of the Scale Out topology.
+
+For example, to communicate with GPU 8 on server 2, GPU 4 on server 1 can either:
+
+1. Transfer its data into the memory of GPU 8 on server 1. Then GPU 8 on server 1 communicates through NIC 8 on server 1 with GPU 8 on server 2, through NIC 8 on server 2. This path is shown with purple lines in Figure 14.
+2. Send its data to NIC 4 on server 1, which can reach through the upper tier to NIC 8 on server 2, coupled with GPU 8 on server 2.
+
+This property allows AI workloads to perform better on a Rail-Optimized topology than on a Pure Rail topology because the current Collective Communication Libraries are not yet fully optimized for the Pure Rail topology. As such, the Rail-Optimized topology is the recommended topology to build a Scale Out fabric.
+
