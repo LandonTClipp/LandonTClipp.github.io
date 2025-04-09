@@ -40,7 +40,8 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.code.select
-    - content.tooltips
+    - content.footnote.tooltips
+    - content.tooltips    
     - navigation.expand
     - navigation.indexes
     - navigation.path
@@ -143,6 +144,7 @@ plugins:
     external_assets_exclude:
       - cdn.jsdelivr.net/npm/mathjax@3/*
       - giscus.app/*
+      - "*.MOV"
 
 nav:
   - index.md

@@ -16,7 +16,6 @@ My name is Landon Clipp and I am a software engineer who currently lives in Chic
 
 I'm passionate about a number of things, and consequently this blog will dive into many various topics. The two most interesting sections of this website are my [Blog](blog/index.md) and also what I call my ["Professional" Notes](notes/index.md).
 
-
 What is this Blog?
 ------------------
 
