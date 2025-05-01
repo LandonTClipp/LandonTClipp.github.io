@@ -60,8 +60,8 @@ Consistent Hashing is a load balancing technique that allows you to add and remo
 
 <div class="grid cards" markdown>
 
-- ![Hash ring 1](https://f005.backblazeb2.com/file/landons-blog/consistent_hashing/consistent_hash_ring_01.png)
-- ![Hash ring 2](https://f005.backblazeb2.com/file/landons-blog/consistent_hashing/consistent_hash_ring_02.png)
+- ![Hash ring 1](https://f005.backblazeb2.com/file/landons-blog/assets/images/consistent_hashing/consistent_hash_ring_01.png)
+- ![Hash ring 2](https://f005.backblazeb2.com/file/landons-blog/assets/images/consistent_hashing/consistent_hash_ring_02.png)
 
 </div>
 
@@ -73,7 +73,7 @@ In the case that does happen, a re-mapping will indeed have to occur, but the ov
 
 !!! note "Virtual Nodes for Smoothing"
     
-    ![Consistent hash ring with virtual nodes](https://f005.backblazeb2.com/file/landons-blog/consistent_hashing/consistent_hash_ring_virtual_nodes.png){ align=left width="500" } It's very likely for nodes in a hash ring to become too clumped together, which would cause uneven distribution (this is called the Hotspot Key Problem). You can smooth this out by using virtual nodes: for every real node, we also add some number of virtual nodes that maps back to the real node. This effectively causes the hash ring to become more uniformly distributed as it causes the standard deviation (in terms of empty space in the ring) to be smaller.
+    ![Consistent hash ring with virtual nodes](https://f005.backblazeb2.com/file/landons-blog/assets/images/consistent_hashing/consistent_hash_ring_virtual_nodes.png){ align=left width="500" } It's very likely for nodes in a hash ring to become too clumped together, which would cause uneven distribution (this is called the Hotspot Key Problem). You can smooth this out by using virtual nodes: for every real node, we also add some number of virtual nodes that maps back to the real node. This effectively causes the hash ring to become more uniformly distributed as it causes the standard deviation (in terms of empty space in the ring) to be smaller.
 
 You can see in a consistent hashing scheme, adding a node to the ring will cause only _some_ of the clients to be re-mapped.
 

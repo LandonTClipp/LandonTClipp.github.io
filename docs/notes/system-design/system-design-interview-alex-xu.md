@@ -255,8 +255,8 @@ Consistent hashing is the answer to the rehashing problem. I'm going to be borro
 
 <div class="grid cards" markdown>
 
-- ![Hash ring 1](https://f005.backblazeb2.com/file/landons-blog/consistent_hashing/consistent_hash_ring_01.png)
-- ![Hash ring 2](https://f005.backblazeb2.com/file/landons-blog/consistent_hashing/consistent_hash_ring_02.png)
+- ![Hash ring 1](https://f005.backblazeb2.com/file/landons-blog/assets/images/consistent_hashing/consistent_hash_ring_01.png)
+- ![Hash ring 2](https://f005.backblazeb2.com/file/landons-blog/assets/images/consistent_hashing/consistent_hash_ring_02.png)
 
 </div>
 
@@ -643,7 +643,7 @@ The service discovery will recommend the best chat server for the client to conn
 
 #### Chat flow
 
-```
+```mermaid
 flowchart TD
     UserA --> ChatServer
     ChatServer --> UserBQueue[(User B Queue)]
