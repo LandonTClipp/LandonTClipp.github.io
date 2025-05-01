@@ -174,7 +174,12 @@ nav:
         - GPU: notes/sysadmin/gpu.md
         - Misc: notes/sysadmin/misc.md
         - Storage: notes/sysadmin/storage.md
-      - Linux: notes/sysadmin/linux.md
+      - Linux: 
+          - CLI Tools: notes/sysadmin/linux/cli-tools.md
+          - Hugepages: notes/sysadmin/linux/hugepages.md
+          - Systemd: notes/sysadmin/linux/systemd.md
+          - TTY: notes/sysadmin/linux/tty.md
+          - Misc: notes/sysadmin/linux/misc.md
       - Networking:
           - General: notes/sysadmin/networking.md
           - Infiniband: notes/sysadmin/infiniband.md
@@ -187,7 +192,6 @@ nav:
       - Security:
           - HTTP: notes/sysadmin/security.md
           - GPG: notes/sysadmin/gpg.md
-      - Systemd: notes/sysadmin/systemd.md
       - Timekeeping: notes/sysadmin/timekeeping.md
       - Virutalization: notes/sysadmin/virtualization.md
     - System Design:
