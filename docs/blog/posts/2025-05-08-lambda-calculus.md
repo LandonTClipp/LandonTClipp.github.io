@@ -10,7 +10,7 @@ links:
 draft: true
 ---
 
-Lambda calculus is a Turing-complete mathematical theory of computation. This post explores the basics of lambda calculus and how it relates to the ideas of functional programming. Most of the content herein is shamelessly copied from various educational sources on the internet, although some exercises at the end of this post will be my own work.(1)
+Lambda calculus is a Turing-complete mathematical theory of computation. This post explores the basics of lambda calculus and how it relates to the ideas of functional programming. Most of the content herein is shamelessly copied from various educational sources on the internet, although some of my own content will be randomly introduced.(1)
 { .annotate }
 
 1. You may be thinking, why do I just copy stuff? What value does that provide? Well, you have to remember that I write these blog posts for myself mainly, so this is just a learning exercise! I don't really care if no one else gets any value out of it :D
@@ -130,4 +130,76 @@ An expression with no free variables is called a **closed** expression.
 
 ## Reductions
 
-TODO
+### $\alpha$ equivalence
+
+$\alpha$ equivalence states that any bound variable is a placeholder and can be replaced (renamed) with a different variable, provided there are no clashes.
+
+!!! example
+
+    $\lambda x . x$ and $\lambda y . y$ are $\alpha$ equivalent.
+
+    However, this is not always that simple. Consider the expression $\lambda x . (\lambda x . x)$. It is $\alpha$ equivalent to $\lambda y . (\lambda x . x)$ but not to $\lambda y . (\lambda x . y)$.
+
+    Landon's Go $\alpha$ equivalence:
+
+    ```go
+    func(x int) int { 
+        return func(x int) {
+            return x
+        }(x) 
+    }
+    ```
+
+    Is equivalent to:
+
+    ```go
+    func(y int) int { 
+        return func(x int) {
+            return x
+        }(y) 
+    }
+    ```
+
+    But not to:
+
+    ```go
+    func(y int) int { 
+        return func(x int){ 
+            return y 
+        }(y)
+    }
+    ```
+
+    Why? Because in the last example, the inner function is returning the variable $y$ which is bound to the outer lambda. From the scope of the inner lambda, $y$ is a free variable, while from the scope of the outer lambda, it is bound. In the other two examples, no free variables are ever used; everything is bound.
+
+    Also, $\alpha$ conversion cannot result in a variable getting captured by a different example. For example,
+
+    $$
+    \lambda x . (\lambda y . x) \ne_\alpha \lambda y . (\lambda y . y).
+    $$
+
+    $\alpha$ conversion is not something that happens only in the lambda calculus. Remember that $\int_{b}^{a} f(x) dx = \int_{b}^{a} f(t) dt$ and $\sum_{i=m}^{n} f(i) = \sum_{j=m}^{n} f(j)$. That's the same thing, too.
+
+!!! question "Test"
+
+    Which of the following expressions can be simplified to $(\lambda x . x)x$?
+
+    1. $(\lambda y_1 . y_1)(\lambda x .(xx))$
+    2. $\lambda y_1 . (\lambda x.(xx))$
+    3. $\lambda z.(\lambda y . (z(+yz)))$
+    4. $(\lambda y_1 . y_1)x$
+
+    Answer:
+
+    Number 4. The reason is that the variable $y_1$ can be renamed to x because it is bound by that lambda function. It is $\alpha$ equivalent to $\lambda x . x$. Thus it becomes $(\lambda x . x)x$.
+
+Let us move forward and formalize this idea.
+
+!!! info "Definition"
+
+    For any expression $\mathscr{M}$ and any $y$ such that
+
+    - $x = y$, or
+    - $x$ and $y$ are not bound in $\mathscr{M}$, and $y$ is not free in $\mathscr{M}$,
+
+    
