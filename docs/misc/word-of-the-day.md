@@ -4,6 +4,27 @@ title: Word of the Day
 
 # Word of the Day
 
+## 2025-05-08 `uncurried`
+
+In computing, "uncurried" refers to a function that takes all its arguments at once, as opposed to a curried function which takes arguments one at a time. Uncurrying is essentially the reverse of currying, transforming a series of functions that each take one argument into a single function that takes all arguments at once.
+
+
+**Currying**
+
+A curried function is one that is designed to be partially applied. This means you can call it with some of its arguments, and it will return a new function that is waiting for the remaining arguments. 
+
+**Uncurrying**
+
+Uncurrying reverses this process. It takes a sequence of functions (each taking a single argument) and converts them into a single function that accepts all arguments as a tuple or list. 
+
+**Example**
+
+Imagine a function `add(x, y)` which adds two numbers. A curried version of this might be `curriedAdd(x)(y)`. An uncurried version would be `uncurriedAdd(x, y)`. 
+
+**Benefits of Uncurrying**
+
+In some programming environments, uncurried functions are generally preferred for efficiency because they avoid the overhead of creating closures and partial application during function calls, according to Wikipedia. 
+
 ## 2025-02-06 `promulgate`
 
 promote or make widely known (an idea or cause).
