@@ -202,4 +202,32 @@ Let us move forward and formalize this idea.
     - $x = y$, or
     - $x$ and $y$ are not bound in $\mathscr{M}$, and $y$ is not free in $\mathscr{M}$,
 
-    
+    $$
+    \lambda x . \mathscr{M} =_{\alpha} \lambda y . (\mathscr{M} \{x / y\})
+    $$
+
+    That is to say, all instances of $x$ will be replaced by $y$.
+
+If $\mathscr{M}\{y/x\}$ were to be generalized, one would have to define $\mathscr{M} \{u/x\}$ for all $\lambda$-function $u$. But replacing all instances of $x$ by $u$ wouldn't make any sense, since $\lambda u . (\mathscr{M}\{u/x\})$ may not be defined, such as in the case that $u$ is not a variable.
+
+Therefore, it can be tempting to replace all occurrences of $x$ by $u$ **except** those directly following the $\lambda$. But in this case, if $u = y$, the fact that $y$ does not occur in $\mathscr{M}$ anymore is not sufficient, as demonstrated in the following examples:
+
+$$
+\lambda x . \underbrace{(\lambda x . x)}_{\mathscr{M}} \{y / x\} \ne_{\alpha} \lambda x . (\lambda x . y)
+$$
+
+This is not an equivalent $\alpha$ reduction because y is free in $\mathscr{M}$ and is undefined.
+
+$$
+\lambda x . \underbrace{(\lambda x . y)}_{\mathscr{M}} \{y / x\} \ne_{\alpha} \lambda x . (\lambda x . x).
+$$
+
+This is not an equivalent $\alpha$ reduction because y is free on the left hand side, while the replacement on the right hand side refers to the bound variable $x$.
+
+This is why we have to ensure that
+
+- $x = y$ or
+- $x$ and $y$ are not bound in $\mathscr{M}$, and $y$ is not free in $\mathscr{M}$.
+
+## $\beta$ reduction
+
