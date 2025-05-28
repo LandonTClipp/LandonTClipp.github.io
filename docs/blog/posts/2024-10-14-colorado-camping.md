@@ -212,7 +212,7 @@ The drive was long and involved going through some incredibly gorgeous towns. I 
 
 A dark road! No wait, there's something in the sky? A UFO? Joe Biden? You see that streak of cloudy light just above the trees? That's a comet! Now I'm not gonna get sentimental and tell you that that's a sign from the sky gods sent specifically to me to deliver a message that says "move out here" because I'm not crazy, but that's exactly what happened.
 
-That comet's name is C/2023 A3 Tsuchinshan-ATLAS, so I just call it Kit Kat for short (because the initials of that long name would be CAT-A, I guess?). Anyway, Kit Kat and I saw each other for the next hour or so, but when I got to my campsite, I looked all around and realized that the mountains were now obscuring Kit Kat from my view. I never saw it again :cry:
+That comet's name is C/2023 A3 Tsuchinshan-ATLAS, so I just call it Atlas for short. Anyway, Atlas and I saw each other for the next hour or so, but when I got to my campsite, I looked all around and realized that the mountains were now obscuring it from my view. I never saw it again :cry:
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6488+Large.jpeg)
 
