@@ -341,6 +341,49 @@ I get to claim something at this camping spot that almost no one can say: I save
 
 For those who don't know, black bears are the only type of bear commonly found in Colorado and don't typically pose a threat to humans. They're much more skiddish and docile than grizzly bears. Most of the locals consider them to be large racoons. In fact, even with baby cubs, black bear mothers aren't typically aggressive towards humans and prefer to flee instead of fight in almost all situations. Regardless, it's kind of jarring to see my newly minted fiancee nearly have a direct encounter with this huge animal. And to think that the only reason they _didn't_ cross direct paths with each other is because I just happened to turn around at the exact moment I could see it. Crazy!
 
+## Mt. Sherman `Monday, July 8`
+
+I decided I wanted to climb my first 14'er. There are a large number of them in the South Park area where I was staying (specifically in Fairplay, CO). Among those is [Mt. Sherman](https://www.14ers.com/route.php?route=sher1) which is a moderate class 1, and one of the easiest class 1s at that. 
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5349+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5353+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5355+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5358+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5364+Large.jpeg){ loading=lazy }
+- <video controls>
+    <source loading="lazy" id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5370.MOV" type="video/mp4">
+  </video>
+</div>
+
+This area is a grave for an old mining operation called the Sherman Mines that produced silver in the 1970s. Many of the old artifacts still remain, things like rail cars, bucket lifts, power stations, even electric cars! The mine itself has been sealed.
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5373+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5379+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5383+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5391+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5393+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5402+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5406+Large.jpeg){ loading=lazy }
+</div>
+
+After about an hour and a half of climbing, I finally made it to the top!
+
+<video controls>
+  <source loading="lazy" id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5411.MOV" type="video/mp4">
+</video>
+
+<div class="grid cards" markdown>
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5421.JPG){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5424.JPG){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5427.JPG){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5413+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5437+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5446+Large.jpeg){ loading=lazy }
+- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-06-21-mountain-proposal/IMG_5450+Large.jpeg){ loading=lazy }
+</div>
+
 ## Links
 
 - [:simple-googlephotos: Google Photos Album](https://photos.app.goo.gl/q2npc8xDn5DpFyVz9)
