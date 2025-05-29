@@ -119,12 +119,12 @@ Let us define these concepts conceptually:
 !!! info "Bound"
 
     1. $x$ is bound in the expression $\lambda x . \mathscr{M}$.
-    2. $x$ is bound in $\mathscr{M} \mathscr{n}$ if $x$ is bound in $\mathscr{M}$ or if it is bound in $\mathscr{N}$.
+    2. $x$ is bound in $\mathscr{M} \mathscr{N}$ if $x$ is bound in $\mathscr{M}$ or if it is bound in $\mathscr{N}$.
 
-Notice that a variable can be both bound and free but they represent differentthings, as we discussed in the example above.(1)
+Notice that a variable can be both bound and free but they represent different things, as we discussed in the example above.(1)
 { .annotate }
 
-1. This is indeed something I immediately wondered about because point 3 in the `Free` definition directly contradicts the `Bound` definition point 2. How can both be true? Well, it seems in such a case, $x$ simply refers to two different things.
+1. This is indeed something I immediately wondered about because point 3 in the `Free` definition directly contradicts the `Bound` definition point 2. How can both be true? Well, it seems in such a case, $x$ simply refers to two different things. In a programming language, you can imagine that the $x$ in one expression would be a differently-scoped variable, just as it is here.
 
 An expression with no free variables is called a **closed** expression.
 
@@ -229,5 +229,150 @@ This is why we have to ensure that
 - $x = y$ or
 - $x$ and $y$ are not bound in $\mathscr{M}$, and $y$ is not free in $\mathscr{M}$.
 
-## $\beta$ reduction
+## $\beta$ Reduction
 
+
+$\beta$ reduction is the central idea of $\lambda$ calculus. It tells us how simplifications of abstractions work.
+
+!!! example
+
+    Let's apply the identity function $(\lambda x . x)$ to a free variable, say, $y$:
+
+    $$
+    (\lambda x . x)y.
+    $$
+
+    The next thing that should happen is that the function should act on the argument, which is what a $\beta$ is:
+
+    $$
+    (\lambda x . x)y =_{\beta} y.
+    $$
+
+    This could also be written as
+
+    $$
+    (\lambda x . x)y \longrightarrow^{\beta} y.
+    $$
+
+    ---
+
+    Let's take another example:
+
+    $$
+    (\lambda x . x)(\lambda y . y) \longrightarrow^{\beta} (\lambda y . y).
+    $$
+
+    That's simple, the identity function applied to the identity function is the identity function itself.
+
+An important feature to be mentioned here is that a $\beta$ reduction cannot result in the capture of a free variable by another abstraction.
+
+!!! example
+
+    $$
+    (\lambda x . \lambda y . (xy))(\lambda x . \lambda y . (xy))
+    $$
+
+    Our first step is to plug in the second expression as x in the first one. But do we do it like this?
+
+    $$
+    (\lambda y ((\lambda x . \ lambda y . (xy))y))
+    $$
+
+    No! We're conflating the $y$ on the left hand side with the $y$ on the right hand. These are two different bound variables and our reduction is invalid because we have erroneously combined the two to be the same variable.
+
+    ---
+
+    This is the right way to go:
+
+    $$
+    (\lambda x . \lambda y . (xy))(\lambda x . \lambda y . (xy)) \longrightarrow^{\beta} \lambda y' . ((\lambda x . \lambda y . (xy))y') \longrightarrow^{\beta} \lambda y' . \lambda y . (y' y).
+    $$
+
+!!! question "Test"
+
+    The following $\lambda$ expression can be simplified to which of the options?
+
+    $$
+    (\lambda x . (\lambda x . x))y
+    $$
+
+    1. $x$
+    2. $y$
+    3. $\lambda x . x$
+
+    The correct answer is 3.
+
+Let us formalize this with the notion of (capture-avoiding) substitution of free variables.
+
+
+<div class="annotate" markdown>
+!!! info "Definition"
+
+    The capture-avoiding substitution of $\mathscr{N}$ for free occurrences of $x$ in $\mathscr{M}$ -- $\mathscr{M} [ \mathscr{N} / x]$ in symbols -- is defined as follows: 
+
+    $$
+    x[\mathscr{N}/x] \equiv \mathscr{N}
+    $$ 
+
+    <center>
+    (1)
+    </center>
+
+    $$
+    y[\mathscr{N/x}] \equiv y  \qquad (x \ne y)
+    $$
+
+    <center>
+    (2)
+    </center>
+
+    $$
+    (\mathscr{MP})[\mathscr{N} / x] \equiv (\mathscr{M}[\mathscr{N} / x])(\mathscr{P}[\mathscr{N}/x])
+    $$
+
+    <center>
+    (3)
+    </center>
+
+    $$
+    (\lambda x . \mathscr{M})[\mathscr{N}/x] \equiv (\lambda x . \mathscr{M})
+    $$
+
+    <center>
+    (4)
+    </center>
+
+    $$
+    (\lambda y . \mathscr{M})[\mathscr{N} / x] \equiv \lambda y . ( \mathscr{M} [ \mathscr{N} / x]) \qquad (x \ne y, y \text{ is not a free variable in } \mathscr{N})
+    $$
+
+    <center>
+    (5)
+    </center>
+
+    $$
+    (\lambda y . \mathscr{M})[\mathscr{N} / x] \equiv \lambda y' . (\mathscr{M} \{y' / y\} [\mathscr{N} / x]). \qquad (x \ne y, y \text{ is a free variable in } \mathscr{N}, y' \text{ is a fresh variable})
+    $$
+
+    <center>
+    (6)
+    </center>
+</div>
+
+1. Replacing a variable $x$ with an expression $\mathscr{N}$ is equivalent to $\mathscr{N}$. This should be pretty obvious.
+2. Replacing all instances of $x$ with an expression $\mathscr{N}$ is equivalent to $y$. This is probably obvious because the variable $y$ does not contain $x$.
+3. Essentially, this demonstrates a distributive property. A substitution across two applied expressions can be distributed individually to each expression.
+4. This took me a hot minute to fully understand, but the key point here is that we're replacing $x$ with expression $\mathscr{N}$ because we're stating that they are equivalent. So $\mathscr{M}$ does not change if you replace a bound variable $x$ with an equivalent expression $\mathscr{N}$.
+5. This should be pretty self-explanatory as well, but some additional commentary suffices. This says that a substitution applied to a lambda function is equivalent to applying the substitution to the function body.
+6. Tip! Remember that the curly brackets are an $\alpha$ reduction. This rule states that if there is a variable collision between the bound variable $y$ on the left hand side and a free variable $y$ in $\mathscr{N}$, you can rename the left hand $y$ through an $\alpha$ reduction to prevent the collision.
+
+Please notice that bound variables cannot be substituted, as we discussed before.
+
+!!! info "Definition"
+
+    $$
+    (\lambda x . \mathscr{M})\mathscr{N} \longrightarrow^{\beta} \mathscr{M}[\mathscr{N}/x]
+    $$
+
+Two terms that can be reduced to each other in zero or more $\beta$ reductions or its inverse are $\beta$ equivalent.
+ß
