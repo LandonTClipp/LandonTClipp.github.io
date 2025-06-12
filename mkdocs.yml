@@ -58,6 +58,7 @@ markdown_extensions:
   - abbr
   - admonition
   - attr_list
+  - def_list
   - footnotes
   - md_in_html
   - material.extensions.preview:
@@ -176,6 +177,7 @@ nav:
         - GPU: notes/sysadmin/gpu.md
         - Misc: notes/sysadmin/misc.md
         - Storage: notes/sysadmin/storage.md
+      - Kubernetes: notes/sysadmin/k8s.md
       - Linux: 
           - CLI Tools: notes/sysadmin/linux/cli-tools.md
           - Hugepages: notes/sysadmin/linux/hugepages.md
