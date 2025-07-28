@@ -6,7 +6,9 @@ Welcome to `topofmind.dev`
 ========
 
 <center>
-[![Typing SVG](assets/images/swe-moving-index.svg)](https://git.io/typing-svg)
+
+![Typing SVG](assets/images/swe-moving-index.svg)
+
 </center>
 
 About Me
