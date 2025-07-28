@@ -6,7 +6,7 @@ RUN apt-get install -y python3-pip python3-venv
 WORKDIR /build
 ARG GH_TOKEN
 ENV GH_TOKEN $GH_TOKEN
-COPY requirements.txt .
-RUN pip install -r ./requirements.txt
+COPY requirements.lock .
+RUN pip install -r ./requirements.lock
 
 ENTRYPOINT ["mkdocs"]

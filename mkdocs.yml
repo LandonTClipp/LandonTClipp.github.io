@@ -144,7 +144,7 @@ plugins:
     enabled: true
 - open-in-new-tab
 - privacy:
-    external_assets_exclude:
+    assets_exclude:
       - cdn.jsdelivr.net/npm/mathjax@3/*
       - giscus.app/*
       - "*.MOV"
