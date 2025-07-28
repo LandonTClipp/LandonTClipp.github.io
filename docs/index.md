@@ -6,7 +6,7 @@ Welcome to `topofmind.dev`
 ========
 
 <center>
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Press+Start+2P&size=30&duration=1200&pause=500&color=4CAE4F&center=true&vCenter=true&multiline=true&repeat=false&width=900&height=100&lines=SWE+%40+Lambda+Labs;Building+an+AI+Public+Cloud)](https://git.io/typing-svg)
+[![Typing SVG](assets/images/swe-moving-index.svg)](https://git.io/typing-svg)
 </center>
 
 About Me
