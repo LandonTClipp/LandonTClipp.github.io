@@ -1,7 +1,7 @@
-mkdocs
-mkdocs-glightbox
+mkdocs==1.6.1
+mkdocs-glightbox==0.4.0
 mkdocs-open-in-new-tab
 mkdocs-redirects
-cairosvg
+CairoSVG==2.7.1
 pillow
-git+https://${GH_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+git+https://${GH_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@665b88d2aeafdebd9de593b59e78a09ce2ede8fd
