@@ -573,3 +573,25 @@ kube-controller-manager-inst-5c3dw-san-jose-dev-a10-hypervisors-pool   1/1     R
 kube-proxy-sn66m                                                       1/1     Running   23 (3m14s ago)   117m
 kube-scheduler-inst-5c3dw-san-jose-dev-a10-hypervisors-pool            1/1     Running   25 (2m44s ago)   117m
 ```
+
+However, coredns is not running. Why?
+
+```
+  Warning  FailedScheduling  120m                 default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node.kubernetes.io/not-ready: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+```
+
+This is telling us that the node itself is not ready. We can confirm that by looking at the node:
+
+```
+# kubectl get nodes -o wide
+NAME                                           STATUS     ROLES           AGE    VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+inst-5c3dw-san-jose-dev-a10-hypervisors-pool   NotReady   control-plane   125m   v1.33.3   10.254.192.244   <none>        Ubuntu 20.04.3 LTS   5.14.15-custom   containerd://1.7.20
+```
+
+The kubelet says this:
+
+```
+E0730 21:44:40.048656   69503 kubelet.go:3117] "Container runtime network not ready" networkReady="NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized"
+```
+
+We haven't initialized a network plugin.
