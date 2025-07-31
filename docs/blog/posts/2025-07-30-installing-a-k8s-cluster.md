@@ -783,3 +783,219 @@ kube-scheduler-inst-5c3dw-san-jose-dev-a10-hypervisors-pool            1/1     R
 ```
 
 That sounds like a success!
+
+## Test a simple ML job
+
+<div class="annotate">
+Our k8s cluster is nowhere near the state where we need it to be, it it should allow us to do some basic ML jobs.(1) Some of the critical pieces we haven't yet implemented are:
+
+1. Virtualized running environments. The containers shouldn't use the host kernel, they should use their own isolated VM.
+2. Isolated network overlay via cilium.
+3. Observability platform.
+4. GPU PCIe passthrough to the VMs.
+
+</div>
+
+1. Actually, I'm expecting the containers to not have any access to the GPU devices as we haven't explicitly configured it to do so, but we'll see what happens anyway.
+
+
+We create a k8s deployment file for a convolutional neural network that identifies handwritten digits from the MNIST dataset. I've uploaded this to dockerhub at `landontclipp/serverless-test`. We just need to run a deployment of this and see what happens.
+
+```yaml title="deployment.yaml"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverless-test-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: serverless-test
+  template:
+    metadata:
+      labels:
+        app: serverless-test
+    spec:
+      containers:
+        - name: serverless-test
+          image: landontclipp/serverless-test:v1.0.5
+          imagePullPolicy: Always
+          command: ["python3", "-u", "mnist_image_classifier.py"]
+      restartPolicy: Always
+```
+
+And then apply it
+
+```
+kubectl apply -f ./deployment.yaml
+```
+
+We see k8s is deploying the pod:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# kubectl get pods
+NAME                                          READY   STATUS              RESTARTS   AGE
+serverless-test-deployment-6c7657c859-66pn6   0/1     ContainerCreating   0          5s
+```
+
+The container eventually fails (not suprisingly):
+
+```
+  Warning  BackOff    11s                  kubelet            Back-off restarting failed container serverless-test in pod serverless-test-deployment-6c7657c859-66pn6_default(b50a7fa8-bb90-46f1-aba4-f17a2bb67161)
+```
+
+It appears there is some application-level issue:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# kubectl logs serverless-test-deployment-56bcd9f69-f4crw
+font_manager.py     :1639 2025-07-31 21:51:45,306 generated new fontManager
+starting data loader
+train_loader begin
+100%|██████████| 9.91M/9.91M [00:01<00:00, 6.56MB/s]
+100%|██████████| 28.9k/28.9k [00:00<00:00, 432kB/s]
+100%|██████████| 1.65M/1.65M [00:00<00:00, 3.00MB/s]
+100%|██████████| 4.54k/4.54k [00:00<00:00, 7.64MB/s]
+train_loader end
+test_loader begin
+test_loader end
+Using device: cpu
+//mnist_image_classifier.py:49: UserWarning: Implicit dimension choice for log_softmax has been deprecated. Change the call to include dim=X as an argument.
+  return F.log_softmax(x)
+/opt/conda/lib/python3.11/site-packages/torch/nn/_reduction.py:51: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+
+Test set: Avg. loss: 2.3316, Accuracy: 1137/10000 (11%)
+
+starting training epoch 1
+Train Epoch: 1 [0/60000 (0%)]   Loss: 2.375533
+Traceback (most recent call last):
+  File "//mnist_image_classifier.py", line 175, in <module>
+    classifier()
+  File "//mnist_image_classifier.py", line 169, in classifier
+    train(epoch)
+  File "//mnist_image_classifier.py", line 140, in train
+    torch.save(network.state_dict(), f"{RESULTS_DIR}/model.pth")
+  File "/opt/conda/lib/python3.11/site-packages/torch/serialization.py", line 964, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/serialization.py", line 828, in _open_zipfile_writer
+    return container(name_or_buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/serialization.py", line 792, in __init__
+    torch._C.PyTorchFileWriter(
+RuntimeError: Parent directory /runpod-volume/ does not exist.
+```
+
+This is my fault actually. This image was originally meant to run in the runpod.io environment. I just need to modify it a little bit to not expect this volume to exist (and I'm not sure it actually needed it anyway).
+
+I make a [minor change](https://github.com/LandonTClipp/worker-basic/commit/b54fc02f3bdb5fed86b1e43cd12eac1ee31d2359) and also change the deployment to be able to write its model output to `/output` which we will create as a k8s persistent volume.
+
+=== "`persistentvolumeclaim.yaml`"
+
+    ```yaml title="persistentvolumeclaim.yaml"
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+    name: model-output
+    namespace: default
+    spec:
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+        storage: 5Gi
+    ```
+
+=== "`deployment.yaml`"
+
+    ```yaml title="deployment.yaml"
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+    name: serverless-test-deployment
+    namespace: default
+    spec:
+    replicas: 1
+    selector:
+        matchLabels:
+        app: serverless-test
+    template:
+        metadata:
+        labels:
+            app: serverless-test
+        spec:
+        containers:
+            - name: serverless-test
+            image: landontclipp/serverless-test:v1.0.6
+            imagePullPolicy: Always
+            command: ["python3", "-u", "mnist_image_classifier.py"]
+            volumeMounts:
+                - name: model-output
+                mountPath: /output
+        restartPolicy: Always
+        volumes:
+            - name: model-output
+            persistentVolumeClaim:
+                claimName: model-output
+    ```
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# kubectl apply -f deployment.yaml 
+deployment.apps/serverless-test-deployment configured
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# kubectl apply -f persistentvolumeclaim.yaml 
+persistentvolumeclaim/model-output created
+```
+
+The pods are stuck in pending state because of this error in the persistentstorageclaim:
+
+```
+  Normal  FailedBinding  13s (x26 over 6m26s)  persistentvolume-controller  no persistent volumes available for this claim and no storage class is set
+```
+
+We didn't specify an actual persistentvolume for this claim, whoops. I make a directory on the host at `/data` and tell k8s about this:
+
+```yaml title="persistentvolume.yaml"
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: model-output-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/model-output-pv
+```
+
+!!! note
+
+    This is an interesting segue to explore how we could attach an NFS storage provider for our CaaS service. For now we'll just use on-disk local filesystems. It would be interesting to support an S3 storage class so that containers could mount something like s3fs to their s3 bucket.
+
+
+
+After we apply that, the ML job is finally running!
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# kubectl logs serverless-test-deployment-56564b8c9b-h44lx | tail -n 20
+Train Epoch: 1 [49280/60000 (82%)]      Loss: 0.855628
+Train Epoch: 1 [49920/60000 (83%)]      Loss: 0.460283
+Train Epoch: 1 [50560/60000 (84%)]      Loss: 0.428732
+Train Epoch: 1 [51200/60000 (85%)]      Loss: 0.789118
+Train Epoch: 1 [51840/60000 (86%)]      Loss: 0.559741
+Train Epoch: 1 [52480/60000 (87%)]      Loss: 0.579006
+Train Epoch: 1 [53120/60000 (88%)]      Loss: 0.531399
+Train Epoch: 1 [53760/60000 (90%)]      Loss: 0.441080
+Train Epoch: 1 [54400/60000 (91%)]      Loss: 0.308792
+Train Epoch: 1 [55040/60000 (92%)]      Loss: 0.508296
+Train Epoch: 1 [55680/60000 (93%)]      Loss: 0.662792
+Train Epoch: 1 [56320/60000 (94%)]      Loss: 0.566424
+Train Epoch: 1 [56960/60000 (95%)]      Loss: 0.376733
+Train Epoch: 1 [57600/60000 (96%)]      Loss: 0.437733
+Train Epoch: 1 [58240/60000 (97%)]      Loss: 0.469119
+Train Epoch: 1 [58880/60000 (98%)]      Loss: 0.629886
+Train Epoch: 1 [59520/60000 (99%)]      Loss: 0.352319
+
+Test set: Avg. loss: 0.2009, Accuracy: 9394/10000 (94%)
+```
