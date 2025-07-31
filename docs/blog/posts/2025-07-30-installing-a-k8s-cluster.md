@@ -153,6 +153,14 @@ failed to create new CRI runtime service: validate service connection: validate 
 To see the stack trace of this error execute with --v=5 or higher
 ```
 
+### What is containerd?
+
+https://www.docker.com/blog/containerd-vs-docker/
+
+![](https://www.docker.com/app/uploads/2024/03/containerd-diagram-v1.png)
+
+containerd is the container runtime environment. It interacts directly with your host operating system. Docker is an abstraction layer that sits on top of containerd and it provides additional concepts like volumes, image management (i.e. downloading and caching images from dockerhub), networking etc.
+
 ### containerd CRI Plugin
 
 It appears the container runtime is not configured correctly. We look at the containerd CLI enabled plugins:
@@ -474,7 +482,7 @@ E0730 21:01:10.126250   11574 kubelet_node_status.go:548] "Error updating node s
 ```
 
 We can use a tool called `crictl` that is a runtime-agnostic replacement for docker ps, docker logs etc, but designed specifically for Kubernetes.(1)
-{ .annoate }
+{ .annotate }
 
 1. Why does it exist? Kubernetes doesn’t require Docker anymore — it talks to the container runtime via a standardized API called CRI. Different runtimes implement this (e.g., containerd, CRI-O, Mirantis cri-dockerd). crictl provides a consistent way to inspect and debug containers and pods regardless of which runtime is in use.
 
@@ -594,4 +602,184 @@ The kubelet says this:
 E0730 21:44:40.048656   69503 kubelet.go:3117] "Container runtime network not ready" networkReady="NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized"
 ```
 
-We haven't initialized a [network plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/).
+We haven't initialized a [network plugin](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/). For that, we'll use Cilium.
+
+### Create the CNI Network Plugin
+
+In a multi-tenancy environment, the question becomes: how do you isolate each tenancy from each other? For the network, there are two general paths we could take:
+
+1. Use a fully-blown fabric-level SDN like OVN. This is useful if you want each tenancy to have full VRF capabilities, for example in clouds that provide VPNs. Such a system would allow customers to not only have their own isolated tenancy, but it would allow them to customize their VPN so that multiple resources can live inside of the same network overlay. OVN is incredibly complex, howevever, and often requires expert network engineers to deploy and manage.
+2. Use an eBPF tool that enforces network policies on the host level. The traffic traversing such a system would rely upon a network fabric that does not by itself separate tenancies into separate VRFs and VLANs, but strong tenancy isolation can still be achieved through end-to-end traffic encryption between the pods in a k8s network. This is generally a simpler approach to take because it does not require an SDN that can manage VRFs on switches. You do not need to manage VLANs, it does not have infrastructural dependencies on switches, it has built-in encryption and observability, and such eBPF tools like the k8s-native Cilium project are by definition k8s-native and can be managed by the k8s control plane as first-class citizens.
+
+We'll use [Cilium](https://cilium.io/get-started/) for this.
+
+!!! quote "What is Cilium?"
+
+    Cilium is an open source project to provide networking, security, and observability for cloud native environments such as Kubernetes clusters and other container orchestration platforms.
+
+    At the foundation of Cilium is a new Linux kernel technology called eBPF, which enables the dynamic insertion of powerful security, visibility, and networking control logic into the Linux kernel. eBPF is used to provide high-performance networking, multi-cluster and multi-cloud capabilities, advanced load balancing, transparent encryption, extensive network security capabilities, transparent observability, and much more.
+
+#### Install the Cilium CLI
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# CLI_ARCH=amd64
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 56.6M  100 56.6M    0     0  43.5M      0  0:00:01  0:00:01 --:--:-- 54.9M
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100    92  100    92    0     0    412      0 --:--:-- --:--:-- --:--:--   412
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
+cilium-linux-amd64.tar.gz: OK
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
+cilium
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# 
+```
+
+#### Install Cilium
+
+https://docs.cilium.io/en/stable/gettingstarted/k8s-install-default/#create-the-cluster
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl config get-contexts
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# cilium install --version 1.18.0
+ℹ️   Using Cilium version 1.18.0
+🔮 Auto-detected cluster name: kubernetes
+🔮 Auto-detected kube-proxy has been installed
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# cilium status
+    /¯¯\
+ /¯¯\__/¯¯\    Cilium:             OK
+ \__/¯¯\__/    Operator:           OK
+ /¯¯\__/¯¯\    Envoy DaemonSet:    OK
+ \__/¯¯\__/    Hubble Relay:       disabled
+    \__/       ClusterMesh:        disabled
+
+DaemonSet              cilium                   Desired: 1, Ready: 1/1, Available: 1/1
+DaemonSet              cilium-envoy             Desired: 1, Ready: 1/1, Available: 1/1
+Deployment             cilium-operator          Desired: 1, Ready: 1/1, Available: 1/1
+Containers:            cilium                   Running: 1
+                       cilium-envoy             Running: 1
+                       cilium-operator          Running: 1
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          2/2 managed by Cilium
+Helm chart version:    1.18.0
+Image versions         cilium             quay.io/cilium/cilium:v1.18.0@sha256:dfea023972d06ec183cfa3c9e7809716f85daaff042e573ef366e9ec6a0c0ab2: 1
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.34.4-1753677767-266d5a01d1d55bd1d60148f991b98dac0390d363@sha256:231b5bd9682dfc648ae97f33dcdc5225c5a526194dda08124f5eded833bf02bf: 1
+                       cilium-operator    quay.io/cilium/operator-generic:v1.18.0@sha256:398378b4507b6e9db22be2f4455d8f8e509b189470061b0f813f0fabaf944f51: 1
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# 
+```
+
+We can run the provided Cilium connectivity test:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# cilium connectivity test
+ℹ️   Monitor aggregation detected, will skip some flow validation steps                                                                                                                                             ✨ [kubernetes] Creating namespace cilium-test-1 for connectivity check...
+✨ [kubernetes] Deploying echo-same-node service...                                                       
+✨ [kubernetes] Deploying DNS test server configmap...
+✨ [kubernetes] Deploying same-node deployment...                                                         
+✨ [kubernetes] Deploying client deployment...
+✨ [kubernetes] Deploying client2 deployment...                                                           
+⌛ [kubernetes] Waiting for deployment cilium-test-1/client to become ready...
+⌛ [kubernetes] Waiting for deployment cilium-test-1/client2 to become ready...
+⌛ [kubernetes] Waiting for deployment cilium-test-1/echo-same-node to become ready...
+⌛ [kubernetes] Waiting for pod cilium-test-1/client-645b68dcf7-xjr6c to reach DNS server on cilium-test-1/echo-same-node-5f44c8d48c-k5rqm pod...
+⌛ [kubernetes] Waiting for pod cilium-test-1/client2-66475877c6-gj74x to reach DNS server on cilium-test-1/echo-same-node-5f44c8d48c-k5rqm pod...
+⌛ [kubernetes] Waiting for pod cilium-test-1/client-645b68dcf7-xjr6c to reach default/kubernetes service...
+⌛ [kubernetes] Waiting for pod cilium-test-1/client2-66475877c6-gj74x to reach default/kubernetes service...
+⌛ [kubernetes] Waiting for Service cilium-test-1/echo-same-node to become ready...
+⌛ [kubernetes] Waiting for Service cilium-test-1/echo-same-node to be synchronized by Cilium pod kube-system/cilium-mt9xp
+⌛ [kubernetes] Waiting for NodePort 10.254.192.244:32475 (cilium-test-1/echo-same-node) to become ready...
+⌛ [kubernetes] Waiting for NodePort 10.254.192.244:32475 (cilium-test-1/echo-same-node) to become ready...
+[...]
+[=] [cilium-test-1] Test [check-log-errors] [123/123]
+.....
+  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (config)]
+  [-] Scenario [check-log-errors/no-errors-in-logs]
+  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-envoy-jvbms (cilium-envoy)]
+  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (mount-bpf-fs)]
+  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (clean-cilium-state)]
+  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (install-cni-binaries)]
+  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (cilium-agent)]
+  ❌ Found 1 logs in kubernetes/kube-system/cilium-mt9xp (cilium-agent) matching list of errors that must be investigated:
+time=2025-07-31T18:11:30.753850455Z level=error msg="cannot read proc file" module=agent.controlplane.l7-proxy file-path=/proc/net/udp6 error="open /proc/net/udp6: no such file or directory" (8 occurrences)
+.  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (mount-cgroup)]
+.  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (apply-sysctl-overwrites)]
+.  [.] Action [check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-operator-64ddb69dfd-ndzbc (cilium-operator)]
+.
+📋 Test Report [cilium-test-1]
+❌ 1/74 tests failed (1/293 actions), 49 tests skipped, 1 scenarios skipped:
+Test [check-log-errors]:
+  🟥 check-log-errors/no-errors-in-logs:kubernetes/kube-system/cilium-mt9xp (cilium-agent): Found 1 logs in kubernetes/kube-system/cilium-mt9xp (cilium-agent) matching list of errors that must be investigated:
+time=2025-07-31T18:11:30.753850455Z level=error msg="cannot read proc file" module=agent.controlplane.l7-proxy file-path=/proc/net/udp6 error="open /proc/net/udp6: no such file or directory" (8 occurrences)
+[cilium-test-1] 1 tests failed
+```
+
+Most of the tests passed except for one. The log message indicates that cilium was attempting to find the IPv6 UDP psuedo-file. Upon investigation, this appears to be a file that the kernel exposes that allows processes to inspect all active IPv6 UDP sockets. For example we can try reading the regular `/proc/net/udp` file:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# cat /proc/net/udp
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode ref pointer drops             
+ 3909: 3500007F:0035 00000000:0000 07 00000000:00000000 00:00000000 00000000   101        0 125020 2 ffff93191c9d6300 0        
+ 3924: F4C0FE0A:0044 00000000:0000 07 00000000:00000000 00:00000000 00000000   100        0 1089789 2 ffff9398b6d4de80 0       
+ 3967: 00000000:006F 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 147480 2 ffff9398d9d78000 0        
+ 4179: 0100007F:0143 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 49261 2 ffff9319799b1200 0         
+12328: 00000000:2118 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 2139786 2 ffff9398f80f7500 0       
+50191: 0100007F:B4FF 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 2172164 2 ffff9399caa11b00 0       
+51407: 0100007F:B9BF 0100007F:0143 01 00000000:00000000 00:00000000 00000000     0        0 53410 2 ffff9319d6a70000 0     
+```
+
+When we look at the kernel's dmesg logs, we see it explicitly states that ipv6 has been administratively disabled:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# dmesg | grep -i ipv6
+[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-5.14.15-custom root=UUID=3603dbb9-70be-449b-b3ba-5cad4dc8c67f ro systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all rd.driver.pre=vfio-pci video=efifb:off vga=normal nofb nomodeset usbcore.nousb hugepagesz=1G default_hugepagesz=1G transparent_hugepage=never ipv6.disable=1 console=tty1 console=ttyS0 intel_iommu=on hugepages=906
+[    1.880268] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-5.14.15-custom root=UUID=3603dbb9-70be-449b-b3ba-5cad4dc8c67f ro systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all rd.driver.pre=vfio-pci video=efifb:off vga=normal nofb nomodeset usbcore.nousb hugepagesz=1G default_hugepagesz=1G transparent_hugepage=never ipv6.disable=1 console=tty1 console=ttyS0 intel_iommu=on hugepages=906
+[  147.786693] IPv6: Loaded, but administratively disabled, reboot required to enable
+[  167.393552] systemd[1]: Binding to IPv6 address not available since kernel does not support IPv6.
+[  167.499789] systemd[1]: Binding to IPv6 address not available since kernel does not support IPv6.
+```
+
+We do indeed see it was disabled from the kernel commandline:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# cat /proc/cmdline
+BOOT_IMAGE=/boot/vmlinuz-5.14.15-custom root=UUID=3603dbb9-70be-449b-b3ba-5cad4dc8c67f ro systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all rd.driver.pre=vfio-pci video=efifb:off vga=normal nofb nomodeset usbcore.nousb hugepagesz=1G default_hugepagesz=1G transparent_hugepage=never ipv6.disable=1 console=tty1 console=ttyS0 intel_iommu=on hugepages=906
+```
+
+No matter, this is just an experiment so there is no need for IPv6.
+
+We check the node health and see that it's marked as Ready:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl get nodes -o wide
+NAME                                           STATUS   ROLES           AGE   VERSION   INTERNAL-IP      EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
+inst-5c3dw-san-jose-dev-a10-hypervisors-pool   Ready    control-plane   22h   v1.33.3   10.254.192.244   <none>        Ubuntu 20.04.3 LTS   5.14.15-custom   containerd://1.7.20
+```
+
+We also see that CoreDNS is working, in addition to the newly created cilium pods:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl get pods -n kube-system
+NAME                                                                   READY   STATUS    RESTARTS       AGE
+cilium-envoy-jvbms                                                     1/1     Running   0              17m
+cilium-mt9xp                                                           1/1     Running   0              17m
+cilium-operator-64ddb69dfd-ndzbc                                       1/1     Running   0              17m
+coredns-674b8bbfcf-k5jwk                                               1/1     Running   0              22h
+coredns-674b8bbfcf-v29ns                                               1/1     Running   0              22h
+etcd-inst-5c3dw-san-jose-dev-a10-hypervisors-pool                      1/1     Running   10 (20h ago)   20h
+kube-apiserver-inst-5c3dw-san-jose-dev-a10-hypervisors-pool            1/1     Running   25 (20h ago)   22h
+kube-controller-manager-inst-5c3dw-san-jose-dev-a10-hypervisors-pool   1/1     Running   28 (20h ago)   22h
+kube-proxy-sn66m                                                       1/1     Running   23 (20h ago)   22h
+kube-scheduler-inst-5c3dw-san-jose-dev-a10-hypervisors-pool            1/1     Running   25 (20h ago)   22h
+```
+
+That sounds like a success!
