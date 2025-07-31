@@ -5,11 +5,11 @@ title: Welcome!
 Welcome to `topofmind.dev`
 ========
 
-<center>
+<center markdown>
 
 ![Typing SVG](assets/images/swe-moving-index.svg)
 
-</center>
+</center markdown>
 
 About Me
 --------

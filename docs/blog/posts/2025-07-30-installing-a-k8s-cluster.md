@@ -786,7 +786,7 @@ That sounds like a success!
 
 ## Test a simple ML job
 
-<div class="annotate">
+<div class="annotate" markdown>
 Our k8s cluster is nowhere near the state where we need it to be, it it should allow us to do some basic ML jobs.(1) Some of the critical pieces we haven't yet implemented are:
 
 1. Virtualized running environments. The containers shouldn't use the host kernel, they should use their own isolated VM.
