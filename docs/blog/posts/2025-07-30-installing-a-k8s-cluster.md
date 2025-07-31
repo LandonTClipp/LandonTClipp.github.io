@@ -999,3 +999,14 @@ Train Epoch: 1 [59520/60000 (99%)]      Loss: 0.352319
 
 Test set: Avg. loss: 0.2009, Accuracy: 9394/10000 (94%)
 ```
+
+We can also see the model weights written to the host:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# ls -lah /data/model-output-pv/
+total 192K
+drwxr-xr-x 2 root root 4.0K Jul 31 22:16 .
+drwxr-xr-x 3 root root 4.0K Jul 31 22:15 ..
+-rw-r--r-- 1 root root  89K Jul 31 22:20 model.pth
+-rw-r--r-- 1 root root  89K Jul 31 22:20 optimizer.pth
+```
