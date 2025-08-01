@@ -1010,3 +1010,363 @@ drwxr-xr-x 3 root root 4.0K Jul 31 22:15 ..
 -rw-r--r-- 1 root root  89K Jul 31 22:20 model.pth
 -rw-r--r-- 1 root root  89K Jul 31 22:20 optimizer.pth
 ```
+
+## Deploy Kata Containers
+
+https://dev.to/kikifachry/deploy-kata-containers-in-ubuntu-2404-17le
+
+The k8s cluster as it is uses a vanilla container runtime whereby the containers use the host kernel. In a multi-tenant environment, the host kernel cannot be directly used by the containers, so we must provide them with their own virtualized kernel. Or in other words, run the containers in a virtual machine.
+
+The current architecture looks roughly like this:
+
+```mermaid
+flowchart TD
+    subgraph Host
+        user
+        APIServer[k8s API Server]
+        Scheduler[k8s Scheduler]
+        kubelet.service
+        containerd.service
+        runc
+        container[container process]
+
+        user -- deployment.yaml --> APIServer
+        Scheduler -- sees deployment.yaml--> APIServer
+        Scheduler -- schedules pod on kubelet.service --> APIServer
+        kubelet.service -- observes requested pod --> APIServer
+        kubelet.service -- requests container start (CRI gRPC)--> containerd.service
+        containerd.service -- start container (OCI Runtime Spec) --> runc
+        runc -- creates --> container
+
+    end
+```
+
+As you can see on the diagram, the container is a process managed directly by the host kernel. We want to swap in the `runc` binary (which implements the OCI runtime spec) with the Kata containers shim:
+
+```mermaid
+flowchart TD
+    subgraph Host
+        user
+        APIServer[k8s API Server]
+        Scheduler[k8s Scheduler]
+        kubelet.service
+        containerd.service
+        kata
+        cloudHypervisor[Cloud Hypervisor]
+        containerd-shim-kata-v2
+
+        user -- deployment.yaml --> APIServer
+        Scheduler -- sees deployment.yaml--> APIServer
+        Scheduler -- schedules pod on kubelet.service --> APIServer
+        kubelet.service -- observes requested pod --> APIServer
+        kubelet.service -- requests container start (CRI gRPC)--> containerd.service
+        containerd.service -- start container (OCI Runtime Spec) --> kata
+        kata -- request new VM --> cloudHypervisor
+
+        cloudHypervisor -- creates --> VM
+        containerd.service --> containerd-shim-kata-v2 -- AF_VSOCK --> kataAgent
+
+        subgraph VM
+            kataAgent[kata agent]
+            container[container process]
+            kataAgent -- creates --> container
+        end
+    end
+```
+
+### Install
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ./kata-manager.sh 
+INFO: Checking dependencies
+INFO: Running pre-checks
+ERROR: containerd already installed
+```
+
+We need to stop and remove containerd:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# systemctl stop containerd
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# apt remove --purge containerd.io
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  docker-ce-rootless-extras golang-1.13 golang-1.13-doc golang-1.13-go golang-1.13-race-detector-runtime golang-1.13-src golang-doc golang-go golang-race-detector-runtime golang-src libxen-dev slirp4netns
+Use 'sudo apt autoremove' to remove them.
+The following packages will be REMOVED:
+  containerd.io docker-ce
+0 upgraded, 0 newly installed, 2 to remove and 289 not upgraded.
+After this operation, 230 MB disk space will be freed.
+Do you want to continue? [Y/n] y
+(Reading database ... 111594 files and directories currently installed.)
+Removing docker-ce (5:27.1.2-1~ubuntu.20.04~focal) ...
+Removing containerd.io (1.7.20-1) ...
+Processing triggers for man-db (2.9.1-1) ...
+```
+
+The installation now proceeds as normal:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ./kata-manager.sh 
+INFO: Checking dependencies
+INFO: Running pre-checks
+INFO: Downloading Kata Containers release (latest version)
+[...]
+```
+
+It fails with outdated glibc libraries:
+
+```
+INFO: Using default Kata Containers configuration
+kata-runtime: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.34' not found (required by kata-runtime)
+kata-runtime: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found (required by kata-runtime)
+```
+
+Update libc6
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# sudo apt update
+Hit:1 https://apt.releases.hashicorp.com focal InRelease
+Hit:2 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.33/deb  InRelease                                                      
+Hit:3 https://10.254.192.232/artifactory/lambda-custom focal InRelease                                                                 
+Hit:4 http://security.ubuntu.com/ubuntu focal-security InRelease                                          
+Hit:5 https://10.254.192.232/artifactory/lambda-host-packagelock focal InRelease                          
+Hit:6 https://10.254.192.232/artifactory/lambda-infra focal InRelease                                
+Hit:7 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal InRelease                      
+Hit:8 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:9 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-backports InRelease
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+289 packages can be upgraded. Run 'apt list --upgradable' to see them.
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# sudo apt install libc6
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  docker-ce-rootless-extras golang-1.13 golang-1.13-doc golang-1.13-go golang-1.13-race-detector-runtime golang-1.13-src golang-doc golang-go golang-race-detector-runtime golang-src libxen-dev slirp4netns
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  libc-dev-bin libc6-dev
+Suggested packages:
+  glibc-doc manpages-dev
+Recommended packages:
+  manpages manpages-dev
+The following packages will be upgraded:
+  libc-dev-bin libc6 libc6-dev
+3 upgraded, 0 newly installed, 0 to remove and 286 not upgraded.
+Need to get 5312 kB of archives.
+After this operation, 0 B of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libc6-dev amd64 2.31-0ubuntu9.18 [2520 kB]
+Get:2 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libc-dev-bin amd64 2.31-0ubuntu9.18 [71.7 kB]
+Get:3 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-updates/main amd64 libc6 amd64 2.31-0ubuntu9.18 [2720 kB]
+Fetched 5312 kB in 1s (4451 kB/s)
+Preconfiguring packages ...
+(Reading database ... 111569 files and directories currently installed.)
+Preparing to unpack .../libc6-dev_2.31-0ubuntu9.18_amd64.deb ...
+Unpacking libc6-dev:amd64 (2.31-0ubuntu9.18) over (2.31-0ubuntu9.16) ...
+Preparing to unpack .../libc-dev-bin_2.31-0ubuntu9.18_amd64.deb ...
+Unpacking libc-dev-bin (2.31-0ubuntu9.18) over (2.31-0ubuntu9.16) ...
+Preparing to unpack .../libc6_2.31-0ubuntu9.18_amd64.deb ...
+Unpacking libc6:amd64 (2.31-0ubuntu9.18) over (2.31-0ubuntu9.16) ...
+Setting up libc6:amd64 (2.31-0ubuntu9.18) ...
+Setting up libc-dev-bin (2.31-0ubuntu9.18) ...
+Setting up libc6-dev:amd64 (2.31-0ubuntu9.18) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# 
+```
+
+#### Outdated Ubuntu `(20.04.3)`
+Ah, it seems my distro of Ubuntu (`20.04.3 LTS (Focal Fossa)`) simply doesn't have the glibc version I need. We need to update the whole OS. This update will be annoying because do-release-upgrade requires all packages to be upgraded. So we must do that...
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# do-release-upgrade                    
+Checking for a new Ubuntu release                                                                                                                                                                                   
+Please install all available updates for your release before upgrading.                                                                                                                                             
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# apt update                                                                                                              
+Hit:1 https://apt.releases.hashicorp.com focal InRelease                                                                                                                                                            
+Hit:2 https://10.254.192.232/artifactory/lambda-custom focal InRelease                                                                     
+Hit:3 https://10.254.192.232/artifactory/lambda-host-packagelock focal InRelease                                                         
+Hit:4 https://10.254.192.232/artifactory/lambda-infra focal InRelease                                                                  
+Hit:5 http://security.ubuntu.com/ubuntu focal-security InRelease                                                                                                                                                    
+Hit:6 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal InRelease                                                                                                                                     
+Hit:8 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-updates InRelease                                                                                                                             
+Hit:9 http://us-sanjose-1-ad-1.clouds.archive.ubuntu.com/ubuntu focal-backports InRelease                                                                                                                           
+Hit:7 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.33/deb  InRelease                                                                                                             
+Reading package lists... Done                                                                                                                                                                                       
+Building dependency tree                                                                                                                                                                                            
+Reading state information... Done                                                                                                                                                                                   
+286 packages can be upgraded. Run 'apt list --upgradable' to see them.                                                                                                                                              
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# apt upgrade -y                                                                                                          
+Reading package lists... Done                                                                                                                                                                                       
+Building dependency tree                                                                                                                                                                                            
+Reading state information... Done                                                                                                                                                                                   
+Calculating upgrade... Done                                                                
+```
+
+We now need to reboot the host before trying the distro upgrade again. This is an involved process and takes quite a while, so be sure to follow the system prompts and let it do its thing. We now see the kernel upgraded to Ubuntu Jammy.
+
+We re-run the kata-manager.sh script and it seems to have succeeded:
+
+```
+# 2025-08-01T21:20:07+00:00: Service installed for Kata Containers
+INFO: Installed /etc/systemd/system/containerd.service
+INFO: Created /etc/containerd/config.toml
+INFO: Backed up containerd config file '/etc/containerd/config.toml' to '/etc/containerd/config.toml-pre-kata-2025-08-01'
+# 2025-08-01T21:20:07+00:00: Added by kata-manager.sh
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "kata"
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
+          runtime_type = "io.containerd.kata.v2"
+  privileged_without_host_devices = true
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
+    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration.toml"
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh]
+          runtime_type = "io.containerd.kata-clh.v2"
+  privileged_without_host_devices = true
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh.options]
+    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+INFO: Modified containerd config file '/etc/containerd/config.toml'
+Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /etc/systemd/system/containerd.service.
+INFO: Configured containerd (debug disabled)
+
+containerd github.com/containerd/containerd v1.7.28 b98a3aace656320842a23f4a392a33f46af97866
+INFO: Testing Kata Containers
+
+WARN[0000] Not running network checks as super user      arch=amd64 name=kata-runtime pid=6619 source=runtime
+INFO[0000] CPU property found                            arch=amd64 description="Intel Architecture CPU" name=GenuineIntel pid=6619 source=runtime type=attribute
+INFO[0000] CPU property found                            arch=amd64 description="Virtualization support" name=vmx pid=6619 source=runtime type=flag
+INFO[0000] CPU property found                            arch=amd64 description="64Bit CPU" name=lm pid=6619 source=runtime type=flag
+INFO[0000] CPU property found                            arch=amd64 description=SSE4.1 name=sse4_1 pid=6619 source=runtime type=flag
+INFO[0000] kernel property found                         arch=amd64 description="Host Support for Linux VM Sockets" name=vhost_vsock pid=6619 source=runtime type=module
+INFO[0000] kernel property found                         arch=amd64 description="Intel KVM" name=kvm_intel pid=6619 source=runtime type=module
+INFO[0000] kernel property found                         arch=amd64 description="Kernel-based Virtual Machine" name=kvm pid=6619 source=runtime type=module
+INFO[0000] kernel property found                         arch=amd64 description="Host kernel accelerator for virtio" name=vhost pid=6619 source=runtime type=module
+INFO[0000] kernel property found                         arch=amd64 description="Host kernel accelerator for virtio network" name=vhost_net pid=6619 source=runtime type=module
+System is capable of running Kata Containers
+INFO[0000] device available                              arch=amd64 check-type=full device=/dev/kvm name=kata-runtime pid=6619 source=runtime
+INFO[0000] feature available                             arch=amd64 check-type=full feature=create-vm name=kata-runtime pid=6619 source=runtime
+System can currently create Kata Containers
+quay.io/prometheus/busybox:latest:                                                resolved       |++++++++++++++++++++++++++++++++++++++| 
+index-sha256:dfa54ef35e438b9e71ac5549159074576b6382f95ce1a434088e05fd6b730bc4:    done           |++++++++++++++++++++++++++++++++++++++| 
+manifest-sha256:f173c44fab35484fa0e940e42929efe2a2f506feda431ba72c5f0d79639d7f55: done           |++++++++++++++++++++++++++++++++++++++| 
+config-sha256:56a9b5a744a674481a5c034fec45ebf470a58ab844cd0da4d26b89bd27df5e36:   done           |++++++++++++++++++++++++++++++++++++++| 
+layer-sha256:1617e25568b2231fdd0d5caff63b06f6f7738d8d961f031c80e47d35aaec9733:    done           |++++++++++++++++++++++++++++++++++++++| 
+layer-sha256:9fa9226be034e47923c0457d916aa68474cdfb23af8d4525e9baeebc4760977a:    done           |++++++++++++++++++++++++++++++++++++++| 
+elapsed: 1.2 s                                                                    total:  768.4  (640.0 KiB/s)                                     
+unpacking linux/amd64 sha256:dfa54ef35e438b9e71ac5549159074576b6382f95ce1a434088e05fd6b730bc4...
+done: 111.975443ms
+INFO: Running "sudo ctr run --runtime io.containerd.kata.v2 --rm quay.io/prometheus/busybox:latest kata-manager-sh-test-kata uname -r"
+INFO: Test successful:
+
+INFO:   Host kernel version      : 5.14.15-custom
+INFO:   Container kernel version : 6.12.36
+
+INFO: Kata Containers and containerd are now installed
+
+WARNINGS:
+
+- Use distro-packages where possible
+
+  If your distribution packages Kata Containers, you should use these packages rather
+  than running this script.
+
+- Packages will **not** be automatically updated
+
+  Since a package manager is not being used, it is **your** responsibility
+  to ensure these packages are kept up-to-date when new versions are released
+  to ensure you are using a version that includes the latest security and bug fixes.
+
+- Potentially untested versions or version combinations
+
+  This script installs the *newest* versions of Kata Containers
+  and containerd from binary release packages. These versions may
+  not have been tested with your distribution version.
+
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# 
+```
+
+These are the installed versions:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ./kata-manager.sh -l
+INFO: Getting version details
+INFO: Kata Containers: installed version: Kata Containers containerd shim (Golang): id: "io.containerd.kata.v2", version: 3.19.1, commit: acae4480ac84701d7354e679714cc9d084b37f44
+INFO: Kata Containers: latest version: 3.19.1
+
+INFO: containerd: installed version: containerd github.com/containerd/containerd v1.7.28 b98a3aace656320842a23f4a392a33f46af97866
+INFO: containerd: latest version: v2.1.4
+
+INFO: Docker (moby): installed version: Docker version 27.1.2, build d01f264
+INFO: Docker (moby): latest version: v28.3.3
+```
+
+### Test with a simple container
+
+We follow the linked blog post and pull down an image to test the new kata installation.
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ctr image pull docker.io/rockylinux/rockylinux:latest
+docker.io/rockylinux/rockylinux:latest:                                           resolved       |++++++++++++++++++++++++++++++++++++++| 
+index-sha256:fc370d748f4cd1e6ac3d1b6460fb82201897fa15a16f43e947940df5aca1a56e:    done           |++++++++++++++++++++++++++++++++++++++| 
+manifest-sha256:2f0bf3347b762fb21264670b046758782673694883cdf031af3aba982f656830: done           |++++++++++++++++++++++++++++++++++++++| 
+config-sha256:523ffac7fb2e245e5e7c407b9f7377be9c6c3bf03d380981168311f49030da17:   done           |++++++++++++++++++++++++++++++++++++++| 
+layer-sha256:71cc2ddb2ecf0e2a974aec10b55487120f03759e86e08b50a7f4c5d77638ab9b:    done           |++++++++++++++++++++++++++++++++++++++| 
+elapsed: 2.7 s                                                                    total:  72.2 M (26.7 MiB/s)                                      
+unpacking linux/amd64 sha256:fc370d748f4cd1e6ac3d1b6460fb82201897fa15a16f43e947940df5aca1a56e...
+done: 1.061369607s
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# 
+```
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# uname -a
+Linux inst-5c3dw-san-jose-dev-a10-hypervisors-pool 5.14.15-custom #1 SMP Thu Oct 28 11:32:42 PDT 2021 x86_64 x86_64 x86_64 GNU/Linux
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ctr run --rm docker.io/rockylinux/rockylinux:latest rocky-defaut uname -a
+ctr: failed to create shim task: OCI runtime create failed: unable to retrieve OCI runtime error (open /run/containerd/io.containerd.runtime.v2.task/default/rocky-defaut/log.json: no such file or directory): exec: "runc": executable file not found in $PATH: unknown
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ctr run --runtime io.containerd.kata.v2 --rm docker.io/rockylinux/rockylinux:latest rocky-defaut uname -a
+Linux f2c4f0c6b7fd 6.12.36 #1 SMP Sun Jul 20 19:15:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+What the above shows three separate things:
+
+1. The host kernel is at 5.14.15
+2. We try booting a container with the normal runc runtime (which remember is the non-virtualized container runtime) and we are completely blocked because `runc` itself is not found. This is probably desirable for our experiment; it should be impossible to launch non-virtualized containers.
+3. When we explicitly launch in the kata runtime, we see the kernel version of `6.12.36` is indeed different from the host, indicating a successful virtualized environment!
+
+## Ensure kata uses cloud-hypervisor
+
+I'm not sure what VMM it's using, so let's check. We can look at the containerd config to see how it's using kata:
+
+```toml title="/etc/containerd/config.toml"
+# 2025-08-01T21:20:07+00:00: Added by kata-manager.sh
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "kata"
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
+          runtime_type = "io.containerd.kata.v2"
+  privileged_without_host_devices = true
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
+    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration.toml"
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh]
+          runtime_type = "io.containerd.kata-clh.v2"
+  privileged_without_host_devices = true
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh.options]
+    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+```
+
+This tells us the config file location it's giving to kata. We can see in this file that it's indeed using cloud-hypervisor:
+
+```toml title="/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+[hypervisor.clh]
+path = "/opt/kata/bin/cloud-hypervisor"
+kernel = "/opt/kata/share/kata-containers/vmlinux.container"
+image = "/opt/kata/share/kata-containers/kata-containers.img"
+```
