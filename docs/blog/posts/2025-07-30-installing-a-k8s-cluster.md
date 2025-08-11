@@ -382,13 +382,13 @@ We should also first ensure that containerd is configured to use systemd cgroups
 We run it again and success!
 
 ```
-# kubeadm init --config ./kubeadm.yaml                                                              
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# kubeadm init --config ./kubeadm.yaml                                                                                                                                                                                                                                                                                                                                                                       
 [init] Using Kubernetes version: v1.33.3
 [preflight] Running pre-flight checks
 [preflight] Pulling images required for setting up a Kubernetes cluster
 [preflight] This might take a minute or two, depending on the speed of your internet connection
 [preflight] You can also perform this action beforehand using 'kubeadm config images pull'
-W0730 19:36:29.963617   10523 checks.go:846] detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm.It is recommended to use "registry.k8s.io/pause:3.10" as the CRI sandbox image.
+W0811 19:08:42.537308 2920198 checks.go:846] detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm.It is recommended to use "registry.k8s.io/pause:3.10" as the CRI sandbox image.
 [certs] Using certificateDir folder "/etc/kubernetes/pki"
 [certs] Generating "ca" certificate and key
 [certs] Generating "apiserver" certificate and key
@@ -420,14 +420,14 @@ W0730 19:36:29.963617   10523 checks.go:846] detected that the sandbox image "re
 [kubelet-start] Starting the kubelet
 [wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests"
 [kubelet-check] Waiting for a healthy kubelet at http://127.0.0.1:10248/healthz. This can take up to 4m0s
-[kubelet-check] The kubelet is healthy after 501.483944ms
+[kubelet-check] The kubelet is healthy after 501.697456ms
 [control-plane-check] Waiting for healthy control plane components. This can take up to 4m0s
 [control-plane-check] Checking kube-apiserver at https://10.254.192.244:6443/livez
 [control-plane-check] Checking kube-controller-manager at https://127.0.0.1:10257/healthz
 [control-plane-check] Checking kube-scheduler at https://127.0.0.1:10259/livez
-[control-plane-check] kube-controller-manager is healthy after 1.503219398s
-[control-plane-check] kube-scheduler is healthy after 2.258506374s
-[control-plane-check] kube-apiserver is healthy after 3.501755041s
+[control-plane-check] kube-controller-manager is healthy after 1.503343452s
+[control-plane-check] kube-scheduler is healthy after 2.132928007s
+[control-plane-check] kube-apiserver is healthy after 3.501665962s
 [upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
 [kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
 [upload-certs] Skipping phase. Please see --upload-certs
@@ -442,7 +442,7 @@ W0730 19:36:29.963617   10523 checks.go:846] detected that the sandbox image "re
 [bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
 [kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
 [addons] Applied essential addon: CoreDNS
-[addons] Applied essential addon: kube-proxy
+^[[C[addons] Applied essential addon: kube-proxy
 
 Your Kubernetes control-plane has initialized successfully!
 
@@ -464,13 +464,13 @@ You can now join any number of control-plane nodes by copying certificate author
 and service account keys on each node and then running the following as root:
 
   kubeadm join 10.254.192.244:6443 --token hw4taj.tacc97bn9dm2rdhz \
-        --discovery-token-ca-cert-hash sha256:3835bb0ac0f16745a279e91eb812a0e5dfb5fc93d7565e714821c2768bded915 \
+        --discovery-token-ca-cert-hash sha256:d9d4815435bb0ca3b618d79a829546884a604345101833f63a03e676754edc30 \
         --control-plane 
 
 Then you can join any number of worker nodes by running the following on each as root:
 
 kubeadm join 10.254.192.244:6443 --token hw4taj.tacc97bn9dm2rdhz \
-        --discovery-token-ca-cert-hash sha256:3835bb0ac0f16745a279e91eb812a0e5dfb5fc93d7565e714821c2768bded915 
+        --discovery-token-ca-cert-hash sha256:d9d4815435bb0ca3b618d79a829546884a604345101833f63a03e676754edc30 
 ```
 
 ### Check kubelet.service
@@ -1307,6 +1307,36 @@ INFO: Docker (moby): installed version: Docker version 27.1.2, build d01f264
 INFO: Docker (moby): latest version: v28.3.3
 ```
 
+### Note on runc
+
+Because our hypervisor is both a worker node and a control plane, we need to allow the CRI containers to work with both runc (for the control-plane containers that need to not run in a virtualized environment) and kata runtimes (for untrusted user workloads). When we installed kata, it wiped out the runc configuration probably because normal production installs don't mix runtimes. I manually added back runc and made it the default runtime:
+
+```toml title="/etc/containerd/config.toml"
+# 2025-08-01T21:20:07+00:00: Added by kata-manager.sh
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "runc"
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            BinaryName = "runc"
+            SystemdCgroup = true
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
+          runtime_type = "io.containerd.kata.v2"
+  privileged_without_host_devices = true
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
+    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration.toml"
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh]
+          runtime_type = "io.containerd.kata-clh.v2"
+  privileged_without_host_devices = true
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh.options]
+    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+```
+
+Note that kata containers will need to be run using the RuntimeClass parameter to specify they should run using the kata runtime.
+
 ### Test with a simple container
 
 We follow the linked blog post and pull down an image to test the new kata installation.
@@ -1327,42 +1357,48 @@ root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-exper
 ```
 root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# uname -a
 Linux inst-5c3dw-san-jose-dev-a10-hypervisors-pool 5.14.15-custom #1 SMP Thu Oct 28 11:32:42 PDT 2021 x86_64 x86_64 x86_64 GNU/Linux
-root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ctr run --rm docker.io/rockylinux/rockylinux:latest rocky-defaut uname -a
-ctr: failed to create shim task: OCI runtime create failed: unable to retrieve OCI runtime error (open /run/containerd/io.containerd.runtime.v2.task/default/rocky-defaut/log.json: no such file or directory): exec: "runc": executable file not found in $PATH: unknown
 root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/kata# ctr run --runtime io.containerd.kata.v2 --rm docker.io/rockylinux/rockylinux:latest rocky-defaut uname -a
 Linux f2c4f0c6b7fd 6.12.36 #1 SMP Sun Jul 20 19:15:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
 What the above shows three separate things:
 
+<div class="annotate" markdown>
 1. The host kernel is at 5.14.15
-2. We try booting a container with the normal runc runtime (which remember is the non-virtualized container runtime) and we are completely blocked because `runc` itself is not found. This is probably desirable for our experiment; it should be impossible to launch non-virtualized containers.
+2. We try booting a container with the normal runc runtime (which remember is the non-virtualized container runtime) and we are completely blocked because `runc` itself is not found. This is probably desirable for our experiment; it should be impossible to launch non-virtualized containers.(1)
 3. When we explicitly launch in the kata runtime, we see the kernel version of `6.12.36` is indeed different from the host, indicating a successful virtualized environment!
+</div>
+
+1. Actually, it turns out you _do_ need to retain the runc runtime, see the [notes on runc above](#note-on-runc)
 
 ## Ensure kata uses cloud-hypervisor
 
-I'm not sure what VMM it's using, so let's check. We can look at the containerd config to see how it's using kata:
+I'm not sure what VMM it's using, so let's check. If you recall the [notes on runc above](#note-on-runc), upon closer inspection we can see that the `io.containerd.kata.v2` runtime points to `/opt/kata/share/defaults/kata-containers/configuration.toml`, which is actually a symlink to `/opt/kata/share/defaults/kata-containers/configuration-qemu.toml`. We want to change the config so that kata only supports cloud-hypervisor. Our config file now looks like:
 
 ```toml title="/etc/containerd/config.toml"
 # 2025-08-01T21:20:07+00:00: Added by kata-manager.sh
 [plugins]
   [plugins."io.containerd.grpc.v1.cri"]
     [plugins."io.containerd.grpc.v1.cri".containerd]
-      default_runtime_name = "kata"
+      # Keep runc default for control plane
+      default_runtime_name = "runc"
+      # This applies to all privileged pods under CRI
+      privileged_without_host_devices = true
+
       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          runtime_type = "io.containerd.runc.v2"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            BinaryName = "runc"
+            SystemdCgroup = true
+
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
           runtime_type = "io.containerd.kata.v2"
-  privileged_without_host_devices = true
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
-    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration.toml"
-        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh]
-          runtime_type = "io.containerd.kata-clh.v2"
-  privileged_without_host_devices = true
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh.options]
-    ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
+            ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
 ```
 
-This tells us the config file location it's giving to kata. We can see in this file that it's indeed using cloud-hypervisor:
+We can confirm that the `configuration-clh.toml` file is indeed using kata-containers:
 
 ```toml title="/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
 [hypervisor.clh]
@@ -1370,3 +1406,51 @@ path = "/opt/kata/bin/cloud-hypervisor"
 kernel = "/opt/kata/share/kata-containers/vmlinux.container"
 image = "/opt/kata/share/kata-containers/kata-containers.img"
 ```
+
+And as a final sanity check, we restart containerd/kubelet and confirm we can still launch a container:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# ctr run --rm --runtime io.containerd.kata.v2 docker.io/rockylinux/rockylinux:latest rocky-defaut uname -a
+Linux f2c4f0c6b7fd 6.12.36 #1 SMP Sun Jul 20 19:15:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+## Configure GPU Passthrough
+
+The host I'm using has 4 Nvidia "3D Controllers" which are simple A10s. We need to configure cloud-hypervisor to pass these through to the VM. Before we do that, we need to think of the k8s scheduling considerations. Currently, the cluster does not know about the resource contraints of the GPUs, so we must tell it about these. Once we tell it about the hardware, we need some way to parametrize the pods such that they will be attached to only one of these GPUs (for bonus points, we could make it configurable how many GPUs are passed through).
+
+To start, we'll statically pass through an arbitrarily selected GPU. Let's do the one at PCI address `pci@0000:17:00.0`. We confirm [IOMMU](/notes/sysadmin/cpu/#iommu) is enabled:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# grep iommu /proc/cmdline
+BOOT_IMAGE=/boot/vmlinuz-5.14.15-custom root=UUID=3603dbb9-70be-449b-b3ba-5cad4dc8c67f ro systemd.unified_cgroup_hierarchy=1 cgroup_no_v1=all rd.driver.pre=vfio-pci video=efifb:off vga=normal nofb nomodeset usbcore.nousb hugepagesz=1G default_hugepagesz=1G transparent_hugepage=never ipv6.disable=1 console=tty1 console=ttyS0 intel_iommu=on hugepages=906
+```
+
+lshw also shows that this device is already using the [vfio-pci](/docs/notes/sysadmin/misc.md#vfio) driver:
+
+```
+  *-display
+       description: 3D controller
+       product: GA102GL [A10]
+       vendor: NVIDIA Corporation
+       physical id: 0
+       bus info: pci@0000:17:00.0
+       version: a1
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pm bus_master cap_list
+       configuration: driver=vfio-pci latency=0
+```
+
+
+### NVIDIA GPU Operator
+
+Nvidia provides a GPU operator that works specifically with Kata containers: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/24.9.1/gpu-operator-kata.html. We can leverage this for our purposes. First, we'll label our single worker node as such:
+
+```
+
+```
+
+
+### GPU Device Drivers
+
+Because the containers run inside of their own VM, we need to configure the base image to have nvidia drivers installed.
