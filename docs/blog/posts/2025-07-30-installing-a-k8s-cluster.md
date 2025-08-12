@@ -1495,7 +1495,260 @@ lshw also shows that this device is already using the [vfio-pci](/docs/notes/sys
 Nvidia provides a GPU operator that works specifically with Kata containers: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/24.9.1/gpu-operator-kata.html. We can leverage this for our purposes. First, we'll label our single worker node as such:
 
 ```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# kubectl label node inst-5c3dw-san-jose-dev-a10-hypervisors-pool nvidia.com/gpu.workload.config=vm-passthrough
+node/inst-5c3dw-san-jose-dev-a10-hypervisors-pool labeled
+```
 
+We apply the confidential-containers operator:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# export VERSION=v0.15.0
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# kubectl apply -k "github.com/confidential-containers/operator/config/release?ref=${VERSION}"
+namespace/confidential-containers-system created
+customresourcedefinition.apiextensions.k8s.io/ccruntimes.confidentialcontainers.org created
+serviceaccount/cc-operator-controller-manager created
+role.rbac.authorization.k8s.io/cc-operator-leader-election-role created
+clusterrole.rbac.authorization.k8s.io/cc-operator-manager-role created
+clusterrole.rbac.authorization.k8s.io/cc-operator-metrics-auth-role created
+clusterrole.rbac.authorization.k8s.io/cc-operator-metrics-reader created
+rolebinding.rbac.authorization.k8s.io/cc-operator-leader-election-rolebinding created
+clusterrolebinding.rbac.authorization.k8s.io/cc-operator-manager-rolebinding created
+clusterrolebinding.rbac.authorization.k8s.io/cc-operator-metrics-auth-rolebinding created
+configmap/cc-operator-manager-config created
+service/cc-operator-controller-manager-metrics-service created
+deployment.apps/cc-operator-controller-manager created
+```
+
+We can see this operator running:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# kubectl get pod,svc -n confidential-containers-system
+NAME                                                  READY   STATUS    RESTARTS   AGE
+pod/cc-operator-controller-manager-755b756c8d-dfhgq   1/1     Running   0          70s
+
+NAME                                                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/cc-operator-controller-manager-metrics-service   ClusterIP   10.254.192.61   <none>        8443/TCP   70s
+```
+
+We download the sample confidential-containers config and modify the ccNodeSelector according to the gpu-operator docs:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# kubectl apply --dry-run=client -o yaml \
+    -k "github.com/confidential-containers/operator/config/samples/ccruntime/default?ref=${VERSION}" > ccruntime.yaml
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# ls
+ccruntime.yaml  cnn-mnist  kubeadm.yaml
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# vim ccruntime.yaml 
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# kubectl apply -f ./ccruntime.yaml 
+ccruntime.confidentialcontainers.org/ccruntime-sample created
+```
+
+We can see the different runtime classes now:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# kubectl get runtimeclass
+NAME                 HANDLER              AGE
+kata                 kata-qemu            2s
+kata-clh             kata-clh             2s
+kata-qemu            kata-qemu            2s
+kata-qemu-coco-dev   kata-qemu-coco-dev   2s
+kata-qemu-snp        kata-qemu-snp        2s
+kata-qemu-tdx        kata-qemu-tdx        2s
+```
+
+Now to install gpu-operator. We need to install helm first:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# wget https://get.helm.sh/helm-v3.17.4-linux-amd64.tar.gz
+--2025-08-12 21:01:36--  https://get.helm.sh/helm-v3.17.4-linux-amd64.tar.gz
+Resolving get.helm.sh (get.helm.sh)... 13.107.246.69, 2620:1ec:bdf::69
+Connecting to get.helm.sh (get.helm.sh)|13.107.246.69|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17492957 (17M) [application/x-tar]
+Saving to: ‘helm-v3.17.4-linux-amd64.tar.gz’
+
+helm-v3.17.4-linux-amd64.tar.gz                              100%[============================================================================================================================================>]  16.68M  23.5MB/s    in 0.7s    
+
+2025-08-12 21:01:37 (23.5 MB/s) - ‘helm-v3.17.4-linux-amd64.tar.gz’ saved [17492957/17492957]
+
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# tar -xzf ./helm-v3.17.4-linux-amd64.tar.gz 
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# cp linux-amd64/helm /usr/local/bin
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# 
+```
+
+Add the repo:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-operator# helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+"nvidia" already exists with the same configuration, skipping
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-operator# helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "nvidia" chart repository
+Update Complete. ⎈Happy Helming!⎈
+```
+
+Install via helm:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-operator# helm install --wait --generate-name    -n gpu-operator --create-namespace    nvidia/gpu-operator    --version=v25.3.2    --set sandboxWorkloads.enabled=true    --set kataManager.enabled=true  --set sandboxWorkloads.defaultWorkload=vm-passthrough
+W0812 21:10:43.045286 1618864 warnings.go:70] spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].preference.matchExpressions[0].key: node-role.kubernetes.io/master is use "node-role.kubernetes.io/control-plane" instead
+W0812 21:10:43.045294 1618864 warnings.go:70] spec.template.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].preference.matchExpressions[0].key: node-role.kubernetes.io/master is use "node-role.kubernetes.io/control-plane" instead
+NAME: gpu-operator-1755033042
+LAST DEPLOYED: Tue Aug 12 21:10:42 2025
+NAMESPACE: gpu-operator
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
+We can see Kata Manager and VFIO manager running:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-operator# kubectl get pods -n gpu-operator
+NAME                                                              READY   STATUS        RESTARTS   AGE
+gpu-operator-1755033042-node-feature-discovery-gc-54689d78prdts   1/1     Running       0          56s
+gpu-operator-1755033042-node-feature-discovery-master-8467mfhh5   1/1     Running       0          56s
+gpu-operator-1755033042-node-feature-discovery-worker-w7vwg       1/1     Running       0          56s
+gpu-operator-6d8ddb9b8c-l7lh6                                     1/1     Running       0          56s
+nvidia-kata-manager-ft8gl                                         1/1     Running       0          32s
+nvidia-sandbox-validator-bv8q6                                    1/1     Terminating   0          33s
+nvidia-vfio-manager-rtdj4                                         0/1     Init:0/1      0          32s
+```
+
+After a while, the nvidia-kata-manager pod was restarting:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-operator# kubectl get pods -n gpu-operator
+NAME                                                              READY   STATUS    RESTARTS      AGE
+gpu-operator-1755033042-node-feature-discovery-gc-54689d78prdts   1/1     Running   0             7m28s
+gpu-operator-1755033042-node-feature-discovery-master-8467mfhh5   1/1     Running   0             7m28s
+gpu-operator-1755033042-node-feature-discovery-worker-w7vwg       1/1     Running   0             7m28s
+gpu-operator-6d8ddb9b8c-l7lh6                                     1/1     Running   0             7m28s
+nvidia-kata-manager-ft8gl                                         1/1     Running   2 (42s ago)   7m4s
+nvidia-sandbox-device-plugin-daemonset-2994m                      1/1     Running   0             6m24s
+nvidia-sandbox-validator-vxg7q                                    1/1     Running   0             6m24s
+nvidia-vfio-manager-rtdj4                                         1/1     Running   0             7m4s
+```
+
+The errors:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/clusterrolebindings# kubectl -n gpu-operator logs nvidia-kata-manager-ft8gl
+Starting k8s-kata-manager
+W0812 21:35:44.132097 2549393 main.go:171] No namespace specified, using current namespace
+I0812 21:35:44.132241 2549393 main.go:224] K8s-kata-manager Worker undefined
+I0812 21:35:44.132248 2549393 main.go:225] NodeName: 'inst-5c3dw-san-jose-dev-a10-hypervisors-pool'
+I0812 21:35:44.132252 2549393 main.go:226] Kubernetes namespace: 'gpu-operator'
+I0812 21:35:44.132256 2549393 main.go:228] Parsing configuration file
+I0812 21:35:44.132398 2549393 main.go:205] configuration file "/etc/kata-manager/config.yaml" parsed
+I0812 21:35:44.132492 2549393 main.go:237] Running with configuration:
+artifactsDir: /opt/nvidia-gpu-operator/artifacts/runtimeclasses
+runtimeClasses:
+- artifacts:
+    url: nvcr.io/nvidia/cloud-native/kata-gpu-artifacts:ubuntu22.04-535.54.03
+  name: kata-nvidia-gpu
+- artifacts:
+    url: nvcr.io/nvidia/cloud-native/kata-gpu-artifacts:ubuntu22.04-535.86.10-snp
+  name: kata-nvidia-gpu-snp
+  nodeSelector:
+    nvidia.com/cc.capable: "true"
+I0812 21:35:44.132717 2549393 main.go:394] Initializing
+I0812 21:35:44.132762 2549393 main.go:252] Loading kernel modules required for kata workloads
+I0812 21:35:44.132769 2549393 main.go:456] Loading kernel module vhost-vsock
+I0812 21:35:44.135002 2549393 main.go:456] Loading kernel module vhost-net
+I0812 21:35:44.136651 2549393 main.go:467] Generating a CDI specification for all NVIDIA GPUs configured for passthrough
+I0812 21:35:44.224356 2549393 lib-vfio.go:65] Found NVIDIA device: address=0000:17:00.0, driver=vfio-pci, iommu_group=25, deviceId=2236
+I0812 21:35:44.224378 2549393 lib-vfio.go:65] Found NVIDIA device: address=0000:31:00.0, driver=vfio-pci, iommu_group=31, deviceId=2236
+I0812 21:35:44.224383 2549393 lib-vfio.go:65] Found NVIDIA device: address=0000:b1:00.0, driver=vfio-pci, iommu_group=182, deviceId=2236
+I0812 21:35:44.224388 2549393 lib-vfio.go:65] Found NVIDIA device: address=0000:ca:00.0, driver=vfio-pci, iommu_group=188, deviceId=2236
+I0812 21:35:44.224952 2549393 option.go:101] Loading config: /runtime/config-dir/config.toml
+I0812 21:35:44.225042 2549393 option.go:119] Successfully loaded config
+E0812 21:38:50.789654 2549393 main.go:292] error pulling artifact: failed to resolve ubuntu22.04-535.54.03: Get "https://nvcr.io/v2/nvidia/cloud-native/kata-gpu-artifacts/manifests/ubuntu22.04-535.54.03": dial tcp: lookup nvcr.io: i/o timeout
+I0812 21:38:50.789699 2549393 main.go:516] Shutting Down
+I0812 21:38:50.789808 2549393 main.go:219] Exiting
+E0812 21:38:50.789833 2549393 main.go:182] failed to resolve ubuntu22.04-535.54.03: Get "https://nvcr.io/v2/nvidia/cloud-native/kata-gpu-artifacts/manifests/ubuntu22.04-535.54.03": dial tcp: lookup nvcr.io: i/o timeout
+```
+
+Hmm, it seems the containers don't have access to the internet. We installed cilium using the CLI, but let's try using the helm chart as shown in their [docs page](https://docs.cilium.io/en/latest/network/kubernetes/kata/).
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s# curl -LO https://github.com/cilium/cilium/archive/main.tar.gz
+tar xzf main.tar.gz                                                                                                      
+cd cilium-main/install/kubernetes                                                                                        
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                                                                                                                                                   
+                                 Dload  Upload   Total   Spent    Left  Speed                                                                                                                                                                     
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0                                                                                                                                                                    
+100 80.4M    0 80.4M    0     0  10.8M      0 --:--:--  0:00:07 --:--:-- 11.1M                                                                                                                                                                    
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cilium-main/install/kubernetes# ls          
+Makefile  Makefile.digests  Makefile.values  cilium                                                                                                                                                                                               
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cilium-main/install/kubernetes# ls cilium                
+Chart.yaml  LICENSE  README.md  README.md.gotmpl  files  templates  values.schema.json  values.yaml  values.yaml.tmpl                                                                                                                             
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cilium-main/install/kubernetes# helm install cilium ./cilium \
+  --namespace kube-system
+NAME: cilium
+LAST DEPLOYED: Tue Aug 12 21:58:09 2025
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.19.0-dev.
+```
+
+Cilium says not all of the cilium-operator pods are available:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cilium-main/install/kubernetes# cilium status
+    /¯¯\
+ /¯¯\__/¯¯\    Cilium:             OK
+ \__/¯¯\__/    Operator:           1 errors, 2 warnings
+ /¯¯\__/¯¯\    Envoy DaemonSet:    OK
+ \__/¯¯\__/    Hubble Relay:       disabled
+    \__/       ClusterMesh:        disabled
+
+DaemonSet              cilium                   Desired: 1, Ready: 1/1, Available: 1/1
+DaemonSet              cilium-envoy             Desired: 1, Ready: 1/1, Available: 1/1
+Deployment             cilium-operator          Desired: 2, Ready: 1/2, Available: 1/2, Unavailable: 1/2
+Containers:            cilium                   Running: 1
+                       cilium-envoy             Running: 1
+                       cilium-operator          Running: 1, Pending: 1
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          11/11 managed by Cilium
+Helm chart version:    1.19.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 1
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.35.0-1754542821-43b62ac18029bf5e22cbcc9e7141ee55eb09555d@sha256:2173f013b41e71cf8d65503cc9710c106746efbd93ae0ef3f46ee65de13b19f6: 1
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 2
+Errors:                cilium-operator    cilium-operator                     1 pods of Deployment cilium-operator are not ready
+Warnings:              cilium-operator    cilium-operator-7fc566c698-9nh95    pod is pending
+                       cilium-operator    cilium-operator-7fc566c698-9nh95    pod is pending
+```
+
+Because the node is not available:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cilium-main/install/kubernetes# kubectl describe node inst-5c3dw-san-jose-dev-a10-hypervisors-pool | tail -n 20
+  kube-system                     cilium-envoy-rvhhc                                                      0 (0%)        0 (0%)      0 (0%)           0 (0%)         4m34s
+  kube-system                     cilium-operator-7fc566c698-gxtpx                                        0 (0%)        0 (0%)      0 (0%)           0 (0%)         4m34s
+  kube-system                     etcd-inst-5c3dw-san-jose-dev-a10-hypervisors-pool                       1 (0%)        0 (0%)      1Gi (0%)         0 (0%)         5h51m
+  kube-system                     kube-apiserver-inst-5c3dw-san-jose-dev-a10-hypervisors-pool             1 (0%)        0 (0%)      1Gi (0%)         0 (0%)         6h1m
+  kube-system                     kube-controller-manager-inst-5c3dw-san-jose-dev-a10-hypervisors-pool    1 (0%)        0 (0%)      1Gi (0%)         0 (0%)         6h13m
+  kube-system                     kube-scheduler-inst-5c3dw-san-jose-dev-a10-hypervisors-pool             100m (0%)     0 (0%)      0 (0%)           0 (0%)         6h13m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource                Requests     Limits
+  --------                --------     ------
+  cpu                     3715m (2%)   700m (0%)
+  memory                  3722Mi (3%)  6282Mi (6%)
+  ephemeral-storage       0 (0%)       0 (0%)
+  hugepages-1Gi           0 (0%)       0 (0%)
+  hugepages-2Mi           0 (0%)       0 (0%)
+  nvidia.com/GA102GL_A10  0            0
+Events:
+  Type    Reason            Age                  From           Message
+  ----    ------            ----                 ----           -------
+  Normal  CIDRNotAvailable  3m (x563 over 123m)  cidrAllocator  Node inst-5c3dw-san-jose-dev-a10-hypervisors-pool status is now: CIDRNotAvailable
 ```
 
 
