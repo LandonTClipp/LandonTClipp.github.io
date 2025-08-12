@@ -1414,9 +1414,58 @@ root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# ctr run --rm --r
 Linux f2c4f0c6b7fd 6.12.36 #1 SMP Sun Jul 20 19:15:21 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
+## Overnight Problems
+
+I came back to the cluster the next day and noticed all of the pods were crash looping. I traced it back to the kubelet repeatedly killing the etcd container after it complained of its "sandbox" differing from what was expected.(1) The kubelet importantly did not tell me _why_ it thought the sandbox was in an incorrect state. I eventually ran across [this blog post](https://gjhenrique.com/cgroups-k8s/) that seems to have found the answer. The short of it came down to the fact that containerd appears to have incorrectly handled the pod cgroups in a way that caused systemd to attempt to mess with the cgroup parameters outside of the knowledge of kubelet. Because systemd did this, the kubelet saw the cgroup was missing the `cpuset` controller and thus marked the "sandbox" as having changed, necessitating a pod restart. 
+{ .annotate }
+
+1. A sandbox in k8s terminology is the isolated environment that holds a pod's shared namespaces. It's set up by the container runtime when a pod is created, the runtime (containerd, CRI-O etc) launches a tiny, long-lived container called the pause container. That pause container (which you can actually download as a regular container image) creates and owns the pod's network namespace, IPC namespace, and the pod-level cgroup. All the other containers in the pod join that same sandbox instead of making their own. That's why containers in a pod can `localhost` each other and share linux resources.
+
+While I cannot definitely prove that my situation was identical to the blog poster's, I did confirm some similar cgroup behavior. Namely, conatinerd was creating the pod cgroups here:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# ls -lahd /sys/fs/cgroup/system.slice/kubepods-burstable-pod*
+drwxr-xr-x 2 root root 0 Aug 12 16:15 /sys/fs/cgroup/system.slice/kubepods-burstable-pod1cb906775da66a3175cc9b6ea7b90e13.slice:cri-containerd:2f4e6d27fffb44a10c04097efc7f7d19956113aab1a60747a6b891cadcb63140
+drwxr-xr-x 2 root root 0 Aug 12 19:59 /sys/fs/cgroup/system.slice/kubepods-burstable-pod1cb906775da66a3175cc9b6ea7b90e13.slice:cri-containerd:e6a693352338f4beff0e718ff7ae26ab7c0f4bb750a5febde8503f0d6d909a6c
+drwxr-xr-x 2 root root 0 Aug 12 16:17 /sys/fs/cgroup/system.slice/kubepods-burstable-pod97c9be78f8bf0c2388883fb88ac7d9af.slice:cri-containerd:b316a30419c71056948be64381b6029acc10a06ab916b2e830c5d256e523897a
+drwxr-xr-x 2 root root 0 Aug 12 19:59 /sys/fs/cgroup/system.slice/kubepods-burstable-pod97c9be78f8bf0c2388883fb88ac7d9af.slice:cri-containerd:d5405e5cbd99b922d62ee3b03b8140ef9beb210e1613c5e3a14e478baf10c344
+```
+
+When it should have been creating them here:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# ls -lahd /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod*
+drwxr-xr-x 4 root root 0 Aug 12 19:59 /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod0f1c3e848cb28fafbc6d3918f714b342.slice
+drwxr-xr-x 2 root root 0 Aug 12 19:59 /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod1cb906775da66a3175cc9b6ea7b90e13.slice
+drwxr-xr-x 4 root root 0 Aug 12 19:59 /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod5abc4736ba4b4bb5175fe72bb8343a42.slice
+drwxr-xr-x 2 root root 0 Aug 12 19:59 /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod97c9be78f8bf0c2388883fb88ac7d9af.slice
+drwxr-xr-x 4 root root 0 Aug 12 20:02 /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-podc8190eb4_633c_46c3_a30d_a6826069c23f.slice
+```
+
+My suspicion is that containerd was using the old cgroupfs driver, even though I had explicitly configured it to use the SystemdCgroup driver. I decided to upgrade containerd from my installed version to the latest:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# containerd --version
+containerd github.com/containerd/containerd/v2 v2.1.3 c787fb98911740dd3ff2d0e45ce88cdf01410486
+```
+
+After doing this, the crash loops stopped:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/tmp# kubectl -n kube-system get pods
+NAME                                                                   READY   STATUS    RESTARTS        AGE
+cilium-9z6f7                                                           1/1     Running   0               17m
+cilium-envoy-2rb5j                                                     1/1     Running   0               17m
+cilium-operator-9b8b47cd8-g7bg6                                        1/1     Running   0               17m
+etcd-inst-5c3dw-san-jose-dev-a10-hypervisors-pool                      1/1     Running   4 (21m ago)     4h8m
+kube-apiserver-inst-5c3dw-san-jose-dev-a10-hypervisors-pool            1/1     Running   9 (20m ago)     4h19m
+kube-controller-manager-inst-5c3dw-san-jose-dev-a10-hypervisors-pool   1/1     Running   12 (4h2m ago)   4h30m
+kube-scheduler-inst-5c3dw-san-jose-dev-a10-hypervisors-pool            1/1     Running   10 (4h2m ago)   4h30m
+```
+
 ## Configure GPU Passthrough
 
-The host I'm using has 4 Nvidia "3D Controllers" which are simple A10s. We need to configure cloud-hypervisor to pass these through to the VM. Before we do that, we need to think of the k8s scheduling considerations. Currently, the cluster does not know about the resource contraints of the GPUs, so we must tell it about these. Once we tell it about the hardware, we need some way to parametrize the pods such that they will be attached to only one of these GPUs (for bonus points, we could make it configurable how many GPUs are passed through).
+The host I'm using has 4 Nvidia "3D Controllers" which are A10s. We need to configure cloud-hypervisor to pass these through to the VM. Before we do that, we need to think of the k8s scheduling considerations. Currently, the cluster does not know about the resource contraints of the GPUs, so we must tell it about these. Once we tell it about the hardware, we need some way to parametrize the pods such that they will be attached to only one of these GPUs (for bonus points, we could make it configurable how many GPUs are passed through).
 
 To start, we'll statically pass through an arbitrarily selected GPU. Let's do the one at PCI address `pci@0000:17:00.0`. We confirm [IOMMU](/notes/sysadmin/cpu/#iommu) is enabled:
 
@@ -1441,7 +1490,6 @@ lshw also shows that this device is already using the [vfio-pci](/docs/notes/sys
        configuration: driver=vfio-pci latency=0
 ```
 
-
 ### NVIDIA GPU Operator
 
 Nvidia provides a GPU operator that works specifically with Kata containers: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/24.9.1/gpu-operator-kata.html. We can leverage this for our purposes. First, we'll label our single worker node as such:
@@ -1454,3 +1502,12 @@ Nvidia provides a GPU operator that works specifically with Kata containers: htt
 ### GPU Device Drivers
 
 Because the containers run inside of their own VM, we need to configure the base image to have nvidia drivers installed.
+
+## Major Lessons
+
+1. Ensure your kernel is only using cgroupsv2
+2. Ensure both containerd (or whatever container runtime you're using) and the kubelet are both using the Systemd cgroup driver.
+3. Update your kernel to the latest version
+4. Update containerd to the latest version
+5. Update k8s to the latest version
+6. If using kata containers, ensure `runc` is still installed for the control plane nodes.
