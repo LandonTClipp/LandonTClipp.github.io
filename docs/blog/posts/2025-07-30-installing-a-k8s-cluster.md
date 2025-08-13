@@ -1614,6 +1614,8 @@ nvidia-sandbox-validator-bv8q6                                    1/1     Termin
 nvidia-vfio-manager-rtdj4                                         0/1     Init:0/1      0          32s
 ```
 
+#### `nvidia-kata-manager` issue related to networking
+
 After a while, the nvidia-kata-manager pod was restarting:
 
 ```
@@ -1751,10 +1753,260 @@ Events:
   Normal  CIDRNotAvailable  3m (x563 over 123m)  cidrAllocator  Node inst-5c3dw-san-jose-dev-a10-hypervisors-pool status is now: CIDRNotAvailable
 ```
 
+With a little research, it appears we need to tell the `kube-controller-manager` to not allocate node CIDRs because we are using the Cilium IPAM instead. We need to set this value to false:
 
-### GPU Device Drivers
+```
+grep allocate-node-cidr /etc/kubernetes/manifests/kube-controller-manager.yaml
+    - --allocate-node-cidrs=true
+```
 
-Because the containers run inside of their own VM, we need to configure the base image to have nvidia drivers installed.
+A relevant Github issue describing the confusing nature of this parameter: https://github.com/cilium/cilium/issues/37759
+
+We can see now that the kubernetes IPAM is not allocating any pod CIDRs, but Cilium is:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl get nodes -o custom-columns=NAME:.metadata.name,PODCIDR:.spec.podCIDR,PODCIDRs:.spec.podCIDRs
+NAME                                           PODCIDR   PODCIDRs
+inst-5c3dw-san-jose-dev-a10-hypervisors-pool   <none>    <none>
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl get ciliumnodes.cilium.io -A \
+  -o custom-columns=NAME:.metadata.name,PODCIDRs:.spec.ipam.podCIDRs
+NAME                                           PODCIDRs
+inst-5c3dw-san-jose-dev-a10-hypervisors-pool   [10.0.0.0/24]
+```
+
+The cilium pod is still pending:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl -n kube-system get pod -l name=cilium-operator
+NAME                               READY   STATUS    RESTARTS   AGE
+cilium-operator-7fc566c698-gxtpx   1/1     Running   0          17h
+cilium-operator-7fc566c698-zpxd6   0/1     Pending   0          14m
+```
+
+It's because there are no free ports:
+
+```
+Events:
+  Type     Reason            Age                  From               Message
+  ----     ------            ----                 ----               -------
+  Warning  FailedScheduling  4m27s (x3 over 14m)  default-scheduler  0/1 nodes are available: 1 node(s) didn't have free ports for the requested pod ports. preemption: 0/1 nodes are available: 1 node(s) didn't have free ports for the requested pod ports.
+```
+
+Cilium is likely expecting a negative affinity for the two replicas. The fact that we're running on a single-node cluster means that it's simply trying to allocate two pods with the same port numbers on the same node, which obviously won't work. We can scale back the deployment to one pod:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl -n kube-system scale deploy cilium-operator --replicas=1
+deployment.apps/cilium-operator scaled
+```
+
+Now Cilium is healthy:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# cilium status
+    /¯¯\
+ /¯¯\__/¯¯\    Cilium:             OK
+ \__/¯¯\__/    Operator:           OK
+ /¯¯\__/¯¯\    Envoy DaemonSet:    OK
+ \__/¯¯\__/    Hubble Relay:       disabled
+    \__/       ClusterMesh:        disabled
+
+DaemonSet              cilium                   Desired: 1, Ready: 1/1, Available: 1/1
+DaemonSet              cilium-envoy             Desired: 1, Ready: 1/1, Available: 1/1
+Deployment             cilium-operator          Desired: 1, Ready: 1/1, Available: 1/1
+Containers:            cilium                   Running: 1
+                       cilium-envoy             Running: 1
+                       cilium-operator          Running: 1
+                       clustermesh-apiserver    
+                       hubble-relay             
+Cluster Pods:          11/11 managed by Cilium
+Helm chart version:    1.19.0-dev
+Image versions         cilium             quay.io/cilium/cilium-ci:latest: 1
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.35.0-1754542821-43b62ac18029bf5e22cbcc9e7141ee55eb09555d@sha256:2173f013b41e71cf8d65503cc9710c106746efbd93ae0ef3f46ee65de13b19f6: 1
+                       cilium-operator    quay.io/cilium/operator-generic-ci:latest: 1
+```
+
+We can also see now that our original problem of the kata-manager not being able to contact the outside world has been resolved:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# kubectl -n gpu-operator logs nvidia-kata-manager-wvz4f
+Starting k8s-kata-manager
+W0813 15:47:02.372799 2113338 main.go:171] No namespace specified, using current namespace
+I0813 15:47:02.372925 2113338 main.go:224] K8s-kata-manager Worker undefined
+I0813 15:47:02.372930 2113338 main.go:225] NodeName: 'inst-5c3dw-san-jose-dev-a10-hypervisors-pool'
+I0813 15:47:02.372933 2113338 main.go:226] Kubernetes namespace: 'gpu-operator'
+I0813 15:47:02.372936 2113338 main.go:228] Parsing configuration file
+I0813 15:47:02.373067 2113338 main.go:205] configuration file "/etc/kata-manager/config.yaml" parsed
+I0813 15:47:02.373162 2113338 main.go:237] Running with configuration:
+artifactsDir: /opt/nvidia-gpu-operator/artifacts/runtimeclasses
+runtimeClasses:
+- artifacts:
+    url: nvcr.io/nvidia/cloud-native/kata-gpu-artifacts:ubuntu22.04-535.54.03
+  name: kata-nvidia-gpu
+- artifacts:
+    url: nvcr.io/nvidia/cloud-native/kata-gpu-artifacts:ubuntu22.04-535.86.10-snp
+  name: kata-nvidia-gpu-snp
+  nodeSelector:
+    nvidia.com/cc.capable: "true"
+I0813 15:47:02.373378 2113338 main.go:394] Initializing
+I0813 15:47:02.373421 2113338 main.go:252] Loading kernel modules required for kata workloads
+I0813 15:47:02.373427 2113338 main.go:456] Loading kernel module vhost-vsock
+I0813 15:47:02.375227 2113338 main.go:456] Loading kernel module vhost-net
+I0813 15:47:02.376866 2113338 main.go:467] Generating a CDI specification for all NVIDIA GPUs configured for passthrough
+I0813 15:47:02.466544 2113338 lib-vfio.go:65] Found NVIDIA device: address=0000:17:00.0, driver=vfio-pci, iommu_group=25, deviceId=2236
+I0813 15:47:02.466573 2113338 lib-vfio.go:65] Found NVIDIA device: address=0000:31:00.0, driver=vfio-pci, iommu_group=31, deviceId=2236
+I0813 15:47:02.466577 2113338 lib-vfio.go:65] Found NVIDIA device: address=0000:b1:00.0, driver=vfio-pci, iommu_group=182, deviceId=2236
+I0813 15:47:02.466581 2113338 lib-vfio.go:65] Found NVIDIA device: address=0000:ca:00.0, driver=vfio-pci, iommu_group=188, deviceId=2236
+I0813 15:47:02.467100 2113338 option.go:101] Loading config: /runtime/config-dir/config.toml
+I0813 15:47:02.467181 2113338 option.go:119] Successfully loaded config
+```
+
+### Run an Example Workload
+
+At this point, it appears from a superficial perspective that the cluster is healthy and everything has been configured. We first determine the resource name for the GPU passthrough:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/worker-basic/k8s# kubectl get nodes -l nvidia.com/gpu.present -o json | \
+  jq '.items[0].status.allocatable |
+    with_entries(select(.key | startswith("nvidia.com/"))) |
+    with_entries(select(.value != "0"))'
+{
+  "nvidia.com/GA102GL_A10": "4"
+}
+```
+
+As expected, this shows us 4 A10 GPUs. Our deployment/pod manifest needs specific annotations to request both the kata runtime class (using cloud-hypervisor) and the specific kind of GPU we want. We apply the following pod manifest that specifies the `cdi.k8s.io` annotation (selects the specific GPU index we want) and the A10 resource it needs:
+
+```yaml title="cuda-vectoradd-kata.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-vectoradd-kata
+  annotations:
+    cdi.k8s.io/gpu: "nvidia.com/pgpu=0"
+    io.katacontainers.config.hypervisor.default_memory: "16384"
+spec:
+  runtimeClassName: kata-clh
+  restartPolicy: OnFailure
+  containers:
+  - name: cuda-vectoradd
+    image: "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04"
+    resources:
+      limits:
+        "nvidia.com/GA102GL_A10": 1
+```
+
+#### Note on Runtimeclass and Handlers
+
+When we view the runtime classes configured in k8s:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# kubectl get runtimeclass
+NAME                  HANDLER               AGE
+kata                  kata-qemu             19h
+kata-clh              kata-clh              19h
+kata-nvidia-gpu       kata-nvidia-gpu       19h
+kata-nvidia-gpu-snp   kata-nvidia-gpu-snp   19h
+kata-qemu             kata-qemu             19h
+kata-qemu-coco-dev    kata-qemu-coco-dev    19h
+kata-qemu-snp         kata-qemu-snp         19h
+kata-qemu-tdx         kata-qemu-tdx         19h
+nvidia                nvidia                19h
+```
+
+We must pause and think about what this means. A runtimeclass in k8s is simply a label that maps a name to a runtime handler. The "handler" is a parameter passed to containerd that specifies the exact kind of OCI runtime we want this to run under. For example, the kata-clh runtime config can be inspected via the containerd config.
+
+```toml title="/etc/containerd/config.toml"
+imports = ["/etc/containerd/config.toml.d/nydus-snapshotter.toml", "/opt/kata/containerd/config.d/kata-deploy.toml"]
+version = 2
+
+[plugins."io.containerd.grpc.v1.cri".containerd]
+disable_snapshot_annotations = false
+default_runtime_name = "runc"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+runtime_type = "io.containerd.runc.v2"
+privileged_without_host_devices = false
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+BinaryName = "runc"
+SystemdCgroup = true
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
+runtime_type = "io.containerd.kata.v2"
+privileged_without_host_devices = true
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
+ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+```
+
+We don't see the `kata-clh` runtime here, so let's look at the imported `kata-deploy.toml` config.
+
+```toml title="/opt/kata/containerd/config.d/kata-deploy.toml"
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh]
+runtime_type = "io.containerd.kata-clh.v2"
+runtime_path = "/opt/kata/bin/containerd-shim-kata-v2"
+privileged_without_host_devices = true
+pod_annotations = ["io.katacontainers.*"]
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh.options]
+ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu]
+runtime_type = "io.containerd.kata-qemu.v2"
+runtime_path = "/opt/kata/bin/containerd-shim-kata-v2"
+privileged_without_host_devices = true
+pod_annotations = ["io.katacontainers.*"]
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu.options]
+ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-qemu.toml"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-coco-dev]
+runtime_type = "io.containerd.kata-qemu-coco-dev.v2"
+runtime_path = "/opt/kata/bin/containerd-shim-kata-v2"
+privileged_without_host_devices = true
+pod_annotations = ["io.katacontainers.*"]
+snapshotter = "nydus"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-coco-dev.options]
+ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-qemu-coco-dev.toml"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-tdx]
+runtime_type = "io.containerd.kata-qemu-tdx.v2"
+runtime_path = "/opt/kata/bin/containerd-shim-kata-v2"
+privileged_without_host_devices = true
+pod_annotations = ["io.katacontainers.*"]
+snapshotter = "nydus"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-tdx.options]
+ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-qemu-tdx.toml"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-snp]
+runtime_type = "io.containerd.kata-qemu-snp.v2"
+runtime_path = "/opt/kata/bin/containerd-shim-kata-v2"
+privileged_without_host_devices = true
+pod_annotations = ["io.katacontainers.*"]
+snapshotter = "nydus"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-qemu-snp.options]
+ConfigPath = "/opt/kata/share/defaults/kata-containers/configuration-qemu-snp.toml"
+```
+
+Aha. Here we can see the `#!toml [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata-clh]` config. This specifies things like:
+
+1. The path to the containerd shim executable.
+2. The kata configuration (which is the most important bit)
+3. Other annotation bits
+
+If we look at a small portion of the kata configuration:
+
+```toml title="/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+[hypervisor.clh]
+path = "/opt/kata/bin/cloud-hypervisor"
+kernel = "/opt/kata/share/kata-containers/vmlinux.container"
+image = "/opt/kata/share/kata-containers/kata-containers.img"
+```
+
+We can it specifies the VMM path to cloud-hypervisor, the kernel to load, and the VM image.
 
 ## Major Lessons
 
