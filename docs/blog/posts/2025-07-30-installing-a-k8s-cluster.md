@@ -1895,6 +1895,22 @@ spec:
         "nvidia.com/GA102GL_A10": 1
 ```
 
+We see an error message in the pod logs:
+
+```
+  Warning  FailedCreatePodSandBox  78s               kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to start sandbox "8fc905e1cb2ff0b42db3babe28fa4cfb114a31bd6cfbdc5ae30f4bbd1198d3cc": failed to create containerd task: failed to create shim task: annotation io.katacontainers.config.hypervisor.default_memory is not enabled
+```
+
+This is kata-containers telling us that we have not allowed the `default_memory` annotation to be passed. We can modify `/opt/kata/share/defaults/kata-containers/configuration-clh.toml` to allow this:
+
+```toml title="/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+# List of valid annotation names for the hypervisor
+# Each member of the list is a regular expression, which is the base name
+# of the annotation, e.g. "path" for io.katacontainers.config.hypervisor.path"
+enable_annotations = ["enable_iommu", "virtio_fs_extra_args", "kernel_params", "default_memory"]
+```
+
+
 #### Note on Runtimeclass and Handlers
 
 When we view the runtime classes configured in k8s:
@@ -1913,7 +1929,7 @@ kata-qemu-tdx         kata-qemu-tdx         19h
 nvidia                nvidia                19h
 ```
 
-We must pause and think about what this means. A runtimeclass in k8s is simply a label that maps a name to a runtime handler. The "handler" is a parameter passed to containerd that specifies the exact kind of OCI runtime we want this to run under. For example, the kata-clh runtime config can be inspected via the containerd config.
+We must pause and think about what this means. A runtimeclass in k8s is simply a label that maps a name to a runtime handler. The "handler" is a string parameter passed to containerd that specifies the exact kind of OCI runtime we want this to run under. From kubernete's perspective, this resource is literally just a string to string mapping, nothing else! All the magic resides in containerd itself. For example, the kata-clh runtime config can be inspected via the containerd config.
 
 ```toml title="/etc/containerd/config.toml"
 imports = ["/etc/containerd/config.toml.d/nydus-snapshotter.toml", "/opt/kata/containerd/config.d/kata-deploy.toml"]
@@ -2006,7 +2022,37 @@ kernel = "/opt/kata/share/kata-containers/vmlinux.container"
 image = "/opt/kata/share/kata-containers/kata-containers.img"
 ```
 
-We can it specifies the VMM path to cloud-hypervisor, the kernel to load, and the VM image.
+We can it specifies the executable path to cloud-hypervisor (our VMM), the kernel to load, and the VM image.
+
+### Hot Plugging GPUs
+
+The container could not run as-is. I kept getting errors like:
+
+```
+cold_plug_vfio= or hot_plug_vfio= port is not set for device
+```
+
+when the container was trying to launch. This came from kata itself. In order to have the VFIO device pass through, we have to tell kata to enable hot-plugging of the device on the cloud-hypervisor side.
+
+```toml title="/opt/kata/share/defaults/kata-containers/configuration-clh.toml"
+# Enable hot-plugging of VFIO devices to a root-port.
+# The default setting is  "no-port"
+hot_plug_vfio = "root-port"
+```
+
+The container could still not boot, giving us a new error:
+
+```
+  Warning  Failed     30s                kubelet            Error: failed to create containerd task: failed to create shim task: Failed to hotplug device &{ID:vfio-efaf69af31265f060 BDF:0000:b1:00.0 SysfsDev:/sys/bus/pci/devices/0000:b1:00.0 DevfsDev: VendorID:0x10de DeviceID:0x2236 Class:0x030200 Bus:rp3 GuestPciPath: Type:1 IsPCIe:true APDevices:[] Port:root-port HostPath:/dev/vfio/182} error: 500  reason: Failed to validate config: Duplicated device path: /sys/bus/pci/devices/0000:b1:00.0
+```
+
+I read more of the kata docs and noticed there is a section specifically on GPU passthrough: https://github.com/kata-containers/kata-containers/blob/main/docs/use-cases/NVIDIA-GPU-passthrough-and-Kata.md#build-kata-containers-kernel-with-gpu-support
+
+!!! quote
+
+    The default guest kernel installed with Kata Containers does not provide GPU support. To use an NVIDIA GPU with Kata Containers, you need to build a kernel with the necessary GPU support.
+
+Aha, so this may be the problem.
 
 ## Major Lessons
 
