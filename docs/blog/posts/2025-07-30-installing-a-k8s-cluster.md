@@ -2052,13 +2052,989 @@ I read more of the kata docs and noticed there is a section specifically on GPU 
 
     The default guest kernel installed with Kata Containers does not provide GPU support. To use an NVIDIA GPU with Kata Containers, you need to build a kernel with the necessary GPU support.
 
-Aha, so this may be the problem.
+Aha, so this may be the problem. We look at the config for the CLH runtime:
+
+```
+kernel = "/opt/kata/share/kata-containers/vmlinux.container"
+```
+
+It turns out there is already a `/opt/kata/share/kata-containers/vmlinux-nvidia-gpu.container` linux kernel available. We might just need to point kata at this. Sadly, this was not the issue, we get the same error:
+
+```
+  Warning  Failed     7s                kubelet            Error: failed to create containerd task: failed to create shim task: Failed to hotplug device &{ID:vfio-0a3660d8754cef520 BDF:0000:17:00.0 SysfsDev:/sys/bus/pci/devices/0000:17:00.0 DevfsDev: VendorID:0x10de DeviceID:0x2236 Class:0x030200 Bus:rp1 GuestPciPath: Type:1 IsPCIe:true APDevices:[] Port:root-port HostPath:/dev/vfio/25} error: 500  reason: Failed to validate config: Duplicated device path: /sys/bus/pci/devices/0000:17:00.0
+```
+
+### ChatGPT Help
+
+I asked ChatGPT why the device was being added twice. This is our conversation:
+
+!!! question
+
+    I'm running kata-containers in k8s using cloud-hypervisor. When attempting to start a container that requests a single nvidia GPU, I get this error that you can see. How do I confirm where the device is trying to be added twice?
+
+```
+You’re getting “Duplicated device path: /sys/bus/pci/devices/0000:17:00.0” because the same GPU is being asked to hot-plug twice into the VM. In your describe output I see both:
+	•	a CDI annotation: cdi.k8s.io/gpu: nvidia.com/pgpu=1
+	•	a resource request/limit: nvidia.com/GA102GL_A10: 1
+
+That combo often results in two injection paths (CDI + device-plugin mounts/env) pointing at the same VFIO device. Cloud-Hypervisor then sees two add-device calls for the same BDF (0000:17:00.0) — note the two attempts with Bus: rp0 and Bus: rp1 in your logs.
+
+Here’s how to prove exactly where the duplication comes from and fix it.
+
+⸻
+
+Confirm where it’s added twice
+
+1) Pod & container spec (pre-Kata)
+
+Check whether duplication is already present in the OCI spec that containerd will hand to Kata.
+
+# Pod + container resources/annotations
+kubectl get pod cuda-vectoradd-kata -o json \
+  | jq '.metadata.annotations, .spec.containers[].resources.limits'
+
+# Get container id
+crictl ps | grep cuda-vectoradd | awk '{print $1}' | xargs -I{} crictl inspect {}
+
+# In the output, look at:
+# .info.runtimeSpec.linux.devices
+# .info.runtimeSpec.annotations
+
+If you see the same GPU/BDF represented twice (or two device entries that both resolve to /sys/bus/pci/devices/0000:17:00.0), the duplication is happening before Kata — i.e., CDI + device-plugin both injecting.
+
+2) CDI catalogs (NVIDIA)
+
+See what CDI is advertising and whether there are overlapping entries that resolve to the same sysfs path.
+
+# Where CDI specs live
+ls -1 /etc/cdi /var/run/cdi 2>/dev/null
+
+# Inspect NVIDIA CDI specs for the BDF
+grep -R "0000:17:00.0" /etc/cdi /var/run/cdi 2>/dev/null || true
+
+# If installed:
+nvidia-ctk cdi list --mode all 2>/dev/null
+
+If you find multiple CDI device entries that ultimately point to the same VFIO/IOMMU group or the same BDF, that’s another place the duplication can originate.
+
+3) Kata’s live sandbox view
+
+Confirm whether Kata itself queued the same host device twice.
+
+# Find the Kata sandbox id for this pod
+ctr -n k8s.io tasks ls | grep cuda-vectoradd
+# Note the sandbox/container ids
+
+# Kata stores per-sandbox state here:
+ls -1 /run/vc/sbs
+# Pick the recent one; then:
+grep -R "0000:17:00.0" /run/vc/sbs/<sandbox-id> 2>/dev/null || true
+
+You may see the device recorded twice in Kata’s device lists if it’s receiving duplication from the OCI spec/CDI.
+
+4) Cloud-Hypervisor API (optional but decisive)
+
+If the VM is still up long enough, list devices Cloud-Hypervisor thinks are attached/being attached.
+
+# Kata usually exposes the clh api socket here
+SOCK=$(ls /run/vc/sbs/<sandbox-id>/*-api.sock 2>/dev/null | head -n1)
+
+# Requires ch-remote tool (often packaged with clh)
+ch-remote --api-socket "$SOCK" info 2>/dev/null | grep -E "pci|vfio|0000:17:00.0" || true
+
+Two add attempts for the same BDF clinches it.
+
+⸻
+
+Fix: pick one injection path
+
+Do one of the following, not both:
+
+Option A (recommended): Use the device plugin with resource requests only.
+	•	Remove the CDI annotation from your pod:
+	•	Delete cdi.k8s.io/gpu: nvidia.com/pgpu=1
+	•	Keep: resources: limits: nvidia.com/GA102GL_A10: 1
+
+Option B: Use CDI only (no resource requests).
+	•	Keep the CDI annotation and remove the nvidia.com/<model> resource request/limit.
+	•	Make sure your NVIDIA setup is CDI-mode only and the device plugin isn’t also injecting mounts/env for the same device.
+
+After changing, redeploy the pod.
+
+⸻
+
+Extra sanity checks
+	•	Make sure you’re not also manually mounting /dev/vfio/* or passing --device=/dev/vfio/* via anything else (initContainers, sidecars, admission webhooks).
+	•	Verify the NVIDIA plugin mode:
+	•	If you enabled CDI in the NVIDIA device plugin, don’t also use the legacy NVIDIA_VISIBLE_DEVICES/mount-based path in the same cluster.
+	•	Confirm a single VFIO assignment for the GPU:
+
+lspci -nn | grep -i nvidia
+readlink -f /sys/bus/pci/devices/0000:17:00.0/iommu_group
+# Only one VFIO group should be selected for this container
+
+
+
+⸻
+
+If you want, paste the output of crictl inspect (sanitized) for the container and I’ll point to the exact fields that are double-injecting. But yeah—the root cause is you’re telling the stack twice to pass through the same GPU. Pick one lane.
+```
+
+!!! question
+
+    The pgpu=0 parameter is suggested by the nvidia GPU operator docs: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-kata.html
+
+    In their example, they have both the resource limit request and the pgpu annotation. They say this about the pod annotation:
+
+    ```
+    The cdi.k8s.io/gpu: "nvidia.com/pgpu=0" annotation is used when the pod sandbox is created. The annotation ensures that the virtual machine created by the Kata runtime is created with the correct PCIe topology so that GPU passthrough succeeds.
+
+    The annotation refers to a Container Device Interface (CDI) device, nvidia.com/pgpu=0. The pgpu indicates passthrough GPU and the 0 indicates the device index. The index is defined by the order that the GPUs are enumerated on the PCI bus. The index does not correlate to a CUDA index.
+
+    The NVIDIA Kata Manager creates a CDI specification on the GPU nodes. The file includes a device entry for each passthrough device.
+
+    In the following sample /var/run/cdi/nvidia.com-pgpu.yaml file shows one GPU that is bound to the VFIO PCI driver:
+
+    ```
+
+    Do you think they are wrong?
+
+```
+Short answer: they’re not “wrong,” but their example assumes a very specific mode. In your cluster, you’re almost certainly running the NVIDIA device plugin in legacy injection and using the CDI pgpu annotation, so the same VFIO BDF gets added twice.
+
+What NVIDIA means in that doc:
+	•	The cdi.k8s.io/gpu: "nvidia.com/pgpu=0" annotation is used at pod sandbox creation to make Kata build the right PCIe topology inside the VM so passthrough works. It’s not intended to be a second injector.  ￼
+	•	The device itself should be injected once via CDI through the NVIDIA stack (device plugin + container toolkit) when CDI mode is enabled.  ￼
+
+Where folks get bit: the NVIDIA device plugin has multiple “device list strategies.” If it’s still on envvar/volume-mounts or PASS_DEVICE_SPECS=true, you keep legacy injection while CDI is also in play. Then you have:
+	•	CDI/topology via the pgpu annotation and
+	•	Legacy or CDI-based device injection via the plugin
+→ cloud-hypervisor sees two add-device calls for the same /sys/bus/pci/devices/0000:17:00.0 and rejects it as duplicated.  ￼ ￼
+
+Do this to prove/fix it fast:
+	1.	Inspect the device plugin args (this is the smoking gun)
+
+kubectl -n gpu-operator get ds nvidia-device-plugin-daemonset -o json \
+  | jq -r '.spec.template.spec.containers[0].args, .spec.template.spec.containers[0].env'
+
+Look for:
+	•	--device-list-strategy: if it’s "envvar" or "volume-mounts", you’re in legacy. For CDI-only it should be cdi-cri.
+	•	PASS_DEVICE_SPECS=true means legacy-style mounts are being added.  ￼
+
+	2.	Check the OCI spec actually handed to Kata
+
+# find your container id then:
+crictl inspect <cid> | jq '.info.runtimeSpec.linux.devices, .info.runtimeSpec.mounts, .info.runtimeSpec.annotations'
+
+If you see two entries that both resolve to /sys/bus/pci/devices/0000:17:00.0 or two /dev/vfio/* paths, that’s the duplication pre-Kata.
+	3.	Flip the plugin to CDI-only (no legacy)
+
+	•	Set --device-list-strategy=cdi-cri (or the equivalent via Helm/values).
+	•	Ensure PASS_DEVICE_SPECS is unset/false.
+	•	If you’re intentionally running both modes, use separate runtimeClasses (e.g., nvidia-cdi and nvidia-legacy) and don’t mix them on the same pod.  ￼ ￼
+
+	4.	Keep the NVIDIA pgpu annotation + your limits: nvidia.com/<model>: 1
+That’s exactly what their doc shows—as long as the plugin is CDI-mode so there’s only one injector and the annotation just helps Kata with the VM PCIe layout.  ￼
+
+If you want me to sanity-check, paste the device plugin args/env and the crictl inspect chunks for .linux.devices + .annotations. I’ll point to the duplicate entries.
+```
+
+!!! question
+
+    This is the output of the daemonset.
+
+    I installed the Nvidia GPU Operator via a helm chart. How can I modify the chart's installation to change these parameters like you mentioned?
+
+```
+Yep — your DaemonSet shows legacy injection is on:
+	•	PASS_DEVICE_SPECS=true
+	•	DEVICE_LIST_STRATEGY=envvar
+
+That combo will mount devices the old way in addition to CDI, which is why you’re seeing the duplicate hot-plug. Flip the plugin to CDI-only and keep the Kata pgpu annotation.
+
+Here’s how to do it cleanly with the GPU Operator Helm chart.
+
+What to change (values)
+	•	Enable CDI support in the operator (installs the CDI runtimeclass plumbing):
+	•	cdi.enabled=true
+	•	(Optionally) cdi.default=true if you want CDI to be the default path.  ￼ ￼
+	•	Make the device plugin advertise GPUs via CDI/CRI only:
+	•	devicePlugin.env[0].name=PASS_DEVICE_SPECS → false
+	•	devicePlugin.env[1].name=DEVICE_LIST_STRATEGY → cdi-cri
+(envvar/volume-mounts keep legacy; cdi-cri is the CRI-native CDI path.)  ￼ ￼
+
+One-liner upgrade
+
+If you installed as release name gpu-operator in namespace gpu-operator:
+
+helm upgrade --install gpu-operator nvidia/gpu-operator \
+  -n gpu-operator \
+  --set cdi.enabled=true \
+  --set cdi.default=true \
+  --set devicePlugin.env[0].name=PASS_DEVICE_SPECS \
+  --set devicePlugin.env[0].value=false \
+  --set devicePlugin.env[1].name=DEVICE_LIST_STRATEGY \
+  --set devicePlugin.env[1].value=cdi-cri
+
+Tip: arrays are replaced in Helm, so by setting devicePlugin.env[...] you wipe the old env list (including that stray NVIDIA_VISIBLE_DEVICES=all you saw). The devicePlugin.env hook point is in the chart’s values file.  ￼
+
+If you prefer a values file
+
+Create gpu-operator-overrides.yaml:
+
+cdi:
+  enabled: true
+  default: true
+
+devicePlugin:
+  env:
+    - name: PASS_DEVICE_SPECS
+      value: "false"
+    - name: DEVICE_LIST_STRATEGY
+      value: "cdi-cri"
+
+Then:
+
+helm upgrade --install gpu-operator nvidia/gpu-operator \
+  -n gpu-operator -f gpu-operator-overrides.yaml
+
+Verify the change
+
+kubectl -n gpu-operator get ds nvidia-device-plugin-daemonset -o json \
+  | jq -r '.spec.template.spec.containers[0].env'
+# Expect PASS_DEVICE_SPECS=false and DEVICE_LIST_STRATEGY=cdi-cri
+
+Re-create your pod with:
+	•	resources.limits: nvidia.com/<model>: 1
+	•	metadata.annotations: cdi.k8s.io/gpu: "nvidia.com/pgpu=0"
+	•	Your Kata runtimeClass (e.g., kata-nvidia-gpu). The annotation helps the Kata VM pick the correct PCIe topology; CDI does the single injection.  ￼
+
+If you’re curious where these knobs live:
+	•	Operator values file shows devicePlugin.env and the cdi block you’re toggling.  ￼
+	•	Device plugin docs explain DEVICE_LIST_STRATEGY options; cdi-cri avoids legacy paths.  ￼
+
+If it still duplicates after this, we’ll pull crictl inspect for .runtimeSpec.linux.devices to see if anything else (an admission webhook, a manual /dev/vfio/* mount) is sneaking a second entry in. But 9 times out of 10, fixing those two env vars stops the double add.
+```
+
+#### CoreDNS disappeared
+
+The nvidia gpu-operator pods were failing because of DNS lookup failures. I noticed CoreDNS was not running, so I installed it from the helm chart:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# kubectl -n kube-system get deploy,svc,endpoints | grep -i dns
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice                                                                                                                                                             
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# sudo grep -A2 -n 'clusterDNS' /var/lib/kubelet/config.yaml 2>/dev/null
+16:clusterDNS:                                                                                                                                                                                                                                   
+17-- 10.254.192.10                                                                                                                                                                                                                               
+18-clusterDomain: cluster.local                                                                                                                                                                                                                  
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# ps aux | grep kubelet | grep -- '--cluster-dns'
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# helm repo add coredns https://coredns.github.io/helm
+"coredns" has been added to your repositories                                                                                                                                                                                                    
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# helm repo update                 
+Hang tight while we grab the latest from your chart repositories...                                                                                                                                                                              
+...Successfully got an update from the "coredns" chart repository                                                                                                                                                                                
+...Successfully got an update from the "nvidia" chart repository                                                                                                                                                                                 
+Update Complete. ⎈Happy Helming!⎈                                                                                                                                                                                                                
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/cuda-vectoradd-kata-test# helm upgrade --install coredns coredns/coredns -n kube-system \                                                              
+  --set service.clusterIP=10.254.192.10 \                                                                                                                                                                                                        
+  --set rbac.create=true                                                                                                                                                                                                                         
+Release "coredns" does not exist. Installing it now.                                                                                                                                                                                             
+NAME: coredns                                                                                                                                                                                                                                    
+LAST DEPLOYED: Wed Aug 13 23:19:04 2025                                                                                                                                                                                                          
+NAMESPACE: kube-system                                                                                                                                                                                                                           
+STATUS: deployed                                                                                                                                                                                                                                 
+REVISION: 1                                                                                                                                                                                                                                      
+TEST SUITE: None                                                                                                                                                                                                                                 
+NOTES:                                                                                                                                                                                                                                           
+CoreDNS is now running in the cluster as a cluster-service. 
+                                                            
+It can be tested with the following:                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                 
+1. Launch a Pod with DNS tools:                             
+                                                            
+kubectl run -it --rm --restart=Never --image=infoblox/dnstools:latest dnstools                                                                                                                                                                   
+                                                                                                                        
+2. Query the DNS server:                                    
+                                                            
+/ # host kubernetes                                  
+```
+
+### Realization of gpu-operator
+
+I was struggling with getting the gpu-operator Daemonset pods to run successfully. I realized that they need access to host-level nvidia drivers which is not something we can do for security reasons. I made the decision to backtrack and take a different approach. The [Nvidia device plugin](https://github.com/NVIDIA/k8s-device-plugin) utilizes Nvidia GPU drivers to dynamically inspect the available GPUs and their statuses. It provides to the k8s control place information regarding the installed GPUs on the host. We can do something similar with a custom device plugin that only relies on PCIe semantics to inspect GPUs and serve this information to k8s without the need for Nvidia drivers.
+
+ChatGPT gave this explanation:
+
+??? chatgpt
+
+    Alright, let’s build a tiny Kubernetes device plugin that advertises “VFIO GPUs” and, on Allocate, returns CDI device IDs (so the runtime injects /dev/vfio/* etc. for you).
+
+    High-level flow (so you know what you’re wiring):
+
+    - A DaemonSet runs one plugin pod per node.
+    - The plugin registers with the kubelet over the device-plugin gRPC socket.
+    - It ListAndWatch’s a resource (e.g., vfio.example.com/pgpu) and reports N healthy devices.
+    - On Allocate, it returns CDI device names like vfio.example.com/pgpu=0000_65_00_0. Kubelet passes these to the runtime, which injects the device(s) declared in your CDI JSON. (This path is first-class in the v1beta1 API via the CDIDevices field.  ￼)
+
+    Below is a minimal, production-ish skeleton you can drop in and tweak.
+
+    ⸻
+
+    1) Go module (device plugin)
+
+    ```go title="go.mod"
+
+    module yourco.com/vfio-device-plugin
+
+    go 1.22
+
+    require (
+      google.golang.org/grpc v1.64.0
+      k8s.io/kubelet v0.33.3
+      k8s.io/klog/v2 v2.120.1
+    )
+    ```
+
+    ```go title="main.go"
+
+    package main
+
+    import (
+      "context"
+      "encoding/json"
+      "fmt"
+      "net"
+      "os"
+      "path/filepath"
+      "strings"
+      "time"
+
+      "google.golang.org/grpc"
+      "k8s.io/klog/v2"
+      dp "k8s.io/kubelet/pkg/apis/deviceplugin/v1beta1"
+    )
+
+    const (
+      resourceName   = "vfio.example.com/pgpu" // advertise this extended resource
+      kubeletSocket  = dp.KubeletSocket        // "/var/lib/kubelet/device-plugins/kubelet.sock"
+      pluginEndpoint = "vfio-pgpu.sock"
+    )
+
+    type inventory struct {
+      // Minimal inventory: list of CDI names to hand out. Keep IDs stable.
+      CDI []string `json:"cdi"`
+    }
+
+    type server struct {
+      dp.UnimplementedDevicePluginServer
+      devs       []*dp.Device
+      cdiDevices map[string]string // devID -> CDI name
+      stopCh     chan struct{}
+    }
+
+    func newServer(inv inventory) *server {
+      devs := []*dp.Device{}
+      cdi := map[string]string{}
+      for i, name := range inv.CDI {
+        // Stable DeviceID you expose to kubelet (opaque to kubelet; you map it to CDI).
+        devID := fmt.Sprintf("vfio-%03d", i)
+        devs = append(devs, &dp.Device{ID: devID, Health: dp.Healthy})
+        cdi[devID] = name
+      }
+      return &server{devs: devs, cdiDevices: cdi, stopCh: make(chan struct{})}
+    }
+
+    func (s *server) GetDevicePluginOptions(context.Context, *dp.Empty) (*dp.DevicePluginOptions, error) {
+      // No PreStart required for VFIO; you can flip this true if you want a reset hook.
+      return &dp.DevicePluginOptions{PreStartRequired: false, GetPreferredAllocationAvailable: true}, nil
+    }
+
+    func (s *server) ListAndWatch(_ *dp.Empty, stream dp.DevicePlugin_ListAndWatchServer) error {
+      resp := &dp.ListAndWatchResponse{Devices: s.devs}
+      if err := stream.Send(resp); err != nil {
+        return err
+      }
+      // Keep the stream open; you can watch for health changes here.
+      <-s.stopCh
+      return nil
+    }
+
+    func (s *server) Allocate(ctx context.Context, req *dp.AllocateRequest) (*dp.AllocateResponse, error) {
+      var cars []*dp.ContainerAllocateResponse
+      for _, creq := range req.ContainerRequests {
+        var cdis []*dp.CDIDevice
+        for _, id := range creq.DevicesIDs {
+          name, ok := s.cdiDevices[id]
+          if !ok {
+            return nil, fmt.Errorf("unknown device id %q", id)
+          }
+          // Hand back the CDI name; runtime injects per CDI spec.
+          cdis = append(cdis, &dp.CDIDevice{Name: name})
+        }
+        cars = append(cars, &dp.ContainerAllocateResponse{
+          // You could also return env/mounts/devices, but CDI is the point here.
+          CDIDevices: cdis,
+        })
+      }
+      return &dp.AllocateResponse{ContainerResponses: cars}, nil
+    }
+
+    func (s *server) PreStartContainer(context.Context, *dp.PreStartContainerRequest) (*dp.PreStartContainerResponse, error) {
+      return &dp.PreStartContainerResponse{}, nil
+    }
+
+    func (s *server) GetPreferredAllocation(ctx context.Context, req *dp.PreferredAllocationRequest) (*dp.PreferredAllocationResponse, error) {
+      // Simple: return first N requested. You can implement topology-aware allocation.
+      var cresps []*dp.ContainerPreferredAllocationResponse
+      for _, c := range req.ContainerRequests {
+        resp := &dp.ContainerPreferredAllocationResponse{}
+        n := int(c.AllocationSize)
+        if n <= 0 || n > len(c.AvailableDeviceIDs) {
+          n = len(c.AvailableDeviceIDs)
+        }
+        resp.DeviceIDs = c.AvailableDeviceIDs[:n]
+        cresps = append(cresps, resp)
+      }
+      return &dp.PreferredAllocationResponse{ContainerResponses: cresps}, nil
+    }
+
+    func registerWithKubelet() error {
+      conn, err := grpc.Dial("unix://"+kubeletSocket, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(10*time.Second))
+      if err != nil {
+        return fmt.Errorf("dial kubelet: %w", err)
+      }
+      defer conn.Close()
+      client := dp.NewRegistrationClient(conn)
+      req := &dp.RegisterRequest{
+        Version:      dp.Version,
+        Endpoint:     pluginEndpoint,
+        ResourceName: resourceName,
+        Options:      &dp.DevicePluginOptions{PreStartRequired: false, GetPreferredAllocationAvailable: true},
+      }
+      _, err = client.Register(context.Background(), req)
+      return err
+    }
+
+    func serveDP(srv *server) error {
+      socket := filepath.Join(dp.DevicePluginPath, pluginEndpoint)
+      _ = os.Remove(socket)
+      l, err := net.Listen("unix", socket)
+      if err != nil {
+        return fmt.Errorf("listen %s: %w", socket, err)
+      }
+      gs := grpc.NewServer()
+      dp.RegisterDevicePluginServer(gs, srv)
+      klog.Infof("device plugin gRPC serving on %s for resource %s", socket, resourceName)
+      return gs.Serve(l)
+    }
+
+    func loadInventory() (inventory, error) {
+      // Feed inventory via env or a mounted file.
+      // Example env: VFIO_CDI="vfio.example.com/pgpu=0000_65_00_0,vfio.example.com/pgpu=0000_17_00_0"
+      if raw := os.Getenv("VFIO_CDI"); raw != "" {
+        var inv inventory
+        for _, s := range strings.Split(raw, ",") {
+          inv.CDI = append(inv.CDI, strings.TrimSpace(s))
+        }
+        return inv, nil
+      }
+      // Or JSON file at /etc/vfio/inventory.json
+      b, err := os.ReadFile("/etc/vfio/inventory.json")
+      if err != nil {
+        return inventory{}, fmt.Errorf("no VFIO_CDI env and no /etc/vfio/inventory.json: %w", err)
+      }
+      var inv inventory
+      if err := json.Unmarshal(b, &inv); err != nil {
+        return inventory{}, err
+      }
+      return inv, nil
+    }
+
+    func main() {
+      klog.InitFlags(nil)
+
+      inv, err := loadInventory()
+      if err != nil {
+        klog.Fatalf("inventory: %v", err)
+      }
+      srv := newServer(inv)
+
+      // Serve gRPC
+      go func() {
+        if err := serveDP(srv); err != nil {
+          klog.Fatalf("grpc serve: %v", err)
+        }
+      }()
+
+      // Register with kubelet (retry a few times on startup races)
+      var regErr error
+      for i := 0; i < 20; i++ {
+        if err := registerWithKubelet(); err == nil {
+          regErr = nil
+          break
+        } else {
+          regErr = err
+          time.Sleep(3 * time.Second)
+        }
+      }
+      if regErr != nil {
+        klog.Fatalf("register with kubelet: %v", regErr)
+      }
+
+      // Block forever
+      select {}
+    }
+    ```
+
+    Why this works:
+
+    - The device-plugin API’s ContainerAllocateResponse includes a CDIDevices field (type []*CDIDevice), and kubelet/runtimes pass those names through for CDI injection. (See the API surface on pkg.go.dev; it includes CDIDevice and GetCDIDevices() for v0.28+ of the kubelet module.  ￼)
+    - CDI itself is a runtime feature (containerd/CRI-O) that reads JSON specs and injects device nodes/mounts/env when it sees a CDI name. (Overview docs from Kubernetes and NVIDIA confirm CDI’s role with runtimes.)  ￼ ￼
+
+    ⸻
+
+    2) Build & image
+
+    ```
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o vfio-device-plugin
+    # containerize however you like; distroless is fine
+    ```
+
+
+    ⸻
+
+    3) Deploy (DaemonSet)
+
+    - Mount the kubelet device-plugin socket.
+    - Feed inventory (list of CDI names) through an env var or ConfigMap/file.
+    - Run privileged: false (no host poking required; CDI does the injection).
+    - Tolerate master if you want it scheduled there.
+
+    ```yaml title="deploy.yaml"
+
+    apiVersion: v1
+    kind: Namespace
+    metadata: { name: vfio-system }
+    ---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata: { name: vfio-device-plugin, namespace: vfio-system }
+    ---
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: vfio-device-plugin
+      namespace: vfio-system
+    spec:
+      selector: { matchLabels: { app: vfio-device-plugin } }
+      template:
+        metadata:
+          labels: { app: vfio-device-plugin }
+        spec:
+          serviceAccountName: vfio-device-plugin
+          nodeSelector:
+            kubernetes.io/arch: amd64
+          tolerations:
+          - operator: Exists
+          containers:
+          - name: plugin
+            image: ghcr.io/yourco/vfio-device-plugin:latest
+            imagePullPolicy: IfNotPresent
+            env:
+            # Comma-separated CDI device names present on this node
+            # e.g. "vfio.example.com/pgpu=0000_65_00_0,vfio.example.com/pgpu=0000_17_00_0"
+            - name: VFIO_CDI
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['vfio.example.com/cdi']
+            volumeMounts:
+            - name: kubelet-sock
+              mountPath: /var/lib/kubelet/device-plugins
+            securityContext:
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              seccompProfile: { type: RuntimeDefault }
+          volumes:
+          - name: kubelet-sock
+            hostPath: { path: /var/lib/kubelet/device-plugins, type: Directory }
+    ```
+
+    How to set the CDI list per node:
+
+    - You can label/annotate each node with a list of CDI names discovered by a small init job or Node Feature Discovery hook (e.g., vfio.example.com/cdi: "vfio.example.com- pu=0000_65_00_0,..."). Your plugin reads that via the Downward API (shown above).
+    - Or mount /etc/vfio/inventory.json from a hostPath/ConfigMap if you prefer.
+
+    ⸻
+
+    4) Pod usage (no annotations needed)
+
+    With the plugin running, tenants just request the resource:
+
+    ```yaml
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: gpu-guest
+    spec:
+      runtimeClassName: kata-nvidia-gpu   # your Kata class that passes /dev/vfio into the VM
+      containers:
+      - name: app
+        image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04
+        resources:
+          limits:
+            vfio.example.com/pgpu: 1
+    ```
+
+    At allocation, your plugin returns the CDI device name(s); kubelet/runtime injects the device nodes specified by the matching CDI JSON you placed on the host (e.g., /etc/cdi/vfio-gpus.json).  ￼ ￼
+
+    ⸻
+
+    5) CDI spec reminder (host side)
+
+    You already saw this pattern earlier, but the runtime needs a CDI file present on the node:
+
+    ```json title="/etc/cdi/vfio-gpus.json (example)"
+
+    {
+      "cdiVersion": "0.6.0",
+      "kind": "VendorDevice",
+      "metadata": { "vendor": "vfio.example.com", "class": "pgpu" },
+      "devices": [
+        {
+          "name": "0000_65_00_0",
+          "containerEdits": {
+            "deviceNodes": [
+              { "path": "/dev/vfio/vfio", "type": "c", "permissions": "rwm" },
+              { "path": "/dev/vfio/42",   "type": "c", "permissions": "rwm" }
+            ],
+            "env": [{ "name": "GPU_PCI_ADDR", "value": "0000:65:00.0" }]
+          }
+        }
+      ]
+    }
+    ```
+
+    The fully-qualified CDI name your plugin returns is:
+
+    `vfio.example.com/pgpu=0000_65_00_0`
+
+    which matches vendor/class=name in that JSON. (CDI is consumed by containerd/CRI-O; the plugin just passes the string via CDIDevices.)  ￼ ￼
+
+    ⸻
+
+    6) Sanity checks
+
+    - API check: you should see CDIDevice/GetCDIDevices() in k8s.io/kubelet/.../deviceplugin/v1beta1 (present in recent versions). If it’s not in your vendor tree, update - dules.  ￼
+    - Runtime: ensure your container runtime has CDI enabled (containerd and CRI-O do; NVIDIA docs describe CDI behavior, including fallback modes).  ￼ ￼
+    - Logs: kubelet should log registration of vfio.example.com/pgpu; kubectl describe node should show the resource allocatable/allocated.
+
+    ⸻
+
+    7) Extensions you’ll probably want (later)
+
+    - Topology-aware allocation: Prefer same NUMA/IOMMU group, co-schedule sibling functions, etc.
+    - Health: Watch /dev/vfio/<group> and mark device Unhealthy if it disappears; push update via the ListAndWatch stream.
+    - Dynamic inventory: Build a tiny sidecar that discovers VFIO-bound BDFs and writes the node annotation consumed by the plugin.
+
+    If you want me to add NUMA-aware preferred allocation and a real inventory scanner (via sysfs) to this sample, I can fold that in next.
+
+### Create gpu-device-plugin
+
+I need to create my own CDI plugin that advertises the availability of the GPUs without the need for Nvidia drivers. I did that [here](https://github.com/lambdal/caas-experiment/tree/a656b602671288748f8a598b95a01bb42cf969f3/k8s/gpu-device-plugin). You can see my DaemonSet pod:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# kubectl get pods -n vfio-system
+NAME                       READY   STATUS    RESTARTS   AGE
+vfio-device-plugin-cwv6x   1/1     Running   0          9m28s
+```
+
+What this plugin does is it registers its existence with the kubelet using the kubelet's unix domain socket. It opens its own socket that exposes an API that serves the spec outlined [here](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/). Basically, it does two things:
+
+1. Advertises the list of GPUs available (which in my configuration is drawn from the file at `/etc/cdi/nvidia.com-gpu.json` that I manually curated) to the kubelet.
+2. When a container allocation request comes in, it returns a list of OCI-specific devices names that will be passed to containerd.
+
+```json title="/etc/cdi/nvidia.com-gpu.json"
+{
+  "cdiVersion": "0.7.0",
+  "containerEdits": {},
+  "devices": [
+    {
+      "containerEdits": {
+        "deviceNodes": [
+          {
+            "path": "/dev/vfio/25",
+            "permissions": "rwm",
+            "type": "c"
+          }
+        ]
+      },
+      "name": "0"
+    },
+    {
+      "containerEdits": {
+        "deviceNodes": [
+          {
+            "path": "/dev/vfio/31",
+            "permissions": "rwm",
+            "type": "c"
+          }
+        ]
+      },
+      "name": "1"
+    },
+    {
+      "containerEdits": {
+        "deviceNodes": [
+          {
+            "path": "/dev/vfio/182",
+            "permissions": "rwm",
+            "type": "c"
+          }
+        ]
+      },
+      "name": "2"
+    },
+    {
+      "containerEdits": {
+        "deviceNodes": [
+          {
+            "path": "/dev/vfio/188",
+            "permissions": "rwm",
+            "type": "c"
+          }
+        ]
+      },
+      "name": "3"
+    }
+  ],
+  "kind": "nvidia.com/gpu"
+}
+```
+
+There really is no magic here. When I describe the node, I can now see 4 allocatable `nvidia.com/gpu` devices:
+
+```
+Allocatable:
+  cpu:                     128
+  ephemeral-storage:       1917934852198
+  hugepages-1Gi:           906Gi
+  hugepages-2Mi:           0
+  memory:                  106370796Ki
+  nvidia.com/GA102GL_A10:  0
+  nvidia.com/gpu:          4
+  pods:                    110
+```
+
+The `nvidia.com/GA102GL_A10` device is leftover from the Nvidia GPU Operator, and it's at 0 as expected.
+
+### VFIO
+
+Because I uninstalled the Nvidia GPU operator, the GPUs are no longer bound to the VFIO driver:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# ls -lh /dev/vfio
+total 0
+crw-rw-rw- 1 root root 10, 196 Aug  1 21:16 vfio
+```
+
+I might want to also create an operator that binds the devices to VFIO, but for now let's try doing it manually for one of them:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# lspci |& grep 3D | head -1
+17:00.0 3D controller: NVIDIA Corporation GA102GL [A10] (rev a1)
+```
+
+This is not bound to any driver at the moment:
+
+```
+  *-display UNCLAIMED
+       description: 3D controller
+       product: GA102GL [A10]
+       vendor: NVIDIA Corporation
+       physical id: 0
+       bus info: pci@0000:17:00.0
+       version: a1
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pm cap_list
+       configuration: latency=0
+```
+
+The Vendor ID and Device ID can be found from `lspci -nn`. These commands tell vfio that it can always claim this device:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# export VID=10de
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# export DID_GPU=2236
+```
+
+We now see it:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# ls -lh /dev/vfio
+total 0
+crw-rw---- 1 root kvm  241,   0 Aug 14 18:43 25
+```
+
+We should be able to launch a single container with a single GPU bound. Let's test it.
+
+#### QEMU
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# ctr --debug run --runtime /opt/kata/bin/containerd-shim-kata-v2 --runtime-config-path "/opt/kata/share/defaults/kata-containers/configuration-qemu-nvidia-gpu.toml" --device /dev/vfio/25 --rm -t  "docker.io/library/archlinux:latest" nvidia-smi
+DEBU[0000] remote introspection plugin filters           filters="[type==io.containerd.snapshotter.v1, id==overlayfs]"
+[root@localhost /]# nvidia-smi
+Thu Aug 14 21:02:00 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.64.03              Driver Version: 575.64.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A10                     Off |   00000000:02:00.0 Off |                    0 |
+|  0%   38C    P0             63W /  150W |       0MiB /  23028MiB |      6%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+```
+
+With QEMU, it works just fine. 
+
+#### cloud-hypervisor
+
+With clh, it we still get the same IOMMU error:
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# ctr --debug run --runtime /opt/kata/bin/containerd-shim-kata-v2 --runtime-config-path "/opt/kata/share/defaults/kata-containers/configuration-" --device /dev/vfio/25 --rm -t  "docker.io/library/archlinux:latest" nvidia-smi
+configuration-clh.toml                  configuration-fc.toml                   configuration-qemu-coco-dev.toml        configuration-qemu-nvidia-gpu-snp.toml  configuration-qemu-nvidia-gpu-tdx.toml  configuration-qemu-nvidia-gpu.toml      configuration-qemu-se.toml              configuration-qemu-snp.toml             configuration-qemu-tdx.toml             configuration-qemu.toml                 configuration-remote.toml               configuration-stratovirt.toml
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# ctr --debug run --runtime /opt/kata/bin/containerd-shim-kata-v2 --runtime-config-path "/opt/kata/share/defaults/kata-containers/configuration-clh.toml" --device /dev/vfio/25 --rm -t  "docker.io/library/archlinux:latest" nvidia-smi
+DEBU[0000] remote introspection plugin filters           filters="[type==io.containerd.snapshotter.v1, id==overlayfs]"
+ctr: failed to create shim task: 0000:00:04.0 has no IOMMU group
+```
+
+We can try launching cloud-hypervisor directly and mimic what's happening under the hood. Launch the VM:
+
+```
+ubuntu login: root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu/lclipp/caas-experiment/k8s/gpu-device-plugin# /opt/kata/bin/cloud-hypervisor --kernel ./hypervisor-fw --disk path=focal-server-cloudimg-amd64.raw --cpus boot=4 --memory size=1024M --net "tap=,mac=,ip=,mask=" --api-socket=/tmp/ch-socket
+
+Ubuntu 20.04.6 LTS ubuntu hvc0
+
+ubuntu login: root
+Password: 
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.4.0-216-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Fri Aug 15 15:23:45 UTC 2025
+
+  System load: 0.04              Memory usage: 19%   Processes:       124
+  Usage of /:  75.8% of 1.96GB   Swap usage:   0%    Users logged in: 0
+
+
+Expanded Security Maintenance for Infrastructure is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Infra to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+Last login: Fri Aug 15 15:18:55 UTC 2025 on hvc0
+root@ubuntu:~# 
+```
+
+We expose an api-socket which is essentially what kata does. In order to hot-plug the device, we use the `ch-remote` utility to attach to this socket and issue the `add-device` command.
+
+```
+root@inst-5c3dw-san-jose-dev-a10-hypervisors-pool:/home/ubuntu# /tmp/ch-remote-static --api-socket=/tmp/ch-socket add-device path=/sys/bus/pci/devices/0000\:17\:00.0
+{"id":"_vfio2","bdf":"0000:00:05.0"}
+```
+
+We can see this in the VM now:
+
+```
+root@ubuntu:~# ls -lah /sys/bus/pci/devices/0000\:00\:05.0
+lrwxrwxrwx 1 root root 0 Aug 15 15:24 /sys/bus/pci/devices/0000:00:05.0 -> ../../../devices/pci0000:00/0000:00:05.0
+```
+
+However the IOMMU groups is not being configured, which matches the behavior we see in kata:
+
+```
+root@ubuntu:~# cat /proc/cmdline
+BOOT_IMAGE=/boot/vmlinuz-5.4.0-216-generic root=UUID=0101c7fc-3b92-405d-87d1-ab167be30b9d ro iommu=pt console=tty1 console=ttyS0
+root@ubuntu:~# ls -lah /sys/kernel/iommu_groups/
+total 0
+drwxr-xr-x  2 root root 0 Aug 15 15:31 .
+drwxr-xr-x 15 root root 0 Aug 15 15:31 ..
+```
+
+I submitted a [Github issue](https://github.com/kata-containers/kata-containers/issues/11687) to the kata-containers repo with my findings and the [response from the main developer](https://github.com/kata-containers/kata-containers/issues/11687#issuecomment-3197620293) was a death knell:
+
+!!! quote
+
+    You should use the QEMU GPU runtime class. I haven't done any work on CLH to enable proper GPU support. If you want ot use a minimal Rust-VMM you could try runtime-rs with Dragonball.
+
+## Regrouping on Strategy
+
+After receiving that comment from the kata-containers developer, I realized that it is not going to work for our use-case if we want to stick to cloud-hypervisor. There's two choices I'm presented:
+
+1. Resign to using QEMU.
+2. Look into alternative solutions for tenancy isolation.
+
+One of the main alternatives to kata-containers is [gVisor](https://gvisor.dev/). Instead of running containers inside of a fully-fledged VM, gVisor allows you to run containers inside of a sandboxed environment without a VM. gVisor implements the Linux API: it intercepts all of the container syscalls and forwards these to the host kernel after applying various security measures. This gives you near bare-metal performance while still providing strong sandboxing of the untrusted workloads.
+
+
+### Let's talk about gVisor
+
+![](https://gvisor.dev/assets/images/gvisor-high-level-arch.png)
+
+gVisor is a paravirtualized hypervisor. It relies directly upon the host kernel to execute its tenant's application logic after passing the tenant's syscalls through its own security logic. It's not a VM in the traditional sense of the term. The [gVisor docs](https://gvisor.dev/docs/) provide a great summary of how gVisor differs from other traditional virtualization technologies.
+
+Typical VMs run like this:
+
+![](https://gvisor.dev/docs/Machine-Virtualization.png)
+
+gVisor works like this:
+
+![](https://gvisor.dev/docs/Layers.png)
+
+This model removes the need to virtualize hardware — this may not be entirely relevant due to our comparison against a PCIe-passthrough model, although the certain performance improvement should be noted anyway.
+
+#### How `ioctl` GPU commands work
+
+PCIe passthrough is not a concept in a gVisor scenario because there is no VM to pass a device through to. Instead, it uses a proxy driver in the sandbox that they call `nvproxy`. `nvproxy` intercepts `ioctl` syscalls and forwards them to the host GPU driver. Because of device pointers and file descriptors, `nvproxy` must maintain a mapping between the sandbox environment and the host environment. This means `nvproxy` must understand the Kernel Mode Driver (KMD) Application Binary Interface (ABI). By extension, this means it needs to know the layout of the `ioctl` structs:
+
+> However, the presence of pointers and file descriptors within some ioctl structs forces nvproxy to perform appropriate translations. This requires nvproxy to be aware of the KMD’s ABI, specifically the layout of ioctl structs. The challenge is compounded by the lack of ABI stability guarantees in NVIDIA’s KMD, meaning ioctl definitions can change arbitrarily between releases. While the NVIDIA installer ensures matching KMD and user-mode driver (UMD) component versions, a single gVisor version might be used with multiple NVIDIA drivers. As a result, nvproxy must understand the ABI for each supported driver version, necessitating internal versioning logic for ioctls.
+
+This is a huge business risk because it means any CaaS system we make would be intrinsically hamstrung to only work with the specific GPU devices, drivers, and platforms that gVisor's developers decide to support. This introduces unknown and possibly unbounded risk for companies who wish to support the latest devices coming out of Nvidia.
+
+At the time of writing, gVisor only supports the following devices:
+
+- T4
+- A100 and A10G
+- L4
+- H100
 
 ## Major Lessons
 
 1. Ensure your kernel is only using cgroupsv2
-2. Ensure both containerd (or whatever container runtime you're using) and the kubelet are both using the Systemd cgroup driver.
-3. Update your kernel to the latest version
-4. Update containerd to the latest version
-5. Update k8s to the latest version
+2. [Ensure both containerd (or whatever container runtime you're using) and the kubelet are both using the Systemd cgroup driver.](#cgroupv2-issue)
+3. Update your kernel to the latest version.
+4. [Update containerd to the latest version.](#overnight-problems)
+5. Update k8s to the latest version.
 6. If using kata containers, ensure `runc` is still installed for the control plane nodes.
+7. Always use helm charts if available.
+8. Nvidia GPU Operator and the k8s-device-plugin cannot be used because the hosts cannot have Nvidia drivers installed.
+9. [`kata-containers` does not support GPU PCIe passthrough in cloud-hypervisor.](#cloud-hypervisor)
