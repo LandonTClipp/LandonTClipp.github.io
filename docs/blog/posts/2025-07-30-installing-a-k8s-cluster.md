@@ -3027,6 +3027,22 @@ At the time of writing, gVisor only supports the following devices:
 - L4
 - H100
 
+## Cluster CIDR Issues
+
+I began installing the ingress-nginx controller and was running into issues with the controller's health checks. 
+
+```
+failed calling webhook "validate.nginx.ingress.kubernetes.io":
+Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/...":
+dial tcp 10.254.192.204:443: connect: no route to host
+```
+
+It turns out that I had my cluster misconfigured -- the `networking.serviceSubnet` was set to the same CIDR as the physical host's underlay network. This meant that when traffic reached the Cilium CNI, it could not route correctly. Instead of traffic being sent into the service subnet overlay, it was sent to the host networking and out into the physical switches. This caused these `no route to host` issues.
+
+You can see my mistake back in [the original `kubeadm.yaml` config](#config-schema-issue) where I had `!#yaml serviceSubnet: 10.254.192.244/24` when it should have been set to something like `!#yaml serviceSubnet: 10.96.0.0/12`. Using the default values kubeadm provides would have been sufficient.
+
+I had to destroy and rebuild the cluster with this new CIDR, after which my problems went away.
+
 ## Major Lessons
 
 1. Ensure your kernel is only using cgroupsv2
@@ -3038,3 +3054,5 @@ At the time of writing, gVisor only supports the following devices:
 7. Always use helm charts if available.
 8. Nvidia GPU Operator and the k8s-device-plugin cannot be used because the hosts cannot have Nvidia drivers installed.
 9. [`kata-containers` does not support GPU PCIe passthrough in cloud-hypervisor.](#cloud-hypervisor)
+10. [gVisor only supports a small number of GPU devices](#lets-talk-about-gvisor)
+11. Ensure your `serviceSubnet` CIDR does not overlap with the CIDR of the host itself. Best to just to use the kubeadm defaults.
