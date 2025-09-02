@@ -90,3 +90,14 @@ COMMAND   PID   USER   FD   TYPE     DEVICE SIZE/OFF NODE NAME
 python  51953 ubuntu  100u  IPv4 2717208220      0t0  TCP ml-512-node-031:33914->ml-512-node-031:58209 (ESTABLISHED)
 ```
 
+## tmux
+
+### Rebalance Sizing
+
+From the prompt (++"PREFIX"+colon++):
+
+`select-layout even-vertical` or ++"PREFIX"+alt+2++
+
+and
+
+`select-layout even-horizontal` or ++"PREFIX"+alt+1++
