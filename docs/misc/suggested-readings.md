@@ -7,6 +7,7 @@ title: Suggested Readings
 - **Charity Majors**: https://charity.wtf/
 - https://www.allthingsdistributed.com/2023/07/building-and-operating-a-pretty-big-storage-system.html
 - https://staffeng.com/
+- [Ilya Grigorik](https://ilya.grigorik.com/)
 
 ## Github History
 
