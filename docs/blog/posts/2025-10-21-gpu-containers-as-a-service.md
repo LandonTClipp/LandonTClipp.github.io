@@ -5,12 +5,17 @@ authors:
 categories:
   - System Design
   - Cloud
+draft: true
 title: GPU-based Containers as a Service
 ---
 
 This post explores how to create a Containers as a Service cloud product tailored for GPU-based workloads.
 
 ## Introduction
+
+!!! warning "Disclaimer"
+
+    The views and opinions expressed in this blog are solely my own and do not reflect the views, opinions, or positions of my employer or any organization I am affiliated with.
 
 The core directive of most cloud companies is simple: get as many customers to rent your physical hardware as possible. The way in which this hardware gets exposed to customers can be thought of as a pyramid of increasing virtualization. 
 
@@ -54,11 +59,11 @@ Let's also call out an explicit non-requirement: containers will not have access
 
 Before getting down to brass tacks, we need to design our system on a higher level. Let's assert that we have a datacenter with 100 servers each with 8 H100 SXM5 NVLink GPUs. We need a system that can accept inbound requests to run a container (perhaps with some resource requirements like the number of GPUs needed), figure out the tetris logic of where this workload can slot into the physical hardware, then deploy that workload onto the server in question. The control plane needs explicit knowledge of the state of each workload, where it's running, and what resources it's consuming. Like we alluded to before, this sounds exactly like what Kubernetes does, so let's use it!
 
-### Aside about KMDs and NVIDIA GPU Operator
+## Aside about KMDs and NVIDIA GPU Operator
 
 Recall our discussion on Kernel Mode Drivers: the host operating system itself cannot use vulnerability-prone KMDs. This means that NVIDIA drivers, which speak directly to the GPUs over PCIe, cannot be installed on the host. The guest Virtual Machine must be the one to host the Nvidia KMDs. This complicates our k8s install quite substantially because it means we cannot use the niceties of the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html) that do various useful things like announcing GPUs to Kubernetes, managing firmware versions, publishing DCGM metrics, establishing RDMA transactions etc. This means that without custom work, Kubernetes will be completely blind to the presence of these GPUs.[^3]
 
-### CDI
+## CDI Device Plugin
 
 Kubernetes has a method for exposing the presence of resources through this thing called the Container Device Interface (CDI). On a high level, the CDI itself is a feature of the kubelet running on each node in the cluster. Administrators wishing to expose hardware to the cluster must implement a process that talks to the kubelet (often which is just a Unix Domain Socket implementing gRPC), announce the name of the resource being exposed, and the number of that resource currently existing on the node. 
 
@@ -329,9 +334,286 @@ PARTITION ID  STATUS    GPUs  NVLINKS  GPU PHYSICAL IDs
 
 In my particular setup, I've isolated all the GPUs from each other which is why partitions 7-14 are activated. If I wanted a 2x instance, I'd set partitions 3-6, for 4x instances, 1-2, and for 8x instances, only partition 0.
 
+### `fabricmanager` Deployment
 
+The Service VM can be deployed in a number of different ways. When I was working with Kata containers, I naturally gravitated towards launching a Kata Container Daemonset in which I could host fabricmanager, however I learned that despite a lot of the Kata project making references to fabricmanager, it was not actually fully implemented at the time. I [worked with NVIDIA](https://github.com/NVIDIA/nvrc/pull/55) on some updates to the NVRC init system to support it, but I eventually decided to use libvirt to run the VM instead. 
+
+The VM image I used to run the fabricmanager is priorietary and closed source, but the idea is basically the same as the diagram above. The NVswitches need to be passed into the VM as normal, which means binding them to the vfio-pci kernel driver. On the HGX system I was using, one important bit that also needs to be passed into the VM, in addition to the NVSwitches themselves, is the memory controller for the NVSwitches:
+
+```
+lspci -s 0000:03:00.1 -v
+03:00.1 Memory controller: PMC-Sierra Inc. Device 4128
+        [redacted]
+        Kernel driver in use: vfio-pci
+```
+
+One other interesting thing to note is that older NVSwitch systems expose the NVSwitches as PCIe bridge devices. Newer systems expose them as ConnectX-7 Infiniband cards which is mainly in preparation for new generations of hardware like the GB200 NVL72 racks whereby the NVLink fabric exits the chassis, allowing one to connect up to 72 GB200 Superchips (or as Nvidia's marketing team would like you to call it nowadays, 148 GPUs). A marketing picture of this kind of system is shown below.
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/gb200-nvl72-rack-2-gtc24-tech-blog-1920x1080-1-1024x576.png)
+
+
+## Aside on HGX Support in Kata
+
+Nvidia supports two different classes of their superpod deployments. The first, called DGX, is hardware procured, designed, and deployed by Nvidia according to strict and rigorous standards. The second, called HGX, is a licensing agreement that server OEMs make with Nvidia that allows customer to design more customized NVSwitch-based superpod systems. Kata Containers, being a project led by Nvidia, has historically only worked with DGX systems. Minute (or even major) differences in hardware can cause real problems when you're dealing with virtualization because the physical way in which components are connected can dramatically differ. One interesting difference between Supermicro and Nvidia superpod systems is the fact that Supermicro places their NVSwitches behind a single IOMMU group:
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/Screenshot+2025-10-24+at+4.59.36%E2%80%AFPM.png)
+
+while Nvidia DGX puts them behind individual IOMMU groups.[^5] In my research, this difference proved to be difficult to reconcile in Kata due to some simple incorrect assumptions. It seems like this can be rectified, but my conversations with the Kata devs seem to indicate it would require additional development to correct. Regardless, the libvirt route seemed to work well enough for me, so this is the route you'd have to take for now.
+
+## Networking
+
+Another component that must be isolated is the network itself. By default, k8s pods can talk to each other if you have a proper Container Network Interface (CNI) plugin installed. The CNI I chose to go with is [Cilium](https://cilium.io/). Cilium works by implementing the CNI spec; when packets exit out of a container, they are intercepted by Cilium via eBPF trickery. Cilium will determine whether or not the packet is allowed to continue based on however you've configured the CiliumNetworkPolicy. For a simple use-case, the only thing we really need to configure is that cross-namespace traffic is disallowed. For example:
+
+```yaml
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  creationTimestamp: "2025-10-01T21:46:07Z"
+  generation: 1
+  name: ingress-egress-rules
+  namespace: tenant-landon
+  resourceVersion: "5457770"
+  uid: 65f501a0-d037-46f3-99cb-e585f1b7d6e8
+spec:
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: tenant-landon
+  endpointSelector: {}
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        k8s:io.kubernetes.pod.namespace: tenant-landon
+```
+
+Cilium is also nice because it has explicit awareness of Kubernetes objects like namespaces, service accounts, and any other metadata you might want to create rules off of. This is contrasted to some other CNIs that have historically only allowed IP-based rules which is brittle for various reasons.
+
+## Tenancy Controller
+
+From the perspective of the k8s cluster, it does not necessarily know ahead of time which tenancies will exist in the future. A pod can come in at any time from any customer old or new, so we must find a way to gracefully handle the case where a datacenter has not been prepared for a new tenancy. Fortunately, our simple cluster really only needs to manage two separate things:
+
+1. The Kubernetes namespaces
+2. The CiliumNetworkPolicy
+
+When a pod is submitted by a never-before-seen user to our CaaS public-facing REST API (which we haven't really discussed, but just pretend it exists for now), we need some way to attach it to a "Tenancy" resource that once ready will allow the pod to be submitted. This custom resource we need is something we can define using a Custom Resource Definition (CRD). The CRD document we post to k8s is a simple as this:
+
+```yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: tenancies.core.topofmind.dev
+spec:
+  group: core.topofmind.dev
+  names:
+    kind: Tenancy
+    listKind: TenancyList
+    plural: tenancies
+    singular: tenancy
+  scope: Cluster
+```
+
+The Tenancy resource basically only needs one parameter: the name of the tenancy. So the CaaS API Server needs to do a few basic steps:
+
+1. When the container request comes in, check to see if the `Tenancy` already exists.
+2. If the `Tenancy` resource doesn't exist, create it (or just skip step 1 and 2 and do an Upsert operation instead).
+3. Submit the pod with a dependency on this `Tenancy` being in some sort of "ready" state.
+
+The Tenant controller now needs to watch for updates to `Tenancy` resources and perform the following actions when one is created:
+
+1. Create a new namespace
+2. Create the `CiliumNetworkPolicy` that blocks inter-namespace traffic.
+3. Set the `Tenancy` state to "ready".
+
+From this point, the k8s API Server should schedule the pod onto an available node because all of the dependent resources have now been successfully created and tenancies will be properly isolated. You can extend this kind of system for more intricate setups, such as partitioning an Infiniband fabric, managing VRFs in an ethernet fabric, setting firewall rules, allocating public IPs etc.
+
+## Managing GPU Firmware
+
+An interesting problem we run into when untrusted tenancies are asked to run the kernel drivers for our GPUs is that the tenancies can theoretically flash any kind of firmware that the card itself will accept. NVIDIA has previously stated that their GPUs will only accept authentic, signature-verified firmware signed by NVIDIA, but it's simply insufficient to trust that this process will always work. It's also unclear how exactly this works, although it is almost certainly a kind of public key infrastructure (PKI) with a chain of trust. While the security concerns might be overblown, it's simply good stewardship of a cluster to ensure that your resources are as homogeneous as possible.
+
+There are at least two possible ways to handle this in k8s. We could add a finalizer to the pod submissions (this basically just tells k8s to pause garbage collection until the finalizer key is removed), create a controller that watches exited pods and runs the firmware check, have the controller delete the relevant `metadata.finalizers` key, and then allow k8s to fully delete the pod. Another method is to create a CRD that represents a GPU lease. In this scenario, a GPU lease will be granted before a specific job has been run but after it has been scheduled. The GPU lease controller will watch for leases that have a pod in some completed state, schedule a firmware check, then remove the lease (which may trigger its own post-lease finalizers) or transition the lease back to some `Free` state. The GPU CDI device plugin would need explicit awareness of leases so that it does not hand out a GPU that still has an active lease on it.
+
+Both of these methods are functionally similar, but a GPU Lease, which may be cluster-scoped instead of namespace-scoped (as in the finalizer idea) are more robust from a security standpoint (because the tenant does not own it) and more flexible as it allows us to create more a comprehensive and flexible state machine.
+
+## Putting the Pieces Together
+
+We've talked a lot about all the individual components, but let's put them together into a cohesive story.
+
+```mermaid
+flowchart TD
+    ExternalUser
+
+    subgraph ControlPlane
+        TenancyController
+        GPULeaseController
+        k8sAPIServer
+        CaaSAPIServer
+        
+        CaaSAPIServer -- 2\. Create New Tenancy --> k8sAPIServer
+        CaaSAPIServer -- 3\. Create Pod --> k8sAPIServer
+        TenancyController -- 4\. Create Namespace --> k8sAPIServer
+        TenancyController -- 5\. Create NetworkPolicy --> k8sAPIServer
+
+    end
+
+    ExternalUser -- 1\. Submits Pod --> CaaSAPIServer
+
+    subgraph GPUHost
+        NVSwitches
+        Kubelet
+        GPUs
+        KataShim
+        Containerd
+        Cilium
+        HostNetworking
+        VarRunCDI[nvidia.com_gpus.json]
+
+        subgraph ServiceVM [Service VM - QEMU]
+            nv-fabricmanager
+            fm-controller
+            
+            fm-controller --> nv-fabricmanager
+        end
+        nv-fabricmanager --> NVSwitches
+
+        subgraph Daemonset
+            CDI[CDI Device Plugin]
+        end
+
+        subgraph KataVM[Kata VM]
+            KataAgent
+            runc
+            containerProcess
+
+            KataAgent --> runc
+            runc --> containerProcess
+            
+        end
+        CDI -- Announces GPUs to --> Kubelet
+        CDI -- Writes --> VarRunCDI
+
+        Kubelet -- Create Pod --> Containerd
+        Containerd -- Calls --> KataShim
+        Containerd -- Reads --> VarRunCDI
+        KataShim -- Creates --> KataVM
+        KataShim -- Talks to --> KataAgent
+
+        containerProcess --> GPUs
+        NVSwitches <--> GPUs
+        Kubelet --> k8sAPIServer
+        CDI --> GPUs
+        HostNetworking <--> Cilium
+        Cilium <-- Enforce Network Rules --> KataVM
+    end
+```
+
+I tried my best to resist the temptation of being overly pedantic when creating that diagram, and somehow I feel that I still failed. Regardless, this provides a high-level overview of all the relevant components needed to make this system work. And work it does! I submitted the following self-explanatory payload to my CaaS API Server:
+
+```json
+{
+  "container-url": "nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0-ubi8",
+  "tenancy": "landon"
+}
+```
+
+The container is a sample CUDA workload that NVIDIA publishes [here](https://catalog.ngc.nvidia.com/orgs/nvidia/teams/k8s/containers/cuda-sample?version=vectoradd-cuda12.5.0-ubi8). 
+
+```
+Starting...
+
+ CUDA Device Query (Runtime API) version (CUDART static linking)
+
+Detected 1 CUDA Capable device(s)
+
+Device 0: "NVIDIA H100 80GB HBM3"
+  CUDA Driver Version / Runtime Version          13.0 / 12.5
+  CUDA Capability Major/Minor version number:    9.0
+  Total amount of global memory:                 81079 MBytes (85017755648 bytes)
+  (132) Multiprocessors, (128) CUDA Cores/MP:    16896 CUDA Cores
+  GPU Max Clock rate:                            1980 MHz (1.98 GHz)
+  Memory Clock rate:                             2619 Mhz
+  Memory Bus Width:                              5120-bit
+  L2 Cache Size:                                 52428800 bytes
+  Maximum Texture Dimension Size (x,y,z)         1D=(131072), 2D=(131072, 65536), 3D=(16384, 16384, 16384)
+  Maximum Layered 1D Texture Size, (num) layers  1D=(32768), 2048 layers
+  Maximum Layered 2D Texture Size, (num) layers  2D=(32768, 32768), 2048 layers
+  Total amount of constant memory:               65536 bytes
+  Total amount of shared memory per block:       49152 bytes
+  Total shared memory per multiprocessor:        233472 bytes
+  Total number of registers available per block: 65536
+  Warp size:                                     32
+  Maximum number of threads per multiprocessor:  2048
+  Maximum number of threads per block:           1024
+  Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
+  Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)
+  Maximum memory pitch:                          2147483647 bytes
+  Texture alignment:                             512 bytes
+  Concurrent copy and kernel execution:          Yes with 3 copy engine(s)
+  Run time limit on kernels:                     No
+  Integrated GPU sharing Host Memory:            No
+  Support host page-locked memory mapping:       Yes
+  Alignment requirement for Surfaces:            Yes
+  Device has ECC support:                        Enabled
+  Device supports Unified Addressing (UVA):      Yes
+  Device supports Managed Memory:                Yes
+  Device supports Compute Preemption:            Yes
+  Supports Cooperative Kernel Launch:            Yes
+  Supports MultiDevice Co-op Kernel Launch:      Yes
+  Device PCI Domain ID / Bus ID / location ID:   0 / 2 / 0
+  Compute Mode:
+     < Default (multiple host threads can use ::cudaSetDevice() with device simultaneously) >
+
+deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 13.0, CUDA Runtime Version = 12.5, NumDevs = 1
+Result = PASS
+```
+
+And a short GPU Burn:
+
+```
+==========
+== CUDA ==
+==========
+
+CUDA Version 13.0.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-c6b0ca29-53c0-326e-8aaa-cfa1653e18d1)
+Using compare file: compare.ptx
+Burning for 120 seconds.
+
+100.0%  proc'd: 5600 (51402 Gflop/s)   errors: 0   temps: 56 C
+
+Killing processes with SIGTERM (soft kill)
+Using compare file: compare.ptx
+Burning for 120 seconds.
+Initialized device 0 with 81079 MB of memory (80484 MB available, using 72436 MB of it), using FLOATS
+Results are 268435456 bytes each, thus performing 280 iterations
+Freed memory for dev 0
+Uninitted cublas
+done
+
+Tested 1 GPUs:
+        GPU 0: OK
+```
+
+Success! 
+
+## Multi-GPU Containers
+
+The setup I've created allows the user to specify how many GPUs they want their container to have access to between the values 1 and 8 inclusive. In my testing, I found that attempting to spawn multi-GPU Kata VMs was very difficult. A single-GPU VM on my system took about 2 minutes to spawn, most of that time seemingly spent on various bookkeeping steps after the GPU is ACPI hot-plugged, things like PCIe enumeration, device BAR mapping, NVIDIA driver initialization. These are the same concerns I [noted above](#kata-containers). I found that attempting to mount 8 GPUs was so slow in fact that Kubernetes eventually determined that the pod launch failed, eventually killing the VM and causing it to get into a crash loop. After aggressively increasing the various timeouts involved with pod launches, I found the VMs took around 30 minutes in the 8 GPU case. I brought this up to the Kata maintainers and they seemed surprised, noting that their launches took far less time.
+
+Some sleuthing suggests that a lot of this performance issue comes from the way the hypervisor maps the guest-physical memory addresses to host-physical memory addresses. These mappings appear to happen in 4 KiB chunks, which of course would turn into a huge number of mappings that need to be created for just a single GPU. This is an area of further investigation.
 
 [^1]: In fact, this is why OCI containers intrinsically rely on the Linux kernel because all of these features are _Linux_ features, and is why containers running in MacOS or Windows require a Linux Virtual Machine. That's not to say there couldn't be a runtime that works in MacOS and Windows natively, but it would require exact feature parity and also risks containers behaving differently on different OSs, which is bad.
 [^2]: The two interesting competitors here are gVisor and Kata Containers.
 [^3]: Technically speaking, NVIDIA does provide a way to run sandboxed workloads using [Kata containers](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-operator-kata.html), but in the author's experience, this path is extremely fraught with pitfalls, bugs, and in general seems to be poorly supported. They even call this out that using GPU Operator with sandboxed workloads is explicitly a "Technology Preview" and is not fully supported. 
 [^4]: This does not get exposed as a bind mount, but rather as a new device node created with `mknod`.
+[^5]: The exact logic the Linux kernel uses to determine IOMMU groups is slightly mysterious to me, but from my understanding it is based on whether or not the kernel believes that PCIe endpoints could communicate directly with each other without reaching out to the root complex (called Peer-to-Peer or P2P connection). You can see that the NVSwitches sit behind a common bridge at a certain level (`0000:04`).

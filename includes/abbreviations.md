@@ -26,4 +26,7 @@
 *[TA]: Translation agent
 *[TLB]: Translation Lookaside Buffer
 *[TORQUE]: Terascale Open-source Resource and Queue Manager
+*[VPC]: Virtual Private Cloud
+*[VRF]: Virtual Routing Function
+*[VRFs]: Virtual Routing Function
 *[VRRP]: Virtual Router Redundancy Protocol
