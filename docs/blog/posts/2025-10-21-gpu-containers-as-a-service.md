@@ -6,9 +6,15 @@ categories:
   - System Design
   - Cloud
 title: GPU-based Containers as a Service
+description: Designing a multi-tenant, GPU-based Kubernetes Cluster
 ---
 
-This post explores how to create a Containers as a Service cloud product tailored for GPU-based workloads.
+# NVIDIA HGX Containers as a Service
+
+
+This post explores how to create a multi-tenant Containers as a Service Kubernetes platform tailored for GPU-based workloads.
+
+<!-- more -->
 
 ## Introduction
 
@@ -17,8 +23,6 @@ This post explores how to create a Containers as a Service cloud product tailore
     The views and opinions expressed in this blog are solely my own and do not reflect the views, opinions, or positions of my employer or any organization I am affiliated with.
 
 The core directive of most cloud companies is simple: get as many customers to rent your physical hardware as possible. The way in which this hardware gets exposed to customers can be thought of as a pyramid of increasing virtualization. 
-
-<!-- more -->
 
 This pyramid looks something like this:
 
@@ -263,6 +267,31 @@ One of the main ways to speed up VM boot processes, besides PCIe enumeration con
 2. Configuring syslog.
 3. Interacting with devices on PCIe.
 4. Managing system users.
+
+### What about gVisor?
+
+[gVisor](https://gvisor.dev/) is one of the closest competitors to Kata Containers, and its implementation is really interesting. Instead of creating a virtualized kernel, gVisor instead runs the container process on the host kernel while _intercepting_ all system calls the process makes. Most of the syscalls are served directly by gVisor, and the ones it can't will be handed off to the host kernel. In this way, gVisor acts as a sort of pseudo-virtual kernel. It's not a VM, it's not purely a syscall filter, nor is it an enhanced `runc`. It's something entirely different.
+
+![](https://gvisor.dev/docs/architecture_guide/intro/isolation_with_gvisor.svg)
+
+While this implementation is compelling, gVisor has a major flaw. Let's look at the quote in their [documentation](https://gvisor.dev/docs/user_guide/gpu/) for GPU support:
+
+> gVisor supports a wide range of CUDA workloads, including PyTorch and various generative models like LLMs. Check out this blog post about running Stable Diffusion with gVisor. gVisor also supports Vulkan and NVENC/NVDEC workloads. gVisor undergoes continuous tests to ensure this functionality remains robust. Real-world usage of gVisor across different GPU workloads helps discover and address potential compatibility or performance issues in nvproxy.
+
+> nvproxy is a passthrough driver that forwards ioctl(2) calls made to NVIDIA devices by the containerized application directly to the host NVIDIA driver. This forwarding is straightforward: ioctl parameters are copied from the application’s address space to the sentry’s address space, and then a host ioctl syscall is made. ioctls are passed through with minimal intervention; nvproxy does not emulate NVIDIA kernel-mode driver (KMD) logic. This design translates to minimal overhead for GPU operations, ensuring that GPU bound workloads experience negligible performance impact.
+
+> However, the presence of pointers and file descriptors within some ioctl structs forces nvproxy to perform appropriate translations. This requires nvproxy to be aware of the KMD’s ABI, specifically the layout of ioctl structs. The challenge is compounded by the lack of ABI stability guarantees in NVIDIA’s KMD, meaning ioctl definitions can change arbitrarily between releases. While the NVIDIA installer ensures matching KMD and user-mode driver (UMD) component versions, a single gVisor version might be used with multiple NVIDIA drivers. As a result, nvproxy must understand the ABI for each supported driver version, necessitating internal versioning logic for ioctls.
+
+> As a result, nvproxy has the following limitations:
+
+> - Supports selected GPU models.  
+  - Supports selected NVIDIA driver versions.  
+  - Supports selected NVIDIA driver capabilities.  
+  - Supports selected NVIDIA device files.  
+  - Supports selected ioctls on each device file.  
+  - Supports selected platforms.  
+
+The TL;DR of it is that gVisor intercepts `ioctl` syscalls bound for the GPUs and performs a series of memory translations from the container's memory space to the kernel memory space due to the presence of file descriptors and pointers used in the struct passed to `ioctl`. Consequently, it needs explicit understanding of the NVIDIA driver ABI; simply copying the struct is not sufficient. The NVIDIA ABI is not stable across versions, which means that gVisor must updated with new struct definitions every time a new driver is released. This is a serious flaw, as it means support for newer generations of hardware is going to be gated behind gVisor's development team deciding when and where they want to support things. That is systemically dangerous as it hamstrings you behind whatever business decisions gVisor (and by extension Google itself) makes. Kata's approach of using the KMDs published by NVIDIA directly will never have this problem because NVIDIA will never release hardware without the appropriate drivers.
 
 ## NVLink Isolation
 
@@ -610,31 +639,6 @@ Success!
 The setup I've created allows the user to specify how many GPUs they want their container to have access to between the values 1 and 8 inclusive. In my testing, I found that attempting to spawn multi-GPU Kata VMs was very difficult. A single-GPU VM on my system took about 2 minutes to spawn, most of that time seemingly spent on various bookkeeping steps after the GPU is ACPI hot-plugged, things like PCIe enumeration, device BAR mapping, NVIDIA driver initialization. These are the same concerns I [noted above](#kata-containers). I found that attempting to mount 8 GPUs was so slow in fact that Kubernetes eventually determined that the pod launch failed, eventually killing the VM and causing it to get into a crash loop. After aggressively increasing the various timeouts involved with pod launches, I found the VMs took around 30 minutes in the 8 GPU case. I brought this up to the Kata maintainers and they seemed surprised, noting that their launches took far less time.
 
 Some sleuthing suggests that a lot of this performance issue comes from the way the hypervisor maps the guest-physical memory addresses to host-physical memory addresses. These mappings appear to happen in 4 KiB chunks, which of course would turn into a huge number of mappings that need to be created for just a single GPU. This is an area of further investigation.
-
-## What about gVisor?
-
-[gVisor](https://gvisor.dev/) is one of the closest competitors to Kata Containers, and its implementation is really interesting. Instead of creating a virtualized kernel, gVisor instead runs the container process on the host kernel while _intercepting_ all system calls the process makes. Most of the syscalls are served directly by gVisor, and the ones it can't will be handed off to the host kernel. In this way, gVisor acts as a sort of pseudo-virtual kernel. It's not a VM, it's not purely a syscall filter, nor is it an enhanced `runc`. It's something entirely different.
-
-![](https://gvisor.dev/docs/architecture_guide/intro/isolation_with_gvisor.svg)
-
-While this implementation is compelling, gVisor has a major flaw. Let's look at the quote in their [documentation](https://gvisor.dev/docs/user_guide/gpu/) for GPU support:
-
-> gVisor supports a wide range of CUDA workloads, including PyTorch and various generative models like LLMs. Check out this blog post about running Stable Diffusion with gVisor. gVisor also supports Vulkan and NVENC/NVDEC workloads. gVisor undergoes continuous tests to ensure this functionality remains robust. Real-world usage of gVisor across different GPU workloads helps discover and address potential compatibility or performance issues in nvproxy.
-
-> nvproxy is a passthrough driver that forwards ioctl(2) calls made to NVIDIA devices by the containerized application directly to the host NVIDIA driver. This forwarding is straightforward: ioctl parameters are copied from the application’s address space to the sentry’s address space, and then a host ioctl syscall is made. ioctls are passed through with minimal intervention; nvproxy does not emulate NVIDIA kernel-mode driver (KMD) logic. This design translates to minimal overhead for GPU operations, ensuring that GPU bound workloads experience negligible performance impact.
-
-> However, the presence of pointers and file descriptors within some ioctl structs forces nvproxy to perform appropriate translations. This requires nvproxy to be aware of the KMD’s ABI, specifically the layout of ioctl structs. The challenge is compounded by the lack of ABI stability guarantees in NVIDIA’s KMD, meaning ioctl definitions can change arbitrarily between releases. While the NVIDIA installer ensures matching KMD and user-mode driver (UMD) component versions, a single gVisor version might be used with multiple NVIDIA drivers. As a result, nvproxy must understand the ABI for each supported driver version, necessitating internal versioning logic for ioctls.
-
-> As a result, nvproxy has the following limitations:
-
-> - Supports selected GPU models.  
-  - Supports selected NVIDIA driver versions.  
-  - Supports selected NVIDIA driver capabilities.  
-  - Supports selected NVIDIA device files.  
-  - Supports selected ioctls on each device file.  
-  - Supports selected platforms.  
-
-The TL;DR of it is that gVisor intercepts `ioctl` syscalls bound for the GPUs and performs a series of memory translations from the container's memory space to the kernel memory space due to the presence of file descriptors and pointers used in the struct passed to `ioctl`. Consequently, it needs explicit understanding of the NVIDIA driver ABI; simply copying the struct is not sufficient. The NVIDIA ABI is not stable across versions, which means that gVisor must updated with new struct definitions every time a new driver is released. This is a serious flaw, as it means support for newer generations of hardware is going to be gated behind gVisor's development team deciding when and where they want to support things. That is systemically dangerous as it hamstrings you behind whatever business decisions gVisor (and by extension Google itself) makes. Kata's approach of using the KMDs published by NVIDIA directly will never have this problem because NVIDIA will never release hardware without the appropriate drivers.
 
 ## My Impressions
 
