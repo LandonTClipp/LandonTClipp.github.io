@@ -375,7 +375,7 @@ lspci -s 0000:03:00.1 -v
         Kernel driver in use: vfio-pci
 ```
 
-One other interesting thing to note is that older NVSwitch systems expose the NVSwitches as PCIe bridge devices. Newer systems expose them as ConnectX-7 Infiniband cards which is mainly in preparation for new generations of hardware like the GB200 NVL72 racks whereby the NVLink fabric exits the chassis, allowing one to connect up to 72 GB200 Superchips (or as Nvidia's marketing team would like you to call it nowadays, 148 GPUs). A marketing picture of this kind of system is shown below.
+One other interesting thing to note is that older NVSwitch systems expose the NVSwitches as PCIe bridge devices. Newer systems expose them as ConnectX-7 Infiniband cards which is mainly in preparation for new generations of hardware like the GB200 NVL72 racks whereby the NVLink fabric exits the chassis, allowing one to connect up to 72 GB200 Superchips (or as Nvidia's marketing team would like you to call it nowadays, 144 GPUs). A marketing picture of this kind of system is shown below.
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/gb200-nvl72-rack-2-gtc24-tech-blog-1920x1080-1-1024x576.png)
 
