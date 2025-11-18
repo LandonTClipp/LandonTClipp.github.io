@@ -28,7 +28,7 @@ This pyramid looks something like this:
 
 1. Bare metal clusters in a private, single-tenant network.
 2. Bare metal clusters in a shared, multi-tenant network.
-3. Virtual machines via a VMM like QEMU, cloud-hypervisor, firecracker etc.
+3. Virtual machines via a VMM like QEMU, cloud-hypervisor, Firecracker etc.
 4. Containers as a Service
 5. Functions as a Service
 
@@ -42,7 +42,7 @@ When you look at a company like AWS, most of these layers have specific product 
 
 The last two in this list are interesting cases of what's called a "serverless" infrastructure. Instead of your customer getting access to an entire host operating system, whether that be through a bare-metal OS or a virtualized one, they provide only the _container_ or the _code itself_ to run. The customer does not care to manage OS versions, they don't want to wrangle systemd, they don't care _how_ it gets run, only that it does get run somewhere. "Serverless" of course is a bit of a misnomer because the container or the function still has to run on a server somewhere, but the cloud company itself is the one that manages the complexity of managing the lifecycle of these compute resources in a transparent way.
 
-A Containers as a Service (CaaS) product, as with all cloud products, needs to be concerned about how to properly isolate tenancies. Historically speaking, a "container" refers to an OCI-compliant "image" that packages an executable, a rootFS, and any software dependencies the executable runs. This executable is run as a normal process on the host kernel with various security gates around it, such as cgroups, network namespaces, filesystem mount namespaces (similar in a way to a chroot), PID namespaces, etc. that all serve to isolate this process from others.[^1] This is a pretty good level of isolation for some use-cases, but astute readers may notice that there is a huge vector of attack: the kernel itself. The Linux kernel has been known to have major security vulnerabilities, some of which have allowed [container escapes](https://www.aquasec.com/blog/new-linux-kernel-vulnerability-escaping-containers-by-abusing-cgroups/). Of course the kernel doesn't comprise of just the kernel itself, but also all kernel-mode drivers (KMD) that is either part of mainline linux or loaded as third-party kernel modules. Any of these drivers and modules can be vectors for abuse, so therefore they cannot be used to handle multiple different tenancies.
+A Containers as a Service (CaaS) product, as with all cloud products, needs to be concerned about how to properly isolate tenancies. Historically speaking, a "container" refers to an OCI-compliant "image" that packages an executable, a rootFS, and any software dependencies the executable runs. This executable is run as a normal process on the host kernel with various security gates around it, such as cgroups, network namespaces, filesystem mount namespaces (similar in a way to a chroot), PID namespaces, etc. that all serve to isolate this process from others.[^1] This is a pretty good level of isolation for some use-cases, but astute readers may notice that there is a huge vector of attack: the kernel itself. The Linux kernel has been known to have major security vulnerabilities, some of which have allowed [container escapes](https://www.aquasec.com/blog/new-linux-kernel-vulnerability-escaping-containers-by-abusing-cgroups/). Of course the kernel doesn't comprise of just the kernel itself, but also all kernel-mode drivers (KMD) that are either part of mainline linux or loaded as third-party kernel modules. Any of these drivers and modules can be vectors for abuse, so therefore they cannot be used to handle multiple different tenancies.
 
 If you don't want to share tenancies, what do you do? Well, each tenancy runs in its own VM of course. From the context of a CaaS product, there are a few different ways you can run containers inside of VMs. You can create a bespoke control plane that accepts a container, spins up a VM on a host, and runs that container inside of the VM (that kinda sounds like k8s doesn't it?). You could rely on one of the various OCI container runtimes that virtualize a kernel for the container process to use.[^2] If you don't like reinventing the wheel, you can use a combination of open-source projects like Kubernetes for your control plane and Kata containers for your container runtime.
 
@@ -251,7 +251,7 @@ We see the `devices` that containerd added to the spec:
 
 ### Kata Containers
 
-[Kata Containers](https://katacontainers.io/) is a project backed by NVIDIA that runs OCI containers inside of a MicroVM. Whe containerd calls out to the Kata shim `/opt/kata/bin/containerd-shim-kata-v2`, the shim performs these steps:
+[Kata Containers](https://katacontainers.io/) is a project backed by NVIDIA that runs OCI containers inside of a MicroVM. When containerd calls out to the Kata shim `/opt/kata/bin/containerd-shim-kata-v2`, the shim performs these steps:
 
 1. Boot up a QEMU VM with a pre-defined VM image.
 2. Create a VSOCK port for that VM.
@@ -295,7 +295,7 @@ The TL;DR of it is that gVisor intercepts `ioctl` syscalls bound for the GPUs an
 
 ## NVLink Isolation
 
-One of the core components of NVIDIA DGX or HGX systems is the presence of an all-to-all GPU interconnect called NVLink. NVLink is a high-performance bus, resident on the sever motherboard itself, that is entirely separate and distinct from the PCIe bus.  
+One of the core components of NVIDIA DGX or HGX systems is the presence of an all-to-all GPU interconnect called NVLink. NVLink is a high-performance bus, resident on the server motherboard itself, that is entirely separate and distinct from the PCIe bus.  
 
 ![NVLink Fabric Diagram](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/nvidia-nvswitch-topology-two.jpg)
 
@@ -366,7 +366,7 @@ In my particular setup, I've isolated all the GPUs from each other which is why 
 
 The Service VM can be deployed in a number of different ways. When I was working with Kata containers, I naturally gravitated towards launching a Kata Container Daemonset in which I could host fabricmanager, however I learned that despite a lot of the Kata project making references to fabricmanager, it was not actually fully implemented at the time. I [worked with NVIDIA](https://github.com/NVIDIA/nvrc/pull/55) on some updates to the NVRC init system to support it, but I eventually decided to use libvirt to run the VM instead. 
 
-The VM image I used to run the fabricmanager is priorietary and closed source, but the idea is basically the same as the diagram above. The NVswitches need to be passed into the VM as normal, which means binding them to the vfio-pci kernel driver. On the HGX system I was using, one important bit that also needs to be passed into the VM, in addition to the NVSwitches themselves, is the memory controller for the NVSwitches:
+The VM image I used to run the fabricmanager is proprietary and closed source, but the idea is basically the same as the diagram above. The NVswitches need to be passed into the VM as normal, which means binding them to the vfio-pci kernel driver. On the HGX system I was using, one important bit that also needs to be passed into the VM, in addition to the NVSwitches themselves, is the memory controller for the NVSwitches:
 
 ```
 lspci -s 0000:03:00.1 -v
@@ -382,7 +382,7 @@ One other interesting thing to note is that older NVSwitch systems expose the NV
 
 ## Aside on HGX Support in Kata
 
-Nvidia supports two different classes of their superpod deployments. The first, called DGX, is hardware procured, designed, and deployed by Nvidia according to strict and rigorous standards. The second, called HGX, is a licensing agreement that server OEMs make with Nvidia that allows customer to design more customized NVSwitch-based superpod systems. Kata Containers, being a project led by Nvidia, has historically only worked with DGX systems. Minute (or even major) differences in hardware can cause real problems when you're dealing with virtualization because the physical way in which components are connected can dramatically differ. One interesting difference between Supermicro and Nvidia superpod systems is the fact that Supermicro places their NVSwitches behind a single IOMMU group:
+Nvidia supports two different classes of their superpod deployments. The first, called DGX, is hardware procured, designed, and deployed by Nvidia according to strict and rigorous standards. The second, called HGX, is a licensing agreement that server OEMs make with Nvidia that allows customer to design more customized NVSwitch-based superpod systems. Kata Containers, being a project led by Nvidia, has historically only worked with DGX systems. Minor (or even major) differences in hardware can cause real problems when you're dealing with virtualization because the physical way in which components are connected can dramatically differ. One interesting difference between Supermicro and Nvidia superpod systems is the fact that Supermicro places their NVSwitches behind a single IOMMU group:
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/Screenshot+2025-10-24+at+4.59.36%E2%80%AFPM.png)
 
@@ -644,7 +644,7 @@ Some sleuthing suggests that a lot of this performance issue comes from the way 
 
 Broadening our scope of thinking beyond just "how do I build GPU CaaS", we ask ourselves "why build GPU CaaS"? There is a ton of complexity being introduced when we involve virtualization which means the maintenance burden is higher than a bare-metal deployment. It will also be true that Kata support for newer generations of hardware will always lag by some amount regardless of how diligent its developers are, especially considering the fact that there are multiple manufacturers of these HGX systems whose hardware differences must all be accounted for.
 
-After using Kata for a number of months, my general impression of it is that its support for GPU workloads is still young. It works well in the full-passthrough model, and especially so on systems without an NVLink fabric (because the complexities involved in the fabricmanager disappear), but more complex superpod systems like ones with NVLink fabrics were more difficult to do correctly. This is not a fault of the talented people working on the project. Instead, it's a timing problem. Kata only started to support GPU passthrough about a year ago, so it hasn't had enough time to thoroughly iron out all of the creases that arise with every permutation of hardware. The Kata developers are making rapid progress however, so I have no doubt that a lot of these issues will resolve themselves.
+After using Kata for a number of months, my general impression of it is that its support for GPU workloads is still young. It works well in the full-passthrough model, and especially so on systems without an NVLink fabric (because the complexities involved in the fabricmanager disappear), but more complex superpod systems like ones with NVLink fabrics were more difficult to do correctly. This is not a fault of the talented people working on the project. Instead, it's a timing problem. Kata only started supporting GPU passthrough about a year ago, so it hasn't had enough time to thoroughly iron out all of the creases that arise with every permutation of hardware. The Kata developers are making rapid progress however, so I have no doubt that a lot of these issues will resolve themselves.
 
 The industry in general tends to favor large, monolithic, single-tenancy deployments for the latest generations of hardware. This is especially evident when you look at companies like Coreweave who are almost completely disinterested in servicing contracts less than a billion dollars. CaaS's place in the world seems to neatly fit into non-bleeding-edge generations of hardware. It's a recycling mechanism for businesses needing to continue to extract profits out of old hardware.
 
