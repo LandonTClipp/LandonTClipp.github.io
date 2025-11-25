@@ -1333,7 +1333,7 @@ This post didn't have an exact agenda other than to prove to the world that Kata
 
 The other big takeaway is that there is still work to be done in this field, mainly surrounding Linux's inability to take advantage of Intel's VT-d hugepage capability. Linux is hard-coded to use only 4KiB pages to program the Intel IOMMU when VT-d additionally supports 4KiB and 1GiB. Solving this can shave an additional ~30 seconds off of our boot time. I'm not sure how feasible it is to solve this specific problem, but it seemed to me like a glaring issue.
 
-[Jason Gunthorpe](https://www.linkedin.com/in/jason-gunthorpe-5b154394/) et al specifically have been doing incredible work in this domain. Their talks on IOMMUFD are really interesting and I recommend giving those videos below a watch.
+[Jason Gunthorpe](https://www.linkedin.com/in/jason-gunthorpe-5b154394/) et al specifically have been doing incredible work in this domain. Jason's talks on IOMMUFD are really interesting and I recommend giving those videos below a watch.
 
 ## References
 
