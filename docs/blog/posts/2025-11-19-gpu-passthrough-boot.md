@@ -1331,9 +1331,13 @@ This post didn't have an exact agenda other than to prove to the world that Kata
 1. Use the latest Linux kernel version you can.
 2. Use hugepages.
 
-The other big takeaway is that there is still work to be done in this field, mainly surrounding Linux's inability to take advantage of Intel's VT-d hugepage capability. Linux is hard-coded to use only 4KiB pages to program the Intel IOMMU when VT-d additionally supports 4KiB and 1GiB. Solving this can shave an additional ~30 seconds off of our boot time. I'm not sure how feasible it is to solve this specific problem, but it seemed to me like a glaring issue.
+The other big takeaway is that there is still work to be done in this field, mainly surrounding Linux's inability to take advantage of Intel's VT-d hugepage capability. Linux appears to be hard-coded to use only 4KiB pages to program the Intel IOMMU when VT-d additionally supports 4KiB and 1GiB. Solving this can shave an additional ~30 seconds off of our boot time. I'm not sure how feasible it is to solve this specific problem, but it seemed to me like a glaring issue.
 
 [Jason Gunthorpe](https://www.linkedin.com/in/jason-gunthorpe-5b154394/) et al specifically have been doing incredible work in this domain. Jason's talks on IOMMUFD are really interesting and I recommend giving those videos below a watch.
+
+!!! warning
+
+    There are almost certainly issues with conclusions I've made, or errors in my reasoning. There are only a select few people in the world who _actually_ know what they're talking about regarding IOMMUs, and I'm not one of them! If you find anything incorrect in this post, please feel free to leave a comment below.
 
 ## References
 
