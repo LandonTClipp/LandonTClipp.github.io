@@ -165,7 +165,7 @@ What can we gather here? Well, the PCIe endpoints representing the GPUs show up 
     },
 ```
 
-What the agent is telling us is that, for whatever reason, the Kata containerd shim has not yet sent us this spec, so the agent doesn't yet know which edits it needs to make to the container to properly expose the GPU to the process. In fact, look at how long it waits!
+What the agent is telling us is that, for whatever reason, the CDI spec has not shown up in the guest's `/var/run/cdi` directory (which is supposedly populated by the nvidia-ctk toolkit, called from the NVRC init system), so the agent doesn't yet know which edits it needs to make to the container to properly expose the GPU to the process. In fact, look at how long it waits!
 
 ```
 $ grep 'waiting for CDI spec' vmconsole.txt 
