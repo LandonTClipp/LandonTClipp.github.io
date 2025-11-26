@@ -165,7 +165,7 @@ What can we gather here? Well, the PCIe endpoints representing the GPUs show up 
     },
 ```
 
-What the agent is telling us is that, for whatever reason, the CDI spec has not shown up in the guest's `/var/run/cdi` directory (which is supposedly populated by the nvidia-ctk toolkit, called from the NVRC init system), so the agent doesn't yet know which edits it needs to make to the container to properly expose the GPU to the process. In fact, look at how long it waits!
+What the agent is telling us is that, for whatever reason, the CDI spec has not shown up in the guest's `/var/run/cdi` directory (which is populated by the nvidia-ctk toolkit, called from the NVRC init system), so the agent doesn't yet know which edits it needs to make to the container to properly expose the GPU to the process. In fact, look at how long it waits!
 
 ```
 $ grep 'waiting for CDI spec' vmconsole.txt 
@@ -204,7 +204,7 @@ It also spends an additional 13 seconds handling some kind of bug:
 [   48.518811] NVRM: gpuClearFbhubPoisonIntrForBug2924523_GA100: FBHUB Interrupt detected. Clearing it.
 ```
 
-
+The time spent waiting for `nvidia-ctk` to create the CDI file could also be the fault of the NVIDIA driver itself. What's obvious is that cold starts of GPUs take a long time, and utilizing alternative technologies like NVIDIA vGPU (whereby the kernel driver is always loaded either on the host or in a sibling VM like what [edera.dev](edera.dev) does.
 
 ## Using `bpftrace` to Time DMA Mappings
 
@@ -1320,7 +1320,7 @@ static int pfn_reader_user_pin(struct pfn_reader_user *user,
 
 I attempted to use bpftrace to watch the IOMMUFD code in action, but I wasn't able to find the exact code path it was taking and thus couldn't perform any timing analysis. So, you'll have to trust me that Kata does indeed understand that we're using IOMMUFD handles to these devices (which I did confirm) and that the GPUs aren't being placed through the legacy VFIO IOMMU backend anymore.
 
-Regardless, the only conclusion that can be made (without me painfully having to downgrade my kernel back to v5 to definitely prove it, which I really don't want to do) was that it was the _kernel upgrade_, not IOMMUFD itself, that fixed the performance issue. Whatever performance benefits we get from IOMMUFD are not significant enough to rise above the noise floor and dramatically affect the overall boot time. I'm nonetheless excited to see what's in store from us when QEMU begins to use dmabuf as noted by Jason Gunthorpe.
+Regardless, the only conclusion that can be made (without me painfully having to downgrade my kernel back to v5 to definitely prove it, which I really don't want to do) was that it was the _kernel upgrade_, not IOMMUFD itself, that fixed the performance issue. Whatever performance benefits we get from IOMMUFD are not significant enough to rise above the noise floor and dramatically affect the overall boot time.
 
 It's an exercise left to the reader to figure out which commit seems to have fixed the page faulting issue we seem to be circling around in Linux v5.
 
