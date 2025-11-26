@@ -1330,6 +1330,7 @@ This post didn't have an exact agenda other than to prove to the world that Kata
 
 1. Use the latest Linux kernel version you can.
 2. Use hugepages.
+3. Use a kernel with 64KiB pages instead of 4KiB.
 
 The other big takeaway is that there is still work to be done in this field, mainly surrounding Linux's inability to take advantage of Intel's VT-d hugepage capability. Linux appears to be hard-coded to use only 4KiB pages to program the Intel IOMMU when VT-d additionally supports 4KiB and 1GiB. Solving this can shave an additional ~30 seconds off of our boot time. I'm not sure how feasible it is to solve this specific problem, but it seemed to me like a glaring issue.
 
