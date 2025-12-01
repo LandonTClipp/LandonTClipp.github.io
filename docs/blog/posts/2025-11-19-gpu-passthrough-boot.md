@@ -1318,11 +1318,11 @@ static int pfn_reader_user_pin(struct pfn_reader_user *user,
 			       unsigned long last_index)
 ```
 
-I attempted to use bpftrace to watch the IOMMUFD code in action, but I wasn't able to find the exact code path it was taking and thus couldn't perform any timing analysis. So, you'll have to trust me that Kata does indeed understand that we're using IOMMUFD handles to these devices (which I did confirm) and that the GPUs aren't being placed through the legacy VFIO IOMMU backend anymore.
+I attempted to use bpftrace to watch the IOMMUFD code in action, but I wasn't able to find the exact code path it was taking and thus couldn't perform any timing analysis. 
 
-Regardless, the only conclusion that can be made (without me painfully having to downgrade my kernel back to v5 to definitely prove it, which I really don't want to do) was that it was the _kernel upgrade_, not IOMMUFD itself, that fixed the performance issue. Whatever performance benefits we get from IOMMUFD are not significant enough to rise above the noise floor and dramatically affect the overall boot time.
+!!! warning
 
-It's an exercise left to the reader to figure out which commit seems to have fixed the page faulting issue we seem to be circling around in Linux v5.
+    In a previous version of this blog post, I had incorrectly assumed that usage of the `/dev/vfio/devices/*` files would cause Kata to use the IOMMUFD backend. For whatever reason, this does not appear to be happening because `vfio_iommu_type1_ioctl` is still being called even when providing QEMU with these file paths. This means the legacy IOMMU backend is being used. I am working to determine why this is happening.
 
 ## Parting Thoughts
 
