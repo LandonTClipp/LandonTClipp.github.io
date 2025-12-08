@@ -1367,6 +1367,10 @@ lrwx------ 1 root root  64 Dec  8 20:11 164 -> /dev/iommu
 lrwx------ 1 root root  64 Dec  8 20:11 165 -> /dev/vfio/devices/vfio6
 ```
 
+!!! note
+
+    Getting Kata to successfully use the IOMMUFD backend requires a patch that is not merged upstream: https://github.com/kata-containers/kata-containers/pull/12173
+
 ## Parting Thoughts
 
 This post didn't have an exact agenda other than to prove to the world that Kata can in fact boot in 2 minutes given proper environmental configuration. If you didn't read anything else from this post, the key takeaways are:
