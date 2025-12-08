@@ -1315,7 +1315,7 @@ Start Time:          Mon, 08 Dec 2025 20:14:58 +0000
       Started:      Mon, 08 Dec 2025 20:17:23 +0000
 ```
 
-That's 2:25 minutes And you can see the legacy VFIO handles being used:
+That's 2:25 minutes. And you can see the legacy VFIO handles being used:
 
 ```
 # ls -lah /proc/1196278/fd |& egrep 'vfio|iommu'
