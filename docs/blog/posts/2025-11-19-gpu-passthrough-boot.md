@@ -1282,9 +1282,7 @@ To recap, the vfio-pci Linux kernel driver provides a way for userspace programs
 
 Anyway, the vfio-pci kernel driver had a legacy integration with the Linux IOMMU subsystem that was implemented in `drivers/vfio/vfio_iommu_type1.c`. This is the legacy IOMMU backend code VFIO used. For a number of reasons that aren't totally relevant (and that are explained [here](https://www.qemu.org/docs/master/devel/vfio-iommufd.html)), the VFIO driver was updated to allow users to provide an IOMMUFD file descriptor to the VFIO driver. Instead of interacting with IOMMU groups (as done in the legacy VFIO backend), users have access to IOMMUFD file descriptors that represent single PCIe devices.
 
-It was previously suggested to me that using IOMMUFD would give me large performance benefits when IOMMU mapping operations were done. I initially believed it, because when I updated my kernel so that I could get access to IOMMUFD, and when I taught QEMU to use IOMMUFD, suddenly my VM boots were very snappy. However it was not the fact that I used IOMMUFD that caused the performance improvement, it was the fact that I had updated my Linux kernel and by extension the MMIO page faulting issue had been resolved!
-
-I pitted IOMMUFD against the legacy VFIO backend to see if there was any noticable performance difference. I did this by updating my CDI device DaemonSet to pass in the `/dev/vfio/devices/*` paths like so:
+It was previously suggested to me that using IOMMUFD would give me large performance benefits when IOMMU mapping operations were done. I pitted IOMMUFD against the legacy VFIO backend to see if there was any noticable performance difference. I did this by updating my CDI device DaemonSet to pass in the `/dev/vfio/devices/*` paths like so:
 
 ```json title="/var/run/cdi/nvidia-gpu.json"
 {
@@ -1306,37 +1304,79 @@ I pitted IOMMUFD against the legacy VFIO backend to see if there was any noticab
     },
 ```
 
-I then tested the VM boot performance:
+I then tested the VM boot performance with and without this change.
+
+#### Legacy VFIO Backend
+
+The runtime with the legacy backend is as such:
 
 ```
-Start Time:          Tue, 25 Nov 2025 03:31:25 +0000
-      Started:      Tue, 25 Nov 2025 03:34:04 +0000
+Start Time:          Mon, 08 Dec 2025 20:14:58 +0000
+      Started:      Mon, 08 Dec 2025 20:17:23 +0000
 ```
 
-That's 2:39 minutes which is about the same as the test I did [above](#turned-on) which were all using the legacy VFIO backend. Multiple trials return the same result. We know that when using IOMMUFD, VFIO is passing off the task of pinning pages to IOMMUFD, so the `vfio_pin_pages_remote` function will not be called for the GPU pages. Instead, I expect that same work to be done here:
+That's 2:25 minutes And you can see the legacy VFIO handles being used:
 
-```c title="https://github.com/torvalds/linux/blob/v6.17/drivers/iommu/iommufd/pages.c#L853-L856"
-static int pfn_reader_user_pin(struct pfn_reader_user *user,
-			       struct iopt_pages *pages,
-			       unsigned long start_index,
-			       unsigned long last_index)
+```
+# ls -lah /proc/1196278/fd |& egrep 'vfio|iommu'
+lrwx------ 1 root root  64 Dec  8 20:15 127 -> /dev/vfio/57
+lrwx------ 1 root root  64 Dec  8 20:15 128 -> /dev/vfio/vfio
+lrwx------ 1 root root  64 Dec  8 20:15 129 -> anon_inode:kvm-vfio
+lrwx------ 1 root root  64 Dec  8 20:15 130 -> anon_inode:[vfio-device]
+lrwx------ 1 root root  64 Dec  8 20:15 135 -> /dev/vfio/46
+lrwx------ 1 root root  64 Dec  8 20:15 136 -> anon_inode:[vfio-device]
+lrwx------ 1 root root  64 Dec  8 20:15 141 -> /dev/vfio/16
+lrwx------ 1 root root  64 Dec  8 20:15 142 -> anon_inode:[vfio-device]
+lrwx------ 1 root root  64 Dec  8 20:15 147 -> /dev/vfio/132
+lrwx------ 1 root root  64 Dec  8 20:15 148 -> anon_inode:[vfio-device]
+lrwx------ 1 root root  64 Dec  8 20:15 153 -> /dev/vfio/112
+lrwx------ 1 root root  64 Dec  8 20:15 154 -> anon_inode:[vfio-device]
+lrwx------ 1 root root  64 Dec  8 20:15 159 -> /dev/vfio/86
+lrwx------ 1 root root  64 Dec  8 20:15 160 -> anon_inode:[vfio-device]
+lrwx------ 1 root root  64 Dec  8 20:15 165 -> /dev/vfio/66
+lrwx------ 1 root root  64 Dec  8 20:15 166 -> anon_inode:[vfio-device]
 ```
 
-I attempted to use bpftrace to watch the IOMMUFD code in action, but I wasn't able to find the exact code path it was taking and thus couldn't perform any timing analysis. 
+#### IOMMUFD VFIO Backend
 
-!!! warning
+With the above change:
 
-    In a previous version of this blog post, I had incorrectly assumed that usage of the `/dev/vfio/devices/*` files would cause Kata to use the IOMMUFD backend. For whatever reason, this does not appear to be happening because `vfio_iommu_type1_ioctl` is still being called even when providing QEMU with these file paths. This means the legacy IOMMU backend is being used. I am working to determine why this is happening.
+```
+Start Time:          Mon, 08 Dec 2025 20:09:54 +0000
+      Started:      Mon, 08 Dec 2025 20:11:48 +0000
+```
+
+That's 1:54 minutes, which is a solid 31 second reduction in performance! It's a clear difference when we tweak that single factor.
+
+```
+# ls -lah /proc/1193235/fd |& egrep 'vfio|iommu'
+lrwx------ 1 root root  64 Dec  8 20:11 127 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 128 -> /dev/vfio/devices/vfio7
+lrwx------ 1 root root  64 Dec  8 20:11 129 -> anon_inode:kvm-vfio
+lrwx------ 1 root root  64 Dec  8 20:11 134 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 135 -> /dev/vfio/devices/vfio0
+lrwx------ 1 root root  64 Dec  8 20:11 140 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 141 -> /dev/vfio/devices/vfio1
+lrwx------ 1 root root  64 Dec  8 20:11 146 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 147 -> /dev/vfio/devices/vfio2
+lrwx------ 1 root root  64 Dec  8 20:11 152 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 153 -> /dev/vfio/devices/vfio3
+lrwx------ 1 root root  64 Dec  8 20:11 158 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 159 -> /dev/vfio/devices/vfio4
+lrwx------ 1 root root  64 Dec  8 20:11 164 -> /dev/iommu
+lrwx------ 1 root root  64 Dec  8 20:11 165 -> /dev/vfio/devices/vfio6
+```
 
 ## Parting Thoughts
 
-This post didn't have an exact agenda other than to prove to the world that Kata can in fact boot in 2 minutes given proper environmental configuration. If you didn't read anything else from this post, the two key takeaways that were probably obvious to everyone but myself are:
+This post didn't have an exact agenda other than to prove to the world that Kata can in fact boot in 2 minutes given proper environmental configuration. If you didn't read anything else from this post, the key takeaways are:
 
 1. Use the latest Linux kernel version you can.
 2. Use hugepages.
 3. Use a kernel with 64KiB pages instead of 4KiB.
+4. Use the IOMMUFD backend for VFIO.
 
-The other big takeaway is that there is still work to be done in this field, mainly surrounding Linux's inability to take advantage of Intel's VT-d hugepage capability. Linux appears to be hard-coded to use only 4KiB pages to program the Intel IOMMU when VT-d additionally supports 4KiB and 1GiB. Solving this can shave an additional ~30 seconds off of our boot time. I'm not sure how feasible it is to solve this specific problem, but it seemed to me like a glaring issue.
+The other big takeaway is that there is still work to be done in this field, mainly surrounding Linux's inability to take advantage of Intel's VT-d hugepage capability. Linux appears to be hard-coded to use only 4KiB pages to program the Intel IOMMU when VT-d additionally supports 1MiB and 1GiB. Solving this can shave an additional ~30 seconds off of our boot time.
 
 [Jason Gunthorpe](https://www.linkedin.com/in/jason-gunthorpe-5b154394/) et al specifically have been doing incredible work in this domain. Jason's talks on IOMMUFD are really interesting and I recommend giving those videos below a watch.
 
