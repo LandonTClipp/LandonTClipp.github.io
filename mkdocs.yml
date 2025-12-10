@@ -148,6 +148,8 @@ plugins:
       - cdn.jsdelivr.net/npm/mathjax@3/*
       - giscus.app/*
       - "*.MOV"
+      - ".jpeg"
+      - ".jpg"
 
 nav:
   - index.md

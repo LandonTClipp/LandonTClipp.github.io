@@ -8,7 +8,7 @@ description: The last trip of 2025 to Colorado.
 
 My last Colorado trip in 2025 was spent in the San Juan mountains of Colorado. So far, this is the most breathtaking area I've ever had the pleasure to visit and I hope to return soon!
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8907+Large.jpeg){ loading=lazy  style="width: 100%; height: 300px; object-fit: cover; object-position: 0 70%" title="A Ram 2500 Power Wagon" }
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8907+Large.jpeg){ loading=lazy  style="width: 100%; height: 300px; object-fit: cover; object-position: 0 70%" title="A Ram 2500 Power Wagon" }
 
 <!-- more -->
 
@@ -16,30 +16,30 @@ A few months ago, I explored the south western part of the state for the first t
 
 ## Buena Vista, CO
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250703_112425.jpg)
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250703_112425.jpg)
 
 The first trip out to the San Juans started as a trip with my dad. We started from north western Indiana and spent 3 days getting to our destination. The first long-term stop was at a place called Buena Vista which is on the opposite side of Aspen in the Sawatch Range.
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7476+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7500+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7510+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7536+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7549+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7551+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7573+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7584+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7593+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7621+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7638+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7641+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7648+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7674+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7678+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7683+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7685+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7690+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7476+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7500+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7510+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7536+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7549+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7551+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7573+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7584+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7593+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7621+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7638+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7641+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7648+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7674+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7678+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7683+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7685+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7690+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -51,11 +51,11 @@ We camped in a spot called the Cottonwood Lake along a dispersed (and free!) cam
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7717+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7720+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7724+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7725+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7730+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7717+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7720+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7724+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7725+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7730+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -65,7 +65,7 @@ Off into the distance was the imposing figure of a Colorado 14'er called Mount P
 
 ### Mount Princeton
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250706_101407+Large.jpeg){ loading=lazy }
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250706_101407+Large.jpeg){ loading=lazy }
 
 
 
@@ -75,37 +75,37 @@ We woke up early in the morning around 6am and drove about an hour to the trailh
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7736+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7739+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7740+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7743+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7746+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7748+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7753+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7759+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7764+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7766+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250706_095203+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7736+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7739+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7740+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7743+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7746+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7748+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7753+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7759+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7764+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7766+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250706_095203+Large.jpeg){ loading=lazy }
 
 </div>
 
 About an hour into the hike, the grass trail stops and everything becomes large boulders. I think they should rename the mountain to "Break Your Ankles Mountain" because if you aren't careful, you're in for some real hurt. The bouldering also adds a mental exhaustion component to it because you are _constantly_ pathfinding and making sure you step in the right place. To make it even worse, the trail is totally non-existent. The only way you can really tell where to go after a certain point is whether or not there's any moss on the rocks. We had to backtrack multiple times because we kept going the wrong direction.
 
-We get to the first ridgeline (the last couple of pictures above) and we see the false summit above. More specifically, [this picture](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7764+Large.jpeg) is a good representation of the imposing height of the mountain even halfway up. The summit shown in the picture is in fact the _false_ summit. The real summit can't be seen.
+We get to the first ridgeline (the last couple of pictures above) and we see the false summit above. More specifically, [this picture](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7764+Large.jpeg) is a good representation of the imposing height of the mountain even halfway up. The summit shown in the picture is in fact the _false_ summit. The real summit can't be seen.
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7774+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7775+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7779+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7788+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7794+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7796+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7797+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7774+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7775+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7779+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7788+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7794+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7796+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7797+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250706_133447.mp4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250706_133447.mp4" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250706_133831+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250706_133831+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -119,16 +119,16 @@ We drove over Independence Pass to Aspen for the next few days. The main priorit
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250708_101601.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_4627+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_4582+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_4593+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7850+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7854+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7872+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7875+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250708_101601.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_4627+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_4582+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_4593+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7850+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7854+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7872+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7875+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250708_101814.mp4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250708_101814.mp4" type="video/mp4">
 </video>
 
 </div>
@@ -142,14 +142,14 @@ My dad flew out of Aspen to go back home and I was left to figure out what to do
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7942+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7945+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7961+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8050+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8052+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8056+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8069+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8076+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7942+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7945+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7961+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8050+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8052+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8056+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8069+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8076+Large.jpeg){ loading=lazy }
 
 
 </div>
@@ -159,13 +159,13 @@ The trail is pretty difficult for noobs but I did it without much of an issue. O
 <div class="grid cards" markdown>
 
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_7937.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_7937.MOV" type="video/mp4">
 </video>
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8047.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8047.MOV" type="video/mp4">
 </video>
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8062.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8062.MOV" type="video/mp4">
 </video>
 
 </div>
@@ -178,23 +178,23 @@ I have a Jeep Grand Cherokee Trailhawk which is _nominally speaking_ an off road
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8088+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8091+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8093+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8110+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8113+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8122+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8135+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8141+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8194+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8197+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8200+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8203+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8205+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8212+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8218+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8256+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8319+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8088+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8091+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8093+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8110+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8113+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8122+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8135+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8141+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8194+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8197+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8200+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8203+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8205+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8212+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8218+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8256+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8319+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -206,13 +206,13 @@ I had been thinking of getting a proper truck for a long time. The Jeep could to
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8320+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8323+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8328+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8329+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8351+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8359+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/image_0+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8320+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8323+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8328+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8329+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8351+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8359+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/image_0+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -229,50 +229,50 @@ Armed with the experience I gained in my first San Juans trip, I took him on a v
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_072608.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_072729.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_073937.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_110958.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_112056.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_124418.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_125405.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_130221.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_170903.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_171748.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_172455.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_175334.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_175803.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_183151.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_184101.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_184549.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250905_190248.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8625+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_072608.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_072729.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_073937.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_110958.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_112056.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_124418.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_125405.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_130221.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_170903.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_171748.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_172455.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_175334.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_175803.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_183151.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_184101.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_184549.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250905_190248.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8625+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8625.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8625.MP4" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8626+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8628+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8629+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8626+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8628+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8629+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8629.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8629.MP4" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8633+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8641+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8650+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8662+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8672+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8675+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8679+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8633+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8641+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8650+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8662+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8672+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8675+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8679+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8681.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8681.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8683+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8684.JPG){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8694+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8696+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8708+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8683+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8684.JPG){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8694+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8696+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8708+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8708.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8708.MP4" type="video/mp4">
 </video>
 
 </div>
@@ -283,21 +283,21 @@ Aaaaand of course, here's Imogene Pass in the truck. This was actually the first
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_120046.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_125122.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_125127.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_125242.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_125735.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_125748.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_125836.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_132618.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_120046.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_125122.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_125127.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_125242.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_125735.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_125748.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_125836.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_132618.jpg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8709.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8709.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8710+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8717+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8710+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8717+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8717.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8717.MP4" type="video/mp4">
 </video>
 
 </div>
@@ -305,52 +305,52 @@ Aaaaand of course, here's Imogene Pass in the truck. This was actually the first
 
 #### [Fort Peabody](https://en.wikipedia.org/wiki/Fort_Peabody)
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8749+Large.jpeg){ loading=lazy }
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8749+Large.jpeg){ loading=lazy }
 
 At the top of Imogene Pass is an abandoned mining encampment called Fort Peabody Historic Site that has some incredible, but horrific history. The signs below tell the story.
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_133500.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_133507.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_133713.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_133823.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_133825.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8738+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_133500.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_133507.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_133713.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_133823.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_133825.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8738+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8738.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8738.MP4" type="video/mp4">
 </video>
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8749.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8749.MP4" type="video/mp4">
 </video>
 
 </div>
 
 #### Old Mining Encampment
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_144210.jpg){ loading=lazy }
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_144210.jpg){ loading=lazy }
 
 Fort Peabody overlooks a mining encampment that had tons of old equipment still lying around. The camp is situated on a high alpine lake, and you can even walk up into the two mine entrances (which have been effectively sealed off).
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_141537.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_141708.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_142120.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_144212.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_144750.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_144947.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/20250907_155947.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_141537.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_141708.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_142120.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_144212.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_144750.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_144947.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/20250907_155947.jpg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8760.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8760.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8771+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8771+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8771.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8771.MP4" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8785+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8785+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8785.MP4" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8785.MP4" type="video/mp4">
 </video>
 
 </div>
@@ -361,17 +361,17 @@ Jeff had to leave after a few days, and next on my roster for people coming to v
 
 ### Meowcat
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8842+Large.jpeg){ loading=lazy  style="width: 100%; height: 300px; object-fit: cover; object-position: 0 70%"}
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8842+Large.jpeg){ loading=lazy  style="width: 100%; height: 300px; object-fit: cover; object-position: 0 70%"}
 
 The first place we went to is this... experience? Museum? Art exhibit? I don't really know how to describe it other than "all of the above." It's called Meowcat, and if you've never been to one of their locations, it's definitely worth a visit. I first learned about it when I went to a company offsite in Denver and thought it'd be a fun thing to do with the wife :D 
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8836+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8840+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8841+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8843+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8858+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8836+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8840+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8841+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8843+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8858+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -381,9 +381,9 @@ Kelly and I also love to do ropes courses and zip lines, so we booked a zip line
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8850+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8850+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8849.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8849.MOV" type="video/mp4">
 </video>
 
 </div>
@@ -392,14 +392,14 @@ Kelly and I also love to do ropes courses and zip lines, so we booked a zip line
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8870+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8871+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8870+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8871+Large.jpeg){ loading=lazy }
 
 </div>
 
 We also got to see Buffalo Bill's resting site. They have a nice museum dedicated to him that teaches you a lot of his history. Kelly and I also got to pretend we were part of the show!
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8861+Large.jpeg){ loading=lazy }
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8861+Large.jpeg){ loading=lazy }
 
 ### Honorable Mentions
 
@@ -419,27 +419,27 @@ I took my mom up an off-roading trail that straddles Kendall Mountain. There's a
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8907+Large.jpeg)
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8876+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8879+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8914+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8917+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8920+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8907+Large.jpeg)
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8876+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8879+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8914+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8917+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8920+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8921.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8921.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8923+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8929+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8941+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8923+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8929+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8941+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8960.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8960.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8962+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8964+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8969+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8976+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8978+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8989+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8962+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8964+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8969+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8976+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8978+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8989+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -449,53 +449,53 @@ Silverton only very recently ceased all of its mining operations. The Mayflower 
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8995+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_8997+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9005+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9013+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9022+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9032+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9051+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9056+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9058+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8995+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_8997+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9005+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9013+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9022+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9032+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9051+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9056+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9058+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9061.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9061.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9062+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9066+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9074+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9080+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9105+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9108+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9111+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9115+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9117+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9121+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9062+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9066+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9074+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9080+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9105+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9108+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9111+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9115+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9117+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9121+Large.jpeg){ loading=lazy }
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9127.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9127.MOV" type="video/mp4">
 </video>
 - <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9139.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9139.MOV" type="video/mp4">
 </video>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9151+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9154+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9179+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9182+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/att.d-6Xtiko2oMqj9B9zzBbBAIk4NCNC-USs9jV47dOAvE.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9151+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9154+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9179+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9182+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/att.d-6Xtiko2oMqj9B9zzBbBAIk4NCNC-USs9jV47dOAvE.jpg){ loading=lazy }
 
 </div>
 
 ## The Shady Lady
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/Photo600797o.jpeg){ loading=lazy }
+![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/Photo600797o.jpeg){ loading=lazy }
 
 One of the old brothels in town is still in business today, although only offering the vice of alcohol. I didn't take any good pictures of the bar so I'm going to steal some online, credits at the end of this section. The building itself is haunted by the ladies who died there. The staff tell me that if you don't greet them at the beginning of the day and say goodbye at the end, they feel disrespected at the isolence and have been known to throw things at you. The staff say they're not malicious, they just prefer to be acknowledged and treated with respect. I'm sure they demanded the same from their customers as well.
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/Photo600793o.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/Photo600796o.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/inside_shady_lady_1.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/Photo600793o.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/Photo600796o.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/inside_shady_lady_1.jpg){ loading=lazy }
 
 
 </div>
@@ -526,5 +526,5 @@ All I can say is that I left with a deep sense of respect for the town's history
 I'll leave you with this video of the Durango & Silverton steam train hauling a load of tourists into town.
 
 <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-12-09-san-juan-mountains/IMG_9164.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/posts/2025-12-09-san-juan-mountains/IMG_9164.MOV" type="video/mp4">
 </video>
