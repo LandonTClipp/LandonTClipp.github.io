@@ -4,7 +4,6 @@ categories:
   - RV
 title: Colorado San Juan Mountains
 description: The last trip of 2025 to Colorado.
-draft: true
 ---
 
 My last Colorado trip in 2025 was spent in the San Juan mountains of Colorado. So far, this is the most breathtaking area I've ever had the pleasure to visit and I hope to return soon!
