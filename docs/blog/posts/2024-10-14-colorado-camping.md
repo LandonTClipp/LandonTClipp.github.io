@@ -8,7 +8,7 @@ links:
   - blog/posts/2024-10-07-starlink-mobile.md
 ---
 
-![Trailer campsite overlooking Pikes Peak](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_3431+Large.jpeg){ style="width: 100%; height: 300px; object-fit: cover; object-position: 0 60%" title="A view of Pikes Peak" }
+![Trailer campsite overlooking Pikes Peak](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_3431+Large.jpeg){ style="width: 100%; height: 300px; object-fit: cover; object-position: 0 60%" title="A view of Pikes Peak" }
 
 I can't keep away from Colorado, so I went back in the fall of 2024 as my last trip of the year. It's hard to imagine how the same place can re-impress even after multiple visits, but such is the magic of the mountains.
 
@@ -18,11 +18,11 @@ I can't keep away from Colorado, so I went back in the fall of 2024 as my last t
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6167+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6169+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6171+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6173+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6174+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6167+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6169+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6171+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6173+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6174+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -34,22 +34,22 @@ My mom decided to come along for part of my trip, so I picked her up from the De
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6181+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6186+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6189+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6194+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6195+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6196+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6197+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6200+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6203+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6206+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6211+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6233+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6236+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6241+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6242+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6246+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6181+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6186+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6189+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6194+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6195+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6196+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6197+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6200+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6203+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6206+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6211+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6233+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6236+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6241+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6242+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6246+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -59,14 +59,14 @@ We ended the day with a trip to the Wines of Colorado, which is probably my favo
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6251+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6254+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6256+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6260+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6261+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6264+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6266+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6268+Large.jpeg)
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6251+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6254+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6256+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6260+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6261+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6264+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6266+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6268+Large.jpeg)
 
 </div>
 
@@ -76,47 +76,47 @@ We parked at the campsite and then realized there was supposed to be a near nati
 
 The magic continued the next morning as we were visited by a group of 4 bucks right outside our window. They couldn't see us in the trailer so we had a front-row seat to the best zoo in the world: nature itself! Damn, does it get any more magical than this? (hint: yes it does)
 
-## [Shelf Road](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/shelf-road-gold-belt-tour-2298a822.pdf) `Cripple Creek, CO`
+## [Shelf Road](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/shelf-road-gold-belt-tour-2298a822.pdf) `Cripple Creek, CO`
 
 The fastest route to Cañon City from Woodland Park is through this through [Shelf Road](https://www.alltrails.com/trail/us/colorado/shelf-road-gold-belt-tour). It's a 4WD trail that winds through BLM land dotted with numerous old mining claims, most of which have been repurposed into grazing ground and private single-family houses.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6287.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6291.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6292.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6295.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6298.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6299.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6301.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6304.jpg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-07+at+10.52.41%E2%80%AFPM.png){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6287.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6291.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6292.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6295.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6298.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6299.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6301.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6304.jpg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-07+at+10.52.41%E2%80%AFPM.png){ loading=lazy }
 </div>
 
 ## Royal Gorges `Cañon City, CO`
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/Snow_5-1-scaled.jpg){ loading=lazy title="I shamefully stole this image from the park's website. It shows the scale of things far better than my crappy little phone can."}
+![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/Snow_5-1-scaled.jpg){ loading=lazy title="I shamefully stole this image from the park's website. It shows the scale of things far better than my crappy little phone can."}
 
 At the end of Shelf Road is Cañon City which isn't exactly impressive as far as mountain towns go, but it does have a lot of interesting history. More notably, it has one of the _best_ Indian restaurants I've ever been to called [Nirvana Culinary Paradise](https://g.co/kgs/YP2yoh1). We stopped there for a late lunch and then continued onto the Royal Gorges.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6310+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6314+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6318+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6322+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6323+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6326+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6333+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6336+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6352+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6356+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6374+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6386+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_0826.jpg){ loading=lazy title="This is also not my picture. It's just a cool train at the bottom of the gorge you can book a ticket on. Next year I'll do thi!" }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6310+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6314+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6318+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6322+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6323+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6326+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6333+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6336+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6352+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6356+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6374+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6386+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_0826.jpg){ loading=lazy title="This is also not my picture. It's just a cool train at the bottom of the gorge you can book a ticket on. Next year I'll do thi!" }
 </div>
 
 My mom wasn't a huge fan of this park. The picture of her walking across the bridge above might look so nice and serene, but her internal state was more like this:
 
-![Spongebob brain chaos](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/spongebob_brain_chaos.jpg)
+![Spongebob brain chaos](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/spongebob_brain_chaos.jpg)
 
 She was clenching the handrail with the power of a thousand suns and desperately trying not to freak out. Oops! :sweat_smile: I didn't mind the heights that much so I was just enjoying life. It's hard to describe _how far down_ the river is from the bridge. It's a looong way.
 
@@ -131,24 +131,24 @@ The park itself is pretty cool and definitely worth the visit if you're in the a
 I took my mom back to the Denver airport a few days after we went to the Royal Gorges. Next on the agenda was to make my way to Crested Butte (pronounced _byoot_, as in like beee-_yooot_-iful. Yes I have to acknowledge to you children that it _looks_ like Crested Butt). The _plan_ was for me to drive from our campsite in Woodland Park 3.5 hours to Crested Butte. I left early enough in the morning that I should get there before dark.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6421+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-07+at+11.20.07%E2%80%AFPM.png){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6421+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-07+at+11.20.07%E2%80%AFPM.png){ loading=lazy }
 </div>
 
 However, the gods had different plans for me. How arrogant of me to assume my trip would go without a hitch! Around the area of the nuclear explosion, I was humbled:
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-07+at+11.29.22%E2%80%AFPM.png){ loading=lazy }
+![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-07+at+11.29.22%E2%80%AFPM.png){ loading=lazy }
 
 The gods decided they hated me today, so they smote my trailer's right tire with nothing other than the head of a... panicking mule deer? I swear to god this happened, I'm not making it up. As I got on the interstate, a _MULE DEER_ was panicking on the highway because it was stuck in this 15 mile stretch of road that is flanked on both sides by fence. Of course I slowed down as fast as I could when I saw it, but as I was passing it at round 20 mph, it decided to RAM MY F-CKING tire while I was driving by. My thoughts uttered the word "damn" and I thought I would just go to the next town to look for damage instead of pulling over to the side of the road. Well 5 minutes after it rammed my tire, I felt the trailer pull to the right fairly firmly. Smoke was billowing from behind me as I looked in the mirror, so I was forced to stop and look at what's happening. This is what I saw:
 
-![Fucked up tire](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6422+Large.jpeg){ loading=lazy title="A fucked up tire" }
+![Fucked up tire](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6422+Large.jpeg){ loading=lazy title="A fucked up tire" }
 
 I don't know if you can see right there in that there picture, but that's what's called a f-cked up tire. I didn't have many options. I could either call a tow truck, which I really really _really_ didn't want to do, or try to install the spare tire. Installing the spare seemed easy enough, so that's what I did.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6423+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6424+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6425+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6423+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6424+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6425+Large.jpeg){ loading=lazy }
 </div>
 
 I got the spare on just fine, but it was only at this moment did I realize that my electric tire pump wasn't capable of pumping to the spare's recommended PSI of 65. It could only go to 35 :facepalm:. Woohoo!
@@ -169,16 +169,16 @@ Here's the comparison of specs between the two:
 While I was waiting for the tires to arrive, I took a hike up Mt. Pennsylvania.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6432+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6438+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6442+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6446+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6452+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6457+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6461+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6462+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6466+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6468+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6432+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6438+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6442+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6446+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6452+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6457+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6461+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6462+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6466+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6468+Large.jpeg){ loading=lazy }
 </div>
 
 Although it's not a 14'er, it's still a decent hike up to the summit at 13,013 ft. Parts of it were especially challenging because the trail was basically straight up with no switchbacks. It wasn't anywhere near as challenging as Mt. Sherman (an actual 14'er I did a few months prior that I haven't yet written a post about) but it was the kind of exercise I needed.
@@ -188,33 +188,33 @@ Although it's not a 14'er, it's still a decent hike up to the summit at 13,013 f
 Stranded in a town I didn't necessarily want to be in, I did this for the next few days: work remotely, hike a mountain, make dinner and go to sleep. My new tires eventually arrived so I put my trailer on jacks and remove the rims, go to the tire shop, pet the tire shop dog, and finally put on my brand spakin new :muscle_tone2: off-road :muscle_tone2: TRUCK TIRES! :exploding_head:
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6479+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6480+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6482+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6484+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6485+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6486+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6479+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6480+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6482+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6484+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6485+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6486+Large.jpeg){ loading=lazy }
 </div>
 
 I was back in business baby! I started my trek back to Crested Butte, my original destination.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-08+at+10.43.27%E2%80%AFPM.png){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/Screenshot+2025-01-08+at+10.43.27%E2%80%AFPM.png){ loading=lazy }
 </div>
 
 The drive was long and involved going through some incredibly gorgeous towns. I drove through Buena Vista which stunned me in its majesty. Also keep in mind, this was near the tail end of fall so there will still many trees that had fire yellow leaves. I began driving down US 306 (instead of US 285/50 that Google maps shows above) and I could really only describe it as driving through a fairly tale. Like, you know those movies where the main characters (who happen to be magicians) are riding a train across a picturesque Swiss mountain landscape? Where wizards and fairies and knights are running around? It kind of felt like that, although this time the magical story was real. Don't believe me? Sit down in that chair and shut yer trap. Let me show you something else I saw:
 
 
 <div class="grid cards" markdown>
-- ![A comet](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6487+Large.jpeg){ loading=lazy }
-- ![A comet up close](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6487+cropped+Large.jpeg){ loading=lazy width="75%"}
+- ![A comet](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6487+Large.jpeg){ loading=lazy }
+- ![A comet up close](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6487+cropped+Large.jpeg){ loading=lazy width="75%"}
 </div>
 
 A dark road! No wait, there's something in the sky? A UFO? Joe Biden? You see that streak of cloudy light just above the trees? That's a comet! Now I'm not gonna get sentimental and tell you that that's a sign from the sky gods sent specifically to me to deliver a message that says "move out here" because I'm not crazy, but that's exactly what happened.
 
 That comet's name is C/2023 A3 Tsuchinshan-ATLAS, so I just call it Atlas for short. Anyway, Atlas and I saw each other for the next hour or so, but when I got to my campsite, I looked all around and realized that the mountains were now obscuring it from my view. I never saw it again :cry:
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6488+Large.jpeg)
+![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6488+Large.jpeg)
 
 ## Stay At Crested Butte
 
@@ -223,12 +223,12 @@ I pull up to my campsite for the next few days and can't really see much of anyt
 I wake up the next morning to THIS
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6489+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6490+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6491+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6495+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6500+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6501+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6489+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6490+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6491+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6495+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6500+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6501+Large.jpeg){ loading=lazy }
 </div>
 
 I've got a mountain in front of me, real-life cowboy cattle ranchers behind me, and a BEAUTIFUL rainbow just jettisoning out of the porta-potty as if someone on an exclusive Skittle diet just had explosive diarrhea.
@@ -245,19 +245,19 @@ I only really had one day that I could hike up the mountain: on Saturday when I 
 Saturday morning comes and I head off to the mountain. By this time it had started snowing pretty heavily which made me concerned for my ambitions.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6505+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6508+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6513+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6514+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6515+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6516+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6518+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6522+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6523+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6505+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6508+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6513+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6514+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6515+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6516+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6518+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6522+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6523+Large.jpeg){ loading=lazy }
 </div>
 
 <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6531.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6531.MOV" type="video/mp4">
 </video>
 
 I'm not one to take unnecessary risk, and I knew it would be an unnecessary risk to climb to the top of a mountain you're unfamiliar with when it's snowing and you don't have proper cleeted boots. I thought I would go as far as I could before I thought the slippery ground would pose a danger.
@@ -267,11 +267,11 @@ I'm glad I did go on the hike despite the snow because I got to meet those \*cue
 I didn't even know cows would even _want_ to climb a mountain, but I'm just here to learn. I decided near the point when the trail started sharply angling upwards that it wouldn't be wise of me to continue any further, so I sadly had to start heading back.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6532+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6535+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6536+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6537+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6538+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6532+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6535+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6536+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6537+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6538+Large.jpeg){ loading=lazy }
 </div>
 
 I can't lie that I was on one hand disappointed because the weather prevented me from achieving my goal of making another summit, but on the other I got to witness (not surprisingly) another incredible view. The peace, the solitude, the serenity of this land when the snow began to come felt palpable. It was as if I was going back to a place that was familiar to me, although I had never been there before.
@@ -281,25 +281,25 @@ I can't lie that I was on one hand disappointed because the weather prevented me
 That last hike on Saturday marked the beginning of the end for this trip. The following Sunday morning, I packed up and started making my way back. I drove through Monarch Mountain where it had also recently experienced snow, but was high enough in altitude to not melt it off. My _last_ last camping site in the mountain was some dispersed location near Bailey, CO. I don't know exactly where, I just remember that it required driving through lots of washboard dirt roads that I thought were gonna shake the other tire (the one that _didn't_ blow up) off my trailer.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6539+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6544+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6546+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6548+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6553+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6558+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6559+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6560+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6562+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6565+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6539+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6544+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6546+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6548+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6553+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6558+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6559+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6560+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6562+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6565+Large.jpeg){ loading=lazy }
 </div>
 
 Again, it was stunning. Again, I was blown away at the beauty around me. Although this night I had a sense of longing. You know that feeling when you're about to say goodbye to someone you love that you know you won't see again in a long time? There's not an English word for that feeling, but that's what I felt.
 
 <video controls>
-  <source id="mov" src="https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6561.MOV" type="video/mp4">
+  <source id="mov" src="https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6561.MOV" type="video/mp4">
 </video>
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-14-colorado-camping/IMG_6566+Large.jpeg){ loading=lazy }
+![](https://assets.topofmind.dev/images/blog/2024-10-14-colorado-camping/IMG_6566+Large.jpeg){ loading=lazy }
 
 I sat outside in the cold night just taking in as much as I could, because this would be the last time I see the mountains for probably 8 months. And that felt like eternity. I looked at the twinkling lights of the houses on the mountain thinking to myself how lucky those people must be to be able to live in a place like this.
 

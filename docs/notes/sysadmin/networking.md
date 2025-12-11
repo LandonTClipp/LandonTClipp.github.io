@@ -223,7 +223,7 @@ https://medium.com/@tech_18484/how-to-create-network-namespace-in-linux-host-83a
 NCCL
 ----
 
-![NCCL PXN Path Diagram](https://f005.backblazeb2.com/file/landons-blog/assets/images/nvidia/nccl/message-path.png)
+![NCCL PXN Path Diagram](https://assets.topofmind.dev/images/nvidia/nccl/message-path.png)
 
 NCCL stands for NVIDIA Collective Communication Library. It is a library used in applications that need to do collective, cross-GPU actions. It's topology-aware and allows an abstracted interface to the set of GPUs being used across a cluster system, such that applications don't need to understand where a particular GPU resides.
 

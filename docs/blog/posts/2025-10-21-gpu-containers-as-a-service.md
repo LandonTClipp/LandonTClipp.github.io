@@ -297,7 +297,7 @@ The TL;DR of it is that gVisor intercepts `ioctl` syscalls bound for the GPUs an
 
 One of the core components of NVIDIA DGX or HGX systems is the presence of an all-to-all GPU interconnect called NVLink. NVLink is a high-performance bus, resident on the server motherboard itself, that is entirely separate and distinct from the PCIe bus.  
 
-![NVLink Fabric Diagram](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/nvidia-nvswitch-topology-two.jpg)
+![NVLink Fabric Diagram](https://assets.topofmind.dev/images/blog/2025-10-21-gpu-containers-as-a-service/nvidia-nvswitch-topology-two.jpg)
 
 
 Most DGX/HGX platforms have 4 switches in the NVLink fabric. The fabric can be partitioned in various ways that are pre-defined in the hardware itself. This is interesting to us because our requirements state that we need to support multiple tenancies on the same server, so we need to think about how to isolate the GPUs from each other.
@@ -377,14 +377,14 @@ lspci -s 0000:03:00.1 -v
 
 One other interesting thing to note is that older NVSwitch systems expose the NVSwitches as PCIe bridge devices. Newer systems expose them as ConnectX-7 Infiniband cards which is mainly in preparation for new generations of hardware like the GB200 NVL72 racks whereby the NVLink fabric exits the chassis, allowing one to connect up to 72 GB200 Superchips (or as Nvidia's marketing team would like you to call it nowadays, 144 GPUs). A marketing picture of this kind of system is shown below.
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/gb200-nvl72-rack-2-gtc24-tech-blog-1920x1080-1-1024x576.png)
+![](https://assets.topofmind.dev/images/blog/2025-10-21-gpu-containers-as-a-service/gb200-nvl72-rack-2-gtc24-tech-blog-1920x1080-1-1024x576.png)
 
 
 ## Aside on HGX Support in Kata
 
 Nvidia supports two different classes of their superpod deployments. The first, called DGX, is hardware procured, designed, and deployed by Nvidia according to strict and rigorous standards. The second, called HGX, is a licensing agreement that server OEMs make with Nvidia that allows customer to design more customized NVSwitch-based superpod systems. Kata Containers, being a project led by Nvidia, has historically only worked with DGX systems. Minor (or even major) differences in hardware can cause real problems when you're dealing with virtualization because the physical way in which components are connected can dramatically differ. One interesting difference between Supermicro and Nvidia superpod systems is the fact that Supermicro places their NVSwitches behind a single IOMMU group:
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-10-21-gpu-containers-as-a-service/Screenshot+2025-10-24+at+4.59.36%E2%80%AFPM.png)
+![](https://assets.topofmind.dev/images/blog/2025-10-21-gpu-containers-as-a-service/Screenshot+2025-10-24+at+4.59.36%E2%80%AFPM.png)
 
 while Nvidia DGX puts them behind individual IOMMU groups.[^5] In my research, this difference proved to be difficult to reconcile in Kata due to some simple incorrect assumptions. It seems like this can be rectified, but my conversations with the Kata devs seem to indicate it would require additional development to correct. Regardless, the libvirt route seemed to work well enough for me, so we can abandon our attempts to run this natively in Kata.
 

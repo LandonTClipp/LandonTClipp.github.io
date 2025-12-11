@@ -6,7 +6,7 @@ icon: simple/virtualbox
 Hypervisor
 ----------
 
-![Hypervisor Types](https://f005.backblazeb2.com/file/landons-blog/assets/images/virtualization/hypervisor-types.jpg)
+![Hypervisor Types](https://assets.topofmind.dev/images/virtualization/hypervisor-types.jpg)
 
 There are two types of hypervisors, type 1 and type 2. Type 1 hypervisors are services that have direct access to hardware. They do not rely on the host OS to execute instructions.
 
@@ -15,7 +15,7 @@ Type 2 hypervisors sit on top of the host OS which introduces a massive latency 
 KVM
 ----
 
-![KVM versus QEMU Diagram](https://f005.backblazeb2.com/file/landons-blog/assets/images/virtualization/qemu-and-kvm-diagram.png)
+![KVM versus QEMU Diagram](https://assets.topofmind.dev/images/virtualization/qemu-and-kvm-diagram.png)
 
 The Linux kernel provides a technology called the Kernel-based Virtual Machine. KVM makes use of the HVM (hardware virtual machine) extensions to give VMs direct access to host hardware. While KVM can be used by itself to launch virtual machines, it is not uncommon to see QEMU used in conjunction with KVM.
 

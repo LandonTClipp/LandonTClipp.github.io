@@ -8,7 +8,7 @@ links:
   - blog/posts/2023-06-21-intech-sol-horizon-cellular.md
 ---
 
-![aurora borealis](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6261+Large.jpeg){ style="width: 100%; height: 200px; object-fit: cover; object-position: 0 60%" title="The US experienced a near nation-wide Aurora Borealis on Oct 10, 2024. I had the privilege to catch it as I was camped in Woodland Park." }
+![aurora borealis](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6261+Large.jpeg){ style="width: 100%; height: 200px; object-fit: cover; object-position: 0 60%" title="The US experienced a near nation-wide Aurora Borealis on Oct 10, 2024. I had the privilege to catch it as I was camped in Woodland Park." }
 
 In a [previous blog post of mine](2023-06-21-intech-sol-horizon-cellular.md), I retrofitted my camper trailer with a cellular internet solution for remote work. After having over a year to gather data on the practical, real-world performance of the Peplink router, I've come to the realization that I am a huge nerd and want even more technology! In this post, I'll show you my journey with Starlink and my impressions with its usefulness as a remote-work solution.
 
@@ -42,8 +42,8 @@ When you buy the Starlink antenna, it comes with three components:
 
 <div class="grid cards" markdown>
 
-- ![Antenna](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6149_down.jpg){data-gallery="all"}
-- ![Router and ACDC](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6150_down.jpg){data-gallery="all"}
+- ![Antenna](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6149_down.jpg){data-gallery="all"}
+- ![Router and ACDC](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6150_down.jpg){data-gallery="all"}
 
 </div>
 
@@ -61,8 +61,8 @@ The setup was surprisingly simple. I downloaded the Starlink app and it took me 
 
 <div class="grid cards" markdown>
 
-- ![Obstruction visualization](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6152_down.jpg){data-gallery="all"}
-- ![Obstruction wide-angle](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6154_down.jpg){data-gallery="all"}
+- ![Obstruction visualization](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6152_down.jpg){data-gallery="all"}
+- ![Obstruction wide-angle](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6154_down.jpg){data-gallery="all"}
 
 </div>
 
@@ -74,9 +74,9 @@ The obstruction visualization had me scan the sky with my phone's camera. I'm as
 
 <div class="grid cards" markdown>
 
-- ![Speed test night](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6148_down.jpg){data-gallery="all"}
-- ![Speed test day](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6155_down.jpg){data-gallery="all"}
-- ![Statistics](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6156_down.jpg){data-gallery="all"}
+- ![Speed test night](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6148_down.jpg){data-gallery="all"}
+- ![Speed test day](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6155_down.jpg){data-gallery="all"}
+- ![Statistics](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6156_down.jpg){data-gallery="all"}
 
 </div>
 
@@ -95,9 +95,9 @@ The performance in this scenario is poor enough that I can't say I would rely so
 ### A Fair Situation
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_3431+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6255+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6256+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_3431+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6255+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6256+Large.jpeg){data-gallery="all"}
 </div>
 
 Another campgroud I stayed at had a much clearer view of the sky. It was dotted with some trees but overall it gave a fairly unobstructed view for starlink. I placed the dish on the top of the trailer and ran the same tests as above. I was able to achieve similar throughput, but in this case I obtained 99.8% reliability. That's pretty remarkable and is approaching an acceptable level for basically all workloads.
@@ -113,11 +113,11 @@ Video calls in this situation was pretty much seamless. I was able to communicat
 The Starlink mobility mount comes with 4 M8-1.25 35mm bolts. I drilled 4 8mm holes in the roof using the mount as a template (Starlink suggests 10mm but this wasn't necessary, the 8mm hole was big enough). It turns out that the provided bolts were too small, so I went to Home Depot and got some M8-1.25 40mm bolts. You can see the result below:
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6629_(copy).jpg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6632.jpg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6635.jpg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6636.jpg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6656+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6629_(copy).jpg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6632.jpg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6635.jpg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6636.jpg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6656+Large.jpeg){data-gallery="all"}
 </div>
 
 !!! danger
@@ -153,7 +153,7 @@ The only difference this time is that I drilled 1" holes in the wall next to the
 I drilled a hole next to the fuse box and routed the Starlink cable through it. My temporary setup using all of the Starlink-provided hardware looks something like this:
 
 <figure markdown="span">
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" data-gallery="all" }
+![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6429+Large.jpeg){ width="400" data-gallery="all" }
 </figure>
 
 
@@ -161,7 +161,7 @@ To save battery, you don't want to be using the provided router and power supply
 
 The POE injector has two other ports: one vanilla ethernet port that I'll plug into my Peplink router, and the other Starlink cable port that will be plugged into the dish.
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6654+Large.jpeg)
+![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6654+Large.jpeg)
 
 ### Electrical Routing
 
@@ -207,17 +207,17 @@ flowchart TD
 Basically, the rocker switch will gate the flow of electrons towards the positive terminal of the POE injector. The switch also has an LED indication light, so it needs a direct negative connection to the battery. The first picture below shows the terminus for the 12V+, located on the main DC cutoff switch. The negative terminal in the second picture is a bus bar that should have a few open slots.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6642+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6643+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6642+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6643+Large.jpeg){data-gallery="all"}
 </div>
 
 Using standard 14AWG wiring and crimp connectors, I connected the pieces together. The pictures below show the rocker switch up close and what they look like after being installed.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6640+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6641+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6645+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6652+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6640+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6641+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6645+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6652+Large.jpeg){data-gallery="all"}
 </div>
 
 And voila! It worked liked a charm! I waited for Starlink to boot up and amazingly it just... kind of worked? You might notice in an install like this that the Starlink app doesn't work anymore. This is because it needs a static route configured in the router:
@@ -232,7 +232,7 @@ And voila! It worked liked a charm! I waited for Starlink to boot up and amazing
 
 It looks roughly like this:
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6648.PNG){ style="width: 50%;" data-gallery="all" }
+![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6648.PNG){ style="width: 50%;" data-gallery="all" }
 
 While this is close to the right configuration, I couldn't quite get the Starlink app to detect the dish on the local network. However after waiting a few minutes, the router successfully gained an internet connection and the app was able to give me diagnostic information about the dish through the internet (I'm guessing).
 
@@ -241,9 +241,9 @@ While this is close to the right configuration, I couldn't quite get the Starlin
 I measured the power draw and the bandwidth performance of this new setup. With both the router and the dish turned on (and all other components in the RV turned off), I measured about 50 watts of draw steady state. The throughput was about as expected for Starlink: 103Mbps/16.5Mbps.
 
 <div class="grid cards" markdown>
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6655+Large.jpeg){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6671.PNG){data-gallery="all"}
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-10-07-starlink-mobile/IMG_6647.PNG){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6655+Large.jpeg){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6671.PNG){data-gallery="all"}
+- ![](https://assets.topofmind.dev/images/blog/2024-10-07-starlink-mobile/IMG_6647.PNG){data-gallery="all"}
 </div>
 
 ## Conclusion

@@ -8,7 +8,7 @@ categories:
 title: I Bought a Truck
 ---
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8328+Large.jpeg){ loading=lazy  style="width: 100%; height: 300px; object-fit: cover; object-position: 0 70%" title="A Ram 2500 Power Wagon" }
+![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8328+Large.jpeg){ loading=lazy  style="width: 100%; height: 300px; object-fit: cover; object-position: 0 70%" title="A Ram 2500 Power Wagon" }
 
 Well, I finally gave in. I bought a truck. Not just any truck, it's the truck to end all trucks. It's a truck so big that Chicago banned it.(1) Regardless, it's a truck that solves a lot of problems for me. It is on this rock that I will build my church.
 { .annotate }
@@ -21,10 +21,10 @@ Why did I decide I'm going to be a truck guy now? Well if you have read my blog 
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8192+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8205+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8215+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8319+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8192+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8205+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8215+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8319+Large.jpeg){ loading=lazy }
 
 </div>
 
@@ -39,13 +39,13 @@ Really the major problem with this platform was the low payload capacity and uns
 
 <div class="grid cards" markdown>
 
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8320+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8323+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8328+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8329+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8351+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/IMG_8359+Large.jpeg){ loading=lazy }
-- ![](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2025-07-27-i-bought-a-truck/image_0+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8320+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8323+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8328+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8329+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8351+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/IMG_8359+Large.jpeg){ loading=lazy }
+- ![](https://assets.topofmind.dev/images/blog/2025-07-27-i-bought-a-truck/image_0+Large.jpeg){ loading=lazy }
 
 </div>
 

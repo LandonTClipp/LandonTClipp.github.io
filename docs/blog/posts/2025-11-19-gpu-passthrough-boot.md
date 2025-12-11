@@ -285,9 +285,9 @@ I booted a new Kata VM and saved the containerd logs:
 # journalctl -u containerd -S '40 minutes ago' |& grep 'sandbox=c9f7bf13c1911810fa49a6be9a9d1efe0872d4088a008ac9eddd5bece6e56889' | awk -F'vmconsole=' '{ print $2 }'  | jq -r > vmconsole2.txt
 ```
 
-You can view those [here](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-11-19-gpu-passthrough-boot/vmconsole.txt).
+You can view those [here](https://assets.topofmind.dev/posts/2025-11-19-gpu-passthrough-boot/vmconsole.txt).
 
-The output of the bpftrace program lives [here](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-11-19-gpu-passthrough-boot/bpftrace_out.txt).
+The output of the bpftrace program lives [here](https://assets.topofmind.dev/posts/2025-11-19-gpu-passthrough-boot/bpftrace_out.txt).
 
 The first significant traces we can see are these 128GiB sections.
 
@@ -747,8 +747,8 @@ Start Time:          Mon, 24 Nov 2025 21:21:09 +0000
 
 Or in other words, 3:03 minutes. It's also interesting to look at various memory statistics:
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.36.51%E2%80%AFPM.png)
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.58.32%E2%80%AFPM.png)
+![](https://assets.topofmind.dev/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.36.51%E2%80%AFPM.png)
+![](https://assets.topofmind.dev/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.58.32%E2%80%AFPM.png)
 
 The page table bytes themselves (accounted as part of what the host kernel uses) are almost 2GiB! That's significant. The overall kernel bytes, which includes page tables but also any other data structures in use to support this QEMU process, is 3.43GiB. We can also take a look at the process memory map:
 
@@ -985,8 +985,8 @@ Start Time:          Mon, 24 Nov 2025 21:50:22 +0000
 
 That's 2:26 minutes, 37 seconds faster than before. Our memory statistics are also much better:
 
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.56.46%E2%80%AFPM.png)
-![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.57.32%E2%80%AFPM.png)
+![](https://assets.topofmind.dev/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.56.46%E2%80%AFPM.png)
+![](https://assets.topofmind.dev/posts/2025-11-19-gpu-passthrough-boot/Screenshot+2025-11-24+at+3.57.32%E2%80%AFPM.png)
 
 Something a little more subtle, but still worth noting, is that both the secondary page tables (used in things like Extended Page Tables) and the slab memory (used for grouping data types together in memory) are both far reduced. More noteworthy is the fact that our `Memory Total Bytes` is strangely around 3GiB. Why would that be? Well, when we allocated the hugepages before the pod was spun up, that memory utilization becomes persistent and is counted against the "free" memory of the system. You'll note that a command like `free` will count those pre-allocated hugepages against the `used` column. For whatever reason, the cgroup system does not consider the resident set size of the RAM backing a hugepage to be part of a process's utilization. I'm sure there is a good reason for it.
 

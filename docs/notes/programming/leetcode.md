@@ -1198,7 +1198,7 @@ Expected
 
 By constructing this tree by hand, we can tell that it's a tree with only right children. So why does the algorithm break after node `1`?
 
-![foo](https://f005.backblazeb2.com/file/landons-blog/assets/images/leetcode/binary_tree_right_children_01.png)
+![foo](https://assets.topofmind.dev/images/leetcode/binary_tree_right_children_01.png)
 
 It turns out, I made a really stupid mistake. In [line 54 above](#__codelineno-38-54), I'm checking the truthiness of `rightChild` instead of checking that it's `#!python not None`. This means that the integer `#!python 0` would evaluate to `#!python False`, which isn't what I intended. After fixing this, this test case now passed. However, we run into another problem: the last test case times out.
 

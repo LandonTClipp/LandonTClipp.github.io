@@ -10,7 +10,7 @@ description: Analyzing how Go decides what escapes to the heap, and how to visua
 Analyzing Go Heap Escapes
 =========================
 
-![a view of the lake from the sky](https://f005.backblazeb2.com/file/landons-blog/assets/images/banners/michigan_paramotor_1.jpg?blog=Analyzing%20Go%20Heap%20Escapes)
+![a view of the lake from the sky](https://assets.topofmind.dev/images/banners/michigan_paramotor_1.jpg?blog=Analyzing%20Go%20Heap%20Escapes)
 
 In this blog post, we discover how you can analyze what variables the Go compiler decides should escape to the heap, a [common source of performance problems](https://tip.golang.org/doc/gc-guide#Eliminating_heap_allocations) in Golang. We'll also show how you can configure the gopls language server in VSCode to give you a Codelens view into your escaped variables.
 

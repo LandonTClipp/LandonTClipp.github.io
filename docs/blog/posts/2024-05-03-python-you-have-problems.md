@@ -101,7 +101,7 @@ For some context, in most programming languages you are able to create multiple 
 
 So what does Python do about this? Well, it provides us with something even worse than multiprocessing... and it's truly horrifying: _`asyncio`_
 
-![Scary Hamster Thing](https://f005.backblazeb2.com/file/landons-blog/assets/images/blog/2024-05-03-python-you-have-problems/dun-dun-dun.jpg)
+![Scary Hamster Thing](https://assets.topofmind.dev/images/blog/2024-05-03-python-you-have-problems/dun-dun-dun.jpg)
 
 #### `asyncio`: The Concurrency
 
