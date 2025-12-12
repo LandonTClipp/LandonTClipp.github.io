@@ -1274,10 +1274,6 @@ As much as I would love to show you the exact pull request that fixed this, hone
 
 ### Is IOMMUFD Faster Than Legacy VFIO Backend?
 
-!!! warning
-
-    This section is wrong because it relied on bad assumptions that I made. I am redoing this section after I submit some upstream PRs to Kata to fix IOMMUFD logic.
-
 To recap, the vfio-pci Linux kernel driver provides a way for userspace programs to act as device drivers. This is relevant when guest VMs need to run NVIDIA kernel drivers for the GPUs, as you'll recall that we attach vfio-pci to the GPU as its driver, then we provide QEMU a handle (such as `/dev/vfio/33` or whatever the path is) for that device. This gives QEMU access to the VFIO API. QEMU then maps the device BARs it sees into the guest's MMIO region so that the NVIDIA kernel driver _inside_ can attach to it. Yes it is all a very complicated dance, and if you're confused, don't worry. It took me a long time to get this straight in my head.
 
 Anyway, the vfio-pci kernel driver had a legacy integration with the Linux IOMMU subsystem that was implemented in `drivers/vfio/vfio_iommu_type1.c`. This is the legacy IOMMU backend code VFIO used. For a number of reasons that aren't totally relevant (and that are explained [here](https://www.qemu.org/docs/master/devel/vfio-iommufd.html)), the VFIO driver was updated to allow users to provide an IOMMUFD file descriptor to the VFIO driver. Instead of interacting with IOMMU groups (as done in the legacy VFIO backend), users have access to IOMMUFD file descriptors that represent single PCIe devices.
