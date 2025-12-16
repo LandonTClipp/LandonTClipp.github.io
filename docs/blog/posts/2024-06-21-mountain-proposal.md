@@ -5,7 +5,6 @@ categories:
   - Misc
 title: Mountains and Proposals
 description: The trip that began a chapter of life.
-draft: true
 links:
   - blog/posts/2023-06-21-intech-sol-horizon-cellular.md
 ---
