@@ -102,6 +102,8 @@ markdown_extensions:
 
 
 plugins:
+- macros:
+    module_name: code/macros
 - blog:
     archive: true
     blog_toc: true
@@ -221,6 +223,7 @@ extra_javascript:
 
 watch:
   - includes
+  - code
 
 # TODO: Get this working :'(
 #hooks:
