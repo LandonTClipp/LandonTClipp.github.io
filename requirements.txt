@@ -1,5 +1,6 @@
 mkdocs==1.6.1
 mkdocs-glightbox==0.4.0
+mkdocs-macros-plugin-1.5.0==1.5.0
 mkdocs-open-in-new-tab
 mkdocs-redirects
 CairoSVG==2.7.1
