@@ -5,4 +5,4 @@ mkdocs-open-in-new-tab
 mkdocs-redirects
 CairoSVG==2.7.1
 pillow
-git+https://${GH_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git@665b88d2aeafdebd9de593b59e78a09ce2ede8fd
+mkdocs-material==9.7.1
