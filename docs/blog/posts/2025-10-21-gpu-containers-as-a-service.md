@@ -337,7 +337,7 @@ flowchart LR
     end
 ```
 
-NVIDIA doesn't provide a good CLI tool for the fabricmanager, so there is a custom tool I use that lets us interact with it. You can see the supported partition types here:
+NVIDIA doesn't provide a good CLI tool for the fabricmanager, so there is a [custom tool](https://github.com/LambdaLabs/fmctl) I use that lets us interact with it. You can see the supported partition types here:
 
 ```
 ./fmctl --address 127.0.0.1:6666 list
