@@ -9,6 +9,8 @@
 *[HCAs]: Host Card Adapter
 *[HFT]: High Frequency Trading
 *[HFTs]: High Frequency Trading
+*[KMD]: Kernel-Mode Driver
+*[KMDs]: Kernel-Mode Drivers
 *[IOMMU]: Input-Output Memory Management Unit
 *[KVM]: Kernel Virtual Machine
 *[:material-run-fast:]: Optimization

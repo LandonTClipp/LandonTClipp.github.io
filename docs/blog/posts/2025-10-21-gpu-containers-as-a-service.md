@@ -42,7 +42,7 @@ When you look at a company like AWS, most of these layers have specific product 
 
 The last two in this list are interesting cases of what's called a "serverless" infrastructure. Instead of your customer getting access to an entire host operating system, whether that be through a bare-metal OS or a virtualized one, they provide only the _container_ or the _code itself_ to run. The customer does not care to manage OS versions, they don't want to wrangle systemd, they don't care _how_ it gets run, only that it does get run somewhere. "Serverless" of course is a bit of a misnomer because the container or the function still has to run on a server somewhere, but the cloud company itself is the one that manages the complexity of managing the lifecycle of these compute resources in a transparent way.
 
-A Containers as a Service (CaaS) product, as with all cloud products, needs to be concerned about how to properly isolate tenancies. Historically speaking, a "container" refers to an OCI-compliant "image" that packages an executable, a rootFS, and any software dependencies the executable runs. This executable is run as a normal process on the host kernel with various security gates around it, such as cgroups, network namespaces, filesystem mount namespaces (similar in a way to a chroot), PID namespaces, etc. that all serve to isolate this process from others.[^1] This is a pretty good level of isolation for some use-cases, but astute readers may notice that there is a huge vector of attack: the kernel itself. The Linux kernel has been known to have major security vulnerabilities, some of which have allowed [container escapes](https://www.aquasec.com/blog/new-linux-kernel-vulnerability-escaping-containers-by-abusing-cgroups/). Of course the kernel doesn't comprise of just the kernel itself, but also all kernel-mode drivers (KMD) that are either part of mainline linux or loaded as third-party kernel modules. Any of these drivers and modules can be vectors for abuse, so therefore they cannot be used to handle multiple different tenancies.
+A Containers as a Service (CaaS) product, as with all cloud products, needs to be concerned about how to properly isolate tenancies. Historically speaking, a "container" refers to an OCI-compliant "image" that packages an executable, a rootFS, and any software dependencies the executable runs. This executable is run as a normal process on the host kernel with various security gates around it, such as cgroups, network namespaces, filesystem mount namespaces (similar in a way to a chroot), PID namespaces, etc. that all serve to isolate this process from others.[^1] This is a pretty good level of isolation for some use-cases, but astute readers may notice that there is a huge vector of attack: the kernel itself. The Linux kernel has been known to have major security vulnerabilities, some of which have allowed [container escapes](https://www.aquasec.com/blog/new-linux-kernel-vulnerability-escaping-containers-by-abusing-cgroups/). Of course the kernel doesn't comprise just the kernel itself, but also all kernel-mode drivers (KMD) that are either part of mainline Linux or loaded as third-party kernel modules. Any of these drivers and modules can be vectors for abuse, so therefore they cannot be used to handle multiple different tenancies.
 
 If you don't want to share tenancies, what do you do? Well, each tenancy runs in its own VM of course. From the context of a CaaS product, there are a few different ways you can run containers inside of VMs. You can create a bespoke control plane that accepts a container, spins up a VM on a host, and runs that container inside of the VM (that kinda sounds like k8s doesn't it?). You could rely on one of the various OCI container runtimes that virtualize a kernel for the container process to use.[^2] If you don't like reinventing the wheel, you can use a combination of open-source projects like Kubernetes for your control plane and Kata containers for your container runtime.
 
@@ -64,7 +64,7 @@ Before getting down to brass tacks, we need to design our system on a higher lev
 
 ## Aside about KMDs and NVIDIA GPU Operator
 
-Recall our discussion on Kernel Mode Drivers: the host operating system itself cannot use vulnerability-prone KMDs. This means that NVIDIA drivers, which speak directly to the GPUs over PCIe, cannot be installed on the host. The guest Virtual Machine must be the one to host the Nvidia KMDs. This complicates our k8s install quite substantially because it means we cannot use the niceties of the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html) that do various useful things like announcing GPUs to Kubernetes, managing firmware versions, publishing DCGM metrics, establishing RDMA transactions etc. This means that without custom work, Kubernetes will be completely blind to the presence of these GPUs.[^3]
+Recall our discussion on Kernel Mode Drivers: the host operating system itself cannot use vulnerability-prone KMDs. This means that NVIDIA drivers, which speak directly to the GPUs over PCIe, cannot be installed on the host. The guest Virtual Machine must be the one to host the NVIDIA KMDs. This complicates our k8s install quite substantially because it means we cannot use the niceties of the [NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html) that do various useful things like announcing GPUs to Kubernetes, managing firmware versions, publishing DCGM metrics, establishing RDMA transactions etc. This means that without custom work, Kubernetes will be completely blind to the presence of these GPUs.[^3]
 
 ## CDI Device Plugin
 
@@ -177,10 +177,10 @@ With these pieces of information, we can now state the steps that happen when a 
 1. The k8s scheduler looks at all of the available nodes and finds one with 1 available GPU.
 2. The k8s scheduler selects a specific GPU index. It does this because if you remember, it has explicit knowledge of which GPUs have been allocated to which workloads on which nodes.
 3. The k8s scheduler posts this container to be run on a specific node with a specific GPU to the k8s API Scheduler.
-4. The kubelet on the selected node notices a new job as been posted to it. It submits the container spec to containerd.
+4. The kubelet on the selected node notices a new job has been posted to it. It submits the container spec to containerd.
 5. Containerd pulls down the image, sees that a `nvidia.com/gpu` resource has been requested, it consults the `/var/run/cdi/nvidia-gpu.json` file, modifies the OCI container spec according to the `containerEdits` specified in that file, and instantiates the container runtime with the newly modified spec.
 
-After the container process boots, it should see the a character-typed device node in `/dev/vfio`.[^4]
+After the container process boots, it should see a character-typed device node in `/dev/vfio`.[^4]
 
 ## Container Runtime
 
@@ -291,7 +291,7 @@ While this implementation is compelling, gVisor has a major flaw. Let's look at 
   - Supports selected ioctls on each device file.  
   - Supports selected platforms.  
 
-The TL;DR of it is that gVisor intercepts `ioctl` syscalls bound for the GPUs and performs a series of memory translations from the container's memory space to the kernel memory space due to the presence of file descriptors and pointers used in the struct passed to `ioctl`. Consequently, it needs explicit understanding of the NVIDIA driver ABI; simply copying the struct is not sufficient. The NVIDIA ABI is not stable across versions, which means that gVisor must updated with new struct definitions every time a new driver is released. This is a serious flaw, as it means support for newer generations of hardware is going to be gated behind gVisor's development team deciding when and where they want to support things. That is systemically dangerous as it hamstrings you behind whatever business decisions gVisor (and by extension Google itself) makes. Kata's approach of using the KMDs published by NVIDIA directly will never have this problem because NVIDIA will never release hardware without the appropriate drivers.
+The TL;DR of it is that gVisor intercepts `ioctl` syscalls bound for the GPUs and performs a series of memory translations from the container's memory space to the kernel memory space due to the presence of file descriptors and pointers used in the struct passed to `ioctl`. Consequently, it needs explicit understanding of the NVIDIA driver ABI; simply copying the struct is not sufficient. The NVIDIA ABI is not stable across versions, which means that gVisor must be updated with new struct definitions every time a new driver is released. This is a serious flaw, as it means support for newer generations of hardware is going to be gated behind gVisor's development team deciding when and where they want to support things. That is systemically dangerous as it hamstrings you behind whatever business decisions gVisor (and by extension Google itself) makes. Kata's approach of using the KMDs published by NVIDIA directly will never have this problem because NVIDIA will never release hardware without the appropriate drivers.
 
 ## NVLink Isolation
 
@@ -306,9 +306,9 @@ NVIDIA provides a service called [nv-fabricmanager](https://docs.nvidia.com/data
 
 1. Full passthrough: A VM gets both all of the GPUs on a machine and all NVSwitches. 
 2. Shared NVSwitch Multitenancy: Multiple tenants are sharing the NVLink fabric.
-3. vGPU Multitenancy: GPUs are exposed to VMs through their SR-IOV Virtual Functions. The GPU and NVswitch physical functions are managed by the host itself.
+3. vGPU Multitenancy: GPUs are exposed to VMs through their SR-IOV Virtual Functions or kernel driver mediated devices (the latter being more common). The GPU and NVswitch physical functions are managed by the host itself.
 
-Option 1 doesn't satisfy our requirements, and option 3 requires a special license to run their vGPU stack, so option 2 is the next best thing. Their documents for this model says that you must run fabricmanager inside of a trusted "Service VM". This Service VM will contain two basic components:
+Option 1 doesn't satisfy our requirements, and option 3 requires a special license to run their vGPU stack, so option 2 is the next best thing. Their documents say that you must run fabricmanager inside of a trusted "Service VM". This Service VM will contain two basic components:
 
 1. fabricmanager itself
 2. A service that tells fabricmanager how the fabric should be partitioned.
@@ -382,7 +382,7 @@ One other interesting thing to note is that older NVSwitch systems expose the NV
 
 ## Aside on HGX Support in Kata
 
-Nvidia supports two different classes of their superpod deployments. The first, called DGX, is hardware procured, designed, and deployed by Nvidia according to strict and rigorous standards. The second, called HGX, is a licensing agreement that server OEMs make with Nvidia that allows customer to design more customized NVSwitch-based superpod systems. Kata Containers, being a project led by Nvidia, has historically only worked with DGX systems. Minor (or even major) differences in hardware can cause real problems when you're dealing with virtualization because the physical way in which components are connected can dramatically differ. One interesting difference between Supermicro and Nvidia superpod systems is the fact that Supermicro places their NVSwitches behind a single IOMMU group:
+Nvidia supports two different classes of their superpod deployments. The first, called DGX, is hardware procured, designed, and deployed by Nvidia according to strict and rigorous standards. The second, called HGX, is a licensing agreement that server OEMs make with Nvidia that allows customers to design more customized NVSwitch-based superpod systems. Kata Containers, being a project led by Nvidia, has historically only worked with DGX systems. Minor (or even major) differences in hardware can cause real problems when you're dealing with virtualization because the physical way in which components are connected can dramatically differ. One interesting difference between Supermicro and Nvidia superpod systems is the fact that Supermicro places their NVSwitches behind a single IOMMU group:
 
 ![](https://assets.topofmind.dev/images/blog/2025-10-21-gpu-containers-as-a-service/Screenshot+2025-10-24+at+4.59.36%E2%80%AFPM.png)
 
@@ -423,7 +423,7 @@ From the perspective of the k8s cluster, it does not necessarily know ahead of t
 1. The Kubernetes namespaces
 2. The CiliumNetworkPolicy
 
-When a pod is submitted by a never-before-seen user to our CaaS public-facing REST API (which we haven't really discussed, but just pretend it exists for now), we need some way to attach it to a "Tenancy" resource that once ready will allow the pod to be submitted. This custom resource we need is something we can define using a Custom Resource Definition (CRD). The CRD document we post to k8s is a simple as this:
+When a pod is submitted by a never-before-seen user to our CaaS public-facing REST API (which we haven't really discussed, but just pretend it exists for now), we need some way to attach it to a "Tenancy" resource that once ready will allow the pod to be submitted. This custom resource we need is something we can define using a Custom Resource Definition (CRD). The CRD document we post to k8s is as simple as this:
 
 ```yaml
 apiVersion: apiextensions.k8s.io/v1
@@ -462,7 +462,7 @@ An interesting problem we run into when untrusted tenancies are asked to run the
 
 There are at least two possible ways to handle this in k8s. We could add a finalizer to the pod submissions (this basically just tells k8s to pause garbage collection until the finalizer key is removed), create a controller that watches exited pods and runs the firmware check, have the controller delete the relevant `metadata.finalizers` key, and then allow k8s to fully delete the pod. Another method is to create a CRD that represents a GPU lease. In this scenario, a GPU lease will be granted before a specific job has been run but after it has been scheduled. The GPU lease controller will watch for leases that have a pod in some completed state, schedule a firmware check, then remove the lease (which may trigger its own post-lease finalizers) or transition the lease back to some `Free` state. The GPU CDI device plugin would need explicit awareness of leases so that it does not hand out a GPU that still has an active lease on it.
 
-Both of these methods are functionally similar, but a GPU Lease, which may be cluster-scoped instead of namespace-scoped (as in the finalizer idea) are more robust from a security standpoint (because the tenant does not own it) and more flexible as it allows us to create more a comprehensive and flexible state machine.
+Both of these methods are functionally similar, but a GPU Lease, which may be cluster-scoped instead of namespace-scoped (as in the finalizer idea) are more robust from a security standpoint (because the tenant does not own it) and more flexible as it allows us to create a more comprehensive and flexible state machine.
 
 ## Putting the Pieces Together
 
@@ -648,7 +648,7 @@ After using Kata for a number of months, my general impression of it is that its
 
 The industry in general tends to favor large, monolithic, single-tenancy deployments for the latest generations of hardware. This is especially evident when you look at companies like Coreweave who are almost completely disinterested in servicing contracts less than a billion dollars. CaaS's place in the world seems to neatly fit into non-bleeding-edge generations of hardware. It's a recycling mechanism for businesses needing to continue to extract profits out of old hardware.
 
-The other thing to realize is that the world's AI-fueled GPU craze is very new, like only a few years old. As this craze continues to propagate and entrench itself, greater focus is going to be paid to making AI developer's lives easier. Serverless compute is the way of the future, and there is much engineering work to be done to bring this reality to fruition.
+The other thing to realize is that the world's AI-fueled GPU craze is very new, like only a few years old. As this craze continues to propagate and entrench itself, greater focus is going to be paid to making AI developers' lives easier. Serverless compute is the way of the future, and there is much engineering work to be done to bring this reality to fruition.
 
 [^1]: In fact, this is why OCI containers intrinsically rely on the Linux kernel because all of these features are _Linux_ features, and is why containers running in MacOS or Windows require a Linux Virtual Machine. That's not to say there couldn't be a runtime that works in MacOS and Windows natively, but it would require exact feature parity and also risks containers behaving differently on different OSs, which is bad.
 [^2]: The two interesting competitors here are gVisor and Kata Containers.
