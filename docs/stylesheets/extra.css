@@ -83,3 +83,10 @@ article {
 .md-typeset h5 {
     color: var(--md-primary-fg-color);
 }
+
+/* I know how to center divs now */
+.center {
+    display: flex;
+    justify-content: center; /* horizontal */
+    align-items: center;     /* vertical */
+}
