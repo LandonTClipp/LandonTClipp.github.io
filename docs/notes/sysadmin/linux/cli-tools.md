@@ -92,7 +92,18 @@ python  51953 ubuntu  100u  IPv4 2717208220      0t0  TCP ml-512-node-031:33914-
 
 ## tmux
 
-### Rebalance Sizing
+### Layouts
+
+
+Cycle through layouts: ++"PREFIX"+b++
+
+Layouts:
+
+- even-horizontal - All panes are arranged side by side, with equal width
+- even-vertical - All panes are stacked on top of each other, with equal height
+- main-horizontal - One large pane on top, with smaller panes arranged horizontally below it
+- main-vertical - One large pane on the left, with smaller panes arranged vertically to the right
+- tiled - All panes are arranged to use the available space as efficiently as possible, with roughly equal size
 
 From the prompt (++"PREFIX"+colon++):
 
