@@ -511,7 +511,7 @@ Credits:
 
 I've been to many of the major tourist towns in the area. I've been to Ouray, Telluride, Silverton, and also outlier towns like Durango and Ridgeway. Without a doubt in my mind, Silverton is by far the coolest I've ever visited in Colorado. It's not pretentious by any means. The buildings are rough around the edges, there's no mansions in sight, I dare to say you might find a discarded needle or two, but the town has tons and tons of that old, raw, western outlaw character. The spirit of Silverton feels alive, and the town's dedication to preserving its old western styles and character is really extraordinary.
 
-Ouray comes in a close second, but it's got a bit more of that pretentiousness I dislike. Not a lot mind you, but some. Silverton has none. You really do feel like you're a cowboy stepping back in time, and the original folks who live there, the mining folk, care a lot about the town's legacy. They care so much in fact that many of them are leaving.
+Ouray comes in a close second, but it's got a bit more of that pretentiousness I dislike. Not a lot mind you, but some. Silverton has none. You really do feel like you're a cowboy stepping back in time, and the original folks who live there, the mining folk, care a lot about the town's legacy. They care so much in fact that many of them are leaving, because the home they once loved doesn't exist anymore.
 
 ### Silverton is a Victim of Its Success
 
