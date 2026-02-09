@@ -22,6 +22,10 @@ This post explores how to create a multi-tenant Containers as a Service Kubernet
 
     The views and opinions expressed in this blog are solely my own and do not reflect the views, opinions, or positions of my employer or any organization I am affiliated with.
 
+!!! warning "Outdated Info"
+
+    Update from Februrary 2026: many of the observations I make in this post regarding various technologies have become outdated, even in the last few months since I first wrote this post. At some point, I will write a second edition of this article. Please take conclusions I make in this article with a grain of salt, as all technologies involved in this topic are rapidly improving every day.
+
 The core directive of most cloud companies is simple: get as many customers to rent your physical hardware as possible. The way in which this hardware gets exposed to customers can be thought of as a pyramid of increasing virtualization. 
 
 This pyramid looks something like this:
