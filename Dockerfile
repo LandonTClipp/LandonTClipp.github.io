@@ -8,5 +8,6 @@ ARG GH_TOKEN
 ENV GH_TOKEN $GH_TOKEN
 COPY requirements.txt .
 RUN pip install -r ./requirements.txt
+WORKDIR /docs
 
 ENTRYPOINT ["mkdocs"]

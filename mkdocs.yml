@@ -112,6 +112,7 @@ plugins:
       - Career
       - Cloud
       - Golang
+      - GPU Virtualization
       - Grafana
       - Math
       - Misc
