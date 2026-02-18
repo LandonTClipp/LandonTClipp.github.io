@@ -7,7 +7,7 @@ Welcome to `topofmind.dev`
 
 <center markdown>
 
-![Typing SVG](assets/images/swe-moving-index.svg)
+![Typing SVG](https://readme-typing-svg.demolab.com/?font=Orbitron&weight=500&duration=2000&color=33FF33&background=101010&center=true&vCenter=true&multiline=true&repeat=false&width=435&height=75&lines=SWE+%40+CoreWeave;Building+an+AI+Public+Cloud)
 
 </center markdown>
 
