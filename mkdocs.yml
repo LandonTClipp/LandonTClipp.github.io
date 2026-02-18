@@ -111,6 +111,9 @@ plugins:
       datetime_format: "%Y-%m-%d"
       default_timezone: "America/Chicago"
       default_time: "12:00"
+    categories:
+      - categories
+      - tags
 - macros:
     module_name: code/macros
 - blog:
