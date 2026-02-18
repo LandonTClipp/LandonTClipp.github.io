@@ -2,6 +2,7 @@ site_name: Top of Mind
 site_url: https://topofmind.dev
 site_description: >-
   Landon's personal life and coding blog
+site_author: Landon Clipp
 
 repo_name: LandonTClipp.github.io
 repo_url: https://github.com/LandonTClipp/LandonTClipp.github.io
@@ -102,6 +103,11 @@ markdown_extensions:
 
 
 plugins:
+- rss:
+    match_path: "blog/posts/.*"
+    date_from_meta:
+      as_creation: date.created
+      as_update: date.updated
 - macros:
     module_name: code/macros
 - blog:
