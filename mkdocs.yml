@@ -107,7 +107,6 @@ plugins:
     match_path: "blog/posts/.*"
     date_from_meta:
       as_creation: date
-      as_update: git
       datetime_format: "%Y-%m-%d"
       default_timezone: "America/Chicago"
       default_time: "12:00"
