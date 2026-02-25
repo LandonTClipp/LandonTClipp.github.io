@@ -181,3 +181,25 @@ When you create an IAM role for IRSA:
 - Works with existing IAM policies
 
 The OIDC provider is essentially what makes it possible for AWS to trust that a request is genuinely coming from a specific service account in a specific EKS cluster, without requiring long-lived AWS credentials to be stored anywhere in the cluster.
+
+## Helm
+
+### Show values
+
+For an installed release:
+
+```
+lclipp@CW-HP216DG9DT-L kata-gpu-experiment % helm get values kata-deploy -n kata-system
+```
+
+For all computed values of an installed release:
+
+```
+lclipp@CW-HP216DG9DT-L kata-gpu-experiment % helm get values --all kata-deploy -n kata-system
+```
+
+For a chart (before installation)
+
+```
+lclipp@CW-HP216DG9DT-L kata-gpu-experiment % helm show values oci://ghcr.io/kata-containers/kata-deploy-charts/kata-deploy
+```
