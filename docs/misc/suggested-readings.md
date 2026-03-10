@@ -8,6 +8,7 @@ title: Suggested Readings
 - https://www.allthingsdistributed.com/2023/07/building-and-operating-a-pretty-big-storage-system.html
 - https://staffeng.com/
 - [Ilya Grigorik](https://ilya.grigorik.com/)
+- https://pluralistic.net/
 
 ## Github History
 
