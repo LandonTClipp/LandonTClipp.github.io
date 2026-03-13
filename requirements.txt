@@ -3,7 +3,7 @@ mkdocs-glightbox==0.4.0
 mkdocs-macros-plugin==1.5.0
 mkdocs-open-in-new-tab
 mkdocs-redirects
-CairoSVG==2.7.1
+CairoSVG==2.9.0
 pillow
 mkdocs-material==9.7.1
 mkdocs-rss-plugin==1.17.4
