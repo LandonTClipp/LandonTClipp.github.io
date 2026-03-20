@@ -191,9 +191,10 @@ nav:
       - Linux: 
           - CLI Tools: notes/sysadmin/linux/cli-tools.md
           - Hugepages: notes/sysadmin/linux/hugepages.md
+          - Mailing Lists: notes/sysadmin/linux/mailing-lists.md
+          - Misc: notes/sysadmin/linux/misc.md
           - Systemd: notes/sysadmin/linux/systemd.md
           - TTY: notes/sysadmin/linux/tty.md
-          - Misc: notes/sysadmin/linux/misc.md
       - Networking:
           - General: notes/sysadmin/networking.md
           - Infiniband: notes/sysadmin/infiniband.md
