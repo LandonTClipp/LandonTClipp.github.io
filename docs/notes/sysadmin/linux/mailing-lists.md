@@ -35,11 +35,13 @@ Edit the accounts.conf file in your aerc configuration directory (usually ~/.con
 source   = imaps+oauthbearer://{user}:{refresh_token}@imap.gmail.com:993?client_id={client_id}&client_secret={client_secret}&token_endpoint=https%3A%2F%2Foauth2.googleapis.com%2Ftoken
 outgoing = smtps+oauthbearer://{user}:{refresh_token}@smtp.gmail.com:465?client_id={client_id}&client_secret={client_secret}&token_endpoint=https%3A%2F%2Foauth2.googleapis.com%2Ftoken
 default  = INBOX
+
+```
+
 {account_name} is whatever you would like to name this account in aerc.
 {user} is the email address you use to login to Gmail (same as in Step 2), except it should be URL-encoded (replace @ with %40).
 {refresh_token} is the refresh token you got from Step 2, except it should be URL-encoded (replace / with %2F).
 {client_id} and {client_secret} are the strings you got from Step 1.
-```
 
 !!! tip
 
