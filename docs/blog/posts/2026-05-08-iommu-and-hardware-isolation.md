@@ -37,7 +37,7 @@ That’s it. Everything else in virtualization is just an implementation detail 
 
 At one extreme, two physically separate machines are two different security domains. There is no communication path between them, so they are perfectly isolated.
 
-```title=""
+```title="" linenums="1"
 
                                                                                  
                                                                                  
@@ -66,7 +66,7 @@ At one extreme, two physically separate machines are two different security doma
 
 Move down the isolation spectrum and you get a more common scenario: two VMs sharing the same physical host. Physical separation is gone, so isolation must be actively enforced, the IOMMU confines device DMA to tenant-owned memory, the MMU enforces per-process virtual address spaces, ACS-capable PCIe switches block peer-to-peer transactions between tenant devices, and CPU features limit side-channel leakage between cores. This is more complex than physical separation, but has been a largely solved problem for some decades, notwithstanding hardware vulnerabilities like the infamous [Meltdown and Spectre sidechannel attacks](https://meltdownattack.com/).[^1]
 
-```title=""
+```title="" linenums="1"
 +--------------------------------------------------------------------------+
 |                             Bare Metal                                   |
 |                                                                          |
@@ -123,7 +123,7 @@ For the IOMMU to enforce isolation, it needs to know which device sent a transac
 
 On PCIe, transactions carry a requester identity. In Linux, we usually talk about this in terms of the device’s PCI Bus-Device-Function, or BDF:
 
-```title=""
+```title="" linenums="1"
 0000:65:00.0
 ```
 
@@ -146,7 +146,7 @@ On Intel VT-d systems, the IOMMU uses a hierarchy of tables to map a requester I
 
 At a high level, the lookup looks like this:
 
-```title=""
+```title="" linenums="1"
 Requester ID
    |
    v
@@ -235,7 +235,7 @@ There are two important caches to know about:
 
 The ideal fast path looks like this:
 
-```title=""
+```title="" linenums="1"
 PCIe transaction arrives
    |
    v
@@ -266,7 +266,7 @@ That is what makes device passthrough viable in a hostile multi-tenant environme
 
 Below is a full end-to-end diagram tracing the slow path, a cache miss where neither the context cache nor the IOTLB has a warm entry for this device.
 
-```title=""
+```title="" linenums="1"
                                                                   +---------------------------------------------+
                                                                   |                Host Memory                  |
                                                                   |   (4)                                       |
@@ -316,7 +316,7 @@ Two situations force devices into the same group:
 
 The IOMMU group is the minimum unit of isolation Linux can enforce. It will not let you assign individual devices from the same group to different VMs, you must assign the entire group or none of it.
 
-```title=""
+```title="" linenums="1"
 IOMMU Group 16
   +-- 0000:65:00.0  NVIDIA A100 (GPU compute function)
   +-- 0000:65:00.1  NVIDIA GA100 Audio Controller (GPU audio function)
@@ -324,7 +324,7 @@ IOMMU Group 16
 
 You can inspect IOMMU groups on a Linux host:
 
-```bash title=""
+```bash title="" linenums="1"
 $ for d in /sys/kernel/iommu_groups/*/devices/*; do
     group=$(echo "$d" | cut -d/ -f5)
     bdf=$(basename "$d")
