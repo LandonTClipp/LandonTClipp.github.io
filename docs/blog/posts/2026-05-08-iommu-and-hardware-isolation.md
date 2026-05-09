@@ -11,15 +11,15 @@ links:
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-05-08-iommu-and-hardware-isolation/gpu-virt-part2-hero-princeton-wide.png){ loading=lazy style="object-fit: cover;"}
 
-Most engineers treat virtualization as a software abstraction problem. It isn’t. Isolation is fundamentally a hardware problem — software can request it, but hardware is the only thing that can enforce it. If the underlying hardware allows two components to communicate, no amount of abstraction can fully prevent it.
+Most engineers treat virtualization as a software abstraction problem. It isn’t. Isolation is fundamentally a hardware problem. Software can request it, but hardware is the only thing that can enforce it. If the underlying hardware allows two components to communicate, no amount of abstraction can fully prevent it.
 
-This becomes especially true with PCIe devices like GPUs. Unlike processes or threads, devices do not understand memory ownership, privilege boundaries, or tenants. They issue DMA reads and writes directly against physical memory. Without the right hardware mechanisms in place, a device can DMA into any physical address on the system — including another tenant’s memory or the kernel itself. If you’re responsible for running multiple tenants on shared GPU hardware, whether your isolation is hardware-enforced or just a promise is the question that matters most.
+This becomes especially true with PCIe devices like GPUs. Unlike processes or threads, devices do not understand memory ownership, privilege boundaries, or tenants. They issue DMA reads and writes directly against physical memory. Without the right hardware mechanisms in place, a device can DMA into any physical address on the system, including another tenant’s memory or the kernel itself. If you’re responsible for running multiple tenants on shared GPU hardware, whether your isolation is hardware-enforced or just a promise is the question that matters most.
 
 In the [previous post](2026-02-15-pcie-mmio.md), we explored how the PCIe fabric moves data and how MMIO regions are established. That foundation raises one concrete question:
 
 > How does Linux use hardware to actually enforce isolation?
 
-To answer it, we’ll introduce the concept of a **Security Domain** and then examine how the IOMMU enforces it in hardware. How Linux software exposes these boundaries to userspace and VMs — through VFIO and iommufd — is covered in the next post.
+To answer it, we’ll introduce the concept of a **Security Domain** and then examine how the IOMMU enforces it in hardware. How Linux software exposes these boundaries to userspace and VMs, through VFIO and iommufd, is covered in the next post.
 
 <!-- more -->
 
@@ -64,7 +64,7 @@ At one extreme, two physically separate machines are two different security doma
                                        |                                         
 ```
 
-Move down the isolation spectrum and you get a more common scenario: two VMs sharing the same physical host. Physical separation is gone, so isolation must be actively enforced — the IOMMU confines device DMA to tenant-owned memory, the MMU enforces per-process virtual address spaces, ACS-capable PCIe switches block peer-to-peer transactions between tenant devices, and CPU features limit side-channel leakage between cores. This is more complex than physical separation, but has been a largely solved problem for some decades — notwithstanding hardware vulnerabilities like the infamous [Meltdown and Spectre sidechannel attacks](https://meltdownattack.com/).[^1]
+Move down the isolation spectrum and you get a more common scenario: two VMs sharing the same physical host. Physical separation is gone, so isolation must be actively enforced, the IOMMU confines device DMA to tenant-owned memory, the MMU enforces per-process virtual address spaces, ACS-capable PCIe switches block peer-to-peer transactions between tenant devices, and CPU features limit side-channel leakage between cores. This is more complex than physical separation, but has been a largely solved problem for some decades, notwithstanding hardware vulnerabilities like the infamous [Meltdown and Spectre sidechannel attacks](https://meltdownattack.com/).[^1]
 
 ```title=""
 +--------------------------------------------------------------------------+
@@ -93,11 +93,11 @@ Move down the isolation spectrum and you get a more common scenario: two VMs sha
 +--------------------------------------------------------------------------+
 ```
 
-These two scenarios share an important structural property: the outer security domain — the bare metal host — is owned by the cloud provider. The tenant’s VM lives inside it. This has a direct consequence for GPU virtualization. When the provider uses the host IOMMU to isolate tenant VMs, that hardware is consumed by the outer layer. A tenant that wants to further subdivide devices among their own workloads faces a narrow path to hardware-backed isolation — nested IOMMU translation exists in hardware but software support for exposing it to guests is still immature. In practice, most are forced to fall back on software-based device isolation. This is the primary reason GPU virtualization products operate under weaker isolation models than bare metal: not by choice, but because the hardware isolation machinery was already spoken for. Every technique in this space trades isolation strength for performance or hardware availability — a tension that runs through everything that follows.
+These two scenarios share an important structural property: the outer security domain, the bare metal host, is owned by the cloud provider. The tenant’s VM lives inside it. This has a direct consequence for GPU virtualization. When the provider uses the host IOMMU to isolate tenant VMs, that hardware is consumed by the outer layer. A tenant that wants to further subdivide devices among their own workloads faces a narrow path to hardware-backed isolation, nested IOMMU translation exists in hardware but software support for exposing it to guests is still immature. In practice, most are forced to fall back on software-based device isolation. This is the primary reason GPU virtualization products operate under weaker isolation models than bare metal: not by choice, but because the hardware isolation machinery was already spoken for. Every technique in this space trades isolation strength for performance or hardware availability.
 
 ## How the IOMMU Builds a Device Security Domain
 
-The [previous post](2026-02-15-pcie-mmio.md) established what the IOMMU does: it translates device-visible addresses into host physical addresses. Here we look at how it does it — specifically, how the IOMMU uses that translation layer to place a PCIe device inside a hardware-enforced memory security domain. The IOMMU enforces this by forcing every device DMA through a translation it controls.
+The [previous post](2026-02-15-pcie-mmio.md) established what the IOMMU does: it translates device-visible addresses into host physical addresses. Here we look at how it does it, specifically how the IOMMU uses that translation layer to place a PCIe device inside a hardware-enforced memory security domain. The IOMMU enforces this by forcing every device DMA through a translation it controls.
 
 Instead of allowing a device to say:
 
@@ -142,7 +142,7 @@ This identity matters because the IOMMU needs to answer a simple question for ev
 
 ### Root Entries, Context Entries, and Domains
 
-On Intel VT-d systems, the IOMMU uses a hierarchy of tables to map a requester ID to an address translation structure. AMD-Vi uses a conceptually equivalent design — a Device Table maps requester IDs directly to I/O Page Table roots — so the same model applies regardless of vendor.
+On Intel VT-d systems, the IOMMU uses a hierarchy of tables to map a requester ID to an address translation structure. AMD-Vi uses a conceptually equivalent design, a Device Table maps requester IDs directly to I/O Page Table roots, so the same model applies regardless of vendor.
 
 At a high level, the lookup looks like this:
 
@@ -181,7 +181,7 @@ The root table is the first level of this lookup. Each entry is a 16-byte `root_
 
 A root entry points to a context table.
 
-The context table contains `context_entry` structures. Each describes how transactions from a particular device/function should be translated — specifically, which page tables to use and what IOMMU domain the device belongs to:
+The context table contains `context_entry` structures. Each describes how transactions from a particular device/function should be translated. Specifically, which page tables to use and what IOMMU domain the device belongs to:
 
 ??? tip "context_entry in the kernel"
 
@@ -248,7 +248,7 @@ Requester ID hits in context cache
 Translated host physical address
 ```
 
-In this fast path, no table walks occur — the translation is served entirely from on-chip caches.
+In this fast path, no table walks occur, the translation is served entirely from on-chip caches.
 
 This is critical for high-throughput devices like GPUs and NICs. DMA-heavy devices can issue enormous numbers of memory transactions. If every transaction required a full table walk, IOMMU translation overhead would be catastrophic.
 
@@ -264,7 +264,7 @@ That is what makes device passthrough viable in a hostile multi-tenant environme
 
 ### An End-to-End Diagram
 
-Below is a full end-to-end diagram tracing the slow path — a cache miss where neither the context cache nor the IOTLB has a warm entry for this device.
+Below is a full end-to-end diagram tracing the slow path, a cache miss where neither the context cache nor the IOTLB has a warm entry for this device.
 
 ```title=""
                                                                   +---------------------------------------------+
@@ -306,15 +306,15 @@ Below is a full end-to-end diagram tracing the slow path — a cache miss where 
 
 ## IOMMU Groups
 
-Not every device lands in its own IOMMU domain. Linux enforces isolation at the granularity of **IOMMU groups** — sets of devices that cannot be isolated from each other given the current PCIe topology.
+Not every device lands in its own IOMMU domain. Linux enforces isolation at the granularity of **IOMMU groups**, sets of devices that cannot be isolated from each other given the current PCIe topology.
 
 Two situations force devices into the same group:
 
-**Multi-function devices.** A single PCIe device can expose multiple logical functions under the same BDF prefix. A GPU typically exposes a compute function and an audio controller as two separate functions. Because both functions belong to the same physical chip and share internal logic, they cannot be independently isolated — they always land in the same group.
+**Multi-function devices.** A single PCIe device can expose multiple logical functions under the same BDF prefix. A GPU typically exposes a compute function and an audio controller as two separate functions. Because both functions belong to the same physical chip and share internal logic, they cannot be independently isolated. They always land in the same group.
 
-**PCIe switches without ACS.** Devices behind the same PCIe switch can issue peer-to-peer (P2P) DMA — transactions that travel directly from one device to another without passing through the Root Complex or the IOMMU. Because P2P traffic never reaches the IOMMU, it cannot be subject to domain enforcement. **Access Control Services (ACS)** is a PCIe feature that instructs switches to redirect all transactions up through the Root Complex, where the IOMMU can inspect them. Without ACS, every device behind the same switch ends up in the same IOMMU group regardless of which domains they're assigned to.
+**PCIe switches without ACS.** Devices behind the same PCIe switch can issue peer-to-peer (P2P) DMA, transactions that travel directly from one device to another without passing through the Root Complex or the IOMMU. Because P2P traffic never reaches the IOMMU, it cannot be subject to domain enforcement. **Access Control Services (ACS)** is a PCIe feature that instructs switches to redirect all transactions up through the Root Complex, where the IOMMU can inspect them. Without ACS, every device behind the same switch ends up in the same IOMMU group regardless of which domains they're assigned to.
 
-The IOMMU group is the minimum unit of isolation Linux can enforce. It will not let you assign individual devices from the same group to different VMs — you must assign the entire group or none of it.
+The IOMMU group is the minimum unit of isolation Linux can enforce. It will not let you assign individual devices from the same group to different VMs, you must assign the entire group or none of it.
 
 ```title=""
 IOMMU Group 16
@@ -334,7 +334,7 @@ Group  16: 0000:65:00.0 3D controller: NVIDIA Corporation A100 80GB PCIe [10de:2
 Group  16: 0000:65:00.1 Audio device: NVIDIA Corporation GA100 High Definition Audio Controller
 ```
 
-On well-configured servers where each GPU sits behind an ACS-capable PCIe switch, each GPU occupies its own group and passthrough works cleanly. On systems without ACS, GPUs can land in groups alongside unrelated devices, and passing through the GPU means passing through those devices too — which is usually unacceptable in a multi-tenant environment.
+On well-configured servers where each GPU sits behind an ACS-capable PCIe switch, each GPU occupies its own group and passthrough works cleanly. On systems without ACS, GPUs can land in groups alongside unrelated devices, and passing through the GPU means passing through those devices too, which is usually unacceptable in a multi-tenant environment.
 
 ACS support in the PCIe fabric is therefore a prerequisite, not a nice-to-have, for providers who need per-device isolation.
 
@@ -348,7 +348,7 @@ The consequences are severe: every device in the PCIe fabric can interact with _
 
 This segues into another point worth understanding. When a VM is provided a device using DMA remapping on the host via an IOMMU, the question arises: can the VM itself create child IOMMU domains for further isolation?
 
-Modern IOMMU hardware actually does support this through nested translation. Intel VT-d's Scalable Mode (introduced in VT-d 3.0) and AMD-Vi both support two-level IOMMU translation — analogous to how nested page tables (Extended Page Tables on Intel) work for CPU memory virtualization. In this model, the guest manages a first-level translation table while the host retains a second-level table, and the hardware walks both on each DMA access.
+Modern IOMMU hardware actually does support this through nested translation. Intel VT-d's Scalable Mode (introduced in VT-d 3.0) and AMD-Vi both support two-level IOMMU translation, analogous to how nested page tables (Extended Page Tables on Intel) work for CPU memory virtualization. In this model, the guest manages a first-level translation table while the host retains a second-level table, and the hardware walks both on each DMA access.
 
 The catch is that software support for actually exposing this capability to a guest VM is still maturing. Full end-to-end support requires cooperation from the VMM, the guest kernel, and the host IOMMU driver. The Linux kernel's `iommufd` subsystem is the primary vehicle for this and has been gaining nested translation support since ~6.7, but it is not yet a widely deployed capability. In practice, most VMs that need to create child security domains fall back to a software-emulated IOMMU, or [vIOMMU](https://wiki.qemu.org/Features/VT-d), implemented by the VMM (e.g., QEMU, cloud-hypervisor).
 
@@ -356,9 +356,9 @@ Software vIOMMUs are slow, since every address translation is a trap into the VM
 
 ## Looking Forward
 
-The IOMMU is the hardware primitive that makes device isolation possible. It answers the question "can this device access this memory?" by construction — either a mapping exists in the device's IOMMU domain, or the transaction is blocked.
+The IOMMU is the hardware primitive that makes device isolation possible. It answers the question "can this device access this memory?" by construction, either a mapping exists in the device's IOMMU domain, or the transaction is blocked.
 
-But hardware primitives don't configure themselves. The IOMMU needs software to build domain tables, assign devices to domains, map guest memory, and expose all of this safely to userspace and VMs. That is the job of the Linux device driver stack — and, for device passthrough specifically, of VFIO and iommufd.
+But hardware primitives don't configure themselves. The IOMMU needs software to build domain tables, assign devices to domains, map guest memory, and expose all of this safely to userspace and VMs. That is the job of the Linux device driver stack, and for device passthrough specifically, of VFIO and iommufd.
 
 The next post in this series will pick up where this one ends: how Linux software takes the hardware isolation machinery described here and turns it into a usable interface for virtualizing PCIe devices.
 
