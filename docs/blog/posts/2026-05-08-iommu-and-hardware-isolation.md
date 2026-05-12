@@ -15,19 +15,17 @@ Most engineers treat virtualization as a software abstraction problem. It isn’
 
 This becomes especially true with PCIe devices like GPUs. Unlike processes or threads, devices do not understand memory ownership, privilege boundaries, or tenants. They issue DMA reads and writes directly against physical memory. Without the right hardware mechanisms in place, a device can DMA into any physical address on the system, including another tenant’s memory or the kernel itself. If you’re responsible for running multiple tenants on shared GPU hardware, whether your isolation is hardware-enforced or just a promise is the question that matters most.
 
-In the [previous post](2026-02-15-pcie-mmio.md), we explored how the PCIe fabric moves data and how MMIO regions are established. That foundation raises one concrete question:
-
-> How does Linux use hardware to actually enforce isolation?
+In the [previous post](2026-02-15-pcie-mmio.md), we explored how the PCIe fabric moves data and how MMIO regions are established. That foundation raises one concrete question: how does Linux use hardware to actually enforce isolation?
 
 To answer it, we’ll introduce the concept of a **Security Domain** and then examine how the IOMMU enforces it in hardware. How Linux software exposes these boundaries to userspace and VMs, through VFIO and iommufd, is covered in the next post.
 
 <!-- more -->
 
+Before we continue, if you haven't read [Part 1](2026-02-15-pcie-mmio.md), I _strongly_ recommend you begin there to gain a fundamental understanding of how the PCIe fabric works and how ACS enforces isolation in collaboration with the IOMMU.
+
 ## Security Domains
 
-Before we talk about virtualization, we need a clear definition of what we’re actually trying to build. It all reduces to one question:
-
-> “What is allowed to talk to what?”
+Before we talk about virtualization, we need a clear definition of what we’re actually trying to build. It all reduces to one question: what is allowed to talk to what?
 
 **Security Domain (SD)**
 
