@@ -94,7 +94,7 @@ Beneath the moon, beneath the sun.
 Standing in the dark alone,
 Holding candles of our own.
 Trusting what the flame reveals,
-Thought hiding far more than it yields.
+Though hiding far more than it yields.
 
 Not because it lights it all,
 Or makes every burden small.
