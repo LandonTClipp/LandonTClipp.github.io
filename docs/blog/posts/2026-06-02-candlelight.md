@@ -57,7 +57,7 @@ But still the candle will not tell,
 It keeps its secrets far too well.
 
 It offers neither map nor sign,
-Nor guarantee of what's devine.
+Nor guarantee of what's divine.
 It gives enough to take one stride,
 And leaves the rest concealed outside.
 
