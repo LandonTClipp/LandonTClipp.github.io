@@ -54,9 +54,13 @@ I went to CoreWeave's engineering offsite in Seattle a few months ago. I had bee
 I smiled a little, it wasn't a huge deal, but the aftermath of it made me realize that the reality of my career has far outpaced the feelings I have on it. People don't see how much I doubt my knowledge, how much I question my assumptions, how little I really know in the grand scheme of things. Oh yeah I'm just so humble I guess. It reminds me of this Weird Al Yankovic song _Amish Paradise_ where he sings:
 
 > Think you're really righteous?
-  Think you're pure in heart?
-  Well, I know I'm a million times as humble as thou art
-  I'm the pious guy the little Amlettes wanna be like
-  On my knees day and night, scorin' points for the afterlife
+> 
+> Think you're pure in heart?
+> 
+> Well, I know I'm a million times as humble as thou art
+> 
+> I'm the pious guy the little Amlettes wanna be like
+> 
+> On my knees day and night, scorin' points for the afterlife
 
 If you had shown seventeen-year-old me this scene where I'm physically at today: a trailer beside an alpine river, a laptop connected to satellites overhead, coworkers a thousand miles away trusting me with problems I once barely understood, I wouldn’t have believed you. The strange thing is that I still don’t fully understand how I got here. Maybe nobody does. You follow your curiosity, you try to treat people well, you work hard, and every once in a while someone gives you more trust than you think you’ve earned. Then one day you find yourself sitting beside an alpine river wondering how on earth you got here.
