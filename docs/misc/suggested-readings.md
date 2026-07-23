@@ -9,6 +9,7 @@ title: Suggested Readings
 - https://staffeng.com/
 - [Ilya Grigorik](https://ilya.grigorik.com/)
 - https://pluralistic.net/
+- https://edera.dev/stories/numa-part-4-closing-the-xen-dom0-i-o-gap
 
 ## Github History
 
