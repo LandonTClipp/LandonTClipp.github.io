@@ -126,6 +126,7 @@ plugins:
       - Golang
       - GPU Virtualization
       - Grafana
+      - Life
       - Math
       - Misc
       - Poems
