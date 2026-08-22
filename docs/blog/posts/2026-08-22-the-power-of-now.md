@@ -79,9 +79,7 @@ _now_.
 
 There was a real person standing in front of me. A beautiful, complicated, imperfect human being (as all of us are) whose presence in my life was not guaranteed by the past and could not be guaranteed by the future.
 
-There is also room for another truth: the present I inhabited was hurting me. Presence does not require us to remain forever in circumstances that cause us suffering. Acceptance is not passivity.
-
-But there is a cruel lesson in losing something precious: no matter how sincerely we try to appreciate what we have, some dimensions of its value reveal themselves only through its absence.
+There is also room for another truth: the present I inhabited was hurting me. Presence does not require us to remain forever in circumstances that cause us suffering. Acceptance is not passivity. But there is a cruel lesson in losing something precious: no matter how sincerely we try to appreciate what we have, some dimensions of its value reveal themselves only through its absence.
 
 My struggle with presence extends far beyond love. My identity is deeply tied to the belief that I can act upon life. I value agency, self-actualization, and independence more than almost anything. When I encounter a problem, my instinct is immediate: analyze it, understand it, reason through it, and then do something. Fix it, change it, then move forward.
 
