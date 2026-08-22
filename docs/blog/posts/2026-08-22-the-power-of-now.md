@@ -7,7 +7,7 @@ title: The Power of Now
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/IMG_1145.jpeg){ style="width: 100%; height: 300px; object-fit: cover; object-position: 0 30%" }
 
-Five years ago, I first came to the mountains of the western United States. The trip was one of obligation, although an obligation I accepted willingly: the wedding of my wife’s cousin and his bride. It sometimes happens that ordinary moments acquire extraordinary meaning only in retrospect. Looking back, I understand that this trip was never merely a story about attending a wedding or supporting my wife’s family.
+Five years ago, I first came to the mountains of the western United States. The trip was one of obligation, although an obligation I accepted willingly: the wedding of my girlfriend's (soon to be wife's) cousin and his bride. It sometimes happens that ordinary moments acquire extraordinary meaning only in retrospect. Looking back, I understand that this trip was never merely a story about attending a wedding or supporting my wife’s family.
 
 It was the story of finding my home. And, in a way I would not understand until years later, it was the story of finding God.
 
