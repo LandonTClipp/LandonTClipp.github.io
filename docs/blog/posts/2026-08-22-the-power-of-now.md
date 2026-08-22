@@ -5,6 +5,8 @@ categories:
 title: The Power of Now
 ---
 
+![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/IMG_1145.jpeg){ style="width: 100%; height: 300px; object-fit: cover; object-position: 0 30%" }
+
 Five years ago, I first came to the mountains of the western United States. The trip was one of obligation, although an obligation I accepted willingly: the wedding of my wife’s cousin and his bride. It sometimes happens that ordinary moments acquire extraordinary meaning only in retrospect. Looking back, I understand that this trip was never merely a story about attending a wedding or supporting my wife’s family.
 
 It was the story of finding my home. And, in a way I would not understand until years later, it was the story of finding God.
@@ -25,6 +27,8 @@ I rented the cheapest car I could find from a rental agency near Denver Internat
 
 For those unfamiliar, it is a ridiculous amount of vehicle to hand someone who has just arrived in Colorado and already possesses questionable restraint around dirt roads. So, naturally, I dragged my partner onto some off-road trails, much to her chagrin. And somewhere out there, I fell in love for the second time.
 
+![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/9550D474-E8F1-4B99-80ED-05A4CCD06A83.jpeg){ align=right width="40%" }
+
 We drove beneath mountainsides burning yellow with autumn aspens, the trees forming something almost like the aisle of a cathedral. I had come west for a wedding, but in those mountains I found myself walking through the procession of another kind of union, one I could not yet name.
 
 The wedding ended, we flew home to Chicago, but something in me had been irrevocably altered. I couldn’t stop thinking about what I had seen. I couldn’t understand how a place could feel so intimately familiar when I had barely known it. I couldn’t understand how I had been brought somewhere that felt so much like home and yet somehow did not live there.
@@ -32,6 +36,8 @@ The wedding ended, we flew home to Chicago, but something in me had been irrevoc
 I had encountered something substantial. Something transcendent. I just didn’t have a word for it yet. The thought consumed me.
 
 My everyday environment felt increasingly hostile to whatever part of me had awakened in those mountains. There was little solitude, little wilderness, little silence. Instead there was concrete, traffic, buildings, noise, violence, protests, politics, and the endless churn of human activity.
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/20200517_143042.jpg){ align=right width="40%" }
 
 The contrast between where I was and what I had seen became unbearable.
 
@@ -110,3 +116,5 @@ And after all these years of gripping, striving, losing, loving, and becoming, I
 They were waiting for me here.
 
 _Now_.
+
+![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/IMG_1263.jpeg)
