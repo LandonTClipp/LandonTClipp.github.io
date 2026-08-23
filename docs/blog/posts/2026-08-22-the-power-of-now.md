@@ -93,6 +93,8 @@ Perhaps that is why I have struggled so much when life presents me with somethin
 
 In human relationships, the instinct that has served me so well elsewhere can become a weapon turned against myself. Instead of allowing an unwanted reality to exist, I begin negotiating with it. I search for the correct sequence of actions that will produce a different outcome. Maybe there is something I haven't understood yet. Something I haven't said. Something I need to change about myself. One more conversation, one more realization, one more attempt.
 
+![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/IMG_0740.jpeg){ align=right width="40%" }
+
 Sometimes there is. We are not powerless. I made choices that ended my marriage. I made choices that brought me to Colorado. I made choices that built my career. We can change ourselves. We can change our circumstances. We can repair things we have broken and leave things that are hurting us.
 
 But our agency ends where another person's begins. That is a border I have spent much of my life trying to negotiate my way across. You can do everything you know how to do. You can bring as much honesty, vulnerability, reflection, and love as you can muster. You can say what you mean. You can apologize. You can grow. And yet someone can still leave.
