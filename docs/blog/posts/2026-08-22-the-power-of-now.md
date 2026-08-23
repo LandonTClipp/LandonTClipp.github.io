@@ -13,9 +13,7 @@ It was the story of finding my home. And, in a way I would not understand until 
 
 <!-- more -->
 
-It’s difficult for me to describe how my relationship with religion has evolved over the years. I came from a deeply conservative Christian background, and eventually I rejected it, not simply because I stopped believing its theology, but because I could no longer reconcile its claims of love with the hatred I so often saw disguised as righteous indignation.
-
-It has always struck me how fervently people can proclaim love while clinging just as fervently to judgment and self-righteousness. Eventually, I began to see this hypocrisy everywhere I looked in organized religion, and in response I came to hate religion myself, not because of what people believed, but for the way I watched them live.
+I came from a deeply conservative Christian background, and eventually rejected it, not simply because I stopped believing its theology, but because I could no longer reconcile its claims of love with the judgment and self-righteousness I so often saw practiced in its name. In response, I came to hate religion itself, not because of what people believed, but for the way I watched them live.
 
 For a long time, I thought rejecting religion meant rejecting God. I no longer think those are the same thing.
 
@@ -53,9 +51,7 @@ But those trips also caused tremendous pain. To my partner, they could feel like
 
 Years have passed since then. Now I sit writing this among those same mountains, alone in my trailer. The relationship I fought so hard to preserve is gone, and with it went an identity I had spent years constructing.
 
-I was a husband. A long-term partner. Someone who knew whom he would come home to at the end of every day. Someone for whom affection, companionship, and love were woven permanently into the architecture of ordinary life.
-
-Then, suddenly, they weren't. The loss was catastrophic.
+I was a husband. A long-term partner. Someone who knew whom he would come home to at the end of every day. Someone for whom affection, companionship, and love were woven permanently into the architecture of ordinary life. Then, suddenly, they weren't. The loss was catastrophic.
 
 Strangely, though, this was not the first time I had watched an identity collapse. In college, I walked away from the conservative church of my youth. In losing my faith, I lost nearly all of my childhood friends, the people who had known me since the day I was born. The entire structure I used to understand reality went up in smoke the moment I realized I no longer believed it. I didn't know who I was anymore. I had to learn myself from scratch.
 
@@ -71,17 +67,17 @@ That realization has made me wonder whether I misunderstood other things I spent
 
 There is, I believe, a deeper well. I am only beginning to learn how to draw from it—to become someone from whom love can flow even when the world is not giving me everything I hoped for. Maybe that is what these losses have been trying to teach me: someone can break my heart without destroying my capacity to love.
 
-I am beginning to understand how much of my suffering has come from my refusal to accept this. I maintained a white-knuckled grip on the past. I came to identify myself as a husband, a partner, a committed lover. I poured enormous amounts of energy into figuring out how to preserve that identity. I learned to surrender my ego, admit when I was wrong, apologize for my mistakes, and constantly search for the ways I might have fallen short.
+I had learned once before that an identity could disappear without destroying me. What I had not learned was how fiercely I would still try to preserve one.
 
-Some of that made me a better man. But conviction, taken too far, can become self-abandonment.
+I am beginning to understand how much of my suffering has come from my refusal to accept this. I maintained a white-knuckled grip on the past. I came to identify myself as a husband, a partner, a committed lover. I poured enormous amounts of energy into figuring out how to preserve that identity. I learned to surrender my ego, admit when I was wrong, apologize for my mistakes, and constantly search for the ways I might have fallen short. Some of that made me a better man. But conviction, taken too far, can become self-abandonment.
 
 Eventually I surrendered things that brought me joy. I allowed distance to grow between myself and people I loved. I compromised dreams that mattered deeply to me. I kept giving pieces of myself away because I believed preserving my identity as a husband was more important than preserving the person underneath it. I did it out of love, but love without a self eventually has nothing left to give. 
 
-But I was gripping in both directions. If one hand held tightly to the past, the other reached just as desperately for the future. I am almost pathologically future-oriented. I plan, analyze, anticipate, optimize. And somewhere along the way, I began inhabiting the future I wanted for us almost as though it had already happened. I imagined us moving to the mountains, _together_. I imagined the house we would share. The friends we would laugh with. The memories we would make. The trails we would hike, the mountains we would climb, the roads we would travel, the little towns where we would spend the night. I could see the whole thing. And most importantly, every image contained us.
+But I was gripping in both directions. If one hand held tightly to the past, the other reached just as desperately for the future. I am almost pathologically future-oriented. I plan, analyze, anticipate, optimize. And somewhere along the way, I began inhabiting the future I wanted for us almost as though it had already happened. I imagined us moving to the mountains, _together_. I imagined the house we would share. The friends we would laugh with. The memories we would make. The trails we would hike, the mountains we would climb, the roads we would travel, the little towns where we would spend the night.[^1] I could see the whole thing. And most importantly, every image contained us.
 
-I became so preoccupied with protecting what had been and constructing what might someday be that I often failed to recognize what had actually been given to me. I searched for home in a place, for love in another person, and for peace in a future I could somehow secure.
+I became so preoccupied with protecting what had been and constructing what might someday be that I often failed to recognize what had actually been given to me.
 
-All the while, I kept overlooking the only place any of them could actually be experienced:
+All the while, I kept overlooking the only place life could actually be experienced:
 
 _now_.
 
@@ -105,6 +101,8 @@ You cannot reason your way into making someone choose you. You cannot discover t
 
 Love cannot be bargained with. It cannot be optimized. It cannot be controlled. Love is a gift. When it arrives, we can only open our hands and receive it with gratitude. And when its time with us is over, those same hands must somehow remain open enough to let it leave. Because eventually, in one way or another, everything does.
 
+There comes a point where action has done all it can do. What remains is not another problem to solve, but a reality to inhabit.
+
 So here I am. I sit among the mountains and do my best to quiet my mind. I am alone, away from civilization, away from distraction, away from the endless noise of human happening. The wind moves through the trees. Mountains rise around me that were here long before I arrived and will remain long after I am gone. And in that silence, I can finally hear the words I have spent so much time searching for. They are not new words. I had simply forgotten them.
 
 Be here. Not five years ago, not in the marriage I lost, not in the home that no longer belongs to me, not in some imagined future where another person loves me forever.
@@ -126,3 +124,5 @@ They were waiting for me here.
 _Now_.
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-08-22-the-power-of-now/IMG_1263.jpeg)
+
+[^1]: A few stanzas of my poem [_Gives but a Step Into the Night_](2026-06-05-gives-but-a-step-into-the-night.md) explicitly speak on this. Even almost three months ago, I was thinking about it.
