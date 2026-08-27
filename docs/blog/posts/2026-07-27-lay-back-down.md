@@ -5,9 +5,9 @@ categories:
 title: The Empty Side
 ---
 
-<div class="poem" markdown>
-
 <!-- more -->
+
+<div class="poem" markdown>
 
 <div class="poem-text">
 

@@ -7,9 +7,9 @@ title: The Woman in the Corner
 
 _Taken from a perspective that is not my own._
 
-<div class="poem" markdown>
-
 <!-- more -->
+
+<div class="poem" markdown>
 
 <div class="poem-text">
 

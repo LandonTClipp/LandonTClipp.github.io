@@ -5,12 +5,12 @@ categories:
 title: Interstitial
 ---
 
-<div class="poem" markdown>
 
 ![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-07-03-interstitial/f840c610-a557-44af-8866-363a814cda71.png)
 
 <!-- more -->
 
+<div class="poem" markdown>
 
 <div class="poem-text">
 
