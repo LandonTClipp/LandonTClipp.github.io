@@ -5,8 +5,6 @@ categories:
 title: Pilgrimage
 ---
 
-## Pilgrimage
-
 It's not even the normal time of year for reflection on what has happened in the last twelve months, but these last four months have compressed within them what feels like a lifetime, so reflection seems unavoidable. I began this year with one measure of hope and another measure of deep dissatisfaction. I still had it in my head last January that life would go my way, that the plan I had devised for myself, for my small family of two, would unfold more or less accordingly.
 
 Oh, how life likes to utterly fuck things up.
