@@ -67,7 +67,7 @@ At other moments, I deliberately tried to think about the problems in my life, c
 
 ### The Anomalies
 
-I took the eye mask off of my face and looked around the room. The ceiling was bulging and the colors were vibrant. I turned my head and looked at the picture beside me. It was a large painting of a blue flower with four petals. On the lower left petal, there was a hand reaching up to a wound where blue blood was pouring out of it. The entire picture was moving and undulating. The colors were turning in on themselves like someone kneading dough. I watched as the blood ran down the painting and to the wall. It was the strangest thing I had ever seen.
+I took the eye mask off of my face and looked around the room. The ceiling was bulging and the colors were vibrant. I turned my head and looked at the picture beside me. It was a large painting of a blue flower with four petals. On the lower left petal, there was a hand reaching up to a wound where blue blood was pouring out of it. The entire picture was moving and undulating. The colors were turning in on themselves like someone kneading dough. I watched as the blood ran down the painting and onto the wall. It was the strangest thing I had ever seen.
 
 The music coming from the speaker beside me had background noises of water and tropical birds. While I was still looking at the painting, I had the distinct impression that a rainforest existed behind me, outside my field of view. I couldn't see it, but it felt as though the room extended into it.
 
