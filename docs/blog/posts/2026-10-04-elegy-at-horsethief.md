@@ -47,10 +47,10 @@ The water fell beyond the stone,
 &emsp;I saw the question rise again,  
 &emsp;Then watched us be no more.
 
-Beyond the falls the footpath thinned
-&emsp;And yielded to the wood;
-&emsp;I followed where the water went,
-&emsp;As far as water would.
+Beyond the falls the footpath thinned  
+&emsp;And yielded to the wood;  
+&emsp;I followed where the water went,  
+&emsp;As far as water would.  
 
 The stream grew still among the stones,
 &emsp;Its silver nearly done;
@@ -62,10 +62,10 @@ I knelt and cut the finer roots
 &emsp;Then dug beneath their braided feet,  
 &emsp;Where older answers live.
 
-At last I held the rings once more
-&emsp;Beneath the elders’ gaze;
-&emsp;Two circles emptied of their hands,
-&emsp;Still bright with vanished days.
+At last I held the rings once more  
+&emsp;Beneath the elders’ gaze;  
+&emsp;Two circles emptied of their hands,  
+&emsp;Still bright with vanished days.  
 
 I gave you all I knew to give  
 &emsp;And could not longer stay;  
