@@ -52,9 +52,9 @@ Beyond the falls the footpath thinned
 &emsp;I followed where the water went,  
 &emsp;As far as water would.  
 
-The stream grew still among the stones,
-&emsp;Its silver nearly done;
-&emsp;Beside its final shallow breath
+The stream grew still among the stones,  
+&emsp;Its silver nearly done;  
+&emsp;Beside its final shallow breath  
 &emsp;The branches leaned as one.
 
 I knelt and cut the finer roots  
