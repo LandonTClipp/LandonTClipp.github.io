@@ -5,5 +5,5 @@ mkdocs-open-in-new-tab
 mkdocs-redirects
 CairoSVG==2.9.0
 pillow
-mkdocs-material==9.7.1
+mkdocs-material==9.7.7
 mkdocs-rss-plugin==1.17.4
