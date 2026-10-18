@@ -155,8 +155,7 @@ There is an influential theory of psychedelic action known as REBUS, an acronym 
 
 Consciousness is not a single, fixed condition. The self is not necessarily as permanent or fundamental as it appears. The ordinary mind, with its endless preoccupation with identity, memory, judgement, and anticipation, is only one of many possible ways of experiencing existence.
 
-The experience of ego dissolution resembles to me, at least phenomenologically, the psychological innocence symbolized by paradise, by the Garden of Eden. Psychedelics help us experience an inhabited reality whereby the past becomes less insistent, the future becomes less threatening, and the endless compulsion to evaluate, interpret, defend, and explain oneself begins to subside. I don't believe psychedelics hold a monopoly on these kinds of realizations. In fact, I believe many of these realizations had begun to manifest for me through my extended meditations in wilderness. Psychedelics are like a tool that cracks open any remaining vestige of the old identity you may be clinging on to.[^1]
-{ .annotate }
+The experience of ego dissolution resembles to me, at least phenomenologically, the psychological innocence symbolized by paradise, by the Garden of Eden. Psychedelics help us experience an inhabited reality whereby the past becomes less insistent, the future becomes less threatening, and the endless compulsion to evaluate, interpret, defend, and explain oneself begins to subside. I don't believe psychedelics hold a monopoly on these kinds of realizations. In fact, I believe many of these realizations had begun to manifest for me through my extended meditations in wilderness. Psychedelics are like a tool that cracks open any remaining vestige of the old identity you may be clinging on to. If you have a lot of these vestiges, the psychedelic experience can be quite jarring.
 
 ## The Wilderness and the Self
 
@@ -191,5 +190,3 @@ In Eden, the acquisition of knowledge produces exile. In Eleusis, the confrontat
 The flaming sword still guards the entrance to Eden. There is no going back to the innocence of not knowing. I think our understanding of the nature of exile was misguided. Paradise was never truly lost when humanity acquired knowledge. Rather, it became hidden beneath the stories we began telling ourselves. The ancient Greeks, in their mysterious ceremonies of death and rebirth, discovered that the path to peace was not through the recovery of ignorance, but through the transformation of awareness.  
 
 The journey does not lead backwards; it leads through the darkness and out the other side. 
-
-[^1]: If you have a lot of these vestiges, the psychedelic experience can be quite jarring.
