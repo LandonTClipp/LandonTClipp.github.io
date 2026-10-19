@@ -84,9 +84,7 @@ There are also fascinating parallels between the Garden of Eden and the ancient 
 
 Both stories explore a transformation from an animal-like condition of innocence into a distinctly human existence characterized by knowledge, self-awareness, and separation from nature.
 
-I find it fascinating that ancient civilizations, thousands of years before modern neuroscience, developed stories that can be interpreted as meditations on the psychological consequences of becoming human. This does not mean their authors possessed a scientific understanding of human evolution, nor that these stories were consciously intended as accounts of evolutionary history. 
-
-The ancient storytellers recognized, through introspection and observation, a fundamental tension within human existence. We possess the extraordinary gift of understanding the world, but that understanding can separate us from the immediacy of experiencing it. We are creatures of nature who have become capable of regarding ourselves as strangers within it. 
+I find it fascinating that ancient civilizations, thousands of years before modern neuroscience, developed stories that can be interpreted as meditations on the psychological consequences of becoming human. The ancient storytellers recognized, through introspection and observation, a fundamental tension within human existence. We possess the extraordinary gift of understanding the world, but that understanding can separate us from the immediacy of experiencing it. We are creatures of nature who have become capable of regarding ourselves as strangers within it. 
 
 Yet if this is a fundamental predicament of human consciousness, another question naturally follows: Did ancient humanity develop ways of overcoming it? Did our ancestors discover techniques for temporarily escaping the confines of the individual, egoistic self, recovering a sense of unity with the world, and confronting the terror of their own mortality?
 
@@ -190,3 +188,7 @@ In Eden, the acquisition of knowledge produces exile. In Eleusis, the confrontat
 The flaming sword still guards the entrance to Eden. There is no going back to the innocence of not knowing. I think our understanding of the nature of exile was misguided. Paradise was never truly lost when humanity acquired knowledge. Rather, it became hidden beneath the stories we began telling ourselves. The ancient Greeks, in their mysterious ceremonies of death and rebirth, discovered that the path to peace was not through the recovery of ignorance, but through the transformation of awareness.  
 
 The journey does not lead backwards; it leads through the darkness and out the other side. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r5KRnstXYUg?si=sMfbJp1CaEaO9Ddn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BrIoPtoWims?si=aHhL-9miatctPdOn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
