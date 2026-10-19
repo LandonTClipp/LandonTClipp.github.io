@@ -6,10 +6,11 @@ title: "East of Eden: The Burden of Knowledge"
 description: "On the emergence of consciousness, the invention of the self, and humanity's search for paradise."
 ---
 
+I didn't realize how heavy my identity was until it temporarily ceased to exist.
 
-There is something peculiar about the human condition. We are, as far as we know, the only creatures on Earth capable of contemplating the tragedy of our own existence. We are aware that we are alive, that we will someday die, and that everything we have ever loved will eventually disappear. We can agonize over events that happened decades ago, fear circumstances that may never come to pass, and construct elaborate stories about ourselves that we spend our entire lives trying to defend.
+I had spent the autumn alone in the mountains, crawling through an intense personal grief, and churning out pain over events that were either long gone or hadn't happened yet. Then, under the influence of a profound psilocybin experience, that closed loop of regret and anticipation simply snapped. The heavy, desperate need to be someone vanished, leaving behind a stillness unlike anything I had ever known.
 
-We are creatures capable of extraordinary beauty, compassion, and creativity. Yet we are also creatures uniquely capable of becoming prisoners of our own minds.
+Experiencing reality without the burden of a "self" casts an entirely new light on the peculiar tragedy of the human condition. We are, as far as we know, the only creatures on Earth capable of becoming prisoners of our own minds.
 
 <!-- more -->
 
