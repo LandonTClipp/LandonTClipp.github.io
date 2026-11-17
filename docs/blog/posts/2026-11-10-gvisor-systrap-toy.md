@@ -7,6 +7,133 @@ title: "A Kernel in a Signal Handler: Building a Toy gVisor systrap"
 description: How gVisor intercepts syscalls with seccomp, signals, and futexes — explained with a 300-line toy sentry you can compile and run.
 ---
 
+When most people speak of virtualization, the first image that often comes to mind is that of a Virtual Machine (VM). VMs emulate many parts of a physical computer: CPUs, memory, devices, PCIe buses, network interfaces etc. What you provide to a VM are the essentials of booting any computer: a kernel (Linux, Windows etc), a rootfs, an initrd, and possibly external storage mediums. Given these basic components, the VM will instantiate a virtual computer and hand over control to the Linux kernel which then performs its own boot process.
+
+There is, of course, an alternative to a fully virtualized computer. That alternative is called gVisor. gVisor is not a full virtual machine. Instead of booting a Linux kernel, it instead acts as the kernel itself to the guest process running underneath it. A traditional VM's model looks like this:
+
+```title="Virtual Machine"
++--------------------------------------------------------------------------------+
+| +----------------+  +----------------+  +----------------+  +----------------+ |
+| |                |  |                |  |                |  |                | |
+| |  PCIe Bus      |  |  Network Cards |  |      CPUs      |  |     UEFI       | |
+| |                |  |                |  |                |  |  (firmware)    | |
+| |                |  |                |  |                |  |                | |
+| +------+---------+  +--------+-------+  +--------+-------+  +-------+--------+ |
+|        |                     |                   |                  |          |
+| +------v---------------------v-------------------v------------------v--------+ |
+| |                                                                            | |
+| |                                                                            | |
+| |                          Linux Kernel                                      | |
+| |                                                                            | |
+| +-------^-------------------^-------------------^-------------------^--------+ |
+|         |                   |                   |                   |          |
+|         |read(2)            |write(2)           |getpid(2)          |open(2)   |
+|         |                   |                   |                   |          |
+| +-------+--------+  +-------+--------+  +-------+--------+  +-------+--------+ |
+| |                |  |                |  |                |  |                | |
+| |   Process      |  |   Process      |  |   Process      |  |   Process      | |
+| |                |  |                |  |                |  |                | |
+| |                |  |                |  |                |  |                | |
+| +----------------+  +----------------+  +----------------+  +----------------+ |
++--------------------------------------------------------------------------------+
+```
+
+Processes live under the purview of a privileged piece of software (the kernel) that mediates access to emulated virtual resources. The diagram above is of course slightly unilluminating: the virtual resources described above are often indistinguishable by the kernel from real resources. If we zoom out, we see that the VM is itself just an ordinary process running underneath another kernel (the host):
+
+```title="VM-ception"
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                         +----------------+  +----------------+  +----------------+  +----------------+                                             |
+|                                         |                |  |                |  |                |  |                |                                             |
+|                                         |  PCIe Bus      |  |  Network Cards |  |      CPUs      |  |     UEFI       |                                             |
+|                                         |                |  |                |  |                |  |  (firmware)    |                                             |
+|                                         |                |  |                |  |                |  |                |                                             |
+|                                         +------+---------+  +-------+--------+  +-------+--------+  +-------+--------+                                             |
+|                                                |                    |                   |                   |                                                      |
+|+-----------------------------------------------v--------------------v-------------------v-------------------v-----------------------------------------------------+|
+||                                                                                                                                                                  ||
+||                                                                                                                                                                  ||
+||                                                                             Linux Kernel                                                                         ||
+||                                                                                                                                                                  ||
+|+--------------------------------------^---------------------------------------------------------------------------------^-----------------------------------------+|
+|                                       |                                                                                 |                                          |
+|                                       |                                                                                 |                                          |
+|                                       |read(2)                                                                          |write(2)                                  |
+|                                       |                                                                                 |                                          |
+|+--------------------------------------+-----------------------------------------++--------------------------------------+-----------------------------------------+|
+|| +----------------+  +----------------+  +----------------+  +----------------+ || +----------------+  +----------------+  +----------------+  +----------------+ ||
+|| |                |  |                |  |                |  |                | || |                |  |                |  |                |  |                | ||
+|| |  PCIe Bus      |  |  Network Cards |  |      CPUs      |  |     UEFI       | || |  PCIe Bus      |  |  Network Cards |  |      CPUs      |  |     UEFI       | ||
+|| |                |  |                |  |                |  |  (firmware)    | || |                |  |                |  |                |  |  (firmware)    | ||
+|| |                |  |                |  |                |  |                | || |                |  |                |  |                |  |                | ||
+|| +------+---------+  +--------+-------+  +--------+-------+  +-------+--------+ || +------+---------+  +--------+-------+  +--------+-------+  +-------+--------+ ||
+||        |                     |                   |                  |          ||        |                     |                   |                  |          ||
+|| +------v---------------------v-------------------v------------------v--------+ || +------v---------------------v-------------------v------------------v--------+ ||
+|| |                                                                            | || |                                                                            | ||
+|| |                                                                            | || |                                                                            | ||
+|| |                          Linux Kernel                                      | || |                          Linux Kernel                                      | ||
+|| |                                                                            | || |                                                                            | ||
+|| +-------^-------------------^-------------------^-------------------^--------+ || +-------^-------------------^-------------------^-------------------^--------+ ||
+||         |                   |                   |                   |          ||         |                   |                   |                   |          ||
+||         |read(2)            |write(2)           |getpid(2)          |open(2)   ||         |read(2)            |write(2)           |getpid(2)          |open(2)   ||
+||         |                   |                   |                   |          ||         |                   |                   |                   |          ||
+|| +-------+--------+  +-------+--------+  +-------+--------+  +-------+--------+ || +-------+--------+  +-------+--------+  +-------+--------+  +-------+--------+ ||
+|| |                |  |                |  |                |  |                | || |                |  |                |  |                |  |                | ||
+|| |   Process      |  |   Process      |  |   Process      |  |   Process      | || |   Process      |  |   Process      |  |   Process      |  |   Process      | ||
+|| |                |  |                |  |                |  |                | || |                |  |                |  |                |  |                | ||
+|| |                |  |                |  |                |  |                | || |                |  |                |  |                |  |                | ||
+|| +----------------+  +----------------+  +----------------+  +----------------+ || +----------------+  +----------------+  +----------------+  +----------------+ ||
+|+--------------------------------------------------------------------------------++--------------------------------------------------------------------------------+|
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+We now get into the amusing realization that VMs themselves can themselves host other VMs. There is no theoretical limit to how far down the turtles go, although the practical realities of physics tends to tax each layer with an increasing performance penalty.
+
+gVisor is a completely different kind of virtualization. As you might have noticed, the interface between a process and its kernel is a syscall (of which [there are many](https://www.chromium.org/chromium-os/developer-library/reference/linux-constants/syscalls/#x86_64-64-bit)). Instead of running a full virtual machine that emulates hardware and runs a full Linux kernel, what if we implemented a kernel in userspace that serves each of these syscalls to the processes running underneath?
+
+We need some method for one userspace process to intercept the syscalls of another userspace process such that this application serves the syscall directly. gVisor  The gVisor model looks something like this:
+
+```title="gVisor"
++--------------------------------------------------------------------------------+
+| +----------------+  +----------------+  +----------------+  +----------------+ |
+| |                |  |                |  |                |  |                | |
+| |  PCIe Bus      |  |  Network Cards |  |      CPUs      |  |     UEFI       | |
+| |                |  |                |  |                |  |  (firmware)    | |
+| |                |  |                |  |                |  |                | |
+| +------+---------+  +--------+-------+  +--------+-------+  +-------+--------+ |
+|        |                     |                   |                  |          |
+| +------v---------------------v-------------------v------------------v--------+ |
+| |                                Linux Kernel         +--------------------+ | |
+| |                                                     |  seccomp bpf filter| | |
+| |                                                     +-+----------^-------+ | |
+| |                                                       |          |         | |
+| +-------+-----------------------------------------^-----+----------+---------+ |
+|         |                                         |     |          |           |
+|         |4. FUTEX_WAKE                    3. futex|     |2. SIGSYS |1. syscall |
+|         |                                         |     |          |           |
+| +-------v----------------------------+ +----------+-----+----------+--------+  |
+| |                                    | |          |     |                   |  |
+| |                                    | |         ++-----v----------+        |  |
+| |                                    | |         | sysmsg handler  |        |  |
+| |                                    | |         |                 |        |  |
+| |                                    | |         +-----------------+        |  |
+| |                                    | |                                    |  |
+| |           Process                  | |            Process                 |  |
+| |          gVisor sentry             | |    gVisor stub. Where guest runs.  |  |
+| +------------------------------------+ +------------------------------------+  |
++--------------------------------------------------------------------------------+
+```
+
+The gVisor sentry and the "guest" process itself are two ordinary processes. There is no virtualization happening in the traditional sense. The syscall flow operates like this:
+
+1. The gVisor stub process, where the guest code actually runs, issues a syscall to the kernel. Before dispatching the syscall, the kernel evaluates the seccomp BPF filter attached to the thread (installed by the sentry systrap platform at stub setup). The filter returns `SECCOMP_RET_TRAP`, so the kernel never executes the syscall.
+2. The kernel synthesizes a SIGSYS signal and delivers it synchronously to the thread that made the syscall. Inside of the stub process is a piece of code, the sysmsg handler, that was pre-mapped into the stub process and wired to listen to these signals sent by the kernel. Read that last sentence again: the sysmsg handler was _mapped into the stub process's memory mappings_ as a runnable piece of code by systrap. The sysmsg handler also has shared memory with the sentry, namely the `thread_context` struct. It updates the `thread_context` struct with the entire register file of the application. The arguments to the syscall implicitly reside in the `rdi`, `rsi`, `rdx`, `rd10`, `r8`, and `r9` registers per the ABI. Because this shared struct resides in shared memory, an update by the sysmsg handler is immediately seen by the sentry.
+3. After updating `thread_context` with the arguments to the syscall, the sysmsg handler first flips `ctx->state` to `CONTEXT_STATE_SYSCALL`, and then makes one `futex(FUTEX_WAIT)` syscall on that state word.[^2]
+4. The gVisor sentry thread was previously parked in `futex(FUTEX_WAIT)`. The sysmsg handler, by way of sending its own `futex(FUTEX_WAIT)` syscall, causes the sentry thread to wake up. The sentry then reads `thread_context`, parses the arguments, and does whatever action that syscall necessitates.[^1] The result is then stored in the same `thread_context` struct in the same fields the arguments arrived in. The sentry then enqueues the `thread_context` ID into a ring buffer shared with the stub process. One of the stub threads will eventually asychronously pop this ID off of the ring buffer, place the results posted to `thread_context` into the `rax` register, and return control back to the application.
+
+
+
+
+
 [gVisor](https://gvisor.dev) runs untrusted containers by putting a *kernel written in Go* — the sentry — between the application and the host. The application is an ordinary, unmodified Linux binary. It executes native instructions directly on the CPU, and yet every system call it makes is handled by the sentry, in a different process, without the application ever noticing. No VM, no binary translation, no recompilation.
 
 The mechanism that pulls this off is called **systrap**, and once you see it, it's delightfully simple: it's a trap vector built out of three commodity Linux features — seccomp, signals, and futexes. This post explains the mental model and then builds a miniature, runnable version: a toy sentry, a toy application, and the signal handler that connects them.
@@ -467,3 +594,17 @@ The toy is the skeleton. Real systrap (in [`pkg/sentry/platform/systrap/`](https
 - **And the sentry is an entire kernel** — syscalls, a VFS, a network stack — behind that one entry point.
 
 The part I find elegant: there's no magic layer anywhere. The "kernel entry" is `sigaction`, the "context switch" is a futex, the "page tables" are `mmap(MAP_FIXED)` over a memfd, and the application can't tell the difference.
+
+[^1]: The arguments to syscalls are stored in CPU registers. So `thread_context` is populated with the values of those registers. In x86, those are `rax` (the syscall number) with arguments stored in `rdi`, `rsi`, `rdx`, `r10`, `r8`, and `r9`. On arm64, `x8` stores the syscall number and arguments are in `x0-x5`. Another interesting thing that the handler does, right before handoff, is this:
+    
+    ```c
+    ctx->ptregs.orig_rax = ctx->ptregs.rax;
+    ctx->ptregs.rax = (unsigned long)-ENOSYS;
+    ```
+
+    This is a precise imitation of what Linux itself does at syscall entry: the kernel stashes the syscall number in `orig_rax` so that it survives, and pre-loads `rax` with `-ENOSYS` (so an unhandled syscall "returns" `ENOSYS` by default, and signal/restart logic can distinguish the number from the return value). The sysmsg handler reproduces the kernel's own trap-frame conventions so the sentry's syscall machinery can consume `ptregs` exactly as if it were a kernel reading its own entry frame. This is a beautiful example of how the sentry attempts to deeply mimic how Linux handles syscall conventions.
+
+[^2]: How futexs work is pretty interesting. When the sentry's task goroutine parks (`sleepOnState`), an OS thread of the sentry process is literally sitting in `futex(FUTEX_WAIT, &ctx->state, old_val)`. The kernel computes a futex key for that address. For a process-private futex the key would be (this process's mm, virtual address) — useless across processes. But this futex is on a shared mapping (no FUTEX_PRIVATE_FLAG), so the kernel resolves the virtual address through the page tables to the backing object and keys it as (inode of the memfd, page offset within the file, offset within the page). It then hangs the sleeping thread on the hash bucket for that key. 
+
+    The wake side recomputes the same key from a different address. When the sysmsg handler calls `futex(FUTEX_WAKE, &ctx->state, 1)`, the address it passes is a different virtual address in a different process. The kernel does the same resolution: walk the stub's page tables, find the backing page — and because the `thread_context` region is one memfd mapped into both processes, it arrives at the same (inode, offset) key. It looks that key up in the hash table, finds the sentry thread enqueued under it, and wakes it. The kernel never knows these two processes are "sentry" and "stub," or that they're related at all; it just matched two addresses that resolve to the same page of the same file.
+
