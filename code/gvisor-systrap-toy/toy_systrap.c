@@ -1,13 +1,8 @@
 // toy_systrap.c — a miniature gVisor systrap in ~300 lines.
 //
-// Two processes: a "sentry" (the userspace kernel) and an "app" (the
-// sandboxed workload). The app's write() and getpid() syscalls never reach
-// the host kernel: seccomp turns them into SIGSYS, a signal handler captures
-// the register state into a shared page, a futex hands control to the
-// sentry, the sentry emulates the syscall, and the handler resumes the app
-// with the sentry's return value. The app's heap is lazily backed the same
-// way: it starts as a PROT_NONE reservation, and each SIGSEGV asks the
-// sentry to assign a page of its memfd (its "MemoryFile").
+// Two processes after a fork(): a "sentry" (the userspace kernel) and an
+// "app" (the sandboxed workload). The app's write() and getpid() syscalls
+// never reach the host kernel, and its heap is demand-paged by the sentry.
 //
 // Build:  gcc -O2 -Wall -o toy_systrap toy_systrap.c
 // Linux only; x86_64 or aarch64.
@@ -32,7 +27,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-// ---- Per-architecture register access, like sighandler_{amd64,arm64}.c ----
+// Per-architecture access to the registers saved in the signal frame.
 #if defined(__x86_64__)
 #define ARCH_AUDIT AUDIT_ARCH_X86_64
 #define REG_RET(uc) ((uc)->uc_mcontext.gregs[REG_RAX])
@@ -49,31 +44,28 @@
 #error "x86_64 or aarch64 only"
 #endif
 
-// ---- The shared page: a one-slot mailbox between app and sentry ----------
-// The real systrap equivalent is struct thread_context in sysmsg.h, which
-// holds the full register file and FPU state. Our events are so simple that
-// we only ship the syscall arguments / fault address.
+// ======================= The shared mailbox ================================
 
 enum event { EVENT_SYSCALL = 1, EVENT_FAULT, EVENT_EXIT };
 
 enum state {          // who owns the mailbox
-  STATE_APP = 0,      //   app is running, mailbox idle
-  STATE_EVENT = 1,    //   app posted an event, sentry's turn
-  STATE_REPLY = 2,    //   sentry posted a reply, app's turn
+  STATE_APP = 0,      // app is running, mailbox idle
+  STATE_EVENT = 1,    // app posted an event, sentry's turn
+  STATE_REPLY = 2,    // sentry posted a reply, app's turn
 };
 
 struct thread_context {
-  _Atomic uint32_t state;  // futex word
-  int event;
-  int sysno;               // EVENT_SYSCALL: number and arguments
-  uint64_t args[3];
-  uint64_t fault_addr;     // EVENT_FAULT: faulting address
-  int64_t retval;          // reply: syscall result, or memfd offset
+  _Atomic uint32_t state;  // the futex word
+  int event;               // EVENT_*
+  int sysno;               // EVENT_SYSCALL: syscall number...
+  uint64_t args[3];        //   ...and its first three arguments
+  uint64_t fault_addr;     // EVENT_FAULT: the faulting address
+  int64_t retval;          // the reply: return value, or a memfd offset
 };
 
-// ---- Globals, set up before fork() so both processes inherit them --------
+// Globals are set up before fork(), so both processes inherit them.
 #define HEAP_PAGES 4
-static struct thread_context *ctx;  // MAP_SHARED: the "sysmsg" page
+static struct thread_context *ctx;  // MAP_SHARED: the mailbox page
 static uint8_t *app_heap;           // the app's lazily-backed "vma"
 static uint8_t *sentry_view;        // the sentry's own mapping of the memfd
 static int memfd;                   // the sentry's "MemoryFile"
@@ -87,10 +79,7 @@ static void futex_wait(_Atomic uint32_t *w, uint32_t val) {
   syscall(SYS_futex, w, FUTEX_WAIT, val, NULL, NULL, 0);
 }
 
-// ---- App side: the signal handlers ("kernel entry") ----------------------
-
-// post_event_and_wait is our switch_context(): give the mailbox to the
-// sentry, sleep until it hands back a reply, take the mailbox back.
+// Hand the mailbox to the sentry; sleep until it hands back a reply.
 static void post_event_and_wait(void) {
   atomic_store(&ctx->state, STATE_EVENT);
   futex_wake(&ctx->state);
@@ -100,52 +89,9 @@ static void post_event_and_wait(void) {
   atomic_store(&ctx->state, STATE_APP);
 }
 
-// Every trapped syscall lands here as SIGSYS, courtesy of seccomp.
-static void sigsys_handler(int signo, siginfo_t *si, void *ucv) {
-  ucontext_t *uc = ucv;
-  ctx->event = EVENT_SYSCALL;
-  ctx->sysno = si->si_syscall;      // seccomp fills this in
-  ctx->args[0] = REG_A0(uc);        // "gregs_to_ptregs"
-  ctx->args[1] = REG_A1(uc);
-  ctx->args[2] = REG_A2(uc);
-  post_event_and_wait();
-  REG_RET(uc) = ctx->retval;        // "ptregs_to_gregs"
-  // For a seccomp trap the saved PC already points after the syscall
-  // instruction, so sigreturn resumes the app as if the kernel returned.
-}
+// ======================= The seccomp filter ================================
 
-// Faults on the managed heap land here; anything else is a real crash.
-static void sigsegv_handler(int signo, siginfo_t *si, void *ucv) {
-  uint64_t addr = (uint64_t)si->si_addr;
-  if (addr < (uint64_t)app_heap ||
-      addr >= (uint64_t)app_heap + HEAP_PAGES * pagesz) {
-    signal(SIGSEGV, SIG_DFL);  // not ours: re-execute and die normally
-    return;
-  }
-  ctx->event = EVENT_FAULT;
-  ctx->fault_addr = addr;
-  post_event_and_wait();          // the toy HandleUserFault
-  // The sentry chose backing memory (a memfd offset). Install the mapping —
-  // address-space changes happen *in the app's process*, at the sentry's
-  // direction, just like mapASLocked targets the stub's address space.
-  uint64_t page = addr & ~(uint64_t)(pagesz - 1);
-  mmap((void *)page, pagesz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED,
-       memfd, ctx->retval);
-  // Returning re-executes the faulting instruction, which now succeeds.
-}
-
-static void install_handlers(void) {
-  struct sigaction sa = {.sa_flags = SA_SIGINFO};
-  sigemptyset(&sa.sa_mask);
-  sa.sa_sigaction = sigsys_handler;
-  sigaction(SIGSYS, &sa, NULL);
-  sa.sa_sigaction = sigsegv_handler;
-  sigaction(SIGSEGV, &sa, NULL);
-}
-
-// The seccomp filter: trap write() and getpid(), allow the rest. (Real
-// systrap inverts this: it traps everything and allowlists only what the
-// stub's own handler code needs.)
+// Trap write() and getpid(); allow everything else.
 static void install_filter(void) {
   struct sock_filter f[] = {
       BPF_STMT(BPF_LD | BPF_W | BPF_ABS, offsetof(struct seccomp_data, arch)),
@@ -165,37 +111,80 @@ static void install_filter(void) {
   }
 }
 
-// ---- App side: the "workload" --------------------------------------------
-// After install_filter(), stdio is off limits: printf would write() from
-// private buffers the sentry can't read. The app can only do raw write()s
-// from its managed heap. (This is the toy's version of why gVisor backs all
-// application memory with a sentry-owned memfd.)
+// ======================= The SIGSYS handler ================================
+
+// Every trapped syscall lands here, courtesy of seccomp.
+static void sigsys_handler(int signo, siginfo_t *si, void *ucv) {
+  ucontext_t *uc = ucv;
+  ctx->event = EVENT_SYSCALL;
+  ctx->sysno = si->si_syscall;  // seccomp fills this in
+  ctx->args[0] = REG_A0(uc);
+  ctx->args[1] = REG_A1(uc);
+  ctx->args[2] = REG_A2(uc);
+  post_event_and_wait();
+  REG_RET(uc) = ctx->retval;
+  // For a seccomp trap, the saved PC already points after the syscall
+  // instruction: returning resumes the app as if the kernel had returned.
+}
+
+// ======================= The SIGSEGV handler ===============================
+
+// Faults on the managed heap land here; anything else is a real crash.
+static void sigsegv_handler(int signo, siginfo_t *si, void *ucv) {
+  uint64_t addr = (uint64_t)si->si_addr;
+  if (addr < (uint64_t)app_heap ||
+      addr >= (uint64_t)app_heap + HEAP_PAGES * pagesz) {
+    signal(SIGSEGV, SIG_DFL);  // not ours: re-execute and die normally
+    return;
+  }
+  ctx->event = EVENT_FAULT;
+  ctx->fault_addr = addr;
+  post_event_and_wait();
+  // The sentry chose backing memory: ctx->retval is a memfd offset.
+  // Install the mapping, then return to re-execute the faulting
+  // instruction — which now succeeds.
+  uint64_t page = addr & ~(uint64_t)(pagesz - 1);
+  mmap((void *)page, pagesz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED,
+       memfd, ctx->retval);
+}
+
+static void install_handlers(void) {
+  struct sigaction sa = {.sa_flags = SA_SIGINFO};
+  sigemptyset(&sa.sa_mask);
+  sa.sa_sigaction = sigsys_handler;
+  sigaction(SIGSYS, &sa, NULL);
+  sa.sa_sigaction = sigsegv_handler;
+  sigaction(SIGSEGV, &sa, NULL);
+}
+
+// ======================= The app ===========================================
 
 static int fmt_num(char *dst, long v) {  // minimal itoa, v >= 0
   char tmp[20];
   int n = 0;
-  do tmp[n++] = '0' + v % 10, v /= 10;
-  while (v);
+  do {
+    tmp[n++] = '0' + (v % 10);
+    v /= 10;
+  } while (v > 0);
   for (int i = 0; i < n; i++) dst[i] = tmp[n - 1 - i];
   return n;
 }
 
 static void app_main(void) {
-  // 1. Touch unbacked memory. The strcpy faults on page 0 of the heap; the
-  //    sentry assigns backing memory and we resume mid-instruction.
+  // 1. Touch unbacked memory. The strcpy faults on page 0 of the heap;
+  //    the sentry assigns backing memory and we resume mid-instruction.
   char *msg = (char *)app_heap;
   strcpy(msg, "hello from the sandbox\n");
 
-  // 2. A syscall. seccomp -> SIGSYS -> sentry performs the write for us.
+  // 2. A syscall: seccomp -> SIGSYS -> the sentry performs the write.
   write(1, msg, strlen(msg));
 
   // 3. The sentry virtualizes getpid(): every sandboxed app is pid 1.
   long pid = getpid();
   char *msg2 = (char *)app_heap + pagesz;  // page 1: faults again
-  int n = 0;
   const char *s = "the sentry says my pid is ";
   memcpy(msg2, s, strlen(s));
-  n = strlen(s);
+  int n = strlen(s);
   n += fmt_num(msg2 + n, pid);
   msg2[n++] = '\n';
   write(1, msg2, n);
@@ -210,7 +199,7 @@ static void app_main(void) {
   }
 }
 
-// ---- Sentry side ----------------------------------------------------------
+// ======================= The sentry ========================================
 
 static int64_t sentry_syscall(void) {
   switch (ctx->sysno) {
@@ -226,8 +215,7 @@ static int64_t sentry_syscall(void) {
                         "memory that I manage)\n", fd, buf, len);
         return -EFAULT;
       }
-      // Read the app's buffer through the sentry's own memfd mapping: the
-      // toy equivalent of the sentry's internal mappings of its MemoryFile.
+      // Read the app's buffer through the sentry's own memfd mapping.
       fprintf(stderr, "[sentry] write(1, app:%#lx, %lu) -> doing it myself\n",
               buf, len);
       return write(1, sentry_view + (buf - lo), len);
@@ -248,8 +236,7 @@ static void sentry_run(void) {
       case EVENT_FAULT: {
         int64_t off = (int64_t)next_free_page++ * pagesz;
         fprintf(stderr, "[sentry] fault at %#lx -> backing with memfd page "
-                        "%ld (toy HandleUserFault)\n",
-                ctx->fault_addr, off / pagesz);
+                        "%ld\n", ctx->fault_addr, off / pagesz);
         ctx->retval = off;
         break;
       }
@@ -267,7 +254,7 @@ static void sentry_run(void) {
   }
 }
 
-// ---- Setup ----------------------------------------------------------------
+// ======================= Setup: one process becomes two ====================
 
 int main(void) {
   pagesz = sysconf(_SC_PAGESIZE);
