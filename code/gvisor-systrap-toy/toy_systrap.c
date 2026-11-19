@@ -1,4 +1,4 @@
-// toy_systrap.c — a miniature gVisor systrap in ~300 lines.
+// toy_systrap.c: a miniature gVisor systrap in ~300 lines.
 //
 // Two processes after a fork(): a "sentry" (the userspace kernel) and an
 // "app" (the sandboxed workload). The app's write() and getpid() syscalls
@@ -142,7 +142,7 @@ static void sigsegv_handler(int signo, siginfo_t *si, void *ucv) {
   post_event_and_wait();
   // The sentry chose backing memory: ctx->retval is a memfd offset.
   // Install the mapping, then return to re-execute the faulting
-  // instruction — which now succeeds.
+  // instruction, which now succeeds.
   uint64_t page = addr & ~(uint64_t)(pagesz - 1);
   mmap((void *)page, pagesz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_FIXED,
        memfd, ctx->retval);
