@@ -91,6 +91,8 @@ The irony is not lost on me. To defend ourselves from the demons we have summone
 
 ## The exhaustion of the netrunner
 
+![](https://f005.backblazeb2.com/file/landons-blog/assets/posts/2026-11-24-architecting-the-blackwall/Cyberspace_Database_CP2077.jpeg)
+
 It is hard to capture what it feels like to work inside this shift. Carrying responsibility for a security boundary while watching adversarial capabilities accelerate at breakneck speed takes a quiet psychological toll. You spend your days thinking through how your systems might fail, which assumptions might break, and what happens if you missed something subtle.
 
 Every vulnerability found is both a small victory and a reminder of how fragile our systems are. You are grateful you caught it before an attacker did, yet you cannot stop wondering how many others still hide past the edge of your visibility. Tomorrow, you wake up and do it again.
