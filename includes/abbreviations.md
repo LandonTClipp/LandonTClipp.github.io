@@ -33,6 +33,7 @@
 *[TA]: Translation agent
 *[TLB]: Translation Lookaside Buffer
 *[TLP]: Transaction Layer Packet
+*[TOCTOU]: Time-of-check to time-of-use
 *[TORQUE]: Terascale Open-source Resource and Queue Manager
 *[VPC]: Virtual Private Cloud
 *[VRF]: Virtual Routing Function
